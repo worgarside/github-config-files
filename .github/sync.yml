@@ -6,7 +6,7 @@ worgarside/homeassistant:
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
-  - .github/dependabot_auto_merge.yml
+  - .github/workflows/dependabot_auto_merge.yml
 
 worgarside/wg-utilities@develop:
   - .gitignore
@@ -15,7 +15,7 @@ worgarside/wg-utilities@develop:
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
-  - .github/dependabot_auto_merge.yml
+  - .github/workflows/dependabot_auto_merge.yml
 
 worgarside/plant-monitor:
   - .gitignore
@@ -24,7 +24,7 @@ worgarside/plant-monitor:
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
-  - .github/dependabot_auto_merge.yml
+  - .github/workflows/dependabot_auto_merge.yml
 
 worgarside/very-slow-movie-player:
   - .gitignore
@@ -33,7 +33,7 @@ worgarside/very-slow-movie-player:
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
-  - .github/dependabot_auto_merge.yml
+  - .github/workflows/dependabot_auto_merge.yml
 
 worgarside/wg-scripts:
   - .gitignore
@@ -42,7 +42,7 @@ worgarside/wg-scripts:
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
-  - .github/dependabot_auto_merge.yml
+  - .github/workflows/dependabot_auto_merge.yml
 
 worgarside/smart-mini-crt-interface:
   - .gitignore
@@ -51,5 +51,5 @@ worgarside/smart-mini-crt-interface:
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
-  - .github/dependabot_auto_merge.yml
+  - .github/workflows/dependabot_auto_merge.yml
 
