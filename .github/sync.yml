@@ -1,0 +1,18 @@
+---
+worgarside/homeassistant:
+  - .gitignore
+  - .pre-commit-config.yaml
+  - pyproject.toml
+  - .yamllint
+  - .pylintrc
+
+worgarside/wg-utilities:
+
+worgarside/plant-monitor:
+
+worgarside/very-slow-movie-player:
+
+worgarside/wg-scripts:
+
+worgarside/smart-mini-crt-interface:
+
