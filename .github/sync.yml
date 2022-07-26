@@ -7,7 +7,7 @@ worgarside/homeassistant:
   - .pylintrc
   - .github/dependabot.yml
 
-worgarside/wg-utilities:
+worgarside/wg-utilities@develop:
   - .gitignore
   - .pre-commit-config.yaml
   - pyproject.toml
