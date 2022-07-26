@@ -7,12 +7,37 @@ worgarside/homeassistant:
   - .pylintrc
 
 worgarside/wg-utilities:
+  - .gitignore
+  - .pre-commit-config.yaml
+  - pyproject.toml
+  - .yamllint
+  - .pylintrc
 
 worgarside/plant-monitor:
+  - .gitignore
+  - .pre-commit-config.yaml
+  - pyproject.toml
+  - .yamllint
+  - .pylintrc
 
 worgarside/very-slow-movie-player:
+  - .gitignore
+  - .pre-commit-config.yaml
+  - pyproject.toml
+  - .yamllint
+  - .pylintrc
 
 worgarside/wg-scripts:
+  - .gitignore
+  - .pre-commit-config.yaml
+  - pyproject.toml
+  - .yamllint
+  - .pylintrc
 
 worgarside/smart-mini-crt-interface:
+  - .gitignore
+  - .pre-commit-config.yaml
+  - pyproject.toml
+  - .yamllint
+  - .pylintrc
 
