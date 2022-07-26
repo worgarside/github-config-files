@@ -5,6 +5,7 @@ worgarside/homeassistant:
   - pyproject.toml
   - .yamllint
   - .pylintrc
+  - .github/dependabot.yml
 
 worgarside/wg-utilities:
   - .gitignore
@@ -12,6 +13,7 @@ worgarside/wg-utilities:
   - pyproject.toml
   - .yamllint
   - .pylintrc
+  - .github/dependabot.yml
 
 worgarside/plant-monitor:
   - .gitignore
@@ -19,6 +21,7 @@ worgarside/plant-monitor:
   - pyproject.toml
   - .yamllint
   - .pylintrc
+  - .github/dependabot.yml
 
 worgarside/very-slow-movie-player:
   - .gitignore
@@ -26,6 +29,7 @@ worgarside/very-slow-movie-player:
   - pyproject.toml
   - .yamllint
   - .pylintrc
+  - .github/dependabot.yml
 
 worgarside/wg-scripts:
   - .gitignore
@@ -33,6 +37,7 @@ worgarside/wg-scripts:
   - pyproject.toml
   - .yamllint
   - .pylintrc
+  - .github/dependabot.yml
 
 worgarside/smart-mini-crt-interface:
   - .gitignore
@@ -40,4 +45,5 @@ worgarside/smart-mini-crt-interface:
   - pyproject.toml
   - .yamllint
   - .pylintrc
+  - .github/dependabot.yml
 
