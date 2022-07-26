@@ -3,8 +3,8 @@ name: Sync Files
 on:
   push:
     branches:
-      - develop
-      - 
+      - master
+
   workflow_dispatch:
 
 jobs:
