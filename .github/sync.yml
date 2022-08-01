@@ -7,7 +7,6 @@ worgarside/homeassistant:
   - .pylintrc
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
-  - utilities/dep_updater/
 
 worgarside/wg-utilities@develop:
   - .gitignore
