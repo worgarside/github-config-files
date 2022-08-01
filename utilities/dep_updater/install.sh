@@ -7,6 +7,6 @@ sh_path=$(which sh)
 crontab -l > tempcron
 #echo new cron into cron file
 echo "0 4 * * * ${sh_path} ${repo_path}/utilities/dep_updater/dep_updater.sh" >> tempcron
-install new cron file
+# install new cron file
 crontab tempcron
 rm tempcron
