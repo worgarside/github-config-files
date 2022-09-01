@@ -57,3 +57,11 @@ worgarside/smart-mini-crt-interface:
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
 
+worgarside/useful-devops-script:
+  - .gitignore
+  - .pre-commit-config.yaml
+  - pyproject.toml
+  - .yamllint
+  - .pylintrc
+  - .github/dependabot.yml
+  - .github/workflows/dependabot_auto_merge.yml
