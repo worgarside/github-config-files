@@ -65,3 +65,10 @@ worgarside/useful-devops-scripts:
   - .pylintrc
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
+
+worgarside/json-resume:
+  - .gitignore
+  - .pre-commit-config.yaml
+  - pyproject.toml
+  - .github/dependabot.yml
+  - .github/workflows/dependabot_auto_merge.yml
