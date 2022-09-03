@@ -1,5 +1,7 @@
 ---
 name: Sync Files
+
+# yamllint disable-line rule:truthy
 on:
   push:
     branches:
