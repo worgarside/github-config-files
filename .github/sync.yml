@@ -70,5 +70,6 @@ worgarside/json-resume@develop:
   - .gitignore
   - .pre-commit-config.yaml
   - pyproject.toml
+  - .yamllint
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
