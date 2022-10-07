@@ -1,5 +1,5 @@
 ---
-name: Pre-commit auto-update
+name: Pre-Commit auto-update
 on:
   workflow_dispatch:
   schedule:
@@ -14,18 +14,17 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - name: Install pre-commit
+      - name: Install Pre-Commit
         run: pip install pre-commit
-      - name: Run pre-commit autoupdate
+      - name: Run `pre-commit autoupdate`
         run: pre-commit autoupdate
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GH_PAT }}
           branch: update/pre-commit-autoupdate
-          title: Auto-update pre-commit hooks
-          commit-message: Auto-update pre-commit hooks
-          body: |
-            Update versions of tools in pre-commit
-            configs to latest version
-          labels: dependencies
+          title: Auto-update Pre-Commit hooks
+          commit-message: Auto-update Pre-Commit hooks
+          body: >
+            Update versions of tools in Pre-Commit configs to latest version
+          labels: dependencies auto-merge
