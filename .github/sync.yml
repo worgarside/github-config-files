@@ -73,3 +73,13 @@ worgarside/json-resume@develop:
   - .yamllint
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
+
+worgarside/led-matrix-now-playing:
+  - .gitignore
+  - .pre-commit-config.yaml
+  - pyproject.toml
+  - .yamllint
+  - .pylintrc
+  - .github/dependabot.yml
+  - .github/workflows/dependabot_auto_merge.yml
+  - utilities/dep_updater/
