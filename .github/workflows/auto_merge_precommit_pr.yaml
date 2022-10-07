@@ -1,5 +1,5 @@
 ---
-name: automerge
+name: Auto-Merge Pre-Commit Update PR
 on:
   pull_request:
     types:
@@ -20,7 +20,7 @@ jobs:
         uses: "pascalgn/automerge-action@v0.15.3"
         env:
           GITHUB_TOKEN: "${{ secrets.GH_PAT }}"
-          MERGE_LABELS: "auto-merge,automerge"
+          MERGE_LABELS: "auto-merge"
           MERGE_FILTER_AUTHOR: "worgarside"
           MERGE_DELETE_BRANCH: true
           MERGE_ERROR_FAIL: true
