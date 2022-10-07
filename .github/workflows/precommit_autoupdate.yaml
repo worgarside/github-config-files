@@ -27,4 +27,4 @@ jobs:
           commit-message: Auto-update Pre-Commit hooks
           body: >
             Update versions of tools in Pre-Commit configs to latest version
-          labels: dependencies auto-merge
+          labels: dependencies,auto-merge
