@@ -20,5 +20,5 @@ jobs:
         with:
           GH_PAT: ${{ secrets.GH_PAT }}
           SKIP_PR: true
-          COMMIT_PREFIX: ''
+          COMMIT_PREFIX: '🔄 Config file sync: '
           ORIGINAL_MESSAGE: true
