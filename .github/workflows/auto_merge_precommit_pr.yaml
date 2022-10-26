@@ -10,11 +10,11 @@ jobs:
     steps:
       - id: automerge
         name: automerge
-        uses: "pascalgn/automerge-action@v0.15.5"
+        uses: pascalgn/automerge-action@v0.15.5
         env:
-          GITHUB_TOKEN: "${{ secrets.GH_PAT }}"
-          MERGE_LABELS: "auto-merge"
-          MERGE_FILTER_AUTHOR: "worgarside"
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          MERGE_LABELS: auto-merge
+          MERGE_FILTER_AUTHOR: worgarside
           MERGE_DELETE_BRANCH: true
           MERGE_ERROR_FAIL: true
           UPDATE_METHOD: rebase
