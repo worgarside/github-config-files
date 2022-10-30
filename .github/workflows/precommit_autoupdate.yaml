@@ -18,13 +18,7 @@ jobs:
         run: pip install pre-commit
       - name: Run `pre-commit autoupdate`
         run: pre-commit autoupdate
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
+      - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          token: ${{ secrets.GH_PAT }}
-          branch: update/pre-commit-autoupdate
-          title: Auto-update Pre-Commit hooks
-          commit-message: Auto-update Pre-Commit hooks
-          body: >
-            Update versions of tools in Pre-Commit configs to latest version
-          labels: dependencies,auto-merge
+          add_options: '.pre-commit-config.yaml'
+          commit_message: Auto-update Pre-Commit hooks
