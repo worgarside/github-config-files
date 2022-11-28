@@ -4,8 +4,6 @@ name: Sync Files
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches:
-      - master
 
   workflow_dispatch:
 
