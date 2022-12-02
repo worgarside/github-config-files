@@ -138,6 +138,6 @@ repos:
           - '*.svg,*.json'
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.149
+    rev: v0.0.150
     hooks:
       - id: ruff
