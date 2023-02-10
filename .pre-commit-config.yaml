@@ -19,7 +19,7 @@ repos:
       - id: blacken-docs
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: 0.7.0
+    rev: 0.8.0
     hooks:
       - id: pyproject-fmt
 
