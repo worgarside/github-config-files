@@ -18,7 +18,7 @@ jobs:
         if: github.event.head_commit.message != 'Auto-update Pre-Commit hooks'
         uses: BetaHuhn/repo-file-sync-action@v1
         with:
-          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_PAT: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           SKIP_PR: false
           COMMIT_PREFIX: ''
           ORIGINAL_MESSAGE: true
