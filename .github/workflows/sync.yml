@@ -40,7 +40,7 @@ jobs:
       - name: Enable Auto-Merge on PRs
         if: github.event.head_commit.message != 'Auto-update Pre-Commit hooks'
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
           arr=$(echo '${{ steps.sync.outputs.pull_request_urls }}' | jq -c -r '.[]')
           for url in $arr; do
