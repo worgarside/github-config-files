@@ -5,6 +5,7 @@ worgarside/homeassistant:
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
+  - .github/workflows/actionlint.yml
   - .github/workflows/dependabot_auto_merge.yml
   - .github/workflows/pr_autoupdate.yaml
   - .github/repo_labels.yml
@@ -15,6 +16,7 @@ worgarside/homeassistant:
 
 worgarside/wg-utilities@develop:
   - .github/dependabot.yml
+  - .github/workflows/actionlint.yml
   - .github/workflows/dependabot_auto_merge.yml
   - .github/repo_labels.yml
   - .github/workflows/manage_repo_labels.yml
@@ -27,6 +29,7 @@ worgarside/plant-monitor:
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
+  - .github/workflows/actionlint.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
   - .github/workflows/pr_autoupdate.yaml
@@ -42,6 +45,7 @@ worgarside/very-slow-movie-player:
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
+  - .github/workflows/actionlint.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
   - .github/workflows/pr_autoupdate.yaml
@@ -57,6 +61,7 @@ worgarside/wg-scripts:
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
+  - .github/workflows/actionlint.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
   - .github/workflows/pr_autoupdate.yaml
@@ -72,6 +77,7 @@ worgarside/smart-mini-crt-interface:
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
+  - .github/workflows/actionlint.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
   - .github/workflows/pr_autoupdate.yaml
@@ -87,6 +93,7 @@ worgarside/useful-devops-scripts:
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
+  - .github/workflows/actionlint.yml
   - .github/workflows/dependabot_auto_merge.yml
   - .github/workflows/pr_autoupdate.yaml
   - .github/repo_labels.yml
@@ -99,6 +106,7 @@ worgarside/json-resume@develop:
   - .gitignore
   - .pre-commit-config.yaml
   - .yamllint
+  - .github/workflows/actionlint.yml
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
 
@@ -107,6 +115,7 @@ worgarside/led-matrix-now-playing:
   - .pre-commit-config.yaml
   - .yamllint
   - .pylintrc
+  - .github/workflows/actionlint.yml
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
