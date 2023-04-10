@@ -11,6 +11,7 @@ worgarside/homeassistant:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/run_sonarcloud_scan.yml
 
 worgarside/wg-utilities@develop:
   - .github/dependabot.yml
@@ -33,6 +34,7 @@ worgarside/plant-monitor:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/run_sonarcloud_scan.yml
 
 worgarside/very-slow-movie-player:
   - .gitignore
@@ -47,6 +49,7 @@ worgarside/very-slow-movie-player:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/run_sonarcloud_scan.yml
 
 worgarside/wg-scripts:
   - .gitignore
@@ -61,6 +64,7 @@ worgarside/wg-scripts:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/run_sonarcloud_scan.yml
 
 worgarside/smart-mini-crt-interface:
   - .gitignore
@@ -75,6 +79,7 @@ worgarside/smart-mini-crt-interface:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/run_sonarcloud_scan.yml
 
 worgarside/useful-devops-scripts:
   - .gitignore
@@ -88,6 +93,7 @@ worgarside/useful-devops-scripts:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/run_sonarcloud_scan.yml
 
 worgarside/json-resume@develop:
   - .gitignore
@@ -109,3 +115,4 @@ worgarside/led-matrix-now-playing:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/run_sonarcloud_scan.yml
