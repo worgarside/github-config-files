@@ -40,7 +40,7 @@ jobs:
       - name: Enable Auto-Merge on PRs
         if: github.event.head_commit.message != 'Auto-update Pre-Commit hooks'
         run: |
-          arr=$(echo "${{ steps.sync.outputs.pull_request_urls }}" | jq -c '.[]')
+          arr=$(echo '${{ steps.sync.outputs.pull_request_urls }}' | jq -c '.[]')
           for url in $arr; do
               gh pr merge --delete-branch --squash --merge --auto "$url"
           done
