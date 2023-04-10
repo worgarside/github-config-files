@@ -121,10 +121,7 @@ jobs:
 
   edit-keep-updated-label:
     name: |
-      ${{
-        github.event.action == 'auto_merge_enabled' && 'Add' ||
-        'Remove'
-      }} `keep-updated` label
+      Edit `keep-updated` label
     if: startsWith(github.event.action, 'auto_merge_')
     runs-on: ubuntu-latest
     permissions:
