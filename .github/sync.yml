@@ -13,6 +13,7 @@ worgarside/homeassistant:
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
   - .github/workflows/run_sonarcloud_scan.yml
+  - .pylintrc
 
 worgarside/wg-utilities@develop:
   - .github/dependabot.yml
