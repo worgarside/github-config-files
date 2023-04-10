@@ -1,5 +1,5 @@
 ---
-name: Sync Files
+name: Sync Repos
 
 # yamllint disable-line rule:truthy
 on:
@@ -9,6 +9,7 @@ on:
 
 jobs:
   sync:
+    name: Sync Repos
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repo
