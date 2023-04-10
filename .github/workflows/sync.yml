@@ -44,5 +44,5 @@ jobs:
         run: |
           arr=$(echo '${{ steps.sync.outputs.pull_request_urls }}' | jq -c '.[]')
           for url in $arr; do
-              gh pr merge --delete-branch --squash --merge --auto "$url"
+              gh pr merge --delete-branch --squash --auto "$url"
           done
