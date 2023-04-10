@@ -11,13 +11,18 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Clone Repo
         uses: actions/checkout@v3
+
       - name: Run GitHub File Sync
         if: github.event.head_commit.message != 'Auto-update Pre-Commit hooks'
         uses: BetaHuhn/repo-file-sync-action@v1
         with:
           GH_PAT: ${{ secrets.GH_PAT }}
           SKIP_PR: false
-          COMMIT_PREFIX: '🔄 Config file sync: '
+          COMMIT_PREFIX: ""
           ORIGINAL_MESSAGE: true
+          PR_LABELS: sync
+          REVIEWERS: worgarside
+          COMMIT_AS_PR_TITLE: true
+
