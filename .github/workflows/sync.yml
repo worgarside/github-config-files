@@ -35,4 +35,12 @@ jobs:
       - name: Summarise
         if: github.event.head_commit.message != 'Auto-update Pre-Commit hooks'
         # yamllint disable-line rule:line-length
-        run: echo -e "\`\`\`json\n${{ toJson(steps.sync.outputs) }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+        run: echo -e "Pull Request URLs:\n\`\`\`json\n${{ toJson(steps.sync.outputs.pull_request_urls) }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+      - name: Enable Auto-Merge on PRs
+        if: github.event.head_commit.message != 'Auto-update Pre-Commit hooks'
+        run: |
+          arr=$(echo "${{ steps.sync.outputs.pull_request_urls }}" | jq -c '.[]')
+          for url in $arr; do
+              gh pr merge --delete-branch --squash --merge --auto "$url"
+          done
