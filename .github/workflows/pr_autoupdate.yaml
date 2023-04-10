@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - main
 
 jobs:
   autoupdate:
@@ -14,4 +15,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           PR_FILTER: labelled
-          PR_LABELS: dependencies
+          PR_LABELS: keep-updated
