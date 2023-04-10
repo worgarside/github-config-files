@@ -2,80 +2,96 @@
 worgarside/homeassistant:
   - .gitignore
   - .pre-commit-config.yaml
-  - pyproject.toml
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
   - .github/workflows/pr_autoupdate.yaml
+  - .github/repo_labels.yml
+  - .github/workflows/manage_repo_labels.yml
+  - .github/labeler.yml
+  - .github/workflows/manage_pr_labels.yml
 
 worgarside/wg-utilities@develop:
-  - .gitignore
-  - .pre-commit-config.yaml
-  - .yamllint
-  - .pylintrc
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
-  - .github/workflows/pr_autoupdate.yaml
+  - .github/repo_labels.yml
+  - .github/workflows/manage_repo_labels.yml
+  - .github/labeler.yml
+  - .github/workflows/manage_pr_labels.yml
 
 worgarside/plant-monitor:
   - .gitignore
   - .pre-commit-config.yaml
-  - pyproject.toml
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
   - .github/workflows/pr_autoupdate.yaml
+  - .github/repo_labels.yml
+  - .github/workflows/manage_repo_labels.yml
+  - .github/labeler.yml
+  - .github/workflows/manage_pr_labels.yml
 
 worgarside/very-slow-movie-player:
   - .gitignore
   - .pre-commit-config.yaml
-  - pyproject.toml
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
   - .github/workflows/pr_autoupdate.yaml
+  - .github/repo_labels.yml
+  - .github/workflows/manage_repo_labels.yml
+  - .github/labeler.yml
+  - .github/workflows/manage_pr_labels.yml
 
 worgarside/wg-scripts:
   - .gitignore
   - .pre-commit-config.yaml
-  - pyproject.toml
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
   - .github/workflows/pr_autoupdate.yaml
+  - .github/repo_labels.yml
+  - .github/workflows/manage_repo_labels.yml
+  - .github/labeler.yml
+  - .github/workflows/manage_pr_labels.yml
 
 worgarside/smart-mini-crt-interface:
   - .gitignore
   - .pre-commit-config.yaml
-  - pyproject.toml
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
   - .github/workflows/pr_autoupdate.yaml
+  - .github/repo_labels.yml
+  - .github/workflows/manage_repo_labels.yml
+  - .github/labeler.yml
+  - .github/workflows/manage_pr_labels.yml
 
 worgarside/useful-devops-scripts:
   - .gitignore
   - .pre-commit-config.yaml
-  - pyproject.toml
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
   - .github/workflows/pr_autoupdate.yaml
+  - .github/repo_labels.yml
+  - .github/workflows/manage_repo_labels.yml
+  - .github/labeler.yml
+  - .github/workflows/manage_pr_labels.yml
 
 worgarside/json-resume@develop:
   - .gitignore
   - .pre-commit-config.yaml
-  - pyproject.toml
   - .yamllint
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
@@ -83,10 +99,13 @@ worgarside/json-resume@develop:
 worgarside/led-matrix-now-playing:
   - .gitignore
   - .pre-commit-config.yaml
-  - pyproject.toml
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
   - .github/workflows/pr_autoupdate.yaml
+  - .github/repo_labels.yml
+  - .github/workflows/manage_repo_labels.yml
+  - .github/labeler.yml
+  - .github/workflows/manage_pr_labels.yml
