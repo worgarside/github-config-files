@@ -4,6 +4,8 @@ name: Sync Repos
 # yamllint disable-line rule:truthy
 on:
   push:
+    branches:
+      - main
 
   workflow_dispatch:
 
@@ -23,6 +25,8 @@ jobs:
           SKIP_PR: false
           COMMIT_PREFIX: ''
           ORIGINAL_MESSAGE: true
-          PR_LABELS: sync
           COMMIT_AS_PR_TITLE: true
           REVIEWERS: worgarside
+          PR_LABELS: |
+            sync
+            keep-updated
