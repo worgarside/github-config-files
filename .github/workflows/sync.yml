@@ -25,3 +25,4 @@ jobs:
           ORIGINAL_MESSAGE: true
           PR_LABELS: sync
           COMMIT_AS_PR_TITLE: true
+          REVIEWERS: worgarside
