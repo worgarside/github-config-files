@@ -20,9 +20,7 @@ jobs:
         with:
           GH_PAT: ${{ secrets.GH_PAT }}
           SKIP_PR: false
-          COMMIT_PREFIX: ""
+          COMMIT_PREFIX: ''
           ORIGINAL_MESSAGE: true
           PR_LABELS: sync
-          REVIEWERS: worgarside
           COMMIT_AS_PR_TITLE: true
-
