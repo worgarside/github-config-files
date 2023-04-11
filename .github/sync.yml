@@ -1,8 +1,6 @@
 ---
 worgarside/homeassistant:
-  - .gitignore
   - .pre-commit-config.yaml
-  - .yamllint
   - .pylintrc
   - .github/dependabot.yml
   - .github/workflows/actionlint.yml
