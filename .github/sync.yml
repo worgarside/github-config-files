@@ -6,7 +6,6 @@ worgarside/homeassistant:
   - .github/workflows/actionlint.yml
   - .github/workflows/dependabot_auto_merge.yml
   - .github/workflows/pr_autoupdate.yaml
-  - .github/repo_labels.yml
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
