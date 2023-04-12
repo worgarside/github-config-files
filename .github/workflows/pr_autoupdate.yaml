@@ -1,10 +1,12 @@
 ---
-name: autoupdate
+name: Auto-Update PRs
 on:
-  push:
-    branches:
-      - develop
-      - main
+  pull_request:
+    types:
+      - labeled
+      - opened
+      - synchronize
+      - reopened
 
 jobs:
   autoupdate:
