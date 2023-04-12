@@ -7,6 +7,12 @@ on:
       - opened
       - synchronize
       - reopened
+  push:
+    branches:
+      - master
+      - main
+      - develop
+      - homeassistant.local
 
 jobs:
   autoupdate:
