@@ -10,6 +10,8 @@ worgarside/homeassistant:
   - .github/workflows/manage_pr_labels.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .pylintrc
+  - .github/workflows/delete_pr_branch.yml
+  - .github/delete-merged-branch-config.yml
 
 worgarside/wg-utilities@develop:
   - .github/dependabot.yml
@@ -19,6 +21,8 @@ worgarside/wg-utilities@develop:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/delete_pr_branch.yml
+  - .github/delete-merged-branch-config.yml
 
 worgarside/plant-monitor:
   - .gitignore
@@ -35,6 +39,8 @@ worgarside/plant-monitor:
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
   - .github/workflows/run_sonarcloud_scan.yml
+  - .github/workflows/delete_pr_branch.yml
+  - .github/delete-merged-branch-config.yml
 
 worgarside/very-slow-movie-player:
   - .gitignore
@@ -51,6 +57,8 @@ worgarside/very-slow-movie-player:
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
   - .github/workflows/run_sonarcloud_scan.yml
+  - .github/workflows/delete_pr_branch.yml
+  - .github/delete-merged-branch-config.yml
 
 worgarside/wg-scripts:
   - .gitignore
@@ -67,6 +75,8 @@ worgarside/wg-scripts:
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
   - .github/workflows/run_sonarcloud_scan.yml
+  - .github/workflows/delete_pr_branch.yml
+  - .github/delete-merged-branch-config.yml
 
 worgarside/smart-mini-crt-interface:
   - .gitignore
@@ -83,6 +93,8 @@ worgarside/smart-mini-crt-interface:
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
   - .github/workflows/run_sonarcloud_scan.yml
+  - .github/workflows/delete_pr_branch.yml
+  - .github/delete-merged-branch-config.yml
 
 worgarside/useful-devops-scripts:
   - .gitignore
@@ -98,6 +110,8 @@ worgarside/useful-devops-scripts:
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
   - .github/workflows/run_sonarcloud_scan.yml
+  - .github/workflows/delete_pr_branch.yml
+  - .github/delete-merged-branch-config.yml
 
 worgarside/json-resume@develop:
   - .gitignore
@@ -106,6 +120,8 @@ worgarside/json-resume@develop:
   - .github/workflows/actionlint.yml
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
+  - .github/workflows/delete_pr_branch.yml
+  - .github/delete-merged-branch-config.yml
 
 worgarside/led-matrix-now-playing:
   - .gitignore
@@ -122,3 +138,5 @@ worgarside/led-matrix-now-playing:
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
   - .github/workflows/run_sonarcloud_scan.yml
+  - .github/workflows/delete_pr_branch.yml
+  - .github/delete-merged-branch-config.yml
