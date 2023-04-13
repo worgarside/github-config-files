@@ -12,6 +12,7 @@ worgarside/homeassistant:
   - .pylintrc
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
+  - .github/workflows/auto_create_pr.yml
 
 worgarside/wg-utilities@develop:
   - .github/dependabot.yml
@@ -23,6 +24,7 @@ worgarside/wg-utilities@develop:
   - .github/workflows/manage_pr_labels.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
+  - .github/workflows/auto_create_pr.yml
 
 worgarside/plant-monitor:
   - .gitignore
@@ -41,6 +43,7 @@ worgarside/plant-monitor:
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
+  - .github/workflows/auto_create_pr.yml
 
 worgarside/very-slow-movie-player:
   - .gitignore
@@ -59,6 +62,7 @@ worgarside/very-slow-movie-player:
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
+  - .github/workflows/auto_create_pr.yml
 
 worgarside/wg-scripts:
   - .gitignore
@@ -77,6 +81,7 @@ worgarside/wg-scripts:
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
+  - .github/workflows/auto_create_pr.yml
 
 worgarside/smart-mini-crt-interface:
   - .gitignore
@@ -95,6 +100,7 @@ worgarside/smart-mini-crt-interface:
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
+  - .github/workflows/auto_create_pr.yml
 
 worgarside/useful-devops-scripts:
   - .gitignore
@@ -140,3 +146,4 @@ worgarside/led-matrix-now-playing:
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
+  - .github/workflows/auto_create_pr.yml
