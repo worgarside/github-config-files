@@ -77,7 +77,7 @@ jobs:
         if: steps.check-if-pr-exists.outputs.create-pr == 'true'
         env:
           GH_TOKEN: ${{ secrets.gh-token }}
-          PR_BODY_ARG: inputs.pr-body && '--body "${{ inputs.pr-body }}"' || "--fill"
+          PR_BODY_ARG: ${{ inputs.pr-body && '--body "inputs.pr-body"' || '--fill' }}
           PR_REVIEWER_ARG: |
             inputs.pr-reviewer && '--reviewer "${{ inputs.pr-reviewer }}"' || ""
           PR_DRAFT_ARG: inputs.pr-draft && '--draft' || ""
