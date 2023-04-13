@@ -1,0 +1,92 @@
+---
+name: Create PR
+
+on:
+  workflow_call:
+    inputs:
+      base-ref-name:
+        description: The base branch's name
+        required: true
+        type: string
+      head-ref-name:
+        description: The head branch's name
+        required: true
+        type: string
+      pr-title:
+        description: The PR title
+        required: true
+        type: string
+      pr-body:
+        description: The PR body
+        required: false
+        type: string
+      pr-reviewer:
+        description: The PR reviewer
+        required: false
+        type: string
+        default: ${{ github.repository_owner }}
+      pr-draft:
+        description: Whether the PR should be a draft
+        required: false
+        type: boolean
+        default: false
+    secrets:
+      gh-token:
+        description: The GitHub token
+        required: true
+
+jobs:
+  create-pr:
+    name: Create PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check If PR Exists
+        id: check-if-pr-exists
+        env:
+          GH_TOKEN: ${{ secrets.gh-token }}
+        # yamllint disable rule:line-length
+        run: |
+          existing_pr=$(
+            gh pr list \
+            --repo ${{ github.repository }} \
+            --json baseRefName,headRefName,title \
+            --jq '
+              .[] | select(
+                .baseRefName == "${{ inputs.base-ref-name }}"
+              ) | select(
+                .headRefName == "${{ inputs.head-ref-name }}"
+              )
+            '
+          )
+
+          if [[ -z "$existing_pr" ]]; then
+              echo "create-pr=true" >> $GITHUB_OUTPUT
+          else
+              echo -e "Existing PR found: \`\`\`json\n$existing_pr\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+              echo "create-pr=false" >> $GITHUB_OUTPUT
+          fi
+        # yamllint enable rule:line-length
+
+      - name: Clone Repo
+        if: steps.check-if-pr-exists.outputs.create-pr == 'true'
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Create PR
+        if: steps.check-if-pr-exists.outputs.create-pr == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.gh-token }}
+          PR_BODY_ARG: inputs.pr-body && '--body "${{ inputs.pr-body }}"' || "--fill"
+          PR_REVIEWER_ARG: |
+            inputs.pr-reviewer && '--reviewer "${{ inputs.pr-reviewer }}"' || ""
+          PR_DRAFT_ARG: inputs.pr-draft && '--draft' || ""
+        run: |
+          gh pr create \
+            --repo ${{ github.repository }} \
+            --title "${{ inputs.pr-title}}" \
+            $PR_BODY_ARG \
+            --base "${{ inputs.base-ref-name }}" \
+            --head "${{ inputs.head-ref-name }}" \
+            --reviewer ${{ github.repository_owner }} \
+            --draft
