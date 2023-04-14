@@ -33,6 +33,7 @@ jobs:
           ORIGINAL_MESSAGE: true
           COMMIT_AS_PR_TITLE: true
           REVIEWERS: worgarside
+          OVERWRITE_EXISTING_PR: false
           PR_LABELS: |
             sync
             keep-updated
