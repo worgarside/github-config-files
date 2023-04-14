@@ -143,3 +143,13 @@ jobs:
             }}-label "keep-updated" || :
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  set-auto-merge:
+    name: Set Auto Merge
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log GitHub Context
+        run: |
+          echo "${{ toJson(github) }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
