@@ -169,4 +169,5 @@ jobs:
             --delete-branch \
             --squash \
             --auto \
-            -t "$PR_TITLE"
+            --subject "$PR_TITLE" \
+            --body "#${{ github.event.pull_request.number }}"
