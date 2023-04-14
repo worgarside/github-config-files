@@ -161,12 +161,12 @@ jobs:
           echo -e "\`\`\`json\n$GITHUB_CONTEXT\n\`\`\`" >> $GITHUB_STEP_SUMMARY
 
       - name: Set Auto-Merge on PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
           gh pr merge "${{ github.event.pull_request.html_url }}"\
             --delete-branch \
             --squash \
             --auto \
-            -t "${{ github.event.pull_request.title }}"
-
-        env:
-          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+            -t "$PR_TITLE"
