@@ -148,10 +148,8 @@ jobs:
     name: Set Auto Merge
     runs-on: ubuntu-latest
     if: |
-      ${{
-        github.event.action == 'ready_for_review' &&
-        github.event.pull_request.user.login == 'worgarside-dev'
-      }}
+      github.event.action == 'ready_for_review' &&
+      github.event.pull_request.user.login == 'worgarside-dev'
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
