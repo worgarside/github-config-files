@@ -162,10 +162,11 @@ jobs:
 
       - name: Set Auto-Merge on PR
         run: |
-          gh pr merge \
+          gh pr merge "${{ github.event.pull_request.html_url }}"\
             --delete-branch \
             --squash \
             --auto \
-            "${{ github.event.pull_request.html_url }}"
+            -t "${{ github.event.pull_request.title }}"
+
         env:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
