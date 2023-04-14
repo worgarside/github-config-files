@@ -150,6 +150,6 @@ jobs:
     steps:
       - name: Log GitHub Context
         run: |
-          echo "${{ toJson(github) }}"
+          echo "${{ toJson(github) }}" >> $GITHUB_STEP_SUMMARY
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
