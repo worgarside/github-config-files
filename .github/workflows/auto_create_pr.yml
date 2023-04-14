@@ -18,3 +18,13 @@ jobs:
       pr-draft: true
     secrets:
       gh-token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+
+  log-github-context:
+    name: Log GitHub Context
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log GitHub Context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo -e "\`\`\`json\n$GITHUB_CONTEXT\n\`\`\`" >> $GITHUB_STEP_SUMMARY
