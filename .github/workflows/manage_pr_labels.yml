@@ -174,5 +174,5 @@ jobs:
             --delete-branch \
             --squash \
             --auto \
-            $GHCF_OVERRIDE
+            ${{ env.GHCF_OVERRIDE }}
         # yamllint enable rule:line-length
