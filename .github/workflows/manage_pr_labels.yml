@@ -160,7 +160,7 @@ jobs:
         run: |
           if [ "${{ github.repository }}" == "worgarside/github-config-files" ]
           then
-            echo "ghcf-override=$GH_CONFIG_FILES_OVERRIDE" >> $GITHUB_OUTPUT
+            echo 'ghcf-override=$GH_CONFIG_FILES_OVERRIDE' >> $GITHUB_OUTPUT
           fi
 
       - name: Set Auto-Merge on PR
@@ -173,6 +173,5 @@ jobs:
           gh pr merge "${{ github.event.pull_request.html_url }}" \
             --delete-branch \
             --squash \
-            --auto \
-            ${{ env.GHCF_OVERRIDE }}
+            --auto $GHCF_OVERRIDE
         # yamllint enable rule:line-length
