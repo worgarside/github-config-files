@@ -152,7 +152,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set Auto-Merge on PR
-        if: ${{ github.repository }} != 'worgarside/github-config-files'
+        if: ${{ github.repository != 'worgarside/github-config-files' }}
         env:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
@@ -162,7 +162,7 @@ jobs:
             --auto
 
       - name: Set Auto-Merge on PR (GHCF)
-        if: ${{ github.repository }} == 'worgarside/github-config-files'
+        if: ${{ github.repository == 'worgarside/github-config-files' }}
         env:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           PR_TITLE: ${{ github.event.pull_request.title }}
