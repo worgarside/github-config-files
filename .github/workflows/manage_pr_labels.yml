@@ -165,10 +165,11 @@ jobs:
         if: ${{ github.repository }} == 'worgarside/github-config-files'
         env:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
           gh pr merge "${{ github.event.pull_request.html_url }}" \
             --delete-branch \
             --squash \
             --auto \
-            --subject "${{ github.event.pull_request.title }}" \
+            --subject "$PR_TITLE" \
             --body "${{ github.repository }}#${{ github.event.pull_request.number }}"
