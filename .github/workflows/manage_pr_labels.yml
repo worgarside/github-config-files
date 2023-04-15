@@ -162,7 +162,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           PR_TITLE: ${{ github.event.pull_request.title }}
           # yamllint disable-line rule:line-length
-          GH_CONFIG_FILES_OVERRIDE: ${{ github.repository == 'worgarside/github-config-file' && '--subject "$PR_TITLE" --body "github.repository#github.event.pull_request.number"' || '' }}
+          GH_CONFIG_FILES_OVERRIDE: ${{ github.repository == 'worgarside/github-config-files' && '--subject "$PR_TITLE" --body "github.repository#github.event.pull_request.number"' || '' }}
         run: |
           echo $GH_CONFIG_FILES_OVERRIDE >> $GITHUB_STEP_SUMMARY
 
