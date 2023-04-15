@@ -164,5 +164,5 @@ jobs:
             --delete-branch \
             --squash \
             --auto \
-            ${{ github.repository == 'worgarside/github-config-files' && env.GH_CONFIG_FILES_OVERRIDE || '' }}
+            ${{ github.repository == 'worgarside/github-config-files' && '$GH_CONFIG_FILES_OVERRIDE' || '' }}
         # yamllint enable rule:line-length
