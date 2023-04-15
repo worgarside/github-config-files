@@ -85,10 +85,11 @@ jobs:
           PR_REVIEWER_ARG: |
             inputs.pr-reviewer && '--reviewer "${{ inputs.pr-reviewer }}"' || ""
           PR_DRAFT_ARG: inputs.pr-draft && '--draft' || ""
+          PR_TITLE: ${{ inputs.pr-title}}
         run: |
           gh pr create \
             --repo ${{ github.repository }} \
-            --title "${{ inputs.pr-title}}" \
+            --title "$PR_TITLE" \
             $PR_BODY_ARG \
             --base "${{ inputs.base-ref-name }}" \
             --head "${{ inputs.head-ref-name }}" \
