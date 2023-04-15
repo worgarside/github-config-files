@@ -160,9 +160,11 @@ jobs:
       - name: Set Auto-Merge on PR
         env:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-          PR_TITLE: ${{ github.event.pull_request.title }}
-          # yamllint disable-line rule:line-length
-          GH_CONFIG_FILES_OVERRIDE: ${{ github.repository == 'worgarside/github-config-files' && '--subject \"$PR_TITLE\" --body "\${{ github.repository }}#${{ github.event.pull_request.number }}"' || '' }}
+          PR_TITLE:
+          GH_CONFIG_FILES_OVERRIDE: |
+            '--subject "${{ github.event.pull_request.title }}" \
+            --body "${{ github.repository }}#${{ github.event.pull_request.number }}"'
+        # yamllint disable rule:line-length
         run: |
           echo $GH_CONFIG_FILES_OVERRIDE >> $GITHUB_STEP_SUMMARY
 
@@ -176,4 +178,5 @@ jobs:
             --delete-branch \
             --squash \
             --auto \
-            $GH_CONFIG_FILES_OVERRIDE
+            ${{ github.repository == 'worgarside/github-config-files' && env.GH_CONFIG_FILES_OVERRIDE || '' }}
+        # yamllint enable rule:line-length
