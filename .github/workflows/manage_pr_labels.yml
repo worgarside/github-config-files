@@ -161,7 +161,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           PR_TITLE:
-          GH_CONFIG_FILES_OVERRIDE: |
+          GH_CONFIG_FILES_OVERRIDE: >
             --subject "${{ github.event.pull_request.title }}"
             --body "${{ github.repository }}#${{ github.event.pull_request.number }}"
         # yamllint disable rule:line-length
