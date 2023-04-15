@@ -89,7 +89,7 @@ jobs:
         run: |
           gh pr create \
             --repo ${{ github.repository }} \
-            --title "PR_TITLE" \
+            --title "$PR_TITLE" \
             $PR_BODY_ARG \
             --base "${{ inputs.base-ref-name }}" \
             --head "${{ inputs.head-ref-name }}" \
