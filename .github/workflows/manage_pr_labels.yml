@@ -162,8 +162,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           PR_TITLE:
           GH_CONFIG_FILES_OVERRIDE: |
-            '--subject "${{ github.event.pull_request.title }}" \
-            --body "${{ github.repository }}#${{ github.event.pull_request.number }}"'
+            --subject "${{ github.event.pull_request.title }}"
+            --body "${{ github.repository }}#${{ github.event.pull_request.number }}"
         # yamllint disable rule:line-length
         run: |
           echo $GH_CONFIG_FILES_OVERRIDE >> $GITHUB_STEP_SUMMARY
