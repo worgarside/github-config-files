@@ -168,10 +168,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           GHCF_OVERRIDE: ${{ steps.prep-env-vars.outputs.ghcf-override }}
         # yamllint disable rule:line-length
-        run: >
-          gh pr merge "${{ github.event.pull_request.html_url }}"
-            --delete-branch
-            --squash
-            --auto
+        run: |
+          echo $GHCF_OVERRIDE >> $GITHUB_STEP_SUMMARY
+          gh pr merge "${{ github.event.pull_request.html_url }}" \
+            --delete-branch \
+            --squash \
+            --auto \
             $GHCF_OVERRIDE
         # yamllint enable rule:line-length
