@@ -10,7 +10,8 @@ on:
 jobs:
   create-pr:
     name: Create PR
-    uses: worgarside/github-config-files/.github/workflows/create_pr.yml@main
+    # yamllint disable-line rule:line-length
+    uses: worgarside/github-config-files/.github/workflows/create_pr.yml@bugfix/escape-chars-in-pr-titles
     with:
       base-ref-name: ${{ github.event.repository.default_branch }}
       head-ref-name: ${{ github.ref_name }}
