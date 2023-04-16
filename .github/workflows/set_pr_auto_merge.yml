@@ -27,7 +27,7 @@ jobs:
       - name: Set Auto-Merge on PR
         if: ${{ github.repository != 'worgarside/github-config-files' }}
         env:
-          GITHUB_TOKEN: ${{ env.token }}
+          GH_TOKEN: ${{ env.token }}
         run: |
           gh pr merge "${{ github.event.pull_request.html_url }}" \
             --delete-branch \
@@ -37,7 +37,7 @@ jobs:
       - name: Set Auto-Merge on PR (GHCF)
         if: ${{ github.repository == 'worgarside/github-config-files' }}
         env:
-          GITHUB_TOKEN: ${{ env.token }}
+          GH_TOKEN: ${{ env.token }}
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
           gh pr merge "${{ github.event.pull_request.html_url }}" \
