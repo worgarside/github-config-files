@@ -12,10 +12,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  TOKEN: |
-    secrets.WORGARSIDE_TOKEN ||
-    secrets.WORGARSIDE_DEV_TOKEN ||
-    secrets.GITHUB_TOKEN
+  # yamllint disable-line rule:line-length
+  TOKEN: ${{ secrets.WORGARSIDE_TOKEN || secrets.WORGARSIDE_DEV_TOKEN || secrets.GITHUB_TOKEN }}
 
 jobs:
   set-auto-merge:
