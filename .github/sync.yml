@@ -7,6 +7,7 @@ worgarside/home-assistant:
   - .github/workflows/pr_autoupdate.yaml
   - .github/workflows/manage_repo_labels.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .pylintrc
   - .github/workflows/delete_pr_branch.yml
@@ -21,6 +22,7 @@ worgarside/wg-utilities@develop:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
@@ -39,6 +41,7 @@ worgarside/plant-monitor:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
@@ -58,6 +61,7 @@ worgarside/very-slow-movie-player:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
@@ -77,6 +81,7 @@ worgarside/wg-scripts:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
@@ -96,6 +101,7 @@ worgarside/smart-mini-crt-interface:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
@@ -114,6 +120,7 @@ worgarside/useful-devops-scripts:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
@@ -142,6 +149,7 @@ worgarside/led-matrix-now-playing:
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
   - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
