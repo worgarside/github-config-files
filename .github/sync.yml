@@ -13,6 +13,7 @@ worgarside/home-assistant:
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
+  - .github/CODEOWNERS
 
 worgarside/wg-utilities@develop:
   - .github/dependabot.yml
@@ -26,6 +27,7 @@ worgarside/wg-utilities@develop:
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
+  - .github/CODEOWNERS
 
 worgarside/plant-monitor:
   - .gitignore
@@ -46,6 +48,7 @@ worgarside/plant-monitor:
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
+  - .github/CODEOWNERS
 
 worgarside/very-slow-movie-player:
   - .gitignore
@@ -66,6 +69,7 @@ worgarside/very-slow-movie-player:
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
+  - .github/CODEOWNERS
 
 worgarside/wg-scripts:
   - .gitignore
@@ -86,6 +90,7 @@ worgarside/wg-scripts:
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
+  - .github/CODEOWNERS
 
 worgarside/smart-mini-crt-interface:
   - .gitignore
@@ -106,6 +111,7 @@ worgarside/smart-mini-crt-interface:
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
+  - .github/CODEOWNERS
 
 worgarside/useful-devops-scripts:
   - .gitignore
@@ -124,6 +130,7 @@ worgarside/useful-devops-scripts:
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
+  - .github/CODEOWNERS
 
 worgarside/json-resume@develop:
   - .gitignore
@@ -134,6 +141,7 @@ worgarside/json-resume@develop:
   - .github/workflows/dependabot_auto_merge.yml
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
+  - .github/CODEOWNERS
 
 worgarside/led-matrix-now-playing:
   - .gitignore
@@ -154,6 +162,7 @@ worgarside/led-matrix-now-playing:
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
+  - .github/CODEOWNERS
 
 worgarside/python-template:
   - .gitignore
@@ -173,3 +182,4 @@ worgarside/python-template:
   - .github/workflows/delete_pr_branch.yml
   - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
+  - .github/CODEOWNERS
