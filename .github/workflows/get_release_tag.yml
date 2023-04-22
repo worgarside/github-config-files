@@ -1,0 +1,37 @@
+---
+name: Get Release Tag
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_call:
+    inputs:
+      branch-name:
+        description: The name of the branch to extract the release tag from
+        required: true
+        type: string
+    outputs:
+      release-tag:
+        description: The release tag
+        value: ${{ jobs.get-release-tag.outputs.release-tag }}
+
+jobs:
+  get-release-tag:
+    name: Get Release Tag
+    runs-on: ubuntu-latest
+    outputs:
+      release-tag: ${{ steps.get-tag.outputs.release-tag }}
+    steps:
+      - name: Get Release Tag
+        id: get-tag
+        env:
+          BRANCH_NAME: ${{ inputs.branch-name }}
+        run: |
+          release_tag=$(echo "$BRANCH_NAME" | cut -d '/' -f2)
+
+          if ! [[ $release_tag =~ ^[0-9]{1,2}\.[0-9]{1,4}\.[0-9]{1,4}$ ]]
+          then
+              echo "Release number is invalid: \`$release_tag\`" >> $GITHUB_STEP_SUMMARY
+              exit 1
+          fi
+
+          echo "release-tag=$release_tag" >> $GITHUB_OUTPUT
