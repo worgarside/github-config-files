@@ -5,11 +5,11 @@ on:
   workflow_call:
     inputs:
       base-ref-name:
-        description: The base branch's name
+        description: The base branch's name (target branch)
         required: true
         type: string
       head-ref-name:
-        description: The head branch's name
+        description: The head branch's name (source branch)
         required: true
         type: string
       pr-title:
@@ -30,9 +30,13 @@ on:
         required: false
         type: boolean
         default: false
+      pr-labels:
+        description: Comma-separated list of labels to apply to the PR
+        required: false
+        type: string
     secrets:
       gh-token:
-        description: The GitHub token
+        description: The GitHub token to use for the PR creation
         required: true
 
 jobs:
@@ -86,6 +90,8 @@ jobs:
             inputs.pr-reviewer && '--reviewer "${{ inputs.pr-reviewer }}"' || ""
           PR_DRAFT_ARG: inputs.pr-draft && '--draft' || ""
           PR_TITLE: ${{ inputs.pr-title}}
+          PR_LABELS_ARG: |
+            inputs.pr-labels && '--label "${{ inputs.pr-labels }}"' || ""
         run: |
           gh pr create \
             --repo ${{ github.repository }} \
@@ -94,4 +100,5 @@ jobs:
             --base "${{ inputs.base-ref-name }}" \
             --head "${{ inputs.head-ref-name }}" \
             --reviewer ${{ github.repository_owner }} \
-            --draft
+            --draft \
+            $PR_LABELS_ARG
