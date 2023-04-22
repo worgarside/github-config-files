@@ -100,5 +100,5 @@ jobs:
             --base "${{ inputs.base-ref-name }}" \
             --head "${{ inputs.head-ref-name }}" \
             --reviewer ${{ github.repository_owner }} \
-            --draft \
-            $PR_LABELS_ARG
+            $PR_LABELS_ARG \
+            --draft
