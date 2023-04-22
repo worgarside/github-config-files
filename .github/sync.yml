@@ -11,7 +11,6 @@ worgarside/home-assistant:
   - .github/workflows/run_sonarcloud_scan.yml
   - .pylintrc
   - .github/workflows/delete_pr_branch.yml
-  - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
   - .github/CODEOWNERS
 
@@ -25,7 +24,6 @@ worgarside/wg-utilities@develop:
   - .github/workflows/manage_pr_labels.yml
   - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/delete_pr_branch.yml
-  - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
   - .github/CODEOWNERS
 
@@ -46,7 +44,6 @@ worgarside/plant-monitor:
   - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
-  - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
   - .github/CODEOWNERS
 
@@ -67,7 +64,6 @@ worgarside/very-slow-movie-player:
   - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
-  - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
   - .github/CODEOWNERS
 
@@ -88,7 +84,6 @@ worgarside/wg-scripts:
   - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
-  - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
   - .github/CODEOWNERS
 
@@ -109,7 +104,6 @@ worgarside/smart-mini-crt-interface:
   - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
-  - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
   - .github/CODEOWNERS
 
@@ -129,7 +123,6 @@ worgarside/useful-devops-scripts:
   - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
-  - .github/delete-merged-branch-config.yml
   - .github/CODEOWNERS
 
 worgarside/json-resume@develop:
@@ -160,7 +153,6 @@ worgarside/led-matrix-now-playing:
   - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
-  - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
   - .github/CODEOWNERS
 
@@ -180,6 +172,5 @@ worgarside/python-template:
   - .github/workflows/set_pr_auto_merge.yml
   - .github/workflows/run_sonarcloud_scan.yml
   - .github/workflows/delete_pr_branch.yml
-  - .github/delete-merged-branch-config.yml
   - .github/workflows/auto_create_pr.yml
   - .github/CODEOWNERS
