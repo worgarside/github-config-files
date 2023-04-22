@@ -1,0 +1,82 @@
+---
+name: Draft Release
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_call:
+    inputs:
+      base-ref-name:
+        description: The base ref name to use for the PR
+        required: true
+        type: string
+      head-ref-name:
+        description: The head ref name to use for the PR
+        required: true
+        type: string
+      pr-title:
+        description: The title to use for the PR
+        required: true
+        type: string
+      pr-draft:
+        description: Whether the PR should be a draft
+        required: false
+        type: boolean
+        default: true
+      pr-body:
+        description: The body to use for the PR
+        required: false
+        type: string
+        default: ''
+    secrets:
+      gh-token:
+        description: The GitHub token to use for the workflow
+        required: true
+
+jobs:
+  get-release-tag:
+    name: Get Release Tag
+    uses: ./.github/workflows/get_release_tag.yml
+    with:
+      branch-name: ${{ github.head_ref || github.ref_name }}
+
+  create-pr:
+    name: Create PR
+    needs:
+      - get-release-tag
+    uses: worgarside/github-config-files/.github/workflows/create_pr.yml@main
+    with:
+      base-ref-name: ${{ inputs.base-ref-name }}
+      head-ref-name: ${{ github.ref_name }}
+      pr-title: Release ${{ needs.get-release-tag.outputs.release-tag }}
+      pr-draft: true
+    secrets:
+      gh-token: ${{ secrets.gh-token }}
+
+  draft-release:
+    name: Draft Release
+    needs:
+      - get-release-tag
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Validate `pyproject.toml` version
+        # yamllint disable rule:line-length
+        run: |
+          expected_line="version = \"${{ needs.get-release-tag.outputs.release-tag }}\""
+          actual_line=$(grep -E "^version = \"" pyproject.toml)
+          if [ "$expected_line" != "$actual_line" ]
+          then
+              echo "\`pyproject.toml\` version is invalid: \`$actual_line\`" >> $GITHUB_STEP_SUMMARY
+              exit 1
+          fi
+        # yamllint enable rule:line-length
+
+      - name: Draft Release
+        uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.gh-token }}
