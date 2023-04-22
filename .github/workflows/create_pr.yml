@@ -29,7 +29,7 @@ on:
         description: Whether the PR should be a draft
         required: false
         type: boolean
-        default: false
+        default: true
       pr-labels:
         description: Comma-separated list of labels to apply to the PR
         required: false
@@ -86,12 +86,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.gh-token }}
           PR_BODY_ARG: ${{ inputs.pr-body && '--body "inputs.pr-body"' || '--fill' }}
-          PR_REVIEWER_ARG: |
-            inputs.pr-reviewer && '--reviewer "${{ inputs.pr-reviewer }}"' || ""
-          PR_DRAFT_ARG: inputs.pr-draft && '--draft' || ""
+          PR_DRAFT_ARG: ${{ inputs.pr-draft && '--draft' || '' }}
           PR_TITLE: ${{ inputs.pr-title}}
-          PR_LABELS_ARG: |
-            inputs.pr-labels && '--label "${{ inputs.pr-labels }}"' || ""
+          PR_LABELS_ARG: ${{ inputs.pr-labels && '--label "inputs.pr-labels"' || '' }}
         run: |
           gh pr create \
             --repo ${{ github.repository }} \
@@ -99,6 +96,6 @@ jobs:
             $PR_BODY_ARG \
             --base "${{ inputs.base-ref-name }}" \
             --head "${{ inputs.head-ref-name }}" \
-            --reviewer ${{ github.repository_owner }} \
+            --reviewer ${{ inputs.pr-reviewer }} \
             $PR_LABELS_ARG \
-            --draft
+            $PR_DRAFT_ARG
