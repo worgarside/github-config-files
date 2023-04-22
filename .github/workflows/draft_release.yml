@@ -13,20 +13,6 @@ on:
         description: The head ref name to use for the PR
         required: true
         type: string
-      pr-title:
-        description: The title to use for the PR
-        required: true
-        type: string
-      pr-draft:
-        description: Whether the PR should be a draft
-        required: false
-        type: boolean
-        default: true
-      pr-body:
-        description: The body to use for the PR
-        required: false
-        type: string
-        default: ''
     secrets:
       gh-token:
         description: The GitHub token to use for the workflow
