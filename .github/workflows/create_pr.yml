@@ -91,7 +91,7 @@ jobs:
           PR_DRAFT_ARG: ${{ inputs.pr-draft && '--draft' || '' }}
           PR_TITLE: ${{ inputs.pr-title}}
            # yamllint disable-line rule:line-length
-          PR_LABELS_ARG: ${{ inputs.pr-labels && format('--label "{0}"', inputs.pr-labels ) || '' }}
+          PR_LABELS_ARG: ${{ inputs.pr-labels && format('--label {0}', inputs.pr-labels ) || '' }}
         run: |
           gh pr create \
             --repo ${{ github.repository }} \
