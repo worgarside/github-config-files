@@ -69,8 +69,6 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.gh-token }}
     permissions:
       contents: write
-      deployments: write
-      pages: write
     steps:
       - name: Point Release at `${{ inputs.base-ref-name }}`
         run: |
