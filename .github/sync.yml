@@ -169,7 +169,6 @@ worgarside/python-template:
 
 worgarside/addon-rss-log-feed:
   - .gitignore
-  - .pre-commit-config.yaml
   - .yamllint
   - .pylintrc
   - .github/workflows/actionlint.yml
@@ -188,7 +187,6 @@ worgarside/addon-rss-log-feed:
 
 worgarside/addon-yas-209-bridge:
   - .gitignore
-  - .pre-commit-config.yaml
   - .yamllint
   - .pylintrc
   - .github/workflows/actionlint.yml
