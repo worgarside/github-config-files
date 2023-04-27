@@ -4,7 +4,7 @@ worgarside/home-assistant:
   - .github/dependabot.yml
   - .github/workflows/actionlint.yml
   - .github/workflows/dependabot_auto_merge.yml
-  - .github/workflows/pr_autoupdate.yaml
+  - .github/workflows/pr_autoupdate.yml
   - .github/workflows/manage_repo_labels.yml
   - .github/workflows/manage_pr_labels.yml
   - .github/workflows/set_pr_auto_merge.yml
@@ -35,7 +35,7 @@ worgarside/plant-monitor:
   - .github/workflows/actionlint.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
-  - .github/workflows/pr_autoupdate.yaml
+  - .github/workflows/pr_autoupdate.yml
   - .github/repo_labels.yml
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
@@ -54,7 +54,7 @@ worgarside/very-slow-movie-player:
   - .github/workflows/actionlint.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
-  - .github/workflows/pr_autoupdate.yaml
+  - .github/workflows/pr_autoupdate.yml
   - .github/repo_labels.yml
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
@@ -73,7 +73,7 @@ worgarside/wg-scripts:
   - .github/workflows/actionlint.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
-  - .github/workflows/pr_autoupdate.yaml
+  - .github/workflows/pr_autoupdate.yml
   - .github/repo_labels.yml
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
@@ -92,7 +92,7 @@ worgarside/smart-mini-crt-interface:
   - .github/workflows/actionlint.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
-  - .github/workflows/pr_autoupdate.yaml
+  - .github/workflows/pr_autoupdate.yml
   - .github/repo_labels.yml
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
@@ -110,7 +110,7 @@ worgarside/useful-devops-scripts:
   - .github/dependabot.yml
   - .github/workflows/actionlint.yml
   - .github/workflows/dependabot_auto_merge.yml
-  - .github/workflows/pr_autoupdate.yaml
+  - .github/workflows/pr_autoupdate.yml
   - .github/repo_labels.yml
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
@@ -137,7 +137,7 @@ worgarside/led-matrix-now-playing:
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
   - utilities/dep_updater/
-  - .github/workflows/pr_autoupdate.yaml
+  - .github/workflows/pr_autoupdate.yml
   - .github/repo_labels.yml
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
@@ -155,7 +155,7 @@ worgarside/python-template:
   - .github/workflows/actionlint.yml
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
-  - .github/workflows/pr_autoupdate.yaml
+  - .github/workflows/pr_autoupdate.yml
   - .github/repo_labels.yml
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
