@@ -29,7 +29,6 @@ worgarside/wg-utilities@develop:
 
 worgarside/plant-monitor:
   - .gitignore
-  - .pre-commit-config.yaml
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
@@ -49,7 +48,6 @@ worgarside/plant-monitor:
 
 worgarside/very-slow-movie-player:
   - .gitignore
-  - .pre-commit-config.yaml
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
@@ -69,7 +67,6 @@ worgarside/very-slow-movie-player:
 
 worgarside/wg-scripts:
   - .gitignore
-  - .pre-commit-config.yaml
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
@@ -89,7 +86,6 @@ worgarside/wg-scripts:
 
 worgarside/smart-mini-crt-interface:
   - .gitignore
-  - .pre-commit-config.yaml
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
@@ -109,7 +105,6 @@ worgarside/smart-mini-crt-interface:
 
 worgarside/useful-devops-scripts:
   - .gitignore
-  - .pre-commit-config.yaml
   - .yamllint
   - .pylintrc
   - .github/dependabot.yml
@@ -127,7 +122,6 @@ worgarside/useful-devops-scripts:
 
 worgarside/json-resume@develop:
   - .gitignore
-  - .pre-commit-config.yaml
   - .yamllint
   - .github/workflows/actionlint.yml
   - .github/dependabot.yml
@@ -138,7 +132,6 @@ worgarside/json-resume@develop:
 
 worgarside/led-matrix-now-playing:
   - .gitignore
-  - .pre-commit-config.yaml
   - .yamllint
   - .pylintrc
   - .github/workflows/actionlint.yml
@@ -158,7 +151,6 @@ worgarside/led-matrix-now-playing:
 
 worgarside/python-template:
   - .gitignore
-  - .pre-commit-config.yaml
   - .yamllint
   - .pylintrc
   - .github/workflows/actionlint.yml
