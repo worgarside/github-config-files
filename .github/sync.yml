@@ -127,7 +127,6 @@ worgarside/json-resume@develop:
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
   - .github/workflows/delete_pr_branch.yml
-  - .github/delete-merged-branch-config.yml
   - .github/CODEOWNERS
 
 worgarside/led-matrix-now-playing:
