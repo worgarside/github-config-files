@@ -82,12 +82,6 @@ jobs:
             --draft=false \
             --repo ${{ github.repository }}
 
-      - name: Clone Repository
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ inputs.base-ref-name }}
-          fetch-depth: 0
-
   create-pr-back-to-develop:
     name: Create PR back to `develop`
     needs:
