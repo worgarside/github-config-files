@@ -174,3 +174,41 @@ worgarside/python-template:
   - .github/workflows/delete_pr_branch.yml
   - .github/workflows/auto_create_pr.yml
   - .github/CODEOWNERS
+
+worgarside/addon-rss-log-feed:
+  - .gitignore
+  - .pre-commit-config.yaml
+  - .yamllint
+  - .pylintrc
+  - .github/workflows/actionlint.yml
+  - .github/dependabot.yml
+  - .github/workflows/dependabot_auto_merge.yml
+  - .github/workflows/pr_autoupdate.yaml
+  - .github/repo_labels.yml
+  - .github/workflows/manage_repo_labels.yml
+  - .github/labeler.yml
+  - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/set_pr_auto_merge.yml
+  - .github/workflows/run_sonarcloud_scan.yml
+  - .github/workflows/delete_pr_branch.yml
+  - .github/workflows/auto_create_pr.yml
+  - .github/CODEOWNERS
+
+worgarside/addon-yas-209-bridge:
+  - .gitignore
+  - .pre-commit-config.yaml
+  - .yamllint
+  - .pylintrc
+  - .github/workflows/actionlint.yml
+  - .github/dependabot.yml
+  - .github/workflows/dependabot_auto_merge.yml
+  - .github/workflows/pr_autoupdate.yaml
+  - .github/repo_labels.yml
+  - .github/workflows/manage_repo_labels.yml
+  - .github/labeler.yml
+  - .github/workflows/manage_pr_labels.yml
+  - .github/workflows/set_pr_auto_merge.yml
+  - .github/workflows/run_sonarcloud_scan.yml
+  - .github/workflows/delete_pr_branch.yml
+  - .github/workflows/auto_create_pr.yml
+  - .github/CODEOWNERS
