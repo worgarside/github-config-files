@@ -18,11 +18,6 @@ repos:
     hooks:
       - id: blacken-docs
 
-  - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: 0.10.0
-    hooks:
-      - id: pyproject-fmt
-
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
