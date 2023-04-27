@@ -37,5 +37,5 @@ jobs:
             github.head_ref == 'homeassistant.local'
           )
         env:
-          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN || secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: git push origin --delete $GITHUB_HEAD_REF
