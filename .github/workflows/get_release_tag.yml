@@ -15,6 +15,16 @@ on:
         value: ${{ jobs.get-release-tag.outputs.release-tag }}
 
 jobs:
+  log-inputs:
+    name: Log Inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Inputs
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: |
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+
   get-release-tag:
     name: Get Release Tag
     runs-on: ubuntu-latest
