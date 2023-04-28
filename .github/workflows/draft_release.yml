@@ -23,7 +23,7 @@ jobs:
     name: Get Release Tag
     uses: ./.github/workflows/get_release_tag.yml
     with:
-      branch-name: ${{ github.head_ref || github.ref_name }}
+      branch-name: ${{ inputs.head-ref-name }}
 
   create-pr:
     name: Create PR
@@ -32,7 +32,7 @@ jobs:
     uses: worgarside/github-config-files/.github/workflows/create_pr.yml@main
     with:
       base-ref-name: ${{ inputs.base-ref-name }}
-      head-ref-name: ${{ github.ref_name }}
+      head-ref-name: ${{ inputs.head-ref-name }}
       pr-title: Release ${{ needs.get-release-tag.outputs.release-tag }}
       pr-draft: true
     secrets:
