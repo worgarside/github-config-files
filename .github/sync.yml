@@ -173,7 +173,7 @@ worgarside/addon-rss-log-feed:
   - .github/workflows/actionlint.yml
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
-  - .github/workflows/pr_autoupdate.yaml
+  - .github/workflows/pr_autoupdate.yml
   - .github/repo_labels.yml
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
@@ -191,7 +191,7 @@ worgarside/addon-yas-209-bridge:
   - .github/workflows/actionlint.yml
   - .github/dependabot.yml
   - .github/workflows/dependabot_auto_merge.yml
-  - .github/workflows/pr_autoupdate.yaml
+  - .github/workflows/pr_autoupdate.yml
   - .github/repo_labels.yml
   - .github/workflows/manage_repo_labels.yml
   - .github/labeler.yml
