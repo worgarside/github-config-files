@@ -25,6 +25,16 @@ on:
         required: true
 
 jobs:
+  log-inputs:
+    name: Log Inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Inputs
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: |
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+
   cancel-if-not-merged:
     name: Cancel Workflow if Pull Request is not merged
     runs-on: ubuntu-latest
