@@ -9,10 +9,12 @@ on:
 jobs:
   delete-branch:
     name: Delete Branch on PR Merge
+    env:
+      GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
     if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
     permissions:
       contents: write
+    runs-on: ubuntu-latest
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
@@ -31,14 +33,12 @@ jobs:
             github.head_ref == 'main' ||
             github.head_ref == 'master'
           )
-        env:
-          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: git push origin --delete $GITHUB_HEAD_REF
 
       - name: Remove Bot Labels
         run: |
           bot_labels=$(
-            echo "${{ toJson(github.event.pull_request.labels.*.name) }}" |
+            echo '${{ toJson(github.event.pull_request.labels.*.name) }}' |
               tr ' ' '\n' |
               grep -o 'bot:.*' |
               tr '\n' ',' |
