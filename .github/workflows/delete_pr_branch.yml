@@ -38,7 +38,7 @@ jobs:
       - name: Remove Bot Labels
         run: |
           bot_labels=$(
-            echo "${{ github.event.pull_request.labels.*.name }}" |
+            echo "${{ toJson(github.event.pull_request.labels.*.name) }}" |
               tr ' ' '\n' |
               grep -o 'bot:.*' |
               tr '\n' ',' |
