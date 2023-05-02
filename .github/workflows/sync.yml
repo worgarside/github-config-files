@@ -35,7 +35,7 @@ jobs:
           REVIEWERS: worgarside
           PR_LABELS: |
             sync
-            keep-updated
+            bot:keep-updated
 
       - name: Summarise
         if: github.event.head_commit.message != 'Auto-update Pre-Commit hooks'
