@@ -34,3 +34,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: git push origin --delete $GITHUB_HEAD_REF
+
+      - name: Remove Bot Labels
+        run: |
+          label_list=$(echo ${{ toJson(github.event.pull_request.labels.*.name) }})
+          bot_labels=$(
+            echo $label_list |
+              tr ' ' '\n' |
+              grep -o 'bot:.*' |
+              tr '\n' ',' |
+              sed 's/,$//'
+          )
+          if [[ ! -z $bot_labels ]]; then
+            gh pr edit "${{ github.event.pull_request.number }}" \
+              --remove-label $bot_labels
+          fi
