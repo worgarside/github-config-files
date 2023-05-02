@@ -36,11 +36,15 @@ jobs:
         run: git push origin --delete $GITHUB_HEAD_REF
 
       - name: Remove Bot Labels
+        env:
+          PR_LABELS: ${{ toJson(github.event.pull_request.labels.*.name) }}
+        # Thanks ChatGPT :)
         run: |
           bot_labels=$(
-            echo '${{ toJson(github.event.pull_request.labels.*.name) }}' |
+            echo "$PR_LABELS" |
               tr ' ' '\n' |
               grep -o 'bot:.*' |
+              sed 's/^/bot:/' |
               tr '\n' ',' |
               sed 's/,$//'
           )
