@@ -47,5 +47,5 @@ jobs:
           )
           if [[ ! -z $bot_labels ]]; then
             gh pr edit "${{ github.event.pull_request.number }}" \
-              --remove-label $bot_labels
+              --remove-label "$bot_labels"
           fi
