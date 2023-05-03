@@ -6,7 +6,6 @@ group:
       - .pylintrc
       - .github/CODEOWNERS
       - .github/dependabot.yml
-      - .github/labeler.yml
       - .github/workflows/actionlint.yml
       - .github/workflows/auto_create_pr.yml
       - .github/workflows/delete_pr_branch.yml
