@@ -44,7 +44,7 @@ jobs:
     name: Remove Bot Command Labels on PR Merge
     if: github.event.pull_request.merged == true
     permissions:
-      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
       - name: Remove Bot Labels
