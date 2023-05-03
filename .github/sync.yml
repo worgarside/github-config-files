@@ -1,203 +1,77 @@
 ---
-worgarside/home-assistant:
-  - .pylintrc
-  - .github/dependabot.yml
-  - .github/workflows/actionlint.yml
-  - .github/workflows/dependabot_auto_merge.yml
-  - .github/workflows/pr_autoupdate.yml
-  - .github/workflows/manage_repo_labels.yml
-  - .github/workflows/manage_pr_labels.yml
-  - .github/workflows/set_pr_auto_merge.yml
-  - .github/workflows/run_sonarcloud_scan.yml
-  - .pylintrc
-  - .github/workflows/delete_pr_branch.yml
-  - .github/workflows/auto_create_pr.yml
-  - .github/CODEOWNERS
 
-worgarside/wg-utilities@develop:
-  - .github/dependabot.yml
-  - .github/workflows/actionlint.yml
-  - .github/workflows/dependabot_auto_merge.yml
-  - .github/repo_labels.yml
-  - .github/workflows/manage_repo_labels.yml
-  - .github/labeler.yml
-  - .github/workflows/manage_pr_labels.yml
-  - .github/workflows/set_pr_auto_merge.yml
-  - .github/workflows/delete_pr_branch.yml
-  - .github/workflows/auto_create_pr.yml
-  - .github/CODEOWNERS
+group:
+  # All Repos
+  - files:
+      - .pylintrc
+      - .github/CODEOWNERS
+      - .github/dependabot.yml
+      - .github/labeler.yml
+      - .github/workflows/actionlint.yml
+      - .github/workflows/auto_create_pr.yml
+      - .github/workflows/delete_pr_branch.yml
+      - .github/workflows/dependabot_auto_merge.yml
+      - .github/workflows/manage_pr_labels.yml
+      - .github/workflows/manage_repo_labels.yml
+      - .github/workflows/pr_autoupdate.yml
+      - .github/workflows/set_pr_auto_merge.yml
+    repos: |
+      worgarside/addon-rss-log-feed
+      worgarside/addon-yas-209-bridge
+      worgarside/home-assistant@develop
+      worgarside/json-resume@develop
+      worgarside/led-matrix-now-playing
+      worgarside/plant-monitor
+      worgarside/python-template
+      worgarside/smart-mini-crt-interface
+      worgarside/useful-devops-scripts
+      worgarside/very-slow-movie-player
+      worgarside/wg-scripts
+      worgarside/wg-utilities@develop
 
-worgarside/plant-monitor:
-  - .gitignore
-  - .yamllint
-  - .pylintrc
-  - .github/dependabot.yml
-  - .github/workflows/actionlint.yml
-  - .github/workflows/dependabot_auto_merge.yml
-  - utilities/dep_updater/
-  - .github/workflows/pr_autoupdate.yml
-  - .github/repo_labels.yml
-  - .github/workflows/manage_repo_labels.yml
-  - .github/labeler.yml
-  - .github/workflows/manage_pr_labels.yml
-  - .github/workflows/set_pr_auto_merge.yml
-  - .github/workflows/run_sonarcloud_scan.yml
-  - .github/workflows/delete_pr_branch.yml
-  - .github/workflows/auto_create_pr.yml
-  - .github/CODEOWNERS
+  # No Custom Labels
+  - files:
+      - .github/repo_labels.yml
+      - .github/labeler.yml
+    repos: |
+      worgarside/addon-rss-log-feed
+      worgarside/addon-yas-209-bridge
+      worgarside/json-resume@develop
+      worgarside/led-matrix-now-playing
+      worgarside/plant-monitor
+      worgarside/python-template
+      worgarside/smart-mini-crt-interface
+      worgarside/useful-devops-scripts
+      worgarside/very-slow-movie-player
+      worgarside/wg-scripts
+      worgarside/wg-utilities@develop
 
-worgarside/very-slow-movie-player:
-  - .gitignore
-  - .yamllint
-  - .pylintrc
-  - .github/dependabot.yml
-  - .github/workflows/actionlint.yml
-  - .github/workflows/dependabot_auto_merge.yml
-  - utilities/dep_updater/
-  - .github/workflows/pr_autoupdate.yml
-  - .github/repo_labels.yml
-  - .github/workflows/manage_repo_labels.yml
-  - .github/labeler.yml
-  - .github/workflows/manage_pr_labels.yml
-  - .github/workflows/set_pr_auto_merge.yml
-  - .github/workflows/run_sonarcloud_scan.yml
-  - .github/workflows/delete_pr_branch.yml
-  - .github/workflows/auto_create_pr.yml
-  - .github/CODEOWNERS
+    # Standard .gitignore
+  - files:
+      - .gitignore
+    repos: |
+      worgarside/addon-rss-log-feed
+      worgarside/addon-yas-209-bridge
+      worgarside/json-resume@develop
+      worgarside/led-matrix-now-playing
+      worgarside/plant-monitor
+      worgarside/python-template
+      worgarside/smart-mini-crt-interface
+      worgarside/useful-devops-scripts
+      worgarside/very-slow-movie-player
+      worgarside/wg-scripts
 
-worgarside/wg-scripts:
-  - .gitignore
-  - .yamllint
-  - .pylintrc
-  - .github/dependabot.yml
-  - .github/workflows/actionlint.yml
-  - .github/workflows/dependabot_auto_merge.yml
-  - utilities/dep_updater/
-  - .github/workflows/pr_autoupdate.yml
-  - .github/repo_labels.yml
-  - .github/workflows/manage_repo_labels.yml
-  - .github/labeler.yml
-  - .github/workflows/manage_pr_labels.yml
-  - .github/workflows/set_pr_auto_merge.yml
-  - .github/workflows/run_sonarcloud_scan.yml
-  - .github/workflows/delete_pr_branch.yml
-  - .github/workflows/auto_create_pr.yml
-  - .github/CODEOWNERS
-
-worgarside/smart-mini-crt-interface:
-  - .gitignore
-  - .yamllint
-  - .pylintrc
-  - .github/dependabot.yml
-  - .github/workflows/actionlint.yml
-  - .github/workflows/dependabot_auto_merge.yml
-  - utilities/dep_updater/
-  - .github/workflows/pr_autoupdate.yml
-  - .github/repo_labels.yml
-  - .github/workflows/manage_repo_labels.yml
-  - .github/labeler.yml
-  - .github/workflows/manage_pr_labels.yml
-  - .github/workflows/set_pr_auto_merge.yml
-  - .github/workflows/run_sonarcloud_scan.yml
-  - .github/workflows/delete_pr_branch.yml
-  - .github/workflows/auto_create_pr.yml
-  - .github/CODEOWNERS
-
-worgarside/useful-devops-scripts:
-  - .gitignore
-  - .yamllint
-  - .pylintrc
-  - .github/dependabot.yml
-  - .github/workflows/actionlint.yml
-  - .github/workflows/dependabot_auto_merge.yml
-  - .github/workflows/pr_autoupdate.yml
-  - .github/repo_labels.yml
-  - .github/workflows/manage_repo_labels.yml
-  - .github/labeler.yml
-  - .github/workflows/manage_pr_labels.yml
-  - .github/workflows/set_pr_auto_merge.yml
-  - .github/workflows/run_sonarcloud_scan.yml
-  - .github/workflows/delete_pr_branch.yml
-  - .github/CODEOWNERS
-
-worgarside/json-resume@develop:
-  - .gitignore
-  - .yamllint
-  - .github/workflows/actionlint.yml
-  - .github/dependabot.yml
-  - .github/workflows/dependabot_auto_merge.yml
-  - .github/workflows/delete_pr_branch.yml
-  - .github/CODEOWNERS
-
-worgarside/led-matrix-now-playing:
-  - .gitignore
-  - .yamllint
-  - .pylintrc
-  - .github/workflows/actionlint.yml
-  - .github/dependabot.yml
-  - .github/workflows/dependabot_auto_merge.yml
-  - utilities/dep_updater/
-  - .github/workflows/pr_autoupdate.yml
-  - .github/repo_labels.yml
-  - .github/workflows/manage_repo_labels.yml
-  - .github/labeler.yml
-  - .github/workflows/manage_pr_labels.yml
-  - .github/workflows/set_pr_auto_merge.yml
-  - .github/workflows/run_sonarcloud_scan.yml
-  - .github/workflows/delete_pr_branch.yml
-  - .github/workflows/auto_create_pr.yml
-  - .github/CODEOWNERS
-
-worgarside/python-template:
-  - .gitignore
-  - .yamllint
-  - .pylintrc
-  - .github/workflows/actionlint.yml
-  - .github/dependabot.yml
-  - .github/workflows/dependabot_auto_merge.yml
-  - .github/workflows/pr_autoupdate.yml
-  - .github/repo_labels.yml
-  - .github/workflows/manage_repo_labels.yml
-  - .github/labeler.yml
-  - .github/workflows/manage_pr_labels.yml
-  - .github/workflows/set_pr_auto_merge.yml
-  - .github/workflows/run_sonarcloud_scan.yml
-  - .github/workflows/delete_pr_branch.yml
-  - .github/workflows/auto_create_pr.yml
-  - .github/CODEOWNERS
-
-worgarside/addon-rss-log-feed:
-  - .gitignore
-  - .yamllint
-  - .pylintrc
-  - .github/workflows/actionlint.yml
-  - .github/dependabot.yml
-  - .github/workflows/dependabot_auto_merge.yml
-  - .github/workflows/pr_autoupdate.yml
-  - .github/repo_labels.yml
-  - .github/workflows/manage_repo_labels.yml
-  - .github/labeler.yml
-  - .github/workflows/manage_pr_labels.yml
-  - .github/workflows/set_pr_auto_merge.yml
-  - .github/workflows/run_sonarcloud_scan.yml
-  - .github/workflows/delete_pr_branch.yml
-  - .github/workflows/auto_create_pr.yml
-  - .github/CODEOWNERS
-
-worgarside/addon-yas-209-bridge:
-  - .gitignore
-  - .yamllint
-  - .pylintrc
-  - .github/workflows/actionlint.yml
-  - .github/dependabot.yml
-  - .github/workflows/dependabot_auto_merge.yml
-  - .github/workflows/pr_autoupdate.yml
-  - .github/repo_labels.yml
-  - .github/workflows/manage_repo_labels.yml
-  - .github/labeler.yml
-  - .github/workflows/manage_pr_labels.yml
-  - .github/workflows/set_pr_auto_merge.yml
-  - .github/workflows/run_sonarcloud_scan.yml
-  - .github/workflows/delete_pr_branch.yml
-  - .github/workflows/auto_create_pr.yml
-  - .github/CODEOWNERS
+    # Standard .yamllint
+  - files:
+      - .yamllint
+    repos: |
+      worgarside/addon-rss-log-feed
+      worgarside/addon-yas-209-bridge
+      worgarside/json-resume@develop
+      worgarside/led-matrix-now-playing
+      worgarside/plant-monitor
+      worgarside/python-template
+      worgarside/smart-mini-crt-interface
+      worgarside/useful-devops-scripts
+      worgarside/very-slow-movie-player
+      worgarside/wg-scripts
