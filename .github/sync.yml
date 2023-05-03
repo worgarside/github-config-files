@@ -18,7 +18,6 @@ group:
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant@develop
-      worgarside/json-resume@develop
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
       worgarside/python-template
@@ -35,7 +34,6 @@ group:
     repos: |
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
-      worgarside/json-resume@develop
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
       worgarside/python-template
@@ -51,7 +49,6 @@ group:
     repos: |
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
-      worgarside/json-resume@develop
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
       worgarside/python-template
@@ -66,7 +63,6 @@ group:
     repos: |
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
-      worgarside/json-resume@develop
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
       worgarside/python-template
