@@ -58,7 +58,9 @@ jobs:
           URL_LIST: ${{ join(fromJson(steps.sync.outputs.pull_request_urls)) }}
         run: |
           url_list_formatted=$(echo "$URL_LIST" | sed 's/,/\n- /g')
-          output="# Repo Sync PRs\\n\\n$url_list_formatted"
+          output="# Repo Sync PRs
+
+          - $url_list_formatted"
 
           gh pr comment \
             "$(
