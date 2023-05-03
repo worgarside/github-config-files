@@ -37,8 +37,7 @@ jobs:
 
       - name: Remove Bot Labels
         env:
-          PR_LABELS: ${{ toJson(github.event.pull_request.labels.*.name) }}
-        # Thanks ChatGPT :)
+          PR_LABELS: ${{ join(github.event.pull_request.labels.*.name) }}
         run: |
           bot_labels=$(
             echo "$PR_LABELS" |
