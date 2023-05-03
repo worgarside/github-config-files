@@ -8,11 +8,11 @@ group:
       - .github/dependabot.yml
       - .github/workflows/actionlint.yml
       - .github/workflows/auto_create_pr.yml
-      - .github/workflows/delete_pr_branch.yml
       - .github/workflows/dependabot_auto_merge.yml
       - .github/workflows/manage_pr_labels.yml
       - .github/workflows/manage_repo_labels.yml
       - .github/workflows/pr_autoupdate.yml
+      - .github/workflows/pr_cleanup.yml
       - .github/workflows/set_pr_auto_merge.yml
     repos: |
       worgarside/addon-rss-log-feed
@@ -30,8 +30,8 @@ group:
 
   # No Custom Labels
   - files:
-      - .github/repo_labels.yml
       - .github/labeler.yml
+      - .github/repo_labels.yml
     repos: |
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
@@ -45,7 +45,7 @@ group:
       worgarside/wg-scripts
       worgarside/wg-utilities@develop
 
-    # Standard .gitignore
+  # Standard .gitignore
   - files:
       - .gitignore
     repos: |
@@ -60,7 +60,7 @@ group:
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
 
-    # Standard .yamllint
+  # Standard .yamllint
   - files:
       - .yamllint
     repos: |
