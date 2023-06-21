@@ -103,6 +103,6 @@ jobs:
       head-ref-name: ${{ inputs.head-ref-name }}
       pr-title: Merge `${{ inputs.head-ref-name }}` back into `develop`
       pr-draft: true
-      pr-labels: bot:delete-on-merge,skip-changelog
+      pr-labels: bot:delete-on-merge,non-functional,skip-changelog
     secrets:
       gh-token: ${{ secrets.wg-dev-token }}
