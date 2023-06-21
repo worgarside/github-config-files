@@ -18,6 +18,10 @@ on:
         description: The GitHub token to use for the workflow
         required: true
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   log-inputs:
     name: Log Inputs
