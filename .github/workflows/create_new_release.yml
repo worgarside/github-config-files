@@ -31,7 +31,7 @@ jobs:
 
       - name: Check for Release Branch
         run: |
-          if git branch --list 'release/*'; then
+          if [ `git branch --list 'release/*'` ]; then
             echo "Branch exists"
             exit 1
           else
