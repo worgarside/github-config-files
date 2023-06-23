@@ -4,6 +4,11 @@ name: Create New Release
 on:
   workflow_call:
     inputs:
+      draft-release:
+        description: Whether to draft a release
+        required: false
+        default: true
+        type: boolean
       update-pyproject-toml:
         description: Update the pyproject.toml version
         required: false
@@ -130,7 +135,7 @@ jobs:
             release/${{ needs.derive-release-branch-name.outputs.release-tag }}
 
       - name: Update `pyproject.toml` Version
-        if: github.event.inputs.update-pyproject-toml == true
+        if: ${{ github.event.inputs.update-pyproject-toml == 'true' }}
         # yamllint disable rule:line-length
         run: |
           sed -i "s/^version = .*/version = \"${{ needs.derive-release-branch-name.outputs.release-tag }}\"/" pyproject.toml
@@ -142,3 +147,16 @@ jobs:
         run: |
           git push origin \
             release/${{ needs.derive-release-branch-name.outputs.release-tag }}
+
+  draft-release:
+    if: ${{ github.event.inputs.draft-release == 'true' }}
+    name: Draft Release
+    uses: ./.github/workflows/draft_release.yml
+    needs:
+      - derive-release-branch-name
+      - create-release-branch
+    with:
+      base-ref-name: main
+      head-ref-name: release/${{ needs.derive-release-branch-name.outputs.release-tag }}
+    secrets:
+      gh-token: ${{ secrets.gh-token }}
