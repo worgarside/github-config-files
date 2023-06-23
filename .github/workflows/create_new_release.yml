@@ -75,7 +75,7 @@ jobs:
           echo "\`latest_release_tag\`: \`$latest_release_tag\`" >> $GITHUB_STEP_SUMMARY
           echo "\`latest_release_date\`: \`$latest_release_date\`" >> $GITHUB_STEP_SUMMARY
           echo "\`semver_label\`: \`$semver_label\`" >> $GITHUB_STEP_SUMMARY
-          echo -e "\`labels\`: \`\`\`\n$labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`labels\`: \`\`\`$labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
         # yamllint enable rule:line-length
 
       - name: Get Release Branch Name
@@ -88,7 +88,7 @@ jobs:
           echo "Minor: \`$minor\`" >> "$GITHUB_STEP_SUMMARY"
           echo "Patch: \`$patch\`" >> "$GITHUB_STEP_SUMMARY"
 
-          case ${{ steps.get-semver-label.outputs.semver-label }} in
+          case "${{ steps.get-semver-label.outputs.semver-label }}" in
             major)
               (( major++ ))
               minor=0
