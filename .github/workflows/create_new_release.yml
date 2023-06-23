@@ -130,11 +130,15 @@ jobs:
             release/${{ needs.derive-release-branch-name.outputs.release-tag }}
 
       - name: Update `pyproject.toml` Version
-        if: ${{ github.event.inputs.update-pyproject-toml }}
+        if: ${{ github.event.inputs.update-pyproject-toml == 'true' }}
         # yamllint disable rule:line-length
         run: |
           sed -i "s/^version = .*/version = \"${{ needs.derive-release-branch-name.outputs.release-tag }}\"/" pyproject.toml
           git add pyproject.toml
           git commit -m "Bump version to ${{ needs.derive-release-branch-name.outputs.release-tag }}"
-          git push origin release/${{ needs.derive-release-branch-name.outputs.release-tag }}
         # yamllint enable rule:line-length
+
+      - name: Push Branch
+        run: |
+          git push origin \
+            release/${{ needs.derive-release-branch-name.outputs.release-tag }}
