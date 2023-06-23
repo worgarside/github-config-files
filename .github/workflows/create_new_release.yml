@@ -65,7 +65,7 @@ jobs:
               semver_label="patch"
           else
               echo "No matching label found" >> $GITHUB_STEP_SUMMARY
-              echo -e "\`\`\`\n$labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+              echo -e "\`\`\`$labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
               echo "No matching label found"
               exit 1
           fi
@@ -82,7 +82,7 @@ jobs:
         id: get-release-version
         # yamllint disable rule:line-length
         run: |
-          IFS=. read major minor patch <<< "${${{ steps.get-semver-label.outputs.latest-release-tag }}//v}"
+          IFS=. read major minor patch <<< "${{ steps.get-semver-label.outputs.latest-release-tag }}"
 
           echo "Major: \`$major\`" >> "$GITHUB_STEP_SUMMARY"
           echo "Minor: \`$minor\`" >> "$GITHUB_STEP_SUMMARY"
