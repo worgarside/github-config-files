@@ -1,0 +1,112 @@
+---
+name: Create New Release
+
+on:
+  workflow_call:
+    inputs:
+      update-pyproject-toml:
+        description: Update the pyproject.toml version
+        required: false
+        default: 'true'
+    secrets:
+      gh-token:
+        description: The GitHub token to use for the PR creation
+        required: true
+
+jobs:
+  derive-release-branch-name:
+    name: Derive Release Branch Name
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.gh-token }}
+    outputs:
+      release-tag: ${{ steps.get-release-version.outputs.release-tag }}
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Get SemVer Label
+        id: get-semver-label
+        run: |
+          latest_release=$(gh release view --json publishedAt,tagName)
+
+          latest_release_tag=$(echo "$latest_release" | jq -r '.tagName')
+          latest_release_date=$(echo "$latest_release" | jq -r '.publishedAt')
+
+          labels=$(
+            gh pr list \
+            --state merged \
+            --author "worgarside-dev" \
+            --json baseRefName,headRefName,labels,number,mergedAt,url \
+            --limit 10000 \
+            --jq '
+                .[] |
+                select(.mergedAt > "$latest_release_date") |
+                .labels[] |
+                select(
+                    .name == "major" or
+                    .name == "minor" or
+                    .name == "patch" or
+                    .name == "bug"
+                ) |
+                .name
+            '
+          )
+
+          if echo "$labels" | grep -q 'major'; then
+              semver_label="major"
+          elif echo "$labels" | grep -q 'minor'; then
+              semver_label="minor"
+          elif echo "$labels" | grep -q '(patch|bug)'; then
+              semver_label="patch"
+          else
+              echo "No matching label found"
+              exit 1
+          fi
+
+      - name: Get Release Branch Name
+        id: get-release-version
+        run: |
+          IFS=. read major minor patch <<< "${latest_release_tag//v}"
+
+          case ${{ steps.get-semver-label.outputs.semver-label }} in
+            major)
+              (( major++ ))
+              minor=0
+              patch=0
+              ;;
+            minor)
+              (( minor++ ))
+              patch=0
+              ;;
+            patch)
+              (( patch++ ))
+              ;;
+          esac
+
+          echo "release-tag='$major.$minor.$patch'" >> "$GITHUB_OUTPUT"
+
+  create-release-branch:
+    name: Create Release Branch
+    runs-on: ubuntu-latest
+    needs: derive-release-branch-name
+    env:
+      GH_TOKEN: ${{ secrets.gh-token }}
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Create Release Branch
+        run: |
+          git checkout -b \
+            release/${{ needs.derive-release-branch-name.outputs.release-tag }}
+
+      - name: Update `pyproject.toml` Version
+        if: ${{ github.event.inputs.update-pyproject-toml == 'true' }}
+        # yamllint disable rule:line-length
+        run: |
+          sed -i "s/^version = .*/version = \"${{ needs.derive-release-branch-name.outputs.release-tag }}\"/" pyproject.toml
+          git add pyproject.toml
+          git commit -m "Bump version to ${{ needs.derive-release-branch-name.outputs.release-tag }}"
+          git push origin release/${{ needs.derive-release-branch-name.outputs.release-tag }}
+        # yamllint enable rule:line-length
