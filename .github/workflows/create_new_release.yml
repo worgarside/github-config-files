@@ -90,18 +90,21 @@ jobs:
           case "${{ steps.get-semver-label.outputs.semver-label }}" in
             major)
               echo "SemVer label is major" >> "$GITHUB_STEP_SUMMARY"
-              (( major++ ))
+              major=$(expr $major + 1)
+              echo "Incremented major to $major" >> "$GITHUB_STEP_SUMMARY"
               minor=0
               patch=0
               ;;
             minor)
               echo "SemVer label is minor" >> "$GITHUB_STEP_SUMMARY"
-              (( minor++ ))
+              minor=$(expr $minor + 1)
+              echo "Incremented minor to $minor" >> "$GITHUB_STEP_SUMMARY"
               patch=0
               ;;
             patch)
               echo "SemVer label is patch" >> "$GITHUB_STEP_SUMMARY"
-              (( patch++ ))
+              patch=$(expr $patch + 1)
+              echo "Incremented patch to $patch" >> "$GITHUB_STEP_SUMMARY"
               ;;
           esac
 
