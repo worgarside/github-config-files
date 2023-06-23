@@ -34,6 +34,8 @@ jobs:
           latest_release_tag=$(echo "$latest_release" | jq -r '.tagName')
           latest_release_date=$(echo "$latest_release" | jq -r '.publishedAt')
 
+          echo "latest-release-tag=$latest_release_tag" >> "$GITHUB_OUTPUT"
+
           labels=$(
             gh pr list \
             --state merged \
@@ -61,14 +63,28 @@ jobs:
           elif echo "$labels" | grep -q '(patch|bug)'; then
               semver_label="patch"
           else
+              echo "No matching label found" >> $GITHUB_SUMMARY
+              echo -e "```\n$labels\n```" >> $GITHUB_SUMMARY
               echo "No matching label found"
               exit 1
           fi
 
+          echo "semver-label=$semver_label" >> "$GITHUB_OUTPUT"
+
+          echo "`latest_release_tag`: `$latest_release_tag`" >> $GITHUB_SUMMARY
+          echo "`latest_release_date`: `$latest_release_date`" >> $GITHUB_SUMMARY
+          echo "`semver_label`: `$semver_label`" >> $GITHUB_SUMMARY
+          echo -e "`labels`: ```\n$labels\n```" >> $GITHUB_SUMMARY
+
       - name: Get Release Branch Name
         id: get-release-version
+        # yamllint disable rule:line-length
         run: |
-          IFS=. read major minor patch <<< "${latest_release_tag//v}"
+          IFS=. read major minor patch <<< "${${{ steps.get-semver-label.outputs.latest-release-tag }}//v}"
+
+          echo "Major: `$major`" >> "$GITHUB_SUMMARY"
+          echo "Minor: `$minor`" >> "$GITHUB_SUMMARY"
+          echo "Patch: `$patch`" >> "$GITHUB_SUMMARY"
 
           case ${{ steps.get-semver-label.outputs.semver-label }} in
             major)
@@ -85,7 +101,11 @@ jobs:
               ;;
           esac
 
-          echo "release-tag='$major.$minor.$patch'" >> "$GITHUB_OUTPUT"
+          release_tag="$major.$minor.$patch"
+
+          echo "release-tag=$release_tag" >> "$GITHUB_OUTPUT"
+          echo "`release-tag`: `$release_tag`" >> "$GITHUB_SUMMARY"
+        # yamllint enable rule:line-length
 
   create-release-branch:
     name: Create Release Branch
