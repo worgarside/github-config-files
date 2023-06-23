@@ -63,6 +63,8 @@ jobs:
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.head-ref-name }}
 
       - name: Validate `pyproject.toml` version
         # yamllint disable rule:line-length
