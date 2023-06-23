@@ -164,7 +164,7 @@ jobs:
             release/${{ needs.derive-release-branch-name.outputs.release-tag }}
 
       - name: Update `pyproject.toml` Version
-        if: ${{ github.event.inputs.update-pyproject-toml == 'true' }}
+        if: inputs.update-pyproject-toml
         # yamllint disable rule:line-length
         run: |
           sed -i "s/^version = .*/version = \"${{ needs.derive-release-branch-name.outputs.release-tag }}\"/" pyproject.toml
@@ -178,7 +178,7 @@ jobs:
             release/${{ needs.derive-release-branch-name.outputs.release-tag }}
 
   draft-release:
-    if: ${{ github.event.inputs.draft-release == 'true' }}
+    if: inputs.draft-release
     name: Draft Release
     uses: ./.github/workflows/draft_release.yml
     needs:
