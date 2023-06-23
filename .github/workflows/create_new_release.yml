@@ -160,6 +160,8 @@ jobs:
 
       - name: Create Release Branch
         run: |
+          git config --global user.name "worgarside-dev"
+          git config --global user.email "worgarside.dev@gmail.com"
           git checkout -b \
             release/${{ needs.derive-release-branch-name.outputs.release-tag }}
 
