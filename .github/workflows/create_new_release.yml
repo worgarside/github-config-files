@@ -1,0 +1,193 @@
+---
+name: Create New Release
+
+on:
+  workflow_call:
+    inputs:
+      draft-release:
+        description: Whether to draft a release
+        required: false
+        default: true
+        type: boolean
+      update-pyproject-toml:
+        description: Update the pyproject.toml version
+        required: false
+        default: true
+        type: boolean
+    secrets:
+      gh-token:
+        description: The GitHub token to use for the PR creation
+        required: true
+
+jobs:
+  log-inputs:
+    name: Log Inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Inputs
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: |
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+  check-for-existing-release:
+    name: Check for Existing Release
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.gh-token }}
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Check for Release Branch
+        run: |
+          if [ `git branch --list 'release/*'` ]; then
+            echo "Branch exists"
+            exit 1
+          else
+            echo "Branch does not exist"
+          fi
+
+  derive-release-branch-name:
+    name: Derive Release Branch Name
+    runs-on: ubuntu-latest
+    needs: check-for-existing-release
+    env:
+      GH_TOKEN: ${{ secrets.gh-token }}
+    outputs:
+      release-tag: ${{ steps.get-release-version.outputs.release-tag }}
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Get SemVer Label
+        id: get-semver-label
+        # yamllint disable rule:line-length
+        run: |
+          latest_release=$(gh release view --json publishedAt,tagName)
+
+          latest_release_tag=$(echo "$latest_release" | jq -r '.tagName')
+          latest_release_date=$(echo "$latest_release" | jq -r '.publishedAt')
+
+          echo "latest-release-tag=$latest_release_tag" >> "$GITHUB_OUTPUT"
+
+          labels=$(
+            gh pr list \
+            --state merged \
+            --author "worgarside-dev" \
+            --json baseRefName,headRefName,labels,number,mergedAt,url \
+            --limit 10000 \
+            --jq '
+                .[] |
+                select(.mergedAt > "$latest_release_date") |
+                .labels[] |
+                select(
+                    .name == "major" or
+                    .name == "minor" or
+                    .name == "patch" or
+                    .name == "bug"
+                ) |
+                .name
+            '
+          )
+
+          if echo "$labels" | grep -q 'major'; then
+              semver_label="major"
+          elif echo "$labels" | grep -q 'minor'; then
+              semver_label="minor"
+          elif echo "$labels" | grep -q '(patch|bug)'; then
+              semver_label="patch"
+          else
+              echo "No matching label found" >> $GITHUB_STEP_SUMMARY
+              echo -e "\`\`\`$labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+              echo "No matching label found"
+              exit 1
+          fi
+
+          echo "semver-label=$semver_label" >> "$GITHUB_OUTPUT"
+
+          echo "\`latest_release_tag\`: \`$latest_release_tag\`" >> $GITHUB_STEP_SUMMARY
+          echo "\`latest_release_date\`: \`$latest_release_date\`" >> $GITHUB_STEP_SUMMARY
+          echo "\`semver_label\`: \`$semver_label\`" >> $GITHUB_STEP_SUMMARY
+        # yamllint enable rule:line-length
+
+      - name: Get Release Branch Name
+        id: get-release-version
+        # yamllint disable rule:line-length
+        run: |
+          IFS=. read major minor patch <<< "${{ steps.get-semver-label.outputs.latest-release-tag }}"
+
+          echo "Major: \`$major\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Minor: \`$minor\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Patch: \`$patch\`" >> "$GITHUB_STEP_SUMMARY"
+
+          case "${{ steps.get-semver-label.outputs.semver-label }}" in
+            major)
+              echo "SemVer label is major" >> "$GITHUB_STEP_SUMMARY"
+              major=$(expr $major + 1)
+              echo "Incremented major to $major" >> "$GITHUB_STEP_SUMMARY"
+              minor=0
+              patch=0
+              ;;
+            minor)
+              echo "SemVer label is minor" >> "$GITHUB_STEP_SUMMARY"
+              minor=$(expr $minor + 1)
+              echo "Incremented minor to $minor" >> "$GITHUB_STEP_SUMMARY"
+              patch=0
+              ;;
+            patch)
+              echo "SemVer label is patch" >> "$GITHUB_STEP_SUMMARY"
+              patch=$(expr $patch + 1)
+              echo "Incremented patch to $patch" >> "$GITHUB_STEP_SUMMARY"
+              ;;
+          esac
+
+          release_tag="$major.$minor.$patch"
+
+          echo "release-tag=$release_tag" >> "$GITHUB_OUTPUT"
+          echo "\`release-tag\`: \`$release_tag\`" >> "$GITHUB_STEP_SUMMARY"
+        # yamllint enable rule:line-length
+
+  create-release-branch:
+    name: Create Release Branch
+    runs-on: ubuntu-latest
+    needs: derive-release-branch-name
+    env:
+      GH_TOKEN: ${{ secrets.gh-token }}
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Create Release Branch
+        run: |
+          git config --global user.name "worgarside-dev"
+          git config --global user.email "worgarside.dev@gmail.com"
+          git checkout -b \
+            release/${{ needs.derive-release-branch-name.outputs.release-tag }}
+
+      - name: Update `pyproject.toml` Version
+        if: inputs.update-pyproject-toml
+        # yamllint disable rule:line-length
+        run: |
+          sed -i "s/^version = .*/version = \"${{ needs.derive-release-branch-name.outputs.release-tag }}\"/" pyproject.toml
+          git add pyproject.toml
+          git commit -m "Bump version to ${{ needs.derive-release-branch-name.outputs.release-tag }}"
+        # yamllint enable rule:line-length
+
+      - name: Push Branch
+        run: |
+          git push origin \
+            release/${{ needs.derive-release-branch-name.outputs.release-tag }}
+
+  draft-release:
+    if: inputs.draft-release
+    name: Draft Release
+    uses: ./.github/workflows/draft_release.yml
+    needs:
+      - derive-release-branch-name
+      - create-release-branch
+    with:
+      base-ref-name: main
+      head-ref-name: release/${{ needs.derive-release-branch-name.outputs.release-tag }}
+    secrets:
+      gh-token: ${{ secrets.gh-token }}
