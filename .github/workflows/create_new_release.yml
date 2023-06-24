@@ -133,11 +133,10 @@ jobs:
                 .name == "bug"
               ) |
               .name
-            ' |
-            jq -r 'unique[]'
+            '
           )
 
-          echo -e "\`\`\`json\n$new_pr_labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`\n$new_pr_labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
 
           if echo "$new_pr_labels" | grep -q 'major' ||
           [ "$new_pr_labels" = "major" ]
