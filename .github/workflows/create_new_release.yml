@@ -82,8 +82,13 @@ jobs:
         run: |
           latest_release=$(gh release view --json publishedAt,tagName)
 
+          echo -e "\`\`\`bash\n> gh release view --json publishedAt,tagName\n${{ toJson('$latest_release') }}\n\`\`\`\n---\n" >> "$GITHUB_STEP_SUMMARY"
+
           latest_release_tag=$(echo "$latest_release" | jq -r '.tagName')
           latest_release_date=$(echo "$latest_release" | jq -r '.publishedAt')
+
+          echo "\`latest_release_tag\`: \`$latest_release_tag\`" >> $GITHUB_STEP_SUMMARY
+          echo "\`latest_release_date\`: \`$latest_release_date\`" >> $GITHUB_STEP_SUMMARY
 
           echo "latest-release-tag=$latest_release_tag" >> "$GITHUB_OUTPUT"
 
@@ -144,9 +149,6 @@ jobs:
           fi
 
           echo "semver-label=$semver_label" >> "$GITHUB_OUTPUT"
-
-          echo "\`latest_release_tag\`: \`$latest_release_tag\`" >> $GITHUB_STEP_SUMMARY
-          echo "\`latest_release_date\`: \`$latest_release_date\`" >> $GITHUB_STEP_SUMMARY
           echo "\`semver_label\`: \`$semver_label\`" >> $GITHUB_STEP_SUMMARY
         # yamllint enable rule:line-length
 
