@@ -236,7 +236,10 @@ jobs:
       - derive-release-branch-name
       - delete-pending-release
     if: |
-      always() && success() && !cancelled() && (
+      always() && !cancelled() &&
+      needs.check-for-existing-release.result == 'success' &&
+      needs.derive-release-branch-name.result == 'success' &&
+      (
         needs.check-for-existing-release.outputs.pending-release-tag ==
         'null' ||
         needs.check-for-existing-release.outputs.pending-release-tag !=
