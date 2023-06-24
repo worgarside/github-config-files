@@ -211,7 +211,6 @@ jobs:
       - check-for-existing-release
       - derive-release-branch-name
       - delete-pending-release
-    # Don't run if the branch deletion failed
     if: |
       always() && success() && !cancelled() && (
         needs.check-for-existing-release.outputs.pending-release-tag ==
