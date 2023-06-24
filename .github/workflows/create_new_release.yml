@@ -35,18 +35,34 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
+    outputs:
+      pending-release-tag: ${{ steps.get-release-branch.outputs.pending-release-tag }}
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-      - name: Check for Release Branch
+      - name: Get Release Branch(es)
+        id: get-release-branch
+        # yamllint disable rule:line-length
         run: |
-          if [ `git branch --list 'release/*'` ]; then
-            echo "Branch exists"
+          git_output=$(git branch -r --list 'origin/release/*')
+
+          echo -e "\`\`\`bash\n> git branch -r --list 'origin/release/*'\n$git_output\n\`\`\`\n---\n" >> "$GITHUB_STEP_SUMMARY"
+
+          if [[ -z "$git_output" ]]; then
+            echo "No branches found :kissing::ok_hand:" >> "$GITHUB_STEP_SUMMARY"
+            echo "pending-release-tag=null" >> "$GITHUB_OUTPUT"
+          elif [[ $(echo "$git_output" | wc -l) -gt 1 ]]; then
+            echo -e "More than 1 release branch found: \n\`\`\`\n$git_output\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
             exit 1
           else
-            echo "Branch does not exist"
+            pending_release_tag=${git_output#  origin/release/}
+            echo -e "1 branch found: \`release/$pending_release_tag\`" >> "$GITHUB_STEP_SUMMARY"
+            echo "pending-release-tag=$pending_release_tag" >> "$GITHUB_OUTPUT"
           fi
+        # yamllint enable rule:line-length
 
   derive-release-branch-name:
     name: Derive Release Branch Name
@@ -66,48 +82,91 @@ jobs:
         run: |
           latest_release=$(gh release view --json publishedAt,tagName)
 
+          echo -e "\`\`\`bash\n> gh release view --json publishedAt,tagName\n${{ toJson('$latest_release') }}\n\`\`\`\n---\n" >> "$GITHUB_STEP_SUMMARY"
+
           latest_release_tag=$(echo "$latest_release" | jq -r '.tagName')
           latest_release_date=$(echo "$latest_release" | jq -r '.publishedAt')
 
+          echo "\`latest_release_tag\`: \`$latest_release_tag\`" >> $GITHUB_STEP_SUMMARY
+          echo "\`latest_release_date\`: \`$latest_release_date\`" >> $GITHUB_STEP_SUMMARY
+
           echo "latest-release-tag=$latest_release_tag" >> "$GITHUB_OUTPUT"
 
-          labels=$(
+          all_prs=$(
             gh pr list \
             --state merged \
-            --author "worgarside-dev" \
-            --json baseRefName,headRefName,labels,number,mergedAt,url \
-            --limit 10000 \
+            --author worgarside-dev \
+            --json baseRefName,headRefName,labels,number,mergedAt,title,url \
+            --limit 100 \
             --jq '
                 .[] |
-                select(.mergedAt > "$latest_release_date") |
-                .labels[] |
                 select(
-                    .name == "major" or
-                    .name == "minor" or
-                    .name == "patch" or
-                    .name == "bug"
-                ) |
-                .name
+                  (.baseRefName == "develop") and
+                  (.headRefName != "repo-sync/github-config-files/default") and
+                  (
+                    .labels |
+                    map(.name) |
+                    index("skip-changelog") |
+                    not
+                  ) and
+                  (
+                    .labels |
+                    map(.name) |
+                    index("non-functional") |
+                    not
+                  )
+                )
             '
           )
 
-          if echo "$labels" | grep -q 'major'; then
+          echo -e "All PRs\n\`\`\`json\n$all_prs\n\`\`\`\n---\n" >> $GITHUB_STEP_SUMMARY
+
+          new_prs=$(
+            echo "$all_prs" |
+            jq -r --arg latest_release_date "$latest_release_date" '
+              select(.mergedAt > $latest_release_date)
+            '
+          )
+
+          echo -e "New PRs\n\`\`\`json\n$new_prs\n\`\`\`\n---\n" >> $GITHUB_STEP_SUMMARY
+
+          new_pr_labels=$(
+            echo "$new_prs" |
+            jq -r '
+              .labels[] |
+              select(
+                .name == "major" or
+                .name == "minor" or
+                .name == "patch" or
+                .name == "bug"
+              ) |
+              .name
+            '
+          )
+
+          echo -e "New PR labels:\n\`\`\`\n$new_pr_labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+          if echo "$new_pr_labels" | grep -q 'major' ||
+          [ "$new_pr_labels" = "major" ]
+          then
               semver_label="major"
-          elif echo "$labels" | grep -q 'minor'; then
+          elif echo "$new_pr_labels" | grep -q 'minor' ||
+          [  "$new_pr_labels" = "minor" ]
+          then
               semver_label="minor"
-          elif echo "$labels" | grep -q '(patch|bug)'; then
+          elif echo "$new_pr_labels" | grep -q 'patch' ||
+          echo "$new_pr_labels" | grep -q 'bug' ||
+          [ "$new_pr_labels" = "patch" ] ||
+          [ "$new_pr_labels" = "bug" ]
+          then
               semver_label="patch"
           else
               echo "No matching label found" >> $GITHUB_STEP_SUMMARY
-              echo -e "\`\`\`$labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
-              echo "No matching label found"
+              echo -e "\`\`\`\n$new_pr_labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
               exit 1
           fi
 
           echo "semver-label=$semver_label" >> "$GITHUB_OUTPUT"
-
-          echo "\`latest_release_tag\`: \`$latest_release_tag\`" >> $GITHUB_STEP_SUMMARY
-          echo "\`latest_release_date\`: \`$latest_release_date\`" >> $GITHUB_STEP_SUMMARY
           echo "\`semver_label\`: \`$semver_label\`" >> $GITHUB_STEP_SUMMARY
         # yamllint enable rule:line-length
 
@@ -148,10 +207,45 @@ jobs:
           echo "\`release-tag\`: \`$release_tag\`" >> "$GITHUB_STEP_SUMMARY"
         # yamllint enable rule:line-length
 
+  delete-pending-release:
+    name: Delete Pending Release
+    runs-on: ubuntu-latest
+    needs:
+      - check-for-existing-release
+      - derive-release-branch-name
+    env:
+      GH_TOKEN: ${{ secrets.gh-token }}
+    if: |
+      needs.check-for-existing-release.outputs.pending-release-tag !=
+      'null' &&
+      needs.check-for-existing-release.outputs.pending-release-tag !=
+      needs.derive-release-branch-name.outputs.release-tag
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Delete Release Branch
+        run: |
+          git push origin --delete \
+            release/${{ needs.check-for-existing-release.outputs.pending-release-tag }}
+
   create-release-branch:
     name: Create Release Branch
     runs-on: ubuntu-latest
-    needs: derive-release-branch-name
+    needs:
+      - check-for-existing-release
+      - derive-release-branch-name
+      - delete-pending-release
+    if: |
+      always() && !cancelled() &&
+      needs.check-for-existing-release.result == 'success' &&
+      needs.derive-release-branch-name.result == 'success' &&
+      (
+        needs.check-for-existing-release.outputs.pending-release-tag ==
+        'null' ||
+        needs.check-for-existing-release.outputs.pending-release-tag !=
+        needs.derive-release-branch-name.outputs.release-tag
+      )
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
     steps:
@@ -180,7 +274,7 @@ jobs:
             release/${{ needs.derive-release-branch-name.outputs.release-tag }}
 
   draft-release:
-    if: inputs.draft-release
+    if: always() && inputs.draft-release
     name: Draft Release
     uses: ./.github/workflows/draft_release.yml
     needs:
