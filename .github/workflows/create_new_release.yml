@@ -273,7 +273,7 @@ jobs:
             release/${{ needs.derive-release-branch-name.outputs.release-tag }}
 
   draft-release:
-    if: inputs.draft-release
+    if: always() && inputs.draft-release
     name: Draft Release
     uses: ./.github/workflows/draft_release.yml
     needs:
