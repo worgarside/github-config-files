@@ -187,12 +187,10 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
     if: |
-      not contains(
-        fromJson(
-          "[\"null\", \"${{ needs.derive-release-branch-name.outputs.release-tag }}\" ]"
-        ),
-        needs.check-for-existing-release.outputs.pending-release-tag
-      )
+      needs.check-for-existing-release.outputs.pending-release-tag !=
+      'null' &&
+      needs.check-for-existing-release.outputs.pending-release-tag !=
+      needs.derive-release-branch-name.outputs.release-tag
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
