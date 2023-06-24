@@ -58,7 +58,7 @@ jobs:
             echo -e "More than 1 release branch found: \n\`\`\`\n$git_output\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
             exit 1
           else
-            pending_release_tag=${git_output#origin/release/}
+            pending_release_tag=${git_output#  origin/release/}
             echo -e "1 branch found: \`release/$pending_release_tag\`" >> "$GITHUB_STEP_SUMMARY"
             echo "pending-release-tag=$pending_release_tag" >> "$GITHUB_OUTPUT"
           fi
