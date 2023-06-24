@@ -188,7 +188,7 @@ jobs:
       GH_TOKEN: ${{ secrets.gh-token }}
     if: |
       not contains(
-        toJson(
+        fromJson(
           "[\"null\", \"${{ needs.derive-release-branch-name.outputs.release-tag }}\" ]"
         ),
         needs.check-for-existing-release.outputs.pending-release-tag
