@@ -96,7 +96,7 @@ jobs:
             gh pr list \
             --state merged \
             --author worgarside-dev \
-            --json baseRefName,headRefName,labels,number,mergedAt,url \
+            --json baseRefName,headRefName,labels,number,mergedAt,title,url \
             --limit 100 \
             --jq '
                 .[] |
@@ -128,7 +128,7 @@ jobs:
             '
           )
 
-          echo -e "New PRs\`\`\`\n$new_prs\n\`\`\`\n---\n" >> $GITHUB_STEP_SUMMARY
+          echo -e "New PRs\n\`\`\`json\n$new_prs\n\`\`\`\n---\n" >> $GITHUB_STEP_SUMMARY
 
           new_pr_labels=$(
             echo "$new_prs" |
