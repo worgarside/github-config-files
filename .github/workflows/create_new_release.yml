@@ -119,6 +119,8 @@ jobs:
             '
           )
 
+          echo -e "\`\`\`json\n$all_prs\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+
           new_pr_labels=$(
             echo "$all_prs" |
             jq -r --arg latest_release_date "$latest_release_date" '
@@ -134,6 +136,8 @@ jobs:
             ' |
             jq -r 'unique[]'
           )
+
+          echo -e "\`\`\`json\n$new_pr_labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
 
           if echo "$new_pr_labels" | grep -q 'major' ||
           [ "$new_pr_labels" = "major" ]
