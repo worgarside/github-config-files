@@ -47,10 +47,9 @@ jobs:
         id: get-release-branch
         # yamllint disable rule:line-length
         run: |
-          git fetch --all
-          git_output=$(git branch --list 'release/*')
+          git_output=$(git branch -r --list 'origin/release/*')
 
-          echo -e "\`\`\`bash\n> git branch --list 'release/*'\n$git_output\n\`\`\`\n---\n" >> "$GITHUB_STEP_SUMMARY"
+          echo -e "\`\`\`bash\n> git branch -r --list 'origin/release/*'\n$git_output\n\`\`\`\n---\n" >> "$GITHUB_STEP_SUMMARY"
 
           if [[ -z "$git_output" ]]; then
             echo "No branches found :kissing::ok_hand:" >> "$GITHUB_STEP_SUMMARY"
@@ -59,7 +58,7 @@ jobs:
             echo -e "More than 1 release branch found: \n\`\`\`\n$git_output\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
             exit 1
           else
-            pending_release_tag=${git_output#release/}
+            pending_release_tag=${git_output#origin/release/}
             echo -e "1 branch found: \`release/$pending_release_tag\`" >> "$GITHUB_STEP_SUMMARY"
             echo "pending-release-tag=$pending_release_tag" >> "$GITHUB_OUTPUT"
           fi
