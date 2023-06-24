@@ -40,12 +40,16 @@ jobs:
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Get Release Branch(es)
         id: get-release-branch
         # yamllint disable rule:line-length
         run: |
           git_output=$(git branch --list 'release/*')
+
+          echo -e "\`\`\`bash\n> git branch --list 'release/*'\n$git_output\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
           if [[ -z "$git_output" ]]; then
             echo "No branches found :kissing::ok_hand:" >> "$GITHUB_STEP_SUMMARY"
