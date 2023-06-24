@@ -208,9 +208,17 @@ jobs:
     name: Create Release Branch
     runs-on: ubuntu-latest
     needs:
+      - check-for-existing-release
       - derive-release-branch-name
+      - delete-pending-release
     # Don't run if the branch deletion failed
-    if: ${{ success() }}
+    if: |
+      always() && success() && !cancelled() && (
+        needs.check-for-existing-release.outputs.pending-release-tag ==
+        'null' ||
+        needs.check-for-existing-release.outputs.pending-release-tag !=
+        needs.derive-release-branch-name.outputs.release-tag
+      )
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
     steps:
