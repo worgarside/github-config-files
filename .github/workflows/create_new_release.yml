@@ -49,6 +49,7 @@ jobs:
 
           if [[ -z "$git_output" ]]; then
             echo "No branches found :kissing::ok_hand:" >> "$GITHUB_STEP_SUMMARY"
+            echo "pending-release-tag=null" >> "$GITHUB_OUTPUT"
           elif [[ $(echo "$git_output" | wc -l) -gt 1 ]]; then
             echo -e "More than 1 release branch found: \n\`\`\`\n$git_output\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
             exit 1
@@ -186,8 +187,12 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
     if: |
-      needs.check-for-existing-release.outputs.pending-release-tag !=
-      needs.derive-release-branch-name.outputs.release-tag
+      not contains(
+        toJson(
+          "[\"null\", \"${{ needs.derive-release-branch-name.outputs.release-tag }}\" ]"
+        ),
+        needs.check-for-existing-release.outputs.pending-release-tag
+      )
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
