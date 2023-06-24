@@ -131,7 +131,8 @@ jobs:
                 .name == "bug"
               ) |
               .name
-            '
+            ' |
+            jq -r 'unique[]'
           )
 
           if echo "$new_pr_labels" | grep -q 'major' ||
@@ -149,8 +150,7 @@ jobs:
               semver_label="patch"
           else
               echo "No matching label found" >> $GITHUB_STEP_SUMMARY
-              echo -e "\`\`\`$new_pr_labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
-              echo "No matching label found"
+              echo -e "\`\`\`\n$new_pr_labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
               exit 1
           fi
 
