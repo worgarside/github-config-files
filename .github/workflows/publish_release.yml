@@ -33,7 +33,7 @@ jobs:
         env:
           INPUTS: ${{ toJson(inputs) }}
         run: |
-          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
   cancel-if-not-merged:
     name: Cancel Workflow if Pull Request is not merged
@@ -41,15 +41,17 @@ jobs:
     steps:
       - name: Check for PR Merge
         id: cancel-if-not-merged
+        # yamllint disable rule:line-length
         run: |
           if [ "${{ inputs.pr-merged }}" = "false" ]; then
-            echo "Pull Request was not merged. Cancelling workflow."
+            echo "Pull Request was not merged. Cancelling workflow. :no_good:" >> "$GITHUB_STEP_SUMMARY"
             echo "cancelling=true" >> $GITHUB_ENV
             gh run cancel ${{ github.run_id }} --repo ${{ github.repository }}
           else
-            echo "Pull Request was merged. Continuing workflow."
+            echo "Pull Request was merged. Continuing workflow. :white_check_mark:" >> "$GITHUB_STEP_SUMMARY"
             echo "cancelling=false" >> $GITHUB_ENV
           fi
+        # yamllint enable rule:line-length
         env:
           GITHUB_TOKEN: ${{ secrets.gh-token }}
 
