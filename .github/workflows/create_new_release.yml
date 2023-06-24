@@ -98,7 +98,12 @@ jobs:
                 select(
                     (.baseRefName == "develop") and
                     (.headRefName != "repo-sync/github-config-files/default") and
-                    (.labels | map(.name) | index("skip-changelog") | not)
+                    (
+                      .labels |
+                      map(.name) |
+                      any(. == ("skip-changelog", "non-functional") |
+                      not
+                    )
                 )
             '
           )
