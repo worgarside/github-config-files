@@ -45,7 +45,7 @@ jobs:
         id: get-release-branch
         # yamllint disable rule:line-length
         run: |
-          git_output=$(git branch --list 'feature/*')
+          git_output=$(git branch --list 'release/*')
 
           if [[ -z "$git_output" ]]; then
             echo "No branches found :kissing::ok_hand:" >> "$GITHUB_STEP_SUMMARY"
