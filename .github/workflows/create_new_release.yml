@@ -112,14 +112,14 @@ jobs:
                   (
                     .labels |
                     map(.name) |
-                    index("skip-changelog") |
+                    index("non-functional") |
                     not
                   )
                 )
             '
           )
 
-          echo -e "All PRs\`\`\`json\n$all_prs\n\`\`\`\n---\n" >> $GITHUB_STEP_SUMMARY
+          echo -e "All PRs\n\`\`\`json\n$all_prs\n\`\`\`\n---\n" >> $GITHUB_STEP_SUMMARY
 
           new_prs=$(
             echo "$all_prs" |
