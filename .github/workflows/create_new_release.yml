@@ -82,35 +82,53 @@ jobs:
 
           echo "latest-release-tag=$latest_release_tag" >> "$GITHUB_OUTPUT"
 
-          labels=$(
+          all_prs=$(
             gh pr list \
             --state merged \
-            --author "worgarside-dev" \
+            --author worgarside-dev \
             --json baseRefName,headRefName,labels,number,mergedAt,url \
-            --limit 10000 \
+            --limit 100 \
             --jq '
                 .[] |
-                select(.mergedAt > "$latest_release_date") |
-                .labels[] |
                 select(
-                    .name == "major" or
-                    .name == "minor" or
-                    .name == "patch" or
-                    .name == "bug"
-                ) |
-                .name
+                    (.baseRefName == "develop") and
+                    (.headRefName != "repo-sync/github-config-files/default") and
+                    (.labels | map(.name) | index("skip-changelog") | not)
+                )
             '
           )
 
-          if echo "$labels" | grep -q 'major'; then
+          new_pr_labels=$(
+            echo "$all_prs" |
+            jq -r --arg latest_release_date "$latest_release_date" '
+              select(.mergedAt > $latest_release_date) |
+              .labels[] |
+              select(
+                .name == "major" or
+                .name == "minor" or
+                .name == "patch" or
+                .name == "bug"
+              ) |
+              .name
+            '
+          )
+
+          if echo "$new_pr_labels" | grep -q 'major' ||
+          [ "$new_pr_labels" = "major" ]
+          then
               semver_label="major"
-          elif echo "$labels" | grep -q 'minor'; then
+          elif echo "$new_pr_labels" | grep -q 'minor' ||
+          [  "$new_pr_labels" = "minor" ]
+          then
               semver_label="minor"
-          elif echo "$labels" | grep -q '(patch|bug)'; then
+          elif echo "$new_pr_labels" | grep -q '(patch|bug)' ||
+          [ "$new_pr_labels" = "patch" ] ||
+          [ "$new_pr_labels" = "bug" ]
+          then
               semver_label="patch"
           else
               echo "No matching label found" >> $GITHUB_STEP_SUMMARY
-              echo -e "\`\`\`$labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+              echo -e "\`\`\`$new_pr_labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
               echo "No matching label found"
               exit 1
           fi
