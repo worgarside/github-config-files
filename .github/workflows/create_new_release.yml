@@ -154,7 +154,8 @@ jobs:
           [  "$new_pr_labels" = "minor" ]
           then
               semver_label="minor"
-          elif echo "$new_pr_labels" | grep -q '(patch|bug)' ||
+          elif echo "$new_pr_labels" | grep -q 'patch' ||
+          echo "$new_pr_labels" | grep -q 'bug' ||
           [ "$new_pr_labels" = "patch" ] ||
           [ "$new_pr_labels" = "bug" ]
           then
