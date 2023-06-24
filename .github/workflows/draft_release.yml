@@ -43,7 +43,7 @@ jobs:
     name: Create PR
     needs:
       - get-release-tag
-    uses: worgarside/github-config-files/.github/workflows/create_pr.yml@main
+    uses: ./.github/workflows/create_pr.yml
     with:
       base-ref-name: ${{ inputs.base-ref-name }}
       head-ref-name: ${{ inputs.head-ref-name }}
