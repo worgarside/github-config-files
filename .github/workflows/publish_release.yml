@@ -104,7 +104,7 @@ jobs:
       base-ref-name: develop
       head-ref-name: ${{ inputs.head-ref-name }}
       pr-title: Merge `${{ inputs.head-ref-name }}` back into `develop`
-      pr-draft: true
+      pr-draft: false
       pr-labels: bot:delete-on-merge,non-functional,skip-changelog
     secrets:
       gh-token: ${{ secrets.wg-dev-token }}
