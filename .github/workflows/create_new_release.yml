@@ -267,7 +267,7 @@ jobs:
         run: |
           sed -i "s/^version = .*/version = \"${{ needs.derive-release-branch-name.outputs.release-tag }}\"/" pyproject.toml
           git add pyproject.toml
-          git commit -m "Bump version to ${{ needs.derive-release-branch-name.outputs.release-tag }}"
+          git commit -m "Bump version to ${{ needs.derive-release-branch-name.outputs.release-tag }}" --allow-empty
         # yamllint enable rule:line-length
 
       - name: Push Branch
