@@ -262,11 +262,12 @@ jobs:
 
       - name: Update `pyproject.toml` Version
         if: inputs.update-pyproject-toml
+        continue-on-error: true
         # yamllint disable rule:line-length
         run: |
           sed -i "s/^version = .*/version = \"${{ needs.derive-release-branch-name.outputs.release-tag }}\"/" pyproject.toml
           git add pyproject.toml
-          git commit -m "Bump version to ${{ needs.derive-release-branch-name.outputs.release-tag }}"
+          git commit -m "Bump version to ${{ needs.derive-release-branch-name.outputs.release-tag }}" --allow-empty
         # yamllint enable rule:line-length
 
       - name: Push Branch
@@ -275,7 +276,8 @@ jobs:
             release/${{ needs.derive-release-branch-name.outputs.release-tag }}
 
   draft-release:
-    if: always() && inputs.draft-release
+    # yamllint disable-line rule:line-length
+    if: always() && inputs.draft-release && needs.create-release-branch.result == 'success'
     name: Draft Release
     uses: ./.github/workflows/draft_release.yml
     needs:
