@@ -80,7 +80,8 @@ jobs:
         id: get-semver-label
         # yamllint disable rule:line-length
         run: |
-          latest_release=$(gh release view --json publishedAt,tagName)
+          latest_release=$(gh release view --json publishedAt,tagName) ||
+            latest_release='{"publishedAt": "1970-01-01T00:00:00Z", "tagName": "0.0.0"}'
 
           echo -e "\`\`\`bash\n> gh release view --json publishedAt,tagName\n${{ toJson('$latest_release') }}\n\`\`\`\n---\n" >> "$GITHUB_STEP_SUMMARY"
 
