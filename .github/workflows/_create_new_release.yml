@@ -291,7 +291,7 @@ jobs:
         needs.create-release-branch.result == 'skipped'
       )
     name: Draft Release
-    uses: ./.github/workflows/draft_release.yml
+    uses: ./.github/workflows/_draft_release.yml
     needs:
       - derive-release-branch-name
       - create-release-branch

@@ -66,7 +66,7 @@ jobs:
 
   get-release-tag:
     name: Get Release Tag
-    uses: ./.github/workflows/get_release_tag.yml
+    uses: ./.github/workflows/_get_release_tag.yml
     needs:
       - cancel-if-not-merged
     with:
@@ -99,7 +99,7 @@ jobs:
     needs:
       - get-release-tag
       - publish-release-notes
-    uses: worgarside/github-config-files/.github/workflows/create_pr.yml@main
+    uses: worgarside/github-config-files/.github/workflows/_create_pr.yml@main
     with:
       base-ref-name: develop
       head-ref-name: ${{ inputs.head-ref-name }}

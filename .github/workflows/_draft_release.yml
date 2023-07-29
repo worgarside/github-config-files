@@ -35,7 +35,7 @@ jobs:
 
   get-release-tag:
     name: Get Release Tag
-    uses: ./.github/workflows/get_release_tag.yml
+    uses: ./.github/workflows/_get_release_tag.yml
     with:
       branch-name: ${{ inputs.head-ref-name }}
 
@@ -43,7 +43,7 @@ jobs:
     name: Create PR
     needs:
       - get-release-tag
-    uses: worgarside/github-config-files/.github/workflows/create_pr.yml@main
+    uses: worgarside/github-config-files/.github/workflows/_create_pr.yml@main
     with:
       base-ref-name: ${{ inputs.base-ref-name }}
       head-ref-name: ${{ inputs.head-ref-name }}

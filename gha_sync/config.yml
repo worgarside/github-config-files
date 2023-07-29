@@ -6,14 +6,10 @@ group:
       - .pylintrc
       - .github/CODEOWNERS
       - .github/dependabot.yml
-      - .github/workflows/actionlint.yml
-      - .github/workflows/auto_create_pr.yml
-      - .github/workflows/dependabot_auto_merge.yml
       - .github/workflows/manage_repo_labels.yml
       - .github/workflows/pr_autoupdate.yml
-      - .github/workflows/pr_cleanup.yml
       - .github/workflows/set_pr_auto_merge.yml
-      - source: gha_sync/workflows/
+      - source: gha_sync/workflows/all_repos/
         dest: .github/workflows/
     repos: |
       worgarside/addon-rss-log-feed
@@ -75,3 +71,13 @@ group:
       worgarside/useful-devops-scripts
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
+
+  - files:
+      - gha_sync/workflows/create_new_release.yml
+    repos: |
+      worgarside/addon-item-warehouse@develop
+      worgarside/addon-rss-log-feed@develop
+      worgarside/addon-yas-209-bridge@develop
+      worgarside/home-assistant@develop
+      worgarside/home-assistant-config-validator@develop
+      worgarside/wg-utilities@develop
