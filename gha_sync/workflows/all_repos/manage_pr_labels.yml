@@ -18,6 +18,9 @@ concurrency:
   group: manage-labels-${{ github.event.pull_request.number }}-${{ github.event.action }}
   cancel-in-progress: true
 
+permissions:
+  pull-requests: write
+
 jobs:
   manage-pr-labels:
     name: Manage PR Labels
