@@ -27,7 +27,7 @@ on:
         required: true
 
 jobs:
-  set_labels:
+  set-labels:
     name: Set Non-Release Labels
     runs-on: ubuntu-latest
     permissions:
@@ -37,11 +37,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.gh-token }}
 
-  set_release_label:
+  set-release-label:
     name: Set Release Label
     runs-on: ubuntu-latest
     # This dependency is just to ensure that the jobs don't interfere with each other
-    needs: set_labels
+    needs: set-labels
     if: inputs.base-ref == 'main' && startsWith(inputs.head-ref, 'release/')
     permissions:
       contents: read
@@ -111,7 +111,7 @@ jobs:
   validate-semver-label:
     name: Validate SemVer Label
     runs-on: ubuntu-latest
-    needs: set_labels
+    needs: set-labels
     if: inputs.base-ref != 'main' || !startsWith(inputs.head-ref, 'release/')
     steps:
       - name: Validate SemVer Label

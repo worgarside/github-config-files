@@ -10,7 +10,7 @@ on:
   pull_request:
 
 jobs:
-  run_sonarcloud_scan:
+  run-sonarcloud-scan:
     name: Run SonarCloud Scan
     uses: ./.github/workflows/__sonarcloud.yml
     secrets:

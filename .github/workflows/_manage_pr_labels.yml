@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  manage_pr_labels:
+  manage-pr-labels:
     name: Manage PR Labels
     uses: ./.github/workflows/__manage_pr_labels.yml
     with:

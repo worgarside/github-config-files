@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  set_auto_merge:
+  set-auto-merge:
     name: Set PR Auto Merge
     uses: ./.github/workflows/__set_pr_auto_merge.yml
     with:
