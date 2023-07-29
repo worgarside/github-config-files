@@ -6,7 +6,7 @@ group:
       - .pylintrc
       - .github/CODEOWNERS
       - .github/dependabot.yml
-      - source: gha_sync/workflows/all_repos/
+      - source: gha_sync/workflows/all_repos
         dest: .github/workflows/
         deleteOrphaned: true
     repos: |
