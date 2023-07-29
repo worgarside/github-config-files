@@ -26,8 +26,23 @@ on:
         required: true
 
 jobs:
+  parse-label-names:
+    name: Parse Label Names
+    runs-on: ubuntu-latest
+    outputs:
+      pr-label-names: ${{ steps.parse-input.outputs.pr-label-names }}
+    steps:
+      - name: Parse Input
+        id: parse-input
+        # yamllint disable rule:line-length
+        run: |
+          echo "pr-label-names=$(echo "${{ inputs.pr-label-names }}" | jq -R . | jq -s .)" >> $GITHUB_OUTPUT
+        # yamllint enable rule:line-length
+
   log-inputs:
     name: Log Inputs
+    needs:
+      - parse-label-names
     runs-on: ubuntu-latest
     steps:
       - name: Log Inputs
@@ -36,8 +51,12 @@ jobs:
         # yamllint disable rule:line-length
         run: |
           echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`json\n${{ inputs.pr-label-names }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo -e "\`\`\`json\n${{ toJson(inputs.pr-label-names) }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo -e "\`\`\`json\n${{ join(toJson(inputs.pr-label-names)) }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`json\n${{ needs.parse-label-names.outputs.pr-label-names }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`json\n${{ toJson(needs.parse-label-names.outputs.pr-label-names) }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`json\n${{ join(toJson(needs.parse-label-names.outputs.pr-label-names)) }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
         # yamllint enable rule:line-length
 
   delete-branch:
