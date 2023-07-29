@@ -1,0 +1,82 @@
+---
+name: '"Set PR Auto Merge" Runner'
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_call:
+    inputs:
+      head-ref:
+        # yamllint disable-line rule:line-length
+        description: "The head branch's name (source branch): `github.event.pull_request.head.ref`"
+        required: true
+        type: string
+      pr-html-url:
+        description: 'The PRs HTML URL: `github.event.pull_request.html_url`'
+        required: true
+        type: string
+      pr-is-draft:
+        description: 'Whether the PR is a draft: `github.event.pull_request.draft`'
+        required: true
+        type: boolean
+      pr-number:
+        description: 'The PRs number: `github.event.pull_request.number`'
+        required: true
+        type: number
+      pr-title:
+        description: 'The PRs title: `github.event.pull_request.title`'
+        required: true
+        type: string
+    secrets:
+      gh-token:
+        description: The GitHub token to use
+        required: true
+
+env:
+  GITHUB_TOKEN: ${{ secrets.gh-token }}
+
+jobs:
+  set-auto-merge:
+    name: Set Auto Merge
+    runs-on: ubuntu-latest
+    if: |
+      !inputs.pr-is-draft && !startsWith(inputs.head-ref, 'release/')
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Set Auto-Merge on PR
+        if: github.repository != 'worgarside/github-config-files'
+        run: |
+          gh pr merge "${{ inputs.pr-html-url }}" \
+            --delete-branch \
+            --squash \
+            --auto
+
+      - name: Set Auto-Merge on PR (GHCF)
+        if: github.repository == 'worgarside/github-config-files'
+        env:
+          PR_TITLE: ${{ inputs.pr-title }}
+        run: |
+          gh pr merge "${{ inputs.pr-html-url }}" \
+            --delete-branch \
+            --squash \
+            --auto \
+            --subject "$PR_TITLE" \
+            --body "${{ github.repository }}#${{ inputs.pr-number }}"
+
+  set-release-auto-merge:
+    name: Set Release Auto Merge
+    runs-on: ubuntu-latest
+    if: |
+      startsWith(inputs.head-ref, 'release/') &&
+      github.repository != 'worgarside/github-config-files' &&
+      !inputs.pr-is-draft
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Set Auto-Merge on Release PR
+        run: |
+          gh pr merge "${{ inputs.pr-html-url }}" \
+            --merge \
+            --auto

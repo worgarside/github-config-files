@@ -1,27 +1,33 @@
 ---
-name: Manage PR Labels
+name: '"Manage PR Labels" Runner'
 
 # yamllint disable-line rule:truthy
 on:
-  pull_request:
-    types:
-      - labeled
-      - unlabeled
-      - opened
-      - edited
-      - reopened
-      - synchronize
-      - ready_for_review
-      - auto_merge_enabled
-      - auto_merge_disabled
-
-concurrency:
-  # yamllint disable-line rule:line-length
-  group: manage-labels-${{ github.event.pull_request.number }}-${{ github.event.action }}
-  cancel-in-progress: true
+  workflow_call:
+    inputs:
+      base-ref:
+        description: The base branch's name (target branch)
+        required: true
+        type: string
+      event-action:
+        description: The event action
+        required: true
+        type: string
+      head-ref:
+        description: The head branch's name (source branch)
+        required: true
+        type: string
+      pr-number:
+        description: The PR number
+        required: true
+        type: number
+    secrets:
+      gh-token:
+        description: The GitHub token to use for the PR creation
+        required: true
 
 jobs:
-  set_labels:
+  set-labels:
     name: Set Non-Release Labels
     runs-on: ubuntu-latest
     permissions:
@@ -29,14 +35,14 @@ jobs:
     steps:
       - uses: srvaroa/labeler@v1.6.0
         env:
-          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN || secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.gh-token }}
 
-  set_release_label:
+  set-release-label:
     name: Set Release Label
     runs-on: ubuntu-latest
     # This dependency is just to ensure that the jobs don't interfere with each other
-    needs: set_labels
-    if: ${{ github.base_ref == 'main' && startsWith(github.head_ref, 'release/') }}
+    needs: set-labels
+    if: inputs.base-ref == 'main' && startsWith(inputs.head-ref, 'release/')
     permissions:
       contents: read
       pull-requests: write
@@ -50,7 +56,7 @@ jobs:
         id: get-previous-tag
         uses: WyriHaximus/github-action-get-previous-tag@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.gh-token }}
         with:
           fallback: 0.0.0
 
@@ -88,10 +94,10 @@ jobs:
 
       - name: Apply Label
         run: |
-          gh pr edit ${{ github.event.pull_request.number }} \
+          gh pr edit ${{ inputs.pr-number }} \
             --add-label "${{ steps.derive-label.outputs.release-label}},release"
         env:
-          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN || secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.gh-token }}
 
       - name: Summarise
         # yamllint disable rule:line-length
@@ -105,8 +111,8 @@ jobs:
   validate-semver-label:
     name: Validate SemVer Label
     runs-on: ubuntu-latest
-    needs: set_labels
-    if: ${{ github.base_ref != 'main' || !startsWith(github.head_ref, 'release/') }}
+    needs: set-labels
+    if: inputs.base-ref != 'main' || !startsWith(inputs.head-ref, 'release/')
     steps:
       - name: Validate SemVer Label
         uses: yogevbd/enforce-label-action@2.2.2
@@ -115,10 +121,10 @@ jobs:
           REQUIRED_LABELS_ANY: bug,dependencies,hotfix,major,minor,non-functional,patch,sync
 
   edit-keep-updated-label:
-    name: Edit `keep-updated` label
+    name: Edit `bot:keep-updated` label
     if: |
-      startsWith(github.event.action, 'auto_merge_') &&
-      !startsWith(github.head_ref, 'release/')
+      startsWith(inputs.event-action, 'auto_merge_') &&
+      !startsWith(inputs.head-ref, 'release/')
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -128,13 +134,13 @@ jobs:
 
       - name: |
           ${{
-            github.event.action == 'auto_merge_enabled' && 'Add' ||
+            inputs.event-action == 'auto_merge_enabled' && 'Add' ||
             'Remove'
           }} label
         run: |
-          gh pr edit ${{ github.event.pull_request.number }} \
+          gh pr edit ${{ inputs.pr-number }} \
             --${{
-              github.event.action == 'auto_merge_enabled' && 'add' || 'remove'
+              inputs.event-action == 'auto_merge_enabled' && 'add' || 'remove'
             }}-label "bot:keep-updated" || :
         env:
-          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN || secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.gh-token }}

@@ -1,15 +1,9 @@
 ---
-name: Manage Repo Labels
+name: '"Manage Repo Labels" Runner'
 
 # yamllint disable-line rule:truthy
 on:
-  push:
-    branches:
-      - develop
-      - main
-    paths:
-      - .github/repo_labels.yml
-      - .github/workflows/manage_repo_labels.yml
+  workflow_call:
   workflow_dispatch:
 
 jobs:

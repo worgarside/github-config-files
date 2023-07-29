@@ -57,7 +57,7 @@ jobs:
 
       # Give the cancel command up to 2 mins to take effect, otherwise fail the workflow
       - name: Wait for workflow to be cancelled
-        if: ${{ steps.cancel-if-not-merged.outputs.cancelling == 'true' }}
+        if: steps.cancel-if-not-merged.outputs.cancelling == 'true'
         run: |
           sleep 120
           exit 1
@@ -66,7 +66,7 @@ jobs:
 
   get-release-tag:
     name: Get Release Tag
-    uses: ./.github/workflows/get_release_tag.yml
+    uses: ./.github/workflows/__get_release_tag.yml
     needs:
       - cancel-if-not-merged
     with:
@@ -99,7 +99,7 @@ jobs:
     needs:
       - get-release-tag
       - publish-release-notes
-    uses: worgarside/github-config-files/.github/workflows/create_pr.yml@main
+    uses: worgarside/github-config-files/.github/workflows/__create_pr.yml@main
     with:
       base-ref-name: develop
       head-ref-name: ${{ inputs.head-ref-name }}

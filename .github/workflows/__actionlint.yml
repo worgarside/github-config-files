@@ -1,0 +1,26 @@
+---
+# yamllint disable rule:line-length
+# https://github.com/rhysd/actionlint/blob/main/docs/usage.md#use-actionlint-on-github-actions
+
+name: '"actionlint" Runner'
+
+on:
+  workflow_call:
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Download actionlint
+        id: get-actionlint
+        run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+
+      - name: Check Workflow Files
+        run: |
+          ${{ steps.get-actionlint.outputs.executable }} \
+          -color \
+          -shellcheck "" \
+          -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}%0A```%0A{{replace $err.Snippet "\\n" "%0A"}}%0A```\n{{end}}'

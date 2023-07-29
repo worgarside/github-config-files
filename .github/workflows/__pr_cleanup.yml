@@ -1,0 +1,85 @@
+---
+name: PR Cleanup
+
+on:
+  workflow_call:
+    inputs:
+      head-ref:
+        description: "The head branch's name (source branch): `github.head_ref`"
+        required: true
+        type: string
+      pr-label-names:
+        description: "The PR's labels: `github.event.pull_request.labels.*.name`"
+        required: true
+        type: string
+      pr-merged:
+        description: 'Whether the PR was merged: `github.event.pull_request.merged`'
+        required: true
+        type: boolean
+      pr-number:
+        description: 'The PR number: `github.event.pull_request.number`'
+        required: true
+        type: number
+    secrets:
+      gh-token:
+        description: The GitHub token to use
+        required: true
+
+jobs:
+  delete-branch:
+    name: Delete Branch on PR Merge
+    env:
+      GITHUB_TOKEN: ${{ secrets.gh-token }}
+    if: inputs.pr-merged
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+        # This is to stop false positives when the branch has already been deleted
+        continue-on-error: true
+        with:
+          ref: ${{ inputs.head-ref }}
+
+      - name: Delete Branch
+        if: |
+          success() &&
+          (
+            contains(
+              toJson(inputs.pr-label-names), 'bot:delete-on-merge'
+            ) ||
+            !(
+              startsWith(inputs.head-ref, 'hotfix/') ||
+              startsWith(inputs.head-ref, 'release/') ||
+              inputs.head-ref == 'develop' ||
+              inputs.head-ref == 'main' ||
+              inputs.head-ref == 'master'
+            )
+          )
+        run: git push origin --delete $GITHUB_HEAD_REF
+
+  remove-bot-labels:
+    name: Remove Bot Command Labels on PR Merge
+    if: inputs.pr-merged
+    permissions:
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove Bot Labels
+        env:
+          GITHUB_TOKEN: ${{ secrets.gh-token }}
+          PR_LABELS: ${{ join(toJson(inputs.pr-label-names)) }}
+        run: |
+          bot_labels=$(
+            echo "$PR_LABELS" |
+              tr ',' '\n' |
+              grep -o 'bot:.*' |
+              tr '\n' ',' |
+              sed 's/,$//'
+          )
+          if [[ ! -z "$bot_labels" ]]; then
+            gh pr edit "${{ inputs.pr-number }}" \
+              --repo "${{ github.repository }}" \
+              --remove-label "$bot_labels"
+          fi
