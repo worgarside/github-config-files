@@ -36,7 +36,9 @@ jobs:
         id: parse-input
         # yamllint disable rule:line-length
         run: |
-          echo "pr-label-names=$(echo "${{ inputs.pr-label-names }}" | jq -R 'split(",")')" >> $GITHUB_OUTPUT
+          name_list=$(echo "${{ inputs.pr-label-names }}" | jq -R 'split(",")')
+          echo -e "\`\`\`json\n$name_list\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "pr-label-names=$name_list" >> $GITHUB_OUTPUT
         # yamllint enable rule:line-length
 
   log-inputs:
