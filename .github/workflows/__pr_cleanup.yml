@@ -9,7 +9,7 @@ on:
         required: true
         type: string
       pr-label-names:
-        description: "The PR's labels: `github.event.pull_request.labels.*.name`"
+        description: "The PR's labels: `join(github.event.pull_request.labels.*.name`)"
         required: true
         type: string
       pr-merged:
@@ -36,7 +36,7 @@ jobs:
         id: parse-input
         # yamllint disable rule:line-length
         run: |
-          echo "pr-label-names=$(echo "${{ inputs.pr-label-names }}" | jq -R . | jq -s .)" >> $GITHUB_OUTPUT
+          echo "pr-label-names=$(echo "${{ inputs.pr-label-names }}" | jq .)" >> $GITHUB_OUTPUT
         # yamllint enable rule:line-length
 
   log-inputs:

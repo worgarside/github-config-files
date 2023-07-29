@@ -10,10 +10,11 @@ group:
         dest: .github/workflows/
         deleteOrphaned: true
     repos: |
+      worgarside/addon-item-warehouse
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
-      worgarside/home-assistant@develop
-      worgarside/home-assistant-config-validator@develop
+      worgarside/home-assistant
+      worgarside/home-assistant-config-validator
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
       worgarside/python-template
@@ -21,16 +22,17 @@ group:
       worgarside/useful-devops-scripts
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
-      worgarside/wg-utilities@develop
+      worgarside/wg-utilities
 
   # No Custom Labels
   - files:
       - .github/labeler.yml
       - .github/repo_labels.yml
     repos: |
+      worgarside/addon-item-warehouse
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
-      worgarside/home-assistant-config-validator@develop
+      worgarside/home-assistant-config-validator
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
       worgarside/python-template
@@ -38,15 +40,16 @@ group:
       worgarside/useful-devops-scripts
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
-      worgarside/wg-utilities@develop
+      worgarside/wg-utilities
 
   # Standard .gitignore
   - files:
       - .gitignore
     repos: |
+      worgarside/addon-item-warehouse
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
-      worgarside/home-assistant-config-validator@develop
+      worgarside/home-assistant-config-validator
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
       worgarside/python-template
@@ -59,9 +62,10 @@ group:
   - files:
       - .yamllint
     repos: |
+      worgarside/addon-item-warehouse
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
-      worgarside/home-assistant-config-validator@develop
+      worgarside/home-assistant-config-validator
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
       worgarside/python-template
@@ -76,9 +80,9 @@ group:
         dest: .github/workflows/
         deleteOrphaned: true
     repos: |
-      worgarside/addon-item-warehouse@develop
-      worgarside/addon-rss-log-feed@develop
-      worgarside/addon-yas-209-bridge@develop
-      worgarside/home-assistant@develop
-      worgarside/home-assistant-config-validator@develop
-      worgarside/wg-utilities@develop
+      worgarside/addon-item-warehouse
+      worgarside/addon-rss-log-feed
+      worgarside/addon-yas-209-bridge
+      worgarside/home-assistant
+      worgarside/home-assistant-config-validator
+      worgarside/wg-utilities
