@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set Auto-Merge on PR
-        if: ${{ github.repository != 'worgarside/github-config-files' }}
+        if: github.repository != 'worgarside/github-config-files'
         run: |
           gh pr merge "${{ github.event.pull_request.html_url }}" \
             --delete-branch \
@@ -37,7 +37,7 @@ jobs:
             --auto
 
       - name: Set Auto-Merge on PR (GHCF)
-        if: ${{ github.repository == 'worgarside/github-config-files' }}
+        if: github.repository == 'worgarside/github-config-files'
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |

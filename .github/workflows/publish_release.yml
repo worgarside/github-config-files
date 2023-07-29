@@ -57,7 +57,7 @@ jobs:
 
       # Give the cancel command up to 2 mins to take effect, otherwise fail the workflow
       - name: Wait for workflow to be cancelled
-        if: ${{ steps.cancel-if-not-merged.outputs.cancelling == 'true' }}
+        if: steps.cancel-if-not-merged.outputs.cancelling == 'true'
         run: |
           sleep 120
           exit 1

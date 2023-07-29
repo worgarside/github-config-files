@@ -71,6 +71,7 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
     outputs:
+      release-branch: ${{ steps.get-release-version.outputs.release-branch }}
       release-tag: ${{ steps.get-release-version.outputs.release-tag }}
     steps:
       - name: Clone Repo
@@ -205,7 +206,9 @@ jobs:
           release_tag="$major.$minor.$patch"
 
           echo "release-tag=$release_tag" >> "$GITHUB_OUTPUT"
+          echo "release-branch=release/$release_tag" >> "$GITHUB_OUTPUT"
           echo "\`release-tag\`: \`$release_tag\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "\`release-branch\`: \`release/$release_tag\`" >> "$GITHUB_STEP_SUMMARY"
         # yamllint enable rule:line-length
 
   delete-pending-release:
@@ -230,6 +233,9 @@ jobs:
           git push origin --delete \
             release/${{ needs.check-for-existing-release.outputs.pending-release-tag }}
 
+
+  # If nothing has failed, and there is no pending release, or the pending release is
+  # not the same as the release we want to create, then create the new release branch
   create-release-branch:
     name: Create Release Branch
     runs-on: ubuntu-latest
@@ -276,8 +282,14 @@ jobs:
             release/${{ needs.derive-release-branch-name.outputs.release-tag }}
 
   draft-release:
-    # yamllint disable-line rule:line-length
-    if: always() && inputs.draft-release && needs.create-release-branch.result == 'success'
+    if: |
+      always() &&
+      inputs.draft-release &&
+      needs.derive-release-branch-name.result == 'success' &&
+      (
+        needs.create-release-branch.result == 'success' ||
+        needs.create-release-branch.result == 'skipped'
+      )
     name: Draft Release
     uses: ./.github/workflows/draft_release.yml
     needs:
@@ -285,6 +297,6 @@ jobs:
       - create-release-branch
     with:
       base-ref-name: main
-      head-ref-name: release/${{ needs.derive-release-branch-name.outputs.release-tag }}
+      head-ref-name: ${{ needs.derive-release-branch-name.outputs.release-branch }}
     secrets:
       gh-token: ${{ secrets.gh-token }}
