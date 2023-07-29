@@ -1,0 +1,22 @@
+---
+name: '"Manage Repo Labels" Runner'
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  labeler:
+    name: Manage Repo Labels
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run Labeler
+        uses: crazy-max/ghaction-github-labeler@v4
+        with:
+          yaml-file: .github/repo_labels.yml
