@@ -121,7 +121,7 @@ jobs:
           REQUIRED_LABELS_ANY: bug,dependencies,hotfix,major,minor,non-functional,patch,sync
 
   edit-keep-updated-label:
-    name: Edit `keep-updated` label
+    name: Edit `bot:keep-updated` label
     if: |
       startsWith(inputs.event-action, 'auto_merge_') &&
       !startsWith(inputs.head-ref, 'release/')
