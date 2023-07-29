@@ -97,7 +97,7 @@ jobs:
 
   remove-bot-labels:
     name: Remove Bot Command Labels on PR Merge
-    if: inputs.pr-merged
+    # if: inputs.pr-merged
     permissions:
       pull-requests: write
     runs-on: ubuntu-latest
@@ -114,6 +114,7 @@ jobs:
               tr '\n' ',' |
               sed 's/,$//'
           )
+          echo "bot_labels=$bot_labels" >> $GITHUB_STEP_SUMMARY
           if [[ ! -z "$bot_labels" ]]; then
             gh pr edit "${{ inputs.pr-number }}" \
               --repo "${{ github.repository }}" \
