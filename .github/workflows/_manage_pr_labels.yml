@@ -10,6 +10,8 @@ on:
       - reopened
       - synchronize
       - ready_for_review
+      - auto_merge_enabled
+      - auto_merge_disabled
 
 concurrency:
   # yamllint disable-line rule:line-length
