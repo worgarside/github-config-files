@@ -35,6 +35,16 @@ env:
   GITHUB_TOKEN: ${{ secrets.gh-token }}
 
 jobs:
+  log-inputs:
+    name: Log Inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Inputs
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: |
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+
   set-auto-merge:
     name: Set Auto Merge
     runs-on: ubuntu-latest

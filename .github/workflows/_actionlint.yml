@@ -11,5 +11,5 @@ on:
 
 jobs:
   actionlint:
-    name: Lint GHAs
+    name: Lint Workflows
     uses: ./.github/workflows/__actionlint.yml
