@@ -12,7 +12,8 @@ on:
 jobs:
   create-pr:
     name: Create PR
-    uses: worgarside/github-config-files/.github/workflows/__create_pull_request.yml
+    # yamllint disable-line rule:line-length
+    uses: worgarside/github-config-files/.github/workflows/__create_pull_request.yml@main
     with:
       base-ref-name: ${{ github.event.repository.default_branch }}
       head-ref-name: ${{ github.ref_name }}
