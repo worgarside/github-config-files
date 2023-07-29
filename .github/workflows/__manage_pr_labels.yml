@@ -27,6 +27,16 @@ on:
         required: true
 
 jobs:
+  log-inputs:
+    name: Log Inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Inputs
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: |
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+
   set-labels:
     name: Set Non-Release Labels
     runs-on: ubuntu-latest
