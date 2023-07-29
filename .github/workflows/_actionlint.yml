@@ -1,0 +1,15 @@
+---
+name: actionlint
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+jobs:
+  actionlint:
+    name: Lint GHAs
+    uses: .github/workflows/__actionlint.yml
