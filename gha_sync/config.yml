@@ -8,6 +8,7 @@ group:
       - .github/dependabot.yml
       - source: gha_sync/workflows/all_repos/
         dest: .github/workflows/
+        deleteOrphaned: true
     repos: |
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
@@ -71,7 +72,9 @@ group:
 
   # Versioned Repos
   - files:
-      - gha_sync/workflows/versioned_repos
+      - source: gha_sync/workflows/versioned_repos
+        dest: .github/workflows/
+        deleteOrphaned: true
     repos: |
       worgarside/addon-item-warehouse@develop
       worgarside/addon-rss-log-feed@develop
