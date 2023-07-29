@@ -12,4 +12,4 @@ on:
 jobs:
   actionlint:
     name: Lint GHAs
-    uses: .github/workflows/__actionlint.yml
+    uses: ./.github/workflows/__actionlint.yml

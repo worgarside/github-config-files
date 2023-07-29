@@ -13,4 +13,4 @@ on:
 jobs:
   manage_repo_labels:
     name: Manage Repo Labels
-    uses: .github/workflows/__manage_repo_labels.yml
+    uses: ./.github/workflows/__manage_repo_labels.yml
