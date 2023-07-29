@@ -14,7 +14,7 @@ jobs:
     uses: ./.github/workflows/__pr_cleanup.yml
     with:
       head-ref: ${{ github.head_ref }}
-      pr-label-names: ${{ join(github.event.pull_request.labels.*.name) }}
+      pr-label-names: join(github.event.pull_request.labels.*.name)
       pr-merged: ${{ github.event.pull_request.merged }}
       pr-number: ${{ github.event.pull_request.number }}
     secrets:
