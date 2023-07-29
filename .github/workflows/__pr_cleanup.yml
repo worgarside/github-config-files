@@ -33,8 +33,12 @@ jobs:
       - name: Log Inputs
         env:
           INPUTS: ${{ toJson(inputs) }}
+        # yamllint disable rule:line-length
         run: |
           echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`json\n${{ toJson(inputs.pr-label-names) }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`json\n${{ join(toJson(inputs.pr-label-names)) }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+        # yamllint enable rule:line-length
 
   delete-branch:
     name: Delete Branch on PR Merge
