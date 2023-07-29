@@ -26,26 +26,8 @@ on:
         required: true
 
 jobs:
-  parse-label-names:
-    name: Parse Label Names
-    runs-on: ubuntu-latest
-    outputs:
-      pr-label-name-list: ${{ steps.parse-input.outputs.pr-label-name-list }}
-    steps:
-      - name: Parse Input
-        id: parse-input
-        # yamllint disable rule:line-length
-        run: |
-          name_list=$(echo "${{ inputs.pr-label-names }}" | jq -R 'split(",")' | tr '\n' ' ' )
-          echo -e "\`\`\`json\n$name_list\n\`\`\`" >> $GITHUB_STEP_SUMMARY
-          echo "pr-label-names=$name_list" >> $GITHUB_OUTPUT
-          echo "$GITHUB_OUTPUT" >> $GITHUB_STEP_SUMMARY
-        # yamllint enable rule:line-length
-
   log-inputs:
     name: Log Inputs
-    needs:
-      - parse-label-names
     runs-on: ubuntu-latest
     steps:
       - name: Log Inputs
@@ -59,8 +41,6 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.gh-token }}
     if: inputs.pr-merged
-    needs:
-      - parse-label-names
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -72,12 +52,20 @@ jobs:
         with:
           ref: ${{ inputs.head-ref }}
 
+      - name: Parse Label Names
+        id: parse-label-names
+        # yamllint disable rule:line-length
+        run: |
+          name_list=$(echo "${{ inputs.pr-label-names }}" | jq -R 'split(",")' | tr '\n' ' ' )
+          echo "pr-label-name-list=$name_list" >> $GITHUB_OUTPUT
+        # yamllint enable rule:line-length
+
       - name: Delete Branch
         if: |
           success() &&
           (
             contains(
-              toJson(needs.parse-label-names.outputs.pr-label-name-list),
+              toJson(steps.parse-label-names.outputs.pr-label-name-list),
               'bot:delete-on-merge'
             ) ||
             !(
@@ -92,7 +80,7 @@ jobs:
 
   remove-bot-labels:
     name: Remove Bot Command Labels on PR Merge
-    # if: inputs.pr-merged
+    if: inputs.pr-merged
     permissions:
       pull-requests: write
     runs-on: ubuntu-latest
