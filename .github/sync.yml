@@ -13,8 +13,9 @@ group:
       - .github/workflows/manage_repo_labels.yml
       - .github/workflows/pr_autoupdate.yml
       - .github/workflows/pr_cleanup.yml
-      - .github/workflows/run_sonarcloud_scan.yml
       - .github/workflows/set_pr_auto_merge.yml
+      - source: gha_sync/workflows/run_sonarcloud_scan.yml
+        dest: .github/workflows/run_sonarcloud_scan.yml
     repos: |
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
