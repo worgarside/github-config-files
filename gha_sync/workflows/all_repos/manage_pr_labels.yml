@@ -18,13 +18,13 @@ concurrency:
   group: manage-labels-${{ github.event.pull_request.number }}-${{ github.event.action }}
   cancel-in-progress: true
 
-permissions:
-  pull-requests: write
-
 jobs:
   manage-pr-labels:
     name: Manage PR Labels
     uses: worgarside/github-config-files/.github/workflows/__manage_pr_labels.yml@main
+    permissions:
+      contents: read
+      pull-requests: write
     with:
       base-ref: ${{ github.base_ref }}
       event-action: ${{ github.event.action }}
