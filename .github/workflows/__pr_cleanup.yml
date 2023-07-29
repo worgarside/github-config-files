@@ -39,6 +39,7 @@ jobs:
           name_list=$(echo "${{ inputs.pr-label-names }}" | jq -R 'split(",")')
           echo -e "\`\`\`json\n$name_list\n\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "pr-label-names=$name_list" >> $GITHUB_OUTPUT
+          echo "$GITHUB_OUTPUT" >> $GITHUB_STEP_SUMMARY
         # yamllint enable rule:line-length
 
   log-inputs:
