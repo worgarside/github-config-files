@@ -1,5 +1,5 @@
 ---
-name: Create PR
+name: Create Pull Request
 
 on:
   workflow_call:
