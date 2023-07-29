@@ -99,7 +99,7 @@ jobs:
     needs:
       - get-release-tag
       - publish-release-notes
-    uses: worgarside/github-config-files/.github/workflows/_create_pr.yml@main
+    uses: worgarside/github-config-files/.github/workflows/__create_pr.yml@main
     with:
       base-ref-name: develop
       head-ref-name: ${{ inputs.head-ref-name }}

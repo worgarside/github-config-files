@@ -12,6 +12,6 @@ on:
 jobs:
   run_sonarcloud_scan:
     name: Run SonarCloud Scan
-    uses: worgarside/github-config-files/.github/workflows/_sonarcloud.yml@main
+    uses: worgarside/github-config-files/.github/workflows/__sonarcloud.yml@main
     secrets:
       sonar-token: ${{ secrets.SONAR_TOKEN }}
