@@ -10,6 +10,9 @@ jobs:
   pr-cleanup:
     name: PR Cleanup
     uses: worgarside/github-config-files/.github/workflows/__pr_cleanup.yml@main
+    permissions:
+      contents: write
+      pull-requests: write
     with:
       head-ref: ${{ github.head_ref }}
       pr-label-names: ${{ join(github.event.pull_request.labels.*.name) }}
