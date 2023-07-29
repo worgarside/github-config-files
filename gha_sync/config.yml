@@ -69,8 +69,9 @@ group:
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
 
+  # Versioned Repos
   - files:
-      - gha_sync/workflows/create_new_release.yml
+      - gha_sync/workflows/versioned_repos
     repos: |
       worgarside/addon-item-warehouse@develop
       worgarside/addon-rss-log-feed@develop
