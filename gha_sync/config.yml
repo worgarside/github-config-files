@@ -6,9 +6,6 @@ group:
       - .pylintrc
       - .github/CODEOWNERS
       - .github/dependabot.yml
-      - .github/workflows/manage_repo_labels.yml
-      - .github/workflows/pr_autoupdate.yml
-      - .github/workflows/set_pr_auto_merge.yml
       - source: gha_sync/workflows/all_repos/
         dest: .github/workflows/
     repos: |
