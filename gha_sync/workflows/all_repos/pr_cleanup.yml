@@ -1,0 +1,19 @@
+---
+name: PR Cleanup
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  pr_cleanup:
+    name: Manage PR Labels
+    uses: worgarside/github-config-files/.github/workflows/_manage_pr_labels.yml@main
+    inputs:
+      head-ref: ${{ github.head_ref }}
+      pr-label-names: ${{ github.event.pull_request.labels.*.name }}
+      pr-merged: ${{ github.event.pull_request.merged }}
+      pr-number: ${{ github.event.pull_request.number }}
+    secrets:
+      gh-token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
