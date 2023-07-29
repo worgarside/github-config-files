@@ -43,7 +43,8 @@ jobs:
     name: Create PR
     needs:
       - get-release-tag
-    uses: worgarside/github-config-files/.github/workflows/__create_pull_request.yml
+    # yamllint disable rule:line-length
+    uses: worgarside/github-config-files/.github/workflows/__create_pull_request.yml@main
     with:
       base-ref-name: ${{ inputs.base-ref-name }}
       head-ref-name: ${{ inputs.head-ref-name }}
