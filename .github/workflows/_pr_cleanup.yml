@@ -7,12 +7,12 @@ on:
       - closed
 
 jobs:
-  pr_cleanup:
+  pr-cleanup:
     name: PR Cleanup
     uses: ./.github/workflows/__pr_cleanup.yml
-    inputs:
+    with:
       head-ref: ${{ github.head_ref }}
-      pr-label-names: ${{ github.event.pull_request.labels.*.name }}
+      pr-label-names: ${{ toJson(github.event.pull_request.labels.*.name) }}
       pr-merged: ${{ github.event.pull_request.merged }}
       pr-number: ${{ github.event.pull_request.number }}
     secrets:

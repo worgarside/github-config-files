@@ -23,7 +23,7 @@ jobs:
   manage_pr_labels:
     name: Manage PR Labels
     uses: ./.github/workflows/__manage_pr_labels.yml
-    inputs:
+    with:
       base-ref: ${{ github.base_ref }}
       event-action: ${{ github.event.action }}
       head-ref: ${{ github.head_ref }}
