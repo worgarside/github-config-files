@@ -211,6 +211,14 @@ jobs:
           echo "\`release-branch\`: \`release/$release_tag\`" >> "$GITHUB_STEP_SUMMARY"
         # yamllint enable rule:line-length
 
+  # --------------------------------------------------------------------------------- #
+  # From here, if the existing branch is not for the correct release, then it is      #
+  # deleted and a new one is created; otherwise, the existing branch is rebased to    #
+  # ensure it is up to date with the latest changes                                   #
+  # --------------------------------------------------------------------------------- #
+
+  # If pending-release-tag is not null, and is not the same as the release we want to
+  # create, then delete the pending release
   delete-pending-release:
     name: Delete Pending Release
     runs-on: ubuntu-latest
@@ -220,8 +228,7 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
     if: |
-      needs.check-for-existing-release.outputs.pending-release-tag !=
-      'null' &&
+      needs.check-for-existing-release.outputs.pending-release-tag != 'null' &&
       needs.check-for-existing-release.outputs.pending-release-tag !=
       needs.derive-release-branch-name.outputs.release-tag
     steps:
@@ -232,7 +239,6 @@ jobs:
         run: |
           git push origin --delete \
             release/${{ needs.check-for-existing-release.outputs.pending-release-tag }}
-
 
   # If nothing has failed, and there is no pending release, or the pending release is
   # not the same as the release we want to create, then create the new release branch
