@@ -160,7 +160,11 @@ jobs:
           commit_messages=$(git log --pretty=format:"- %h | %s" "$merge_base"..HEAD)
 
           echo "$commit_messages" >> $GITHUB_STEP_SUMMARY
-          echo "pr-body=$commit_messages" >> $GITHUB_OUTPUT
+
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "pr-body<<$EOF" >> "$GITHUB_OUTPUT"
+          echo "$commit_messages" >> "$GITHUB_OUTPUT"
+          echo "$EOF" >> "$GITHUB_OUTPUT"
 
       - name: Update PR
         env:
