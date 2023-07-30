@@ -147,13 +147,15 @@ jobs:
         id: get-commits
         # yamllint disable rule:line-length
         run: |
-          COMMITS=""
+          pr_body=""
           for commit in $(git log --pretty=format:"%H" ${{ inputs.base-ref-name }}..${{ inputs.head-ref-name }} | tac); do
-            MESSAGE=$(git log --format=%B -n 1 $commit)
-            URL="https://github.com/${{ github.repository }}/commit/$commit"
-            COMMITS="${COMMITS}- [$MESSAGE]($URL)\n"
+            message=$(git log --format=%B -n 1 $commit)
+            url="https://github.com/${{ github.repository }}/commit/$commit"
+            pr_body="$pr_body- [$message]($url)\n"
           done
-          echo "COMMITS=${COMMITS}" >> $GITHUB_ENV
+
+          echo pr_body >> $GITHUB_STEP_SUMMARY
+          echo "pr-body=pr_body" >> $GITHUB_OUTPUT
         # yamllint enable rule:line-length
 
       - name: Update PR
