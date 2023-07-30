@@ -141,6 +141,16 @@ jobs:
           fetch-depth: 0
           ref: ${{ inputs.head-ref-name }}
 
+      - name: Checkout `${{ inputs.base-ref-name }}`
+        run: |
+          git \
+            fetch \
+            --no-tags \
+            --prune \
+            --depth=1 \
+            origin \
+            +${{ inputs.base-ref-name }}:${{ inputs.base-ref-name }}
+
       - name: Get Commits
         if: |
           !inputs.pr-body
