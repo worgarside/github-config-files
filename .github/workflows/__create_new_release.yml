@@ -270,7 +270,7 @@ jobs:
           git config --global user.name "worgarside-dev"
           git config --global user.email "worgarside.dev@gmail.com"
           git checkout -b \
-            release/${{ needs.derive-release-branch-name.outputs.release-tag }}
+            ${{ needs.derive-release-branch-name.outputs.release-branch }}
 
       - name: Update `pyproject.toml` Version
         if: inputs.update-pyproject-toml
@@ -285,7 +285,35 @@ jobs:
       - name: Push Branch
         run: |
           git push origin \
-            release/${{ needs.derive-release-branch-name.outputs.release-tag }}
+            ${{ needs.derive-release-branch-name.outputs.release-branch }}
+
+  # If the pending release is the same as the release we want to create, then update
+  # the existing branch to ensure it is up to date with the latest changes
+  update-release-branch:
+    name: Update Release Branch
+    runs-on: ubuntu-latest
+    needs:
+      - check-for-existing-release
+      - derive-release-branch-name
+    if: |
+      needs.check-for-existing-release.outputs.pending-release-tag ==
+        needs.derive-release-branch-name.outputs.release-tag
+    env:
+      GH_TOKEN: ${{ secrets.gh-token }}
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Update Release Branch
+        run: |
+          git config --global user.name "worgarside-dev"
+          git config --global user.email "worgarside.dev@gmail.com"
+          git checkout ${{ needs.derive-release-branch-name.outputs.release-branch }}
+          git merge develop \
+            -m "Merge `develop` into \
+            `${{ needs.derive-release-branch-name.outputs.release-branch }}`"
+          git push origin --force \
+            ${{ needs.derive-release-branch-name.outputs.release-branch }}
 
   draft-release:
     if: |
