@@ -34,6 +34,13 @@ on:
         description: Comma-separated list of labels to apply to the PR
         required: false
         type: string
+      update-pr-body-if-exists:
+        description: |
+          Whether to update the PR body if it already exists. Will use the `pr-body`
+          input as the new body if it is provided, `--fill` otherwise.
+        required: false
+        type: boolean
+        default: false
     secrets:
       gh-token:
         description: The GitHub token to use for the PR creation
@@ -53,6 +60,9 @@ jobs:
   create-pr:
     name: Create PR
     runs-on: ubuntu-latest
+    outputs:
+      create-pr: ${{ steps.check-if-pr-exists.outputs.create-pr }}
+      existing-pr-url: ${{ steps.check-if-pr-exists.outputs.existing-pr-url }}
     steps:
       - name: Check If PR Exists
         id: check-if-pr-exists
@@ -75,13 +85,16 @@ jobs:
 
           if [[ -z "$existing_pr" ]]; then
               echo "create-pr=true" >> $GITHUB_OUTPUT
+              echo "existing-pr-url=null" >> $GITHUB_OUTPUT
           else
-              echo -e "Existing [PR](" >> $GITHUB_STEP_SUMMARY
-              echo -e $existing_pr | jq -r '.url' >> $GITHUB_STEP_SUMMARY
-              echo -e ") found: \n\`\`\`json\n" >> $GITHUB_STEP_SUMMARY
+              pr_url=$(echo $existing_pr | jq -r '.url')
+
+              echo -e "Existing [PR]($pr_url) found: \n\`\`\`json\n" >> $GITHUB_STEP_SUMMARY
               echo $existing_pr | jq >> $GITHUB_STEP_SUMMARY
               echo -e "\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+
               echo "create-pr=false" >> $GITHUB_OUTPUT
+              echo "existing-pr-url=$pr_url" >> $GITHUB_OUTPUT
           fi
         # yamllint enable rule:line-length
 
@@ -112,3 +125,64 @@ jobs:
             --reviewer ${{ inputs.pr-reviewer }} \
             $PR_LABELS_ARG \
             $PR_DRAFT_ARG
+
+  update-pr:
+    name: Update PR
+    runs-on: ubuntu-latest
+    needs: create-pr
+    if: |
+      inputs.update-pr-body-if-exists &&
+      needs.create-pr.outputs.create-pr == 'false' &&
+      needs.create-pr.outputs.existing-pr-url != 'null'
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.head-ref-name }}
+
+      - name: Checkout `${{ inputs.base-ref-name }}`
+        run: |
+          git \
+            fetch \
+            --no-tags \
+            --prune \
+            --depth=1 \
+            origin \
+            +${{ inputs.base-ref-name }}:${{ inputs.base-ref-name }}
+
+      - name: Get Commits
+        if: |
+          !inputs.pr-body
+        id: get-commits
+        run: |
+          merge_base=$(git merge-base HEAD "${{ inputs.base-ref-name }}")
+
+          commit_messages=$(
+            git log --no-merges --pretty=format:"- %h | %s" "$merge_base"..HEAD |
+            sed 's/--/\\-\\-/g'
+          )
+
+          commit_messages=$(echo -e "$commit_messages\n" | tac)
+
+          echo "$commit_messages" >> $GITHUB_STEP_SUMMARY
+
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "pr-body<<$EOF" >> "$GITHUB_OUTPUT"
+          echo "$commit_messages" >> "$GITHUB_OUTPUT"
+          echo "$EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Update PR
+        env:
+          GH_TOKEN: ${{ secrets.gh-token }}
+        run: |
+          if [ -z "${{ inputs.pr-body }}" ] || [ "${{ inputs.pr-body }}" == "--fill" ]
+          then
+            gh pr edit \
+              ${{ needs.create-pr.outputs.existing-pr-url }} \
+              --body '${{ steps.get-commits.outputs.pr-body }}'
+          else
+            gh pr edit \
+              ${{ needs.create-pr.outputs.existing-pr-url }} \
+              --body '${{ inputs.pr-body }}'
+          fi

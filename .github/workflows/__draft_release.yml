@@ -50,6 +50,7 @@ jobs:
       head-ref-name: ${{ inputs.head-ref-name }}
       pr-title: Release ${{ needs.get-release-tag.outputs.release-tag }}
       pr-draft: false
+      update-pr-body-if-exists: true
     secrets:
       gh-token: ${{ secrets.gh-token }}
 
