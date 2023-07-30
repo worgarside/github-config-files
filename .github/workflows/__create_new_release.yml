@@ -317,6 +317,8 @@ jobs:
 
           git branch >> "$GITHUB_STEP_SUMMARY" 2>&1
 
+          git fetch origin "$release_branch" >> "$GITHUB_STEP_SUMMARY" 2>&1
+
           git checkout "$release_branch" >> "$GITHUB_STEP_SUMMARY" 2>&1
 
           if git merge --no-ff develop --message "Merge \`develop\` into \`$release_branch\`"
