@@ -305,6 +305,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          ref: ${{ needs.derive-release-branch-name.outputs.release-branch }}
 
       - name: Update Release Branch
         # yamllint disable rule:line-length
