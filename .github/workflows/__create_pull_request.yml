@@ -155,17 +155,12 @@ jobs:
         if: |
           !inputs.pr-body
         id: get-commits
-        # yamllint disable rule:line-length
         run: |
-          default_branch=$(
-            git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
-          )
-          merge_base=$(git merge-base HEAD "$default_branch")
+          merge_base=$(git merge-base HEAD "${{ inputs.base-ref-name }}")
           commit_messages=$(git log --pretty=format:"- %h | %s" "$merge_base"..HEAD)
 
           echo "$commit_messages" >> $GITHUB_STEP_SUMMARY
           echo "pr-body=$commit_messages" >> $GITHUB_OUTPUT
-        # yamllint enable rule:line-length
 
       - name: Update PR
         env:
