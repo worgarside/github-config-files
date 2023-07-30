@@ -141,12 +141,31 @@ jobs:
           fetch-depth: 0
           ref: ${{ inputs.head-ref-name }}
 
+      - name: Get Commits
+        if: |
+          !inputs.pr-body
+        id: get-commits
+        # yamllint disable rule:line-length
+        run: |
+          COMMITS=""
+          for commit in $(git log --pretty=format:"%H" ${{ inputs.base-ref-name }}..${{ inputs.head-ref-name }} | tac); do
+            MESSAGE=$(git log --format=%B -n 1 $commit)
+            URL="https://github.com/${{ github.repository }}/commit/$commit"
+            COMMITS="${COMMITS}- [$MESSAGE]($URL)\n"
+          done
+          echo "COMMITS=${COMMITS}" >> $GITHUB_ENV
+        # yamllint enable rule:line-length
+
       - name: Update PR
         env:
           GH_TOKEN: ${{ secrets.gh-token }}
-           # yamllint disable-line rule:line-length
-          PR_BODY_ARG: ${{ inputs.pr-body && format('--body "{0}"', inputs.pr-body) || '--fill' }}
         run: |
+          if [ -z "${{ inputs.pr-body }}" ]; then
+            PR_BODY_ARG="--body \"$COMMITS\""
+          else
+            PR_BODY_ARG="--body \"${{ inputs.pr-body }}\""
+          fi
+
           gh pr edit \
             ${{ needs.create-pr.outputs.existing-pr-url }} \
             $PR_BODY_ARG
