@@ -315,7 +315,7 @@ jobs:
           git config --global user.email "worgarside.dev@gmail.com"
           git checkout "$release_branch"
 
-          if git merge --no-ff develop --message "Merge `develop` into `$release_branch`"
+          if git merge --no-ff develop --message "Merge \`develop\` into \`$release_branch\`"
           then
             git push origin "$release_branch"
           else
