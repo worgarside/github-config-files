@@ -314,6 +314,9 @@ jobs:
 
           git config --global user.name "worgarside-dev"
           git config --global user.email "worgarside.dev@gmail.com"
+
+          git branch >> "$GITHUB_STEP_SUMMARY" 2>&1
+
           git checkout "$release_branch" >> "$GITHUB_STEP_SUMMARY" 2>&1
 
           if git merge --no-ff develop --message "Merge \`develop\` into \`$release_branch\`"
