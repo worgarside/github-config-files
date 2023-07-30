@@ -305,15 +305,22 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Update Release Branch
+        # yamllint disable rule:line-length
         run: |
+          release_branch="${{ needs.derive-release-branch-name.outputs.release-branch }}"
+
           git config --global user.name "worgarside-dev"
           git config --global user.email "worgarside.dev@gmail.com"
-          git checkout ${{ needs.derive-release-branch-name.outputs.release-branch }}
-          git merge develop \
-            -m "Merge `develop` into \
-            `${{ needs.derive-release-branch-name.outputs.release-branch }}`"
-          git push origin --force \
-            ${{ needs.derive-release-branch-name.outputs.release-branch }}
+          git checkout "$release_branch"
+
+          if git merge --no-ff develop --message "Merge `develop` into `$release_branch`"
+          then
+            git push origin "$release_branch"
+          else
+            echo "Merge resulted in conflicts. Please resolve the conflicts and commit the changes."
+            exit 1
+          fi
+        # yamllint enable rule:line-length
 
   draft-release:
     if: |
