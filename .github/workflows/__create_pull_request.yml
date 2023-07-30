@@ -154,8 +154,8 @@ jobs:
             pr_body="$pr_body- [$message]($url)\n"
           done
 
-          echo pr_body >> $GITHUB_STEP_SUMMARY
-          echo "pr-body=pr_body" >> $GITHUB_OUTPUT
+          echo "$pr_body" >> $GITHUB_STEP_SUMMARY
+          echo "pr-body=$pr_body" >> $GITHUB_OUTPUT
         # yamllint enable rule:line-length
 
       - name: Update PR
