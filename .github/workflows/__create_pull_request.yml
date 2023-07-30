@@ -170,7 +170,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.gh-token }}
         run: |
-          if [ -z "${{ inputs.pr-body }}" ]; then
+          if [ -z "${{ inputs.pr-body }}" ] || [ "${{ inputs.pr-body }}" == "--fill" ]
+          then
             PR_BODY_ARG="--body \"${{ steps.get-commits.outputs.pr-body }}\""
           else
             PR_BODY_ARG="--body \"${{ inputs.pr-body }}\""
