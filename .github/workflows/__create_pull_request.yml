@@ -159,7 +159,8 @@ jobs:
           merge_base=$(git merge-base HEAD "${{ inputs.base-ref-name }}")
           commit_messages=$(
             git log --pretty=format:"- %h | %s" "$merge_base"..HEAD |
-            sed 's/--/\\-\\-/g'
+            sed 's/--/\\-\\-/g' | 
+            tail -r
           )
 
           echo "$commit_messages" >> $GITHUB_STEP_SUMMARY
