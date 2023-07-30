@@ -175,11 +175,11 @@ jobs:
         run: |
           if [ -z "${{ inputs.pr-body }}" ] || [ "${{ inputs.pr-body }}" == "--fill" ]
           then
-            PR_BODY_ARG='--body "${{ steps.get-commits.outputs.pr-body }}"'
+            gh pr edit \
+              ${{ needs.create-pr.outputs.existing-pr-url }} \
+              --body '${{ steps.get-commits.outputs.pr-body }}'
           else
-            PR_BODY_ARG='--body "${{ inputs.pr-body }}"'
+            gh pr edit \
+              ${{ needs.create-pr.outputs.existing-pr-url }} \
+              --body '${{ inputs.pr-body }}'
           fi
-
-          gh pr edit \
-            ${{ needs.create-pr.outputs.existing-pr-url }} \
-            $PR_BODY_ARG
