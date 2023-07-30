@@ -159,14 +159,8 @@ jobs:
           merge_base=$(git merge-base HEAD "${{ inputs.base-ref-name }}")
 
           commit_messages=$(
-            git log --pretty=format:"- %h | %s" "$merge_base"..HEAD |
+            git log --pretty=format:"- %h | %s\n" "$merge_base"..HEAD |
             sed 's/--/\\-\\-/g' | \
-            sed 's/\[/\\[/g' | \
-            sed 's/\]/\\]/g' | \
-            sed 's/\*/\\*/g' | \
-            sed 's/_/\\_/g' | \
-            sed 's/(/\\(/g' | \
-            sed 's/)/\\)/g' | \
             tac
           )
 
