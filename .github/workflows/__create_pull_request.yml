@@ -34,6 +34,13 @@ on:
         description: Comma-separated list of labels to apply to the PR
         required: false
         type: string
+      update-pr-body-if-exists:
+        description: |
+          Whether to update the PR body if it already exists. Will use the `pr-body`
+          input as the new body if it is provided, `--fill` otherwise.
+        required: false
+        type: boolean
+        default: false
     secrets:
       gh-token:
         description: The GitHub token to use for the PR creation
@@ -53,6 +60,9 @@ jobs:
   create-pr:
     name: Create PR
     runs-on: ubuntu-latest
+    outputs:
+      create-pr: ${{ steps.check-if-pr-exists.outputs.create-pr }}
+      existing-pr-url: ${{ steps.check-if-pr-exists.outputs.existing-pr-url }}
     steps:
       - name: Check If PR Exists
         id: check-if-pr-exists
@@ -75,13 +85,16 @@ jobs:
 
           if [[ -z "$existing_pr" ]]; then
               echo "create-pr=true" >> $GITHUB_OUTPUT
+              echo "existing-pr-url=null" >> $GITHUB_OUTPUT
           else
-              echo -e "Existing [PR](" >> $GITHUB_STEP_SUMMARY
-              echo -e $existing_pr | jq -r '.url' >> $GITHUB_STEP_SUMMARY
-              echo -e ") found: \n\`\`\`json\n" >> $GITHUB_STEP_SUMMARY
+              pr_url=$(echo $existing_pr | jq -r '.url')
+
+              echo -e "Existing [PR]($pr_url) found: \n\`\`\`json\n" >> $GITHUB_STEP_SUMMARY
               echo $existing_pr | jq >> $GITHUB_STEP_SUMMARY
               echo -e "\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+
               echo "create-pr=false" >> $GITHUB_OUTPUT
+              echo "existing-pr-url=$pr_url" >> $GITHUB_OUTPUT
           fi
         # yamllint enable rule:line-length
 
@@ -112,3 +125,28 @@ jobs:
             --reviewer ${{ inputs.pr-reviewer }} \
             $PR_LABELS_ARG \
             $PR_DRAFT_ARG
+
+  update-pr:
+    name: Update PR
+    runs-on: ubuntu-latest
+    needs: create-pr
+    if: |
+      inputs.update-pr-body-if-exists == 'true' &&
+      needs.create-pr.outputs.create-pr == 'false' &&
+      needs.create-pr.outputs.existing-pr-url != 'null'
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.head-ref-name }}
+
+      - name: Update PR
+        env:
+          GH_TOKEN: ${{ secrets.gh-token }}
+           # yamllint disable-line rule:line-length
+          PR_BODY_ARG: ${{ inputs.pr-body && format('--body "{0}"', inputs.pr-body) || '--fill' }}
+        run: |
+          gh pr edit \
+            ${{ needs.create-pr.outputs.existing-pr-url }} \
+            $PR_BODY_ARG
