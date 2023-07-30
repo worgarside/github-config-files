@@ -163,7 +163,7 @@ jobs:
             sed 's/--/\\-\\-/g'
           )
 
-          commit_messages=$( echo -e "$commit_messages\n" | tac)
+          commit_messages=$(echo -e "$commit_messages\n" | tac)
 
           echo "$commit_messages" >> $GITHUB_STEP_SUMMARY
 
