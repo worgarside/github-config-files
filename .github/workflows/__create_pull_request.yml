@@ -146,13 +146,11 @@ jobs:
           !inputs.pr-body
         id: get-commits
         run: |
-          git fetch origin/develop
-
           commit_messages=$(
             git log \
               --no-merges \
               --pretty=format:"- %h | %s" \
-              "${{ inputs.base-ref-name }}..${{ inputs.head-ref-name }}" |
+              "${{ inputs.head-ref-name }}" |
             sed 's/--/\\-\\-/g'
           )
 
