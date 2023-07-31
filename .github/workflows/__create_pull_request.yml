@@ -146,18 +146,6 @@ jobs:
           !inputs.pr-body
         id: get-commits
         run: |
-          git fetch --all
-
-          git \
-            fetch \
-            --no-tags \
-            --prune \
-            --depth=1 \
-            origin \
-            +${{ inputs.base-ref-name }}:${{ inputs.base-ref-name }}
-
-          git checkout ${{ inputs.head-ref-name }}
-
           commit_messages=$(
             git log \
               --no-merges \
