@@ -146,7 +146,7 @@ jobs:
           !inputs.pr-body
         id: get-commits
         run: |
-          git fetch ${{ inputs.base-ref-name }}
+          git fetch origin ${{ inputs.base-ref-name }}
 
           commit_messages=$(
             git log \
