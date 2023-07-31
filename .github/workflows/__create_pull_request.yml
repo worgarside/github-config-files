@@ -146,7 +146,7 @@ jobs:
           !inputs.pr-body
         id: get-commits
         run: |
-          git fetch --all
+          git fetch origin/develop
 
           commit_messages=$(
             git log \
