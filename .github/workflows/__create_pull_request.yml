@@ -146,17 +146,35 @@ jobs:
           !inputs.pr-body
         id: get-commits
         run: |
-          git checkout ${{ inputs.head-ref-name }}
+          if [[
+                "${{ inputs.head-ref-name }}" == release/* && \
+                "${{ inputs.base-ref-name }}" == "main"
+          ]]; then
 
-          commit_messages=$(
-            git log \
-              --no-merges \
-              --pretty=format:"- %h | %s" \
-              "${{ inputs.base-ref-name }}..${{ inputs.head-ref-name }}" |
-            sed 's/--/\\-\\-/g'
-          )
+            git checkout main
+            latest_tag=$(git describe --tags --abbrev=0)
+            latest_tag_timestamp=$(git log -1 --format=%ct "$latest_tag")
 
-          commit_messages=$(echo -e "$commit_messages\n" | tac)
+            git checkout develop
+
+            commit_messages=$(
+              git log \
+                --no-merges \
+                --pretty=format:"- %h | %s" \
+                --since="@${latest_tag_timestamp}"
+            )
+          else
+            git checkout ${{ inputs.head-ref-name }}
+
+            commit_messages=$(
+              git log \
+                --no-merges \
+                --pretty=format:"- %h | %s" \
+                "${{ inputs.base-ref-name }}..${{ inputs.head-ref-name }}"
+            )
+          fi
+
+          commit_messages=$(echo -e "$commit_messages\n" | sed 's/--/\\-\\-/g' | tac)
 
           echo "$commit_messages" >> $GITHUB_STEP_SUMMARY
 
