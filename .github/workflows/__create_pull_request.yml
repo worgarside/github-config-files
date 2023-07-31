@@ -147,6 +147,23 @@ jobs:
         id: get-commits
         run: |
           git fetch --all
+
+          git \
+            fetch \
+            --no-tags \
+            --prune \
+            --depth=0 \
+            origin \
+            +${{ inputs.base-ref-name }}:${{ inputs.base-ref-name }}
+
+          git \
+            fetch \
+            --no-tags \
+            --prune \
+            --depth=0 \
+            origin \
+            +${{ inputs.head-ref-name }}:${{ inputs.head-ref-name }}
+
           git checkout ${{ inputs.head-ref-name }}
 
           commit_messages=$(
