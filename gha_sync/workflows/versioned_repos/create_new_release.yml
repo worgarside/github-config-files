@@ -15,19 +15,21 @@ jobs:
   create-new-release:
     name: Create New Release
     if: |
-      github.event.pull_request.merged &&
-      github.base_ref == 'develop' &&
-      !contains(
-        github.event.pull_request.labels.*.name,
-        'sync'
-      ) &&
-      !contains(
-        github.event.pull_request.labels.*.name,
-        'skip-changelog'
-      ) &&
-      !contains(
-        github.event.pull_request.labels.*.name,
-        'release'
+      github.event_name == 'workflow_dispatch' || (
+        github.event.pull_request.merged &&
+        github.base_ref == 'develop' &&
+        !contains(
+          github.event.pull_request.labels.*.name,
+          'sync'
+        ) &&
+        !contains(
+          github.event.pull_request.labels.*.name,
+          'skip-changelog'
+        ) &&
+        !contains(
+          github.event.pull_request.labels.*.name,
+          'release'
+        )
       )
     # yamllint disable-line rule:line-length
     uses: worgarside/github-config-files/.github/workflows/__create_new_release.yml@main
