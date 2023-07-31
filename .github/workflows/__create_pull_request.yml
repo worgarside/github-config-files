@@ -141,21 +141,14 @@ jobs:
           fetch-depth: 0
           ref: ${{ inputs.head-ref-name }}
 
-      - name: Checkout `${{ inputs.base-ref-name }}`
-        run: |
-          git \
-            fetch \
-            --no-tags \
-            --prune \
-            --depth=1 \
-            origin \
-            +${{ inputs.base-ref-name }}:${{ inputs.base-ref-name }}
-
       - name: Get Commits
         if: |
           !inputs.pr-body
         id: get-commits
         run: |
+          git fetch --all
+          git checkout ${{ inputs.head-ref-name }}
+
           commit_messages=$(
             git log \
               --no-merges \
