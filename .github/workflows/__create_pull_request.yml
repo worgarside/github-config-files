@@ -152,7 +152,7 @@ jobs:
             fetch \
             --no-tags \
             --prune \
-            --depth=0 \
+            --depth=1 \
             origin \
             +${{ inputs.base-ref-name }}:${{ inputs.base-ref-name }}
 
@@ -160,7 +160,7 @@ jobs:
             fetch \
             --no-tags \
             --prune \
-            --depth=0 \
+            --depth=1 \
             origin \
             +${{ inputs.head-ref-name }}:${{ inputs.head-ref-name }}
 
