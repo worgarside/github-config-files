@@ -71,8 +71,8 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
     outputs:
-      release-branch: ${{ steps.get-release-version.outputs.release-branch }}
-      release-tag: ${{ steps.get-release-version.outputs.release-tag }}
+      branch: ${{ steps.get-release-version.outputs.release-branch }}
+      tag: ${{ steps.get-release-version.outputs.release-tag }}
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
@@ -230,7 +230,7 @@ jobs:
     if: |
       needs.check-for-existing-release.outputs.pending-release-tag != 'null' &&
       needs.check-for-existing-release.outputs.pending-release-tag !=
-      needs.derive-release-branch-name.outputs.release-tag
+      needs.derive-release-branch-name.outputs.tag
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
@@ -257,7 +257,7 @@ jobs:
         needs.check-for-existing-release.outputs.pending-release-tag ==
         'null' ||
         needs.check-for-existing-release.outputs.pending-release-tag !=
-        needs.derive-release-branch-name.outputs.release-tag
+        needs.derive-release-branch-name.outputs.tag
       )
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
@@ -270,22 +270,22 @@ jobs:
           git config --global user.name "worgarside-dev"
           git config --global user.email "worgarside.dev@gmail.com"
           git checkout -b \
-            ${{ needs.derive-release-branch-name.outputs.release-branch }}
+            ${{ needs.derive-release-branch-name.outputs.branch }}
 
       - name: Update `pyproject.toml` Version
         if: inputs.update-pyproject-toml
         continue-on-error: true
         # yamllint disable rule:line-length
         run: |
-          sed -i "s/^version = .*/version = \"${{ needs.derive-release-branch-name.outputs.release-tag }}\"/" pyproject.toml
+          sed -i "s/^version = .*/version = \"${{ needs.derive-release-branch-name.outputs.tag }}\"/" pyproject.toml
           git add pyproject.toml
-          git commit -m "Bump version to ${{ needs.derive-release-branch-name.outputs.release-tag }}" --allow-empty
+          git commit -m "Bump version to ${{ needs.derive-release-branch-name.outputs.tag }}" --allow-empty
         # yamllint enable rule:line-length
 
       - name: Push Branch
         run: |
           git push origin \
-            ${{ needs.derive-release-branch-name.outputs.release-branch }}
+            ${{ needs.derive-release-branch-name.outputs.branch }}
 
   # If the pending release is the same as the release we want to create, then rebase
   # the existing branch to ensure it is up to date with the latest changes
@@ -297,7 +297,7 @@ jobs:
       - derive-release-branch-name
     if: |
       needs.check-for-existing-release.outputs.pending-release-tag ==
-        needs.derive-release-branch-name.outputs.release-tag
+        needs.derive-release-branch-name.outputs.tag
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
     steps:
@@ -305,12 +305,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          ref: ${{ needs.derive-release-branch-name.outputs.release-branch }}
+          ref: ${{ needs.derive-release-branch-name.outputs.branch }}
           token: ${{ secrets.gh-token }}
 
       - name: Rebase Release Branch
         run: |
-          release_branch="${{ needs.derive-release-branch-name.outputs.release-branch }}"
+          release_branch="${{ needs.derive-release-branch-name.outputs.branch }}"
 
           git config --global user.name "worgarside-dev"
           git config --global user.email "worgarside.dev@gmail.com"
@@ -343,6 +343,6 @@ jobs:
       - create-release-branch
     with:
       base-ref-name: main
-      head-ref-name: ${{ needs.derive-release-branch-name.outputs.release-branch }}
+      head-ref-name: ${{ needs.derive-release-branch-name.outputs.branch }}
     secrets:
       gh-token: ${{ secrets.gh-token }}
