@@ -25,8 +25,12 @@ jobs:
       - name: Get Sync Workflow Files
         id: get-sync-workflow-files
         run: |
-          workflow_files=$(find "$GITHUB_WORKSPACE/gha_sync/workflows" -name "*.yml")
+          workflow_files=$(
+            find "$GITHUB_WORKSPACE/gha_sync/workflows" -name "*.yml" |
+            tr '\n' ' '
+          )
           echo "sync-workflows=$workflow_files" >> "$GITHUB_OUTPUT"
+          echo "$workflow_files" >> "$GITHUB_STEP_SUMMARY"
 
   actionlint_sync_workflows:
     name: Lint GHA Sync Workflows

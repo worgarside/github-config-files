@@ -35,10 +35,10 @@ jobs:
 
       - name: Check Workflow Files
         env:
-          WORKFLOW_FILES:
+          WORKFLOW_FILES: ${{ inputs.workflow-files || '' }}
         run: |
           ${{ steps.get-actionlint.outputs.executable }} \
-          ${{ inputs.workflow-files }} \
           -color \
           -shellcheck "" \
-          -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}%0A```%0A{{replace $err.Snippet "\\n" "%0A"}}%0A```\n{{end}}'
+          -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}%0A```%0A{{replace $err.Snippet "\\n" "%0A"}}%0A```\n{{end}}' \
+          $WORKFLOW_FILES
