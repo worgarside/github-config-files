@@ -85,4 +85,11 @@ group:
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant
       worgarside/home-assistant-config-validator
+
+  # PyPi Repos (Versioned + Publish to PyPi)
+  - files:
+      - source: gha_sync/workflows/pypi_repos
+        dest: .github/workflows/
+        # deleteOrphaned: true
+    repos: |
       worgarside/wg-utilities
