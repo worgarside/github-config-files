@@ -174,21 +174,10 @@ jobs:
             )
           fi
 
-          commit_messages=$(
-            echo -e "$commit_messages\n" |
-            sed 's/--/\\-\\-/g' |
-            sed 's/(/\\(/g' |
-            sed 's/)/\\)/g' |
-            sed "s/'/\\\\'/g" |
-            tac
-          )
+          commit_messages=$(echo -e "$commit_messages\n" | tac)
 
-          echo "$commit_messages" >> $GITHUB_STEP_SUMMARY
-
-          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-          echo "pr-body<<$EOF" >> "$GITHUB_OUTPUT"
-          echo "$commit_messages" >> "$GITHUB_OUTPUT"
-          echo "$EOF" >> "$GITHUB_OUTPUT"
+          echo -e "$commit_messages" >> $GITHUB_STEP_SUMMARY
+          echo -e "$commit_messages" > commit_messages.txt
 
       - name: Update PR
         env:
@@ -198,7 +187,7 @@ jobs:
           then
             gh pr edit \
               ${{ needs.create-pr.outputs.existing-pr-url }} \
-              --body '${{ steps.get-commits.outputs.pr-body }}'
+              --body-file commit_messages.txt
           else
             gh pr edit \
               ${{ needs.create-pr.outputs.existing-pr-url }} \
