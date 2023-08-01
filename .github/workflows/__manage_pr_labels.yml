@@ -125,7 +125,7 @@ jobs:
   clean-dependabot-labels:
     name: Clean Dependabot Labels
     runs-on: ubuntu-latest
-    if: inputs.pr-author == 'app/dependabot'
+    if: inputs.pr-author == 'dependabot[bot]'
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
