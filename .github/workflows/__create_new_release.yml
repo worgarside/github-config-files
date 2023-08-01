@@ -173,7 +173,8 @@ jobs:
           else
               echo "No matching label found" >> $GITHUB_STEP_SUMMARY
               echo -e "\`\`\`\n$new_pr_labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
-              exit 1
+
+              semver_label="null"
           fi
 
           echo "semver-label=$semver_label" >> "$GITHUB_OUTPUT"
@@ -184,6 +185,13 @@ jobs:
         id: get-release-version
         # yamllint disable rule:line-length
         run: |
+          if [[ "${{ steps.get-semver-label.outputs.semver-label }}" == "null" ]]; then
+            echo "No release branch will be created" >> "$GITHUB_STEP_SUMMARY"
+            echo "release-branch=null" >> "$GITHUB_OUTPUT"
+            echo "release-tag=null" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           IFS=. read major minor patch <<< "${{ steps.get-semver-label.outputs.latest-release-tag }}"
 
           echo "Major: \`$major\`" >> "$GITHUB_STEP_SUMMARY"
@@ -237,6 +245,7 @@ jobs:
       GH_TOKEN: ${{ secrets.gh-token }}
     if: |
       needs.check-for-existing-release.outputs.pending-release-tag != 'null' &&
+      needs.derive-release-branch-name.outputs.tag != 'null' &&
       needs.check-for-existing-release.outputs.pending-release-tag !=
       needs.derive-release-branch-name.outputs.tag
     steps:
@@ -261,6 +270,7 @@ jobs:
       always() && !cancelled() &&
       needs.check-for-existing-release.result == 'success' &&
       needs.derive-release-branch-name.result == 'success' &&
+      needs.derive-release-branch-name.outputs.tag != 'null' &&
       (
         needs.check-for-existing-release.outputs.pending-release-tag ==
         'null' ||
@@ -304,6 +314,7 @@ jobs:
       - check-for-existing-release
       - derive-release-branch-name
     if: |
+      needs.derive-release-branch-name.outputs.tag != 'null' &&
       needs.check-for-existing-release.outputs.pending-release-tag ==
         needs.derive-release-branch-name.outputs.tag
     env:
