@@ -35,6 +35,7 @@ jobs:
     uses: worgarside/github-config-files/.github/workflows/__create_new_release.yml@main
     with:
     publish-to-test-pypi: |
+      github.event.action == 'workflow_dispatch' ||
       github.event.pull_request.user.login == 'worgarside' ||
       github.event.pull_request.user.login == 'worgarside-dev'
     secrets:
