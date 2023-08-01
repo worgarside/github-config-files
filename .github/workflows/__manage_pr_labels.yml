@@ -39,7 +39,7 @@ jobs:
         env:
           INPUTS: ${{ toJson(inputs) }}
         run: |
-          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
   set-labels:
     name: Set Non-Release Labels
@@ -83,25 +83,25 @@ jobs:
 
           if ! [[ $new_release_number =~ ^[0-9]{1,2}\.[0-9]{1,4}\.[0-9]{1,4}$ ]]
           then
-              echo "Release number is invalid: \`$new_release_number\`" >> $GITHUB_STEP_SUMMARY
+              echo "Release number is invalid: \`$new_release_number\`" >> "$GITHUB_STEP_SUMMARY"
               exit 1
           else
-            echo "new-release-number=$new_release_number" >> $GITHUB_OUTPUT
-            echo "latest-release=$latest_release" >> $GITHUB_OUTPUT
+            echo "new-release-number=$new_release_number" >> "$GITHUB_OUTPUT"
+            echo "latest-release=$latest_release" >> "$GITHUB_OUTPUT"
           fi
 
           if [ "${new_release_number%%.*}" != "${latest_release%%.*}" ]
           then
-              echo "release-label=major" >> $GITHUB_OUTPUT
+              echo "release-label=major" >> "$GITHUB_OUTPUT"
           elif [ $( cut -d '.' -f2 <<< $new_release_number) != $( cut -d '.' -f2 <<< $latest_release ) ]
           then
-            echo "release-label=minor" >> $GITHUB_OUTPUT
+            echo "release-label=minor" >> "$GITHUB_OUTPUT"
           elif [ "${new_release_number##*.}" != "${latest_release##*.}" ]
           then
-            echo "release-label=patch" >> $GITHUB_OUTPUT
+            echo "release-label=patch" >> "$GITHUB_OUTPUT"
           else
-              echo "new_release_number is \`$new_release_number\`" >> $GITHUB_STEP_SUMMARY
-              echo "latest_release is \`$latest_release\`" >> $GITHUB_STEP_SUMMARY
+              echo "new_release_number is \`$new_release_number\`" >> "$GITHUB_STEP_SUMMARY"
+              echo "latest_release is \`$latest_release\`" >> "$GITHUB_STEP_SUMMARY"
               exit 1
           fi
         # yamllint enable rule:line-length
@@ -116,10 +116,10 @@ jobs:
       - name: Summarise
         # yamllint disable rule:line-length
         run: |
-          echo "# :label: Release Label Info" >> $GITHUB_STEP_SUMMARY
-          echo "Release Number (derived from branch): \`${{ steps.derive-label.outputs.new-release-number }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "Previous Release (latest tag):  \`${{ steps.derive-label.outputs.latest-release }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "Release label is \`${{ steps.derive-label.outputs.release-label }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "# :label: Release Label Info" >> "$GITHUB_STEP_SUMMARY"
+          echo "Release Number (derived from branch): \`${{ steps.derive-label.outputs.new-release-number }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Previous Release (latest tag):  \`${{ steps.derive-label.outputs.latest-release }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Release label is \`${{ steps.derive-label.outputs.release-label }}\`" >> "$GITHUB_STEP_SUMMARY"
         # yamllint enable rule:line-length
 
   clean-dependabot-labels:

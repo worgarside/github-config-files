@@ -55,7 +55,7 @@ jobs:
         env:
           INPUTS: ${{ toJson(inputs) }}
         run: |
-          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
   create-pr:
     name: Create PR
@@ -84,17 +84,17 @@ jobs:
           )
 
           if [[ -z "$existing_pr" ]]; then
-              echo "create-pr=true" >> $GITHUB_OUTPUT
-              echo "existing-pr-url=null" >> $GITHUB_OUTPUT
+              echo "create-pr=true" >> "$GITHUB_OUTPUT"
+              echo "existing-pr-url=null" >> "$GITHUB_OUTPUT"
           else
               pr_url=$(echo $existing_pr | jq -r '.url')
 
-              echo -e "Existing [PR]($pr_url) found: \n\`\`\`json\n" >> $GITHUB_STEP_SUMMARY
-              echo $existing_pr | jq >> $GITHUB_STEP_SUMMARY
-              echo -e "\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+              echo -e "Existing [PR]($pr_url) found: \n\`\`\`json\n" >> "$GITHUB_STEP_SUMMARY"
+              echo $existing_pr | jq >> "$GITHUB_STEP_SUMMARY"
+              echo -e "\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
-              echo "create-pr=false" >> $GITHUB_OUTPUT
-              echo "existing-pr-url=$pr_url" >> $GITHUB_OUTPUT
+              echo "create-pr=false" >> "$GITHUB_OUTPUT"
+              echo "existing-pr-url=$pr_url" >> "$GITHUB_OUTPUT"
           fi
         # yamllint enable rule:line-length
 
@@ -119,12 +119,12 @@ jobs:
           gh pr create \
             --repo ${{ github.repository }} \
             --title "$PR_TITLE" \
-            $PR_BODY_ARG \
+            "$PR_BODY_ARG" \
             --base "${{ inputs.base-ref-name }}" \
             --head "${{ inputs.head-ref-name }}" \
             --reviewer ${{ inputs.pr-reviewer }} \
-            $PR_LABELS_ARG \
-            $PR_DRAFT_ARG
+            "$PR_LABELS_ARG" \
+            "$PR_DRAFT_ARG"
 
   update-pr:
     name: Update PR
@@ -146,6 +146,7 @@ jobs:
           !inputs.pr-body
         id: get-commits
         run: |
+          # shellcheck disable=SC2193
           if [[
                 "${{ inputs.head-ref-name }}" == release/* && \
                 "${{ inputs.base-ref-name }}" == "main"
@@ -176,7 +177,7 @@ jobs:
 
           commit_messages=$(echo -e "$commit_messages\n" | tac)
 
-          echo -e "$commit_messages" >> $GITHUB_STEP_SUMMARY
+          echo -e "$commit_messages" >> "$GITHUB_STEP_SUMMARY"
           echo -e "$commit_messages" > commit_messages.txt
 
       - name: Update PR

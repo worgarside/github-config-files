@@ -6,8 +6,23 @@ name: '"actionlint" Runner'
 
 on:
   workflow_call:
+    inputs:
+      workflow-files:
+        description: Space-separated list of workflow files to check
+        required: false
+        type: string
 
 jobs:
+  log-inputs:
+    name: Log Inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Inputs
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: |
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+
   actionlint:
     runs-on: ubuntu-latest
     steps:
@@ -19,8 +34,11 @@ jobs:
         run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
 
       - name: Check Workflow Files
+        env:
+          WORKFLOW_FILES: ${{ inputs.workflow-files || '' }}
         run: |
           ${{ steps.get-actionlint.outputs.executable }} \
           -color \
           -shellcheck "" \
-          -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}%0A```%0A{{replace $err.Snippet "\\n" "%0A"}}%0A```\n{{end}}'
+          -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}%0A```%0A{{replace $err.Snippet "\\n" "%0A"}}%0A```\n{{end}}' \
+          $WORKFLOW_FILES
