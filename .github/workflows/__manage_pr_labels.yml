@@ -126,6 +126,10 @@ jobs:
     name: Clean Dependabot Labels
     runs-on: ubuntu-latest
     if: inputs.pr-author == 'dependabot[bot]'
+    permissions:
+      pull-requests: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.gh-token }}
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
