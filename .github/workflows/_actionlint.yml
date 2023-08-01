@@ -10,5 +10,27 @@ on:
 
 jobs:
   actionlint:
-    name: Lint Workflows
+    name: Lint Workflows in this Repo
     uses: ./.github/workflows/__actionlint.yml
+
+  get-gha-sync-workflows:
+    name: Get GHA Sync Workflows
+    runs-on: ubuntu-latest
+    outputs:
+      sync-workflow-files: ${{ steps.get-sync-workflow-files.outputs.sync-workflows }}
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Get Sync Workflow Files
+        id: get-sync-workflow-files
+        run: |
+          workflow_files=$(find "$GITHUB_WORKSPACE/gha_sync/workflows" -name "*.yml")
+          echo "sync-workflows=workflow_files"
+
+  actionlint_sync_workflows:
+    name: Lint GHA Sync Workflows
+    uses: ./.github/workflows/__actionlint.yml
+    needs: get-gha-sync-workflows
+    with:
+      workflow-files: ${{ needs.get-gha-sync-workflows.outputs.sync-workflow-files }}
