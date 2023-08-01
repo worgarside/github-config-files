@@ -15,9 +15,11 @@ labels:
       - ^Pipfile\.lock$
       - ^poetry\.lock$
       - ^requirements\.txt$
+
+  - label: dependencies
     authors:
-      - ^(app/)?dependabot(-preview)?(\[bot\])?$
-      - ^(app/)?pre-commit-ci(\[bot\])?$
+      - dependabot[bot]
+      - pre-commit-ci[bot]
 
   - label: documentation
     files:
