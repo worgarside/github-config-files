@@ -135,17 +135,19 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Remove major/minor/patch Labels
-        # yamllint disable rule:line-length
         run: |
-          labels_to_remove=("major" "minor" "patch", "github_actions")
+          labels_to_remove=("major" "minor" "patch" "github_actions")
+
+          pr_labels=$(
+            gh pr view ${{ inputs.pr-number }} --json labels | jq -r '.labels[].name'
+          )
 
           for label in "${labels_to_remove[@]}"; do
-            if gh pr view ${{ inputs.pr-number }} --json labels --jq ".labels[].name" | grep -q $label; then
+          if echo "$pr_labels" | grep -q "$label"; then
+              echo -e "Removing \`$label\`" >> "$GITHUB_STEP_SUMMARY"
               gh pr edit ${{ inputs.pr-number }} --remove-label "$label"
-              echo -e "Removed dependabot label: \`$label\`" >> $GITHUB_STEP_SUMMARY
-            fi
+          fi
           done
-        # yamllint enable rule:line-length
 
   validate-semver-label:
     name: Validate SemVer Label
