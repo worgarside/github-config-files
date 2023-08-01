@@ -34,6 +34,7 @@ jobs:
     # yamllint disable-line rule:line-length
     uses: worgarside/github-config-files/.github/workflows/__create_new_release.yml@main
     with:
-      publish-to-pypi: false
+      publish-to-pypi: true
     secrets:
       gh-token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+      test-pypi-token: ${{ secrets.PYPI_API_TOKEN }}

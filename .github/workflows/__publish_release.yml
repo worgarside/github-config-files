@@ -1,5 +1,5 @@
 ---
-name: Publish Release Notes
+name: Publish Release
 
 on:
   workflow_call:
@@ -16,10 +16,18 @@ on:
         description: Branch the PR is merging from (github.head_ref || github.ref_name)
         required: true
         type: string
+      publish-to-pypi:
+        default: false
+        description: Whether to publish to PyPI
+        required: false
+        type: boolean
     secrets:
       gh-token:
         description: The GitHub token to use for publishing the release
         required: true
+      pypi-token:
+        description: The PyPI token to use for publishing the release
+        required: false
       wg-dev-token:
         description: The GitHub token to use for creating the PR back to `develop`
         required: true
@@ -39,6 +47,18 @@ jobs:
     name: Cancel Workflow if Pull Request is not merged
     runs-on: ubuntu-latest
     steps:
+      - name: Check PyPi Token Provided
+        if: inputs.publish-to-pypi
+        # yamllint disable rule:line-length
+        run: |
+          if [ -z "${{ secrets.pypi-token }}" ]; then
+            echo "No PyPi token provided. Cancelling workflow. :no_good:" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          else
+            echo "PyPi token provided. Continuing workflow. :white_check_mark:" >> "$GITHUB_STEP_SUMMARY"
+          fi
+        # yamllint enable rule:line-length
+
       - name: Check for PR Merge
         id: cancel-if-not-merged
         # yamllint disable rule:line-length
@@ -93,6 +113,21 @@ jobs:
           gh release edit ${{ needs.get-release-tag.outputs.release-tag }} \
             --draft=false \
             --repo ${{ github.repository }}
+
+  publish-to-pypi:
+    name: Publish to PyPi
+    if: inputs.publish-to-pypi
+    uses: ./.github/workflows/__build_and_publish.yml
+    needs:
+      - get-release-tag
+    with:
+      build-branch: ${{ inputs.head-ref-name }}
+      environment: production
+      python-version: '3.11'
+      release-tag: ${{ needs.get-release-tag.outputs.release-tag }}
+    secrets:
+      gh-token: ${{ secrets.wg-dev-token }}
+      pypi-token: ${{ secrets.pypi-token }}
 
   create-pr-back-to-develop:
     name: Create PR back to `develop`

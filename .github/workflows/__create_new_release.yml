@@ -9,6 +9,11 @@ on:
         required: false
         default: true
         type: boolean
+      publish-to-test-pypi:
+        default: false
+        description: Whether to publish to Test PyPI
+        required: false
+        type: boolean
       update-pyproject-toml:
         description: Update the pyproject.toml version
         required: false
@@ -18,6 +23,9 @@ on:
       gh-token:
         description: The GitHub token to use for the PR creation
         required: true
+      test-pypi-token:
+        description: The Test PyPi token to use for the workflow
+        required: false
 
 jobs:
   log-inputs:
@@ -344,5 +352,7 @@ jobs:
     with:
       base-ref-name: main
       head-ref-name: ${{ needs.derive-release-branch-name.outputs.branch }}
+      publish-to-test-pypi: ${{ inputs.publish-to-test-pypi }}
     secrets:
       gh-token: ${{ secrets.gh-token }}
+      test-pypi-token: ${{ secrets.test-pypi-token }}
