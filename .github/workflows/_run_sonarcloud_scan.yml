@@ -13,5 +13,7 @@ jobs:
   run-sonarcloud-scan:
     name: Run SonarCloud Scan
     uses: ./.github/workflows/__sonarcloud.yml
+    with:
+      branch: ${{ github.ref }}
     secrets:
       sonar-token: ${{ secrets.SONAR_TOKEN }}
