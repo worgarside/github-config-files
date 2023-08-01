@@ -174,7 +174,13 @@ jobs:
             )
           fi
 
-          commit_messages=$(echo -e "$commit_messages\n" | sed 's/--/\\-\\-/g' | tac)
+          commit_messages=$(
+            echo -e "$commit_messages\n" |
+            sed 's/--/\\-\\-/g' |
+            sed 's/(/\\(/g' |
+            sed 's/)/\\)/g' |
+            tac
+          )
 
           echo "$commit_messages" >> $GITHUB_STEP_SUMMARY
 
