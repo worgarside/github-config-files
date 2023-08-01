@@ -23,7 +23,7 @@ jobs:
         env:
           INPUTS: ${{ toJson(inputs) }}
         run: |
-          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
   get-release-tag:
     name: Get Release Tag
@@ -40,8 +40,8 @@ jobs:
 
           if ! [[ $release_tag =~ ^[0-9]{1,2}\.[0-9]{1,4}\.[0-9]{1,4}$ ]]
           then
-              echo "Release number is invalid: \`$release_tag\`" >> $GITHUB_STEP_SUMMARY
+              echo "Release tag is invalid: \`$release_tag\`" >> "$GITHUB_STEP_SUMMARY"
               exit 1
           fi
 
-          echo "release-tag=$release_tag" >> $GITHUB_OUTPUT
+          echo "release-tag=$release_tag" >> "$GITHUB_OUTPUT"

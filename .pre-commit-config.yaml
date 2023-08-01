@@ -1,5 +1,15 @@
 ---
 repos:
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.6.25
+    hooks:
+      - id: actionlint
+        args:
+          - -ignore
+          - SC2129
+          - -shellcheck
+          - ''
+
   - repo: https://github.com/asottile/pyupgrade
     rev: v3.10.1
     hooks:

@@ -41,7 +41,7 @@ jobs:
         env:
           INPUTS: ${{ toJson(inputs) }}
         run: |
-          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
   cancel-if-not-merged:
     name: Cancel Workflow if Pull Request is not merged

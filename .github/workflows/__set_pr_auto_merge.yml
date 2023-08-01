@@ -43,7 +43,7 @@ jobs:
         env:
           INPUTS: ${{ toJson(inputs) }}
         run: |
-          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
   set-auto-merge:
     name: Set Auto Merge

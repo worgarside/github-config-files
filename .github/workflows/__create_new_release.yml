@@ -36,7 +36,7 @@ jobs:
         env:
           INPUTS: ${{ toJson(inputs) }}
         run: |
-          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
   check-for-existing-release:
     name: Check for Existing Release
@@ -97,8 +97,8 @@ jobs:
           latest_release_tag=$(echo "$latest_release" | jq -r '.tagName')
           latest_release_date=$(echo "$latest_release" | jq -r '.publishedAt')
 
-          echo "\`latest_release_tag\`: \`$latest_release_tag\`" >> $GITHUB_STEP_SUMMARY
-          echo "\`latest_release_date\`: \`$latest_release_date\`" >> $GITHUB_STEP_SUMMARY
+          echo "\`latest_release_tag\`: \`$latest_release_tag\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "\`latest_release_date\`: \`$latest_release_date\`" >> "$GITHUB_STEP_SUMMARY"
 
           echo "latest-release-tag=$latest_release_tag" >> "$GITHUB_OUTPUT"
 
@@ -129,7 +129,7 @@ jobs:
             '
           )
 
-          echo -e "All PRs\n\`\`\`json\n$all_prs\n\`\`\`\n---\n" >> $GITHUB_STEP_SUMMARY
+          echo -e "All PRs\n\`\`\`json\n$all_prs\n\`\`\`\n---\n" >> "$GITHUB_STEP_SUMMARY"
 
           new_prs=$(
             echo "$all_prs" |
@@ -138,7 +138,7 @@ jobs:
             '
           )
 
-          echo -e "New PRs\n\`\`\`json\n$new_prs\n\`\`\`\n---\n" >> $GITHUB_STEP_SUMMARY
+          echo -e "New PRs\n\`\`\`json\n$new_prs\n\`\`\`\n---\n" >> "$GITHUB_STEP_SUMMARY"
 
           new_pr_labels=$(
             echo "$new_prs" |
@@ -154,7 +154,7 @@ jobs:
             '
           )
 
-          echo -e "New PR labels:\n\`\`\`\n$new_pr_labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "New PR labels:\n\`\`\`\n$new_pr_labels\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
           if echo "$new_pr_labels" | grep -q 'major' ||
           [ "$new_pr_labels" = "major" ]
@@ -171,14 +171,14 @@ jobs:
           then
               semver_label="patch"
           else
-              echo "No matching label found" >> $GITHUB_STEP_SUMMARY
-              echo -e "\`\`\`\n$new_pr_labels\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+              echo "No matching label found" >> "$GITHUB_STEP_SUMMARY"
+              echo -e "\`\`\`\n$new_pr_labels\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
               semver_label="null"
           fi
 
           echo "semver-label=$semver_label" >> "$GITHUB_OUTPUT"
-          echo "\`semver_label\`: \`$semver_label\`" >> $GITHUB_STEP_SUMMARY
+          echo "\`semver_label\`: \`$semver_label\`" >> "$GITHUB_STEP_SUMMARY"
         # yamllint enable rule:line-length
 
       - name: Get Release Branch Name

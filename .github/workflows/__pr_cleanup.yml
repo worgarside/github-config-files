@@ -34,7 +34,7 @@ jobs:
         env:
           INPUTS: ${{ toJson(inputs) }}
         run: |
-          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
   delete-branch:
     name: Delete Branch on PR Merge
@@ -57,7 +57,7 @@ jobs:
         # yamllint disable rule:line-length
         run: |
           name_list=$(echo "${{ inputs.pr-label-names }}" | jq -R 'split(",")' | tr '\n' ' ' )
-          echo "pr-label-name-list=$name_list" >> $GITHUB_OUTPUT
+          echo "pr-label-name-list=$name_list" >> "$GITHUB_OUTPUT"
         # yamllint enable rule:line-length
 
       - name: Delete Branch
@@ -77,7 +77,7 @@ jobs:
               inputs.head-ref == 'master'
             )
           )
-        run: git push origin --delete $GITHUB_HEAD_REF
+        run: git push origin --delete "$GITHUB_HEAD_REF"
 
   remove-bot-labels:
     name: Remove Bot Command Labels on PR Merge
@@ -98,7 +98,7 @@ jobs:
               tr '\n' ',' |
               sed 's/,$//'
           )
-          echo -e "bot_labels=\`$bot_labels\`" >> $GITHUB_STEP_SUMMARY
+          echo -e "bot_labels=\`$bot_labels\`" >> "$GITHUB_STEP_SUMMARY"
           if [[ ! -z "$bot_labels" ]]; then
             gh pr edit "${{ inputs.pr-number }}" \
               --repo "${{ github.repository }}" \

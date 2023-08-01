@@ -93,7 +93,7 @@ jobs:
                 .headRefName == "release/${{ inputs.release-tag }}"
               ) | .isDraft
             '
-          )" >> $GITHUB_OUTPUT
+          )" >> "$GITHUB_OUTPUT"
 
       - name: Summarise Environment
         run: |
