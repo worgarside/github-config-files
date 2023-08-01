@@ -18,3 +18,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.gh-token }}
           PR_FILTER: labelled
           PR_LABELS: bot:keep-updated
+          MERGE_CONFLICT_ACTION: ignore
