@@ -22,6 +22,17 @@ group:
       worgarside/useful-devops-scripts
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
+
+  # All normal workflows minus SonarCloud (run after UTs)
+  - files:
+      - .pylintrc
+      - .github/CODEOWNERS
+      - .github/dependabot.yml
+      - source: gha_sync/workflows/all_repos
+        dest: .github/workflows/
+        exclude: run_sonarcloud_scan.yml
+        # deleteOrphaned: true
+    repos: |
       worgarside/wg-utilities
 
   # No Custom Labels
