@@ -17,6 +17,10 @@ on:
         description: The head branch's name (source branch)
         required: true
         type: string
+      pr-author:
+        description: The PR author's username (github.event.pull_request.user.login)
+        required: true
+        type: string
       pr-number:
         description: The PR number
         required: true
@@ -117,6 +121,25 @@ jobs:
           echo "Previous Release (latest tag):  \`${{ steps.derive-label.outputs.latest-release }}\`" >> $GITHUB_STEP_SUMMARY
           echo "Release label is \`${{ steps.derive-label.outputs.release-label }}\`" >> $GITHUB_STEP_SUMMARY
         # yamllint enable rule:line-length
+
+  clean-dependabot-labels:
+    name: Clean Dependabot Labels
+    runs-on: ubuntu-latest
+    if: inputs.pr-author == 'app/dependabot'
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Remove major/minor/patch Labels
+        run: |
+          labels_to_remove=("major" "minor" "patch", "github_actions")
+
+          for label in "${labels_to_remove[@]}"; do
+            if gh pr view --json labels --jq ".labels[].name" | grep -q $label; then
+              gh pr edit --remove-label "$label"
+              echo -e "Removed dependabot label: \`$label\`" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
 
   validate-semver-label:
     name: Validate SemVer Label
