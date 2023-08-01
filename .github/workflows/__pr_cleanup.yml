@@ -61,6 +61,7 @@ jobs:
         # yamllint enable rule:line-length
 
       - name: Delete Branch
+        continue-on-error: true
         if: |
           success() &&
           (
@@ -97,7 +98,7 @@ jobs:
               tr '\n' ',' |
               sed 's/,$//'
           )
-          echo "bot_labels=$bot_labels" >> $GITHUB_STEP_SUMMARY
+          echo -e "bot_labels=\`$bot_labels\`" >> $GITHUB_STEP_SUMMARY
           if [[ ! -z "$bot_labels" ]]; then
             gh pr edit "${{ inputs.pr-number }}" \
               --repo "${{ github.repository }}" \
