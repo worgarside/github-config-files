@@ -23,6 +23,13 @@ group:
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
 
+  # addon-item-warehouse overrides
+  - files:
+      - source: gha_sync/workflows/addon-item-warehouse
+        dest: .github/workflows/
+    repos: |
+      worgarside/addon-item-warehouse
+
   # All normal workflows minus SonarCloud (run after UTs)
   - files:
       - .pylintrc

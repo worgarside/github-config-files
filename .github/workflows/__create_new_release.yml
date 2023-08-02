@@ -23,6 +23,10 @@ on:
         required: false
         default: true
         type: boolean
+      update-yaml-file-path:
+        description: The path to a YAML file containing a `version` variable
+        required: false
+        type: string
     secrets:
       gh-token:
         description: The GitHub token to use for the PR creation
@@ -308,6 +312,14 @@ jobs:
         run: |
           sed -i "s/^version = .*/version = \"${{ needs.derive-release-branch-name.outputs.tag }}\"/" pyproject.toml
           git add pyproject.toml
+        # yamllint enable rule:line-length
+
+      - name: Update `${{ inputs.update-yaml-file-path }}` Version
+        if: inputs.update-yaml-file-path
+        # yamllint disable rule:line-length
+        run: |
+          sed -i "s/^version: .*/version: ${{ needs.derive-release-branch-name.outputs.tag }}/" ${{ inputs.update-yaml-file-path }}
+          git add ${{ inputs.update-yaml-file-path }}
         # yamllint enable rule:line-length
 
       - name: Commit Changes
