@@ -30,7 +30,7 @@ jobs:
     # yamllint disable-line rule:line-length
     uses: worgarside/github-config-files/.github/workflows/__create_new_release.yml@main
     with:
-      update-yaml-file-path: item_warehouse/config.yaml
+      update-yaml-file-path: '{{config_path }}'
       publish-to-test-pypi: false
     secrets:
       gh-token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
