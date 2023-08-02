@@ -9,6 +9,10 @@ on:
         required: false
         default: true
         type: boolean
+      path-to-__version__-file:
+        description: The path to a Python file containing a `__version__` variable
+        required: false
+        type: string
       publish-to-test-pypi:
         default: false
         description: Whether to publish to Test PyPI
@@ -290,15 +294,30 @@ jobs:
           git checkout -b \
             ${{ needs.derive-release-branch-name.outputs.branch }}
 
+      - name: Update `${{ inputs.path-to-__version__-file }}` __version__
+        if: inputs.path-to-__version__-file
+        # yamllint disable rule:line-length
+        run: |
+          sed -i "s/^__version__ = .*/__version__ = \"${{ needs.derive-release-branch-name.outputs.tag }}\"/" ${{ inputs.path-to-__version__-file }}
+          git add ${{ inputs.path-to-__version__-file }}
+        # yamllint enable rule:line-length
+
       - name: Update `pyproject.toml` Version
         if: inputs.update-pyproject-toml
-        continue-on-error: true
         # yamllint disable rule:line-length
         run: |
           sed -i "s/^version = .*/version = \"${{ needs.derive-release-branch-name.outputs.tag }}\"/" pyproject.toml
           git add pyproject.toml
-          git commit -m "Bump version to ${{ needs.derive-release-branch-name.outputs.tag }}" --allow-empty
         # yamllint enable rule:line-length
+
+      - name: Commit Changes
+        if: |
+          inputs.path-to-__version__-file ||
+          inputs.update-pyproject-toml
+        run: |
+          git commit \
+            -m "Bump version to ${{ needs.derive-release-branch-name.outputs.tag }}" \
+            --allow-empty
 
       - name: Push Branch
         run: |
