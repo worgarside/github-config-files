@@ -104,6 +104,7 @@ group:
 
 worgarside/addon-item-warehouse:
   - source: gha_sync/workflows/addon_repos/create_new_release.yml
+    dest: .github/workflows/create_new_release.yml
     template:
       config_path: item_warehouse/config.yaml
   - source: gha_sync/workflows/versioned_repos
@@ -113,6 +114,7 @@ worgarside/addon-item-warehouse:
 
 worgarside/addon-rss-log-feed:
   - source: gha_sync/workflows/addon_repos/create_new_release.yml
+    dest: .github/workflows/create_new_release.yml
     template:
       config_path: rss_log_feed/config.yaml
   - source: gha_sync/workflows/versioned_repos
@@ -122,6 +124,7 @@ worgarside/addon-rss-log-feed:
 
 worgarside/addon-yas-209-bridge:
   - source: gha_sync/workflows/addon_repos/create_new_release.yml
+    dest: .github/workflows/create_new_release.yml
     template:
       config_path: yas_209_bridge/config.yaml
   - source: gha_sync/workflows/versioned_repos
