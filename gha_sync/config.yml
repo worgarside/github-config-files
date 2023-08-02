@@ -107,8 +107,7 @@ worgarside/addon-item-warehouse:
     dest: .github/workflows/create_new_release.yml
     template:
       config_path: item_warehouse/config.yaml
-      # yamllint disable-line rule:line-length
-      secrets_WORGARSIDE_DEV_TOKEN: '{% raw %}{{ secrets.WORGARSIDE_DEV_TOKEN }}{% endraw %}'
+      secrets_WORGARSIDE_DEV_TOKEN: '{{ secrets.WORGARSIDE_DEV_TOKEN }}'
   - source: gha_sync/workflows/versioned_repos
     dest: .github/workflows/
     exclude: |
@@ -119,8 +118,7 @@ worgarside/addon-rss-log-feed:
     dest: .github/workflows/create_new_release.yml
     template:
       config_path: rss_log_feed/config.yaml
-      # yamllint disable-line rule:line-length
-      secrets_WORGARSIDE_DEV_TOKEN: '{% raw %}{{ secrets.WORGARSIDE_DEV_TOKEN }}{% endraw %}'
+      secrets_WORGARSIDE_DEV_TOKEN: '{{ secrets.WORGARSIDE_DEV_TOKEN }}'
   - source: gha_sync/workflows/versioned_repos
     dest: .github/workflows/
     exclude: |
@@ -131,8 +129,7 @@ worgarside/addon-yas-209-bridge:
     dest: .github/workflows/create_new_release.yml
     template:
       config_path: yas_209_bridge/config.yaml
-      # yamllint disable-line rule:line-length
-      secrets_WORGARSIDE_DEV_TOKEN: '{% raw %}{{ secrets.WORGARSIDE_DEV_TOKEN }}{% endraw %}'
+      secrets_WORGARSIDE_DEV_TOKEN: '{{ secrets.WORGARSIDE_DEV_TOKEN }}'
   - source: gha_sync/workflows/versioned_repos
     dest: .github/workflows/
     exclude: |
