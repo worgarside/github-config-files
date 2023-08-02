@@ -59,6 +59,7 @@ jobs:
       pr-title: Release ${{ needs.get-release-tag.outputs.release-tag }}
       pr-draft: false
       update-pr-body-if-exists: true
+      pr-labels: release
     secrets:
       gh-token: ${{ secrets.gh-token }}
 

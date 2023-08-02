@@ -119,12 +119,12 @@ jobs:
           gh pr create \
             --repo ${{ github.repository }} \
             --title "$PR_TITLE" \
-            "$PR_BODY_ARG" \
+            $PR_BODY_ARG \
             --base "${{ inputs.base-ref-name }}" \
             --head "${{ inputs.head-ref-name }}" \
             --reviewer ${{ inputs.pr-reviewer }} \
-            "$PR_LABELS_ARG" \
-            "$PR_DRAFT_ARG"
+            $PR_LABELS_ARG \
+            $PR_DRAFT_ARG
 
   update-pr:
     name: Update PR
