@@ -20,10 +20,6 @@ jobs:
         github.base_ref == 'develop' &&
         !contains(
           github.event.pull_request.labels.*.name,
-          'sync'
-        ) &&
-        !contains(
-          github.event.pull_request.labels.*.name,
           'skip-changelog'
         ) &&
         !contains(
