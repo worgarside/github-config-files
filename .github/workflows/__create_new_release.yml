@@ -27,7 +27,7 @@ on:
       gh-token:
         description: The GitHub token to use for the PR creation
         required: true
-      test-pypi-token:
+      PYPI_API_TOKEN:
         description: The Test PyPi token to use for the workflow
         required: false
 
@@ -386,4 +386,4 @@ jobs:
       publish-to-test-pypi: ${{ inputs.publish-to-test-pypi }}
     secrets:
       gh-token: ${{ secrets.gh-token }}
-      test-pypi-token: ${{ secrets.test-pypi-token }}
+      PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
