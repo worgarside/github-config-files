@@ -93,18 +93,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.gh-token }}
 
-      - name: Check PyPi Token Provided
-        if: inputs.publish-to-test-pypi
-        # yamllint disable rule:line-length
-        run: |
-          if [ -z "${{ secrets.PYPI_API_TOKEN }}" ]; then
-            echo "No Test PyPi token provided. Cancelling workflow. :no_good:" >> "$GITHUB_STEP_SUMMARY"
-            exit 1
-          else
-            echo "Test PyPi token provided. Continuing workflow. :white_check_mark:" >> "$GITHUB_STEP_SUMMARY"
-          fi
-        # yamllint enable rule:line-length
-
   publish-to-test-pypi:
     name: Publish to Test PyPi
     if: inputs.publish-to-test-pypi

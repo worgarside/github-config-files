@@ -47,18 +47,6 @@ jobs:
     name: Cancel Workflow if Pull Request is not merged
     runs-on: ubuntu-latest
     steps:
-      - name: Check PyPi Token Provided
-        if: inputs.publish-to-pypi
-        # yamllint disable rule:line-length
-        run: |
-          if [ -z "${{ secrets.PYPI_API_TOKEN }}" ]; then
-            echo "No PyPi token provided. Cancelling workflow. :no_good:" >> "$GITHUB_STEP_SUMMARY"
-            exit 1
-          else
-            echo "PyPi token provided. Continuing workflow. :white_check_mark:" >> "$GITHUB_STEP_SUMMARY"
-          fi
-        # yamllint enable rule:line-length
-
       - name: Check for PR Merge
         id: cancel-if-not-merged
         # yamllint disable rule:line-length
