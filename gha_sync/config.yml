@@ -90,6 +90,8 @@ group:
       - source: gha_sync/workflows/versioned_repos
         dest: .github/workflows/
         # deleteOrphaned: true
+      - source: gha_sync/configs/versioned_repos
+        dest: .github/
     repos: |
       worgarside/home-assistant
       worgarside/home-assistant-config-validator
@@ -98,6 +100,8 @@ group:
   - files:
       - source: gha_sync/workflows/pypi_repos
         dest: .github/workflows/
+      - source: gha_sync/configs/versioned_repos
+        dest: .github/
         # deleteOrphaned: true
     repos: |
       worgarside/wg-utilities
@@ -112,6 +116,8 @@ worgarside/addon-item-warehouse:
     dest: .github/workflows/
     exclude: |
       create_new_release.yml
+  - source: gha_sync/configs/versioned_repos
+    dest: .github/
 
 worgarside/addon-rss-log-feed:
   - source: gha_sync/workflows/addon_repos/create_new_release.yml
@@ -123,6 +129,8 @@ worgarside/addon-rss-log-feed:
     dest: .github/workflows/
     exclude: |
       create_new_release.yml
+  - source: gha_sync/configs/versioned_repos
+    dest: .github/
 
 worgarside/addon-yas-209-bridge:
   - source: gha_sync/workflows/addon_repos/create_new_release.yml
@@ -134,3 +142,5 @@ worgarside/addon-yas-209-bridge:
     dest: .github/workflows/
     exclude: |
       create_new_release.yml
+  - source: gha_sync/configs/versioned_repos
+    dest: .github/
