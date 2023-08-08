@@ -36,6 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Log Inputs
+        if: runner.debug == '1'
         env:
           INPUTS: ${{ toJson(inputs) }}
         run: |

@@ -33,20 +33,17 @@ on:
         required: false
 
 jobs:
-  log-inputs:
-    name: Log Inputs
+  cancel-if-not-merged:
+    name: Cancel Workflow if Pull Request is not merged
     runs-on: ubuntu-latest
     steps:
       - name: Log Inputs
+        if: runner.debug == '1'
         env:
           INPUTS: ${{ toJson(inputs) }}
         run: |
           echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
-  cancel-if-not-merged:
-    name: Cancel Workflow if Pull Request is not merged
-    runs-on: ubuntu-latest
-    steps:
       - name: Check for PR Merge
         id: cancel-if-not-merged
         # yamllint disable rule:line-length
