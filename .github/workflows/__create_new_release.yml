@@ -36,16 +36,6 @@ on:
         required: false
 
 jobs:
-  log-inputs:
-    name: Log Inputs
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log Inputs
-        env:
-          INPUTS: ${{ toJson(inputs) }}
-        run: |
-          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
-
   check-for-existing-release:
     name: Check for Existing Release
     runs-on: ubuntu-latest
@@ -54,6 +44,13 @@ jobs:
     outputs:
       pending-release-tag: ${{ steps.get-release-branch.outputs.pending-release-tag }}
     steps:
+      - name: Log Inputs
+        if: runner.debug == '1'
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: |
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Clone Repo
         uses: actions/checkout@v3
         with:

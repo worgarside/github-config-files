@@ -13,19 +13,16 @@ on:
         type: string
 
 jobs:
-  log-inputs:
-    name: Log Inputs
+  actionlint:
     runs-on: ubuntu-latest
     steps:
       - name: Log Inputs
+        if: runner.debug == '1'
         env:
           INPUTS: ${{ toJson(inputs) }}
         run: |
           echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
-  actionlint:
-    runs-on: ubuntu-latest
-    steps:
       - name: Clone Repo
         uses: actions/checkout@v3
 

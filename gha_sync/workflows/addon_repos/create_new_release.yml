@@ -33,4 +33,4 @@ jobs:
       update-yaml-file-path: '{{ config_path }}'
       publish-to-test-pypi: false
     secrets:
-      gh-token: ${{ secrets_WORGARSIDE_DEV_TOKEN }}
+      gh-token: '{{ secrets_WORGARSIDE_DEV_TOKEN }}'
