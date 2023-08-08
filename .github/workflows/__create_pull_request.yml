@@ -47,16 +47,6 @@ on:
         required: true
 
 jobs:
-  log-inputs:
-    name: Log Inputs
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log Inputs
-        env:
-          INPUTS: ${{ toJson(inputs) }}
-        run: |
-          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
-
   create-pr:
     name: Create PR
     runs-on: ubuntu-latest
@@ -64,6 +54,13 @@ jobs:
       create-pr: ${{ steps.check-if-pr-exists.outputs.create-pr }}
       existing-pr-url: ${{ steps.check-if-pr-exists.outputs.existing-pr-url }}
     steps:
+      - name: Log Inputs
+        if: runner.debug == '1'
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: |
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Check If PR Exists
         id: check-if-pr-exists
         env:

@@ -18,20 +18,17 @@ on:
         required: true
 
 jobs:
-  log-inputs:
-    name: Log Inputs
+  sonarcloud:
+    name: SonarCloud
     runs-on: ubuntu-latest
     steps:
       - name: Log Inputs
+        if: runner.debug == '1'
         env:
           INPUTS: ${{ toJson(inputs) }}
         run: |
           echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
-  sonarcloud:
-    name: SonarCloud
-    runs-on: ubuntu-latest
-    steps:
       - name: Clone Repo
         uses: actions/checkout@v3
         with:
