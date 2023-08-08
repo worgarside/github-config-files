@@ -92,6 +92,9 @@ group:
         # deleteOrphaned: true
       - source: gha_sync/configs/versioned_repos
         dest: .github/
+        # Home Assistant has its own template
+        exclude: |
+          release-drafter.yml
     repos: |
       worgarside/home-assistant
       worgarside/home-assistant-config-validator
@@ -144,3 +147,7 @@ worgarside/addon-yas-209-bridge:
       create_new_release.yml
   - source: gha_sync/configs/versioned_repos
     dest: .github/
+
+worgarside/home-assistant-config-validator:
+  - source: gha_sync/configs/versioned_repos/release-drafter.yml
+    dest: .github/release-drafter.yml
