@@ -10,7 +10,8 @@ group:
         dest: .github/workflows/
         # deleteOrphaned: true
     repos: |
-      worgarside/addon-item-warehouse
+      worgarside/addon-item-warehouse-api
+      worgarside/addon-item-warehouse-website
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant
@@ -40,7 +41,8 @@ group:
       - .github/labeler.yml
       - .github/repo_labels.yml
     repos: |
-      worgarside/addon-item-warehouse
+      worgarside/addon-item-warehouse-api
+      worgarside/addon-item-warehouse-website
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant-config-validator
@@ -57,7 +59,8 @@ group:
   - files:
       - .gitignore
     repos: |
-      worgarside/addon-item-warehouse
+      worgarside/addon-item-warehouse-api
+      worgarside/addon-item-warehouse-website
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant-config-validator
@@ -73,7 +76,8 @@ group:
   - files:
       - .yamllint
     repos: |
-      worgarside/addon-item-warehouse
+      worgarside/addon-item-warehouse-api
+      worgarside/addon-item-warehouse-website
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant-config-validator
@@ -109,11 +113,24 @@ group:
     repos: |
       worgarside/wg-utilities
 
-worgarside/addon-item-warehouse:
+worgarside/addon-item-warehouse-api:
   - source: gha_sync/workflows/addon_repos/create_new_release.yml
     dest: .github/workflows/create_new_release.yml
     template:
-      config_path: item_warehouse/config.yaml
+      config_path: item_warehouse_api/config.yaml
+      secrets_WORGARSIDE_DEV_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+  - source: gha_sync/workflows/versioned_repos
+    dest: .github/workflows/
+    exclude: |
+      create_new_release.yml
+  - source: gha_sync/configs/versioned_repos
+    dest: .github/
+
+worgarside/addon-item-warehouse-website:
+  - source: gha_sync/workflows/addon_repos/create_new_release.yml
+    dest: .github/workflows/create_new_release.yml
+    template:
+      config_path: item_warehouse_website/config.yaml
       secrets_WORGARSIDE_DEV_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
   - source: gha_sync/workflows/versioned_repos
     dest: .github/workflows/
