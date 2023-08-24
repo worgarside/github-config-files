@@ -165,10 +165,19 @@ jobs:
       )
     steps:
       - name: Validate SemVer Label
-        uses: yogevbd/enforce-label-action@2.2.2
-        with:
-          # yamllint disable-line rule:line-length
-          REQUIRED_LABELS_ANY: bug,dependencies,hotfix,major,minor,non-functional,patch,sync
+        env:
+          REQUIRED_LABELS: bug,dependencies,hotfix,major,minor,non-functional,patch,sync
+        # yamllint disable rule:line-length
+        run: |
+          labels=$(gh pr view ${{ inputs.pr-number }} --json labels | jq -r '.labels[].name')
+
+          if echo "$labels" | grep -qE "$(echo $REQUIRED_LABELS | tr ',' '|')"; then
+            echo "No SemVer label found." >> "$GITHUB_STEP_SUMMARY"
+            echo -e "Please add one of the following labels: \`$REQUIRED_LABELS\`" >> "$GITHUB_STEP_SUMMARY"
+            echo -e "Found: \`$labels\`" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+        # yamllint enable rule:line-length
 
   edit-keep-updated-label:
     name: Edit `bot:keep-updated` label
