@@ -166,6 +166,7 @@ jobs:
     steps:
       - name: Validate SemVer Label
         env:
+          GITHUB_TOKEN: ${{ secrets.gh-token }}
           REQUIRED_LABELS: bug,dependencies,hotfix,major,minor,non-functional,patch,sync
         # yamllint disable rule:line-length
         run: |
