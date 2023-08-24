@@ -23,6 +23,10 @@ on:
         required: false
         default: true
         type: boolean
+      update-json-file-path:
+        description: The path to a JSON file containing a `version` top level key
+        required: false
+        type: string
       update-yaml-file-path:
         description: The path to a YAML file containing a `version` variable
         required: false
@@ -310,6 +314,13 @@ jobs:
           sed -i "s/^version = .*/version = \"${{ needs.derive-release-branch-name.outputs.tag }}\"/" pyproject.toml
           git add pyproject.toml
         # yamllint enable rule:line-length
+
+      - name: Update `${{ inputs.update-json-file-path }}` Version
+        if: inputs.update-json-file-path
+        # yamllint disable rule:line-length
+        run: |
+          sed -i "s/^  \"version\": \".*\",/  \"version\": \"${{ needs.derive-release-branch-name.outputs.tag }}\",/" ${{ inputs.update-json-file-path }}
+          git add ${{ inputs.update-json-file-path }}
 
       - name: Update `${{ inputs.update-yaml-file-path }}` Version
         if: inputs.update-yaml-file-path

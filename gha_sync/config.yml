@@ -66,7 +66,6 @@ group:
       - .yamllint
     repos: |
       worgarside/addon-item-warehouse-api
-      worgarside/addon-item-warehouse-website
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant-config-validator
@@ -122,7 +121,8 @@ worgarside/addon-item-warehouse-website:
   - .github/dependabot.yml
   - source: gha_sync/workflows/all_repos
     dest: .github/workflows/
-  - source: gha_sync/workflows/addon_repos/create_new_release.yml
+  # yamllint disable-line rule:line-length
+  - source: gha_sync/workflows/addon_repos/addon-item-warehouse-website/create_new_release.yml
     dest: .github/workflows/create_new_release.yml
     template:
       config_path: item_warehouse_website/config.yaml
