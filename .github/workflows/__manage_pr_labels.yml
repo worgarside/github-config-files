@@ -170,7 +170,7 @@ jobs:
           REQUIRED_LABELS: bug,dependencies,hotfix,major,minor,non-functional,patch,sync
         # yamllint disable rule:line-length
         run: |
-          labels=$(gh pr view ${{ inputs.pr-number }} --json labels | jq -r '.labels[].name')
+          labels=$(gh pr view ${{ inputs.pr-number }} --repo ${{ github.repository }} --json labels | jq -r '.labels[].name')
 
           if echo "$labels" | grep -qE "$(echo $REQUIRED_LABELS | tr ',' '|')"; then
             echo "No SemVer label found." >> "$GITHUB_STEP_SUMMARY"
