@@ -401,6 +401,7 @@ jobs:
       base-ref-name: main
       head-ref-name: ${{ needs.derive-release-branch-name.outputs.branch }}
       publish-to-test-pypi: ${{ inputs.publish-to-test-pypi }}
+      validate-pyproject-toml: ${{ inputs.update-pyproject-toml }}
     secrets:
       gh-token: ${{ secrets.gh-token }}
       PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}

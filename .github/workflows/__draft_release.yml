@@ -18,6 +18,11 @@ on:
         description: Whether to publish to Test PyPI
         required: false
         type: boolean
+      validate-pyproject-toml:
+        default: 'true'
+        description: Whether to validate the `pyproject.toml` version
+        required: false
+        type: string
     secrets:
       gh-token:
         description: The GitHub token to use for the workflow
@@ -79,6 +84,7 @@ jobs:
           ref: ${{ inputs.head-ref-name }}
 
       - name: Validate `pyproject.toml` version
+        if: inputs.validate-pyproject-toml == 'true'
         # yamllint disable rule:line-length
         run: |
           expected_line="version = \"${{ needs.get-release-tag.outputs.release-tag }}\""
