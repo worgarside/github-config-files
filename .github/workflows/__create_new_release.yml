@@ -22,7 +22,7 @@ on:
         description: Update the pyproject.toml version
         required: false
         default: 'true'
-        type: boolean
+        type: string
       update-json-file-path:
         description: The path to a JSON file containing a `version` top level key
         required: false
@@ -331,9 +331,6 @@ jobs:
         # yamllint enable rule:line-length
 
       - name: Commit Changes
-        if: |
-          inputs.path-to-__version__-file ||
-          inputs.update-pyproject-toml
         run: |
           git commit \
             -m "Bump version to ${{ needs.derive-release-branch-name.outputs.tag }}" \
