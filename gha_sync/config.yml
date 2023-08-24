@@ -1,7 +1,8 @@
 ---
-
 group:
-  # All Repos
+  # All "Normal" Repos
+  # This is every repo apart from `wg-utilities` (needs PyPi stuff) and
+  # `addon-item-warehouse-website` (doesn't use Pylint)
   - files:
       - .pylintrc
       - .github/CODEOWNERS
@@ -11,7 +12,6 @@ group:
         # deleteOrphaned: true
     repos: |
       worgarside/addon-item-warehouse-api
-      worgarside/addon-item-warehouse-website
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant
@@ -24,19 +24,8 @@ group:
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
 
-  # All normal workflows minus SonarCloud (run after UTs)
-  - files:
-      - .pylintrc
-      - .github/CODEOWNERS
-      - .github/dependabot.yml
-      - source: gha_sync/workflows/all_repos
-        dest: .github/workflows/
-        exclude: run_sonarcloud_scan.yml
-        # deleteOrphaned: true
-    repos: |
-      worgarside/wg-utilities
-
   # No Custom Labels
+  # Think the only exclusion is `home-assistant`
   - files:
       - .github/labeler.yml
       - .github/repo_labels.yml
@@ -103,15 +92,17 @@ group:
       worgarside/home-assistant
       worgarside/home-assistant-config-validator
 
-  # PyPi Repos (Versioned + Publish to PyPi)
-  - files:
-      - source: gha_sync/workflows/pypi_repos
-        dest: .github/workflows/
-      - source: gha_sync/configs/versioned_repos
-        dest: .github/
-        # deleteOrphaned: true
-    repos: |
-      worgarside/wg-utilities
+worgarside/wg-utilities:
+  - .pylintrc
+  - .github/CODEOWNERS
+  - .github/dependabot.yml
+  - source: gha_sync/workflows/all_repos
+    dest: .github/workflows/
+    exclude: run_sonarcloud_scan.yml
+  - source: gha_sync/workflows/pypi_repos
+    dest: .github/workflows/
+  - source: gha_sync/configs/versioned_repos
+    dest: .github/
 
 worgarside/addon-item-warehouse-api:
   - source: gha_sync/workflows/addon_repos/create_new_release.yml
@@ -127,6 +118,10 @@ worgarside/addon-item-warehouse-api:
     dest: .github/
 
 worgarside/addon-item-warehouse-website:
+  - .github/CODEOWNERS
+  - .github/dependabot.yml
+  - source: gha_sync/workflows/all_repos
+    dest: .github/workflows/
   - source: gha_sync/workflows/addon_repos/create_new_release.yml
     dest: .github/workflows/create_new_release.yml
     template:
