@@ -21,7 +21,7 @@ on:
       update-pyproject-toml:
         description: Update the pyproject.toml version
         required: false
-        default: true
+        default: 'true'
         type: boolean
       update-json-file-path:
         description: The path to a JSON file containing a `version` top level key
@@ -308,7 +308,7 @@ jobs:
         # yamllint enable rule:line-length
 
       - name: Update `pyproject.toml` Version
-        if: inputs.update-pyproject-toml
+        if: inputs.update-pyproject-toml == 'true'
         # yamllint disable rule:line-length
         run: |
           sed -i "s/^version = .*/version = \"${{ needs.derive-release-branch-name.outputs.tag }}\"/" pyproject.toml
