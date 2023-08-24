@@ -177,6 +177,11 @@ jobs:
             echo -e "Please add one of the following labels: \`$REQUIRED_LABELS\`" >> "$GITHUB_STEP_SUMMARY"
             echo -e "Found: \`$labels\`" >> "$GITHUB_STEP_SUMMARY"
             exit 1
+          else
+            echo "SemVer label found." >> "$GITHUB_STEP_SUMMARY"
+            echo -e "Found: \`$labels\`" >> "$GITHUB_STEP_SUMMARY"
+            echo $REQUIRED_LABELS | tr ',' '|' >> "$GITHUB_STEP_SUMMARY"
+            echo "$labels" | grep -qE "$(echo $REQUIRED_LABELS | tr ',' '|')" >> "$GITHUB_STEP_SUMMARY"
           fi
         # yamllint enable rule:line-length
 
