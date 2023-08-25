@@ -349,7 +349,7 @@
 | [gha_sync/workflows/pypi_repos/publish_release.yml](gha_sync/workflows/pypi_repos/publish_release.yml) | [.github/workflows/publish_release.yml](https://github.com/worgarside/wg-utilities/.github/workflows/publish_release.yml) |
 </details>
 
-## Single Table
+## All Mappings
 
 | Destination | [addon-item-warehouse-api](https://github.com/worgarside/addon-item-warehouse-api) | [addon-item-warehouse-website](https://github.com/worgarside/addon-item-warehouse-website) | [addon-rss-log-feed](https://github.com/worgarside/addon-rss-log-feed) | [addon-yas-209-bridge](https://github.com/worgarside/addon-yas-209-bridge) | [home-assistant](https://github.com/worgarside/home-assistant) | [home-assistant-config-validator](https://github.com/worgarside/home-assistant-config-validator) | [led-matrix-now-playing](https://github.com/worgarside/led-matrix-now-playing) | [plant-monitor](https://github.com/worgarside/plant-monitor) | [python-template](https://github.com/worgarside/python-template) | [smart-mini-crt-interface](https://github.com/worgarside/smart-mini-crt-interface) | [useful-devops-scripts](https://github.com/worgarside/useful-devops-scripts) | [very-slow-movie-player](https://github.com/worgarside/very-slow-movie-player) | [wg-scripts](https://github.com/worgarside/wg-scripts) | [wg-utilities](https://github.com/worgarside/wg-utilities) |
 |-------------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|

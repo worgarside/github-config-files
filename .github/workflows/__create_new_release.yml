@@ -4,11 +4,20 @@ name: Create New Release
 on:
   workflow_call:
     inputs:
+      build-type:
+        description: The build type to use for the PR ("python", "node")
+        required: false
+        type: string
       draft-release:
         description: Whether to draft a release
         required: false
         default: true
         type: boolean
+      node-build-directory:
+        description: The directory to build the Node project in
+        required: false
+        type: string
+        default: .
       path-to-__version__-file:
         description: The path to a Python file containing a `__version__` variable
         required: false
@@ -399,7 +408,9 @@ jobs:
       - create-release-branch
     with:
       base-ref-name: main
+      build-type: ${{ inputs.build-type }}
       head-ref-name: ${{ needs.derive-release-branch-name.outputs.branch }}
+      node-build-directory: ${{ inputs.node-build-directory }}
       publish-to-test-pypi: ${{ inputs.publish-to-test-pypi }}
       validate-pyproject-toml: ${{ inputs.update-pyproject-toml }}
     secrets:

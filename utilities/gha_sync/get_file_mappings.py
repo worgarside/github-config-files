@@ -103,7 +103,7 @@ def generate_single_table() -> str:
     """Generate a single table containing all the file mappings."""
     all_repos = sorted(REPO_FILE_MAPPINGS.keys())
 
-    readme_contents_structure = "## Single Table\n\n"
+    readme_contents_structure = "## All Mappings\n\n"
 
     readme_contents_structure += "| Destination |"
     for repo in all_repos:
