@@ -406,30 +406,6 @@ jobs:
           git push origin \
             ${{ needs.derive-release-branch-name.outputs.branch }}
 
-  log-stuff:
-    needs:
-      - create-release-branch
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log Inputs
-        env:
-          INPUTS: ${{ toJson(inputs) }}
-        run: |
-          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Log create-release-branch result
-        env:
-          INPUTS: ${{ needs.create-release-branch.result }}
-        run: |
-          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Log Outputs
-        env:
-          OUTPUTS: ${{ toJson(steps) }}
-        run: |
-          echo -e "\`\`\`json\n$OUTPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
-
   draft-release:
     if: |
       always() &&
@@ -450,7 +426,7 @@ jobs:
       build-type: ${{ inputs.build-type }}
       # Only want to commit if (requested, and) the release branch was newly created
       # yamllint disable-line rule:line-length
-      commit-build-directory: ${{ inputs.commit-build-directory == 'true' && needs.create-release-branch.result == 'success' }}
+      commit-build-directory: ${{ inputs.commit-build-directory && needs.create-release-branch.result == 'success' }}
       head-ref-name: ${{ needs.derive-release-branch-name.outputs.branch }}
       node-build-directory: ${{ inputs.node-build-directory }}
       publish-to-test-pypi: ${{ inputs.publish-to-test-pypi }}
