@@ -251,6 +251,47 @@ jobs:
   # ensure it is up to date with the latest changes                                   #
   # --------------------------------------------------------------------------------- #
 
+  # If the pending release is the same as the release we want to create, then rebase
+  # the existing branch to ensure it is up to date with the latest changes
+  rebase-release-branch:
+    name: Rebase Release Branch
+    runs-on: ubuntu-latest
+    needs:
+      - check-for-existing-release
+      - derive-release-branch-name
+    if: |
+      needs.derive-release-branch-name.outputs.tag != 'null' &&
+      needs.check-for-existing-release.outputs.pending-release-tag ==
+        needs.derive-release-branch-name.outputs.tag
+    env:
+      GH_TOKEN: ${{ secrets.gh-token }}
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.derive-release-branch-name.outputs.branch }}
+          token: ${{ secrets.gh-token }}
+
+      - name: Rebase Release Branch
+        run: |
+          release_branch="${{ needs.derive-release-branch-name.outputs.branch }}"
+
+          git config --global user.name "worgarside-dev"
+          git config --global user.email "worgarside.dev@gmail.com"
+
+          git checkout develop
+          git pull origin develop
+
+          git checkout "$release_branch"
+
+          if ! git rebase develop; then
+            echo "Rebase failed. Exiting."
+            exit 1
+          fi
+
+          git push origin "$release_branch" --force
+
   # If pending-release-tag is not null, and is not the same as the release we want to
   # create, then delete the pending release
   delete-pending-release:
@@ -349,47 +390,6 @@ jobs:
         run: |
           git push origin \
             ${{ needs.derive-release-branch-name.outputs.branch }}
-
-  # If the pending release is the same as the release we want to create, then rebase
-  # the existing branch to ensure it is up to date with the latest changes
-  rebase-release-branch:
-    name: Rebase Release Branch
-    runs-on: ubuntu-latest
-    needs:
-      - check-for-existing-release
-      - derive-release-branch-name
-    if: |
-      needs.derive-release-branch-name.outputs.tag != 'null' &&
-      needs.check-for-existing-release.outputs.pending-release-tag ==
-        needs.derive-release-branch-name.outputs.tag
-    env:
-      GH_TOKEN: ${{ secrets.gh-token }}
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          ref: ${{ needs.derive-release-branch-name.outputs.branch }}
-          token: ${{ secrets.gh-token }}
-
-      - name: Rebase Release Branch
-        run: |
-          release_branch="${{ needs.derive-release-branch-name.outputs.branch }}"
-
-          git config --global user.name "worgarside-dev"
-          git config --global user.email "worgarside.dev@gmail.com"
-
-          git checkout develop
-          git pull origin develop
-
-          git checkout "$release_branch"
-
-          if ! git rebase develop; then
-            echo "Rebase failed. Exiting."
-            exit 1
-          fi
-
-          git push origin "$release_branch" --force
 
   draft-release:
     if: |
