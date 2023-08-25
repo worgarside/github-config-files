@@ -102,6 +102,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
+          cache-dependency-path: ${{ inputs.node-build-directory }}/package-lock.json
           node-version: 18
 
       - name: Install Dependencies
