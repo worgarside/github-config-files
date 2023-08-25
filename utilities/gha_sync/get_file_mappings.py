@@ -84,7 +84,7 @@ def generate_readme() -> str:
             readme_contents_structure += f"| {markdown_url(source, source)} | {markdown_url(dest, repo_url + '/' + dest)} |\n"  # noqa: E501
         readme_contents_structure += "\n"
 
-    return readme_contents_structure
+    return readme_contents_structure.rstrip() + "\n"
 
 
 def main() -> None:
