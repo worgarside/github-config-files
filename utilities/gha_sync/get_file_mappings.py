@@ -11,7 +11,7 @@ from typing import TypedDict
 from yaml import safe_load
 
 LOGGER = getLogger(__name__)
-LOGGER.setLevel("DEBUG")
+LOGGER.setLevel("INFO")
 LOGGER.addHandler(StreamHandler(stdout))
 
 REPO_PATH = Path(__file__).parents[2]
@@ -160,9 +160,8 @@ def main() -> None:
     generate_mappings()
 
     readme = generate_readme()
+
     (REPO_PATH / "README.md").write_text(readme)
-    print("\n\n\n\n")
-    print(dumps(REPO_FILE_MAPPINGS, indent=2, default=sorted, sort_keys=True))
 
 
 if __name__ == "__main__":
