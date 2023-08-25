@@ -108,8 +108,8 @@ jobs:
       - name: Install Dependencies
         run: |
           cd ${{ inputs.node-build-directory }}
-          npm install --verbose
-          npm install --verbose --only=dev
+          npm ci --verbose
+          npm ci --verbose --only=dev
 
       - name: Build
         run: |
