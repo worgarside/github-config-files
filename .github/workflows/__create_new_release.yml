@@ -409,6 +409,7 @@ jobs:
   log-stuff:
     needs:
       - create-release-branch
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Log Inputs
