@@ -263,6 +263,7 @@ jobs:
       needs.derive-release-branch-name.outputs.tag != 'null' &&
       needs.check-for-existing-release.outputs.pending-release-tag ==
         needs.derive-release-branch-name.outputs.tag
+    continue-on-error: true
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
     steps:
@@ -293,20 +294,23 @@ jobs:
           git push origin "$release_branch" --force
 
   # If pending-release-tag is not null, and is not the same as the release we want to
-  # create, then delete the pending release
+  # create, then delete the pending release. This also runs if `rebase-release-branch`
+  # fails, as we want to delete the pending release in that case too
   delete-pending-release:
     name: Delete Pending Release
     runs-on: ubuntu-latest
     needs:
       - check-for-existing-release
       - derive-release-branch-name
+      - rebase-release-branch
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
     if: |
       needs.check-for-existing-release.outputs.pending-release-tag != 'null' &&
-      needs.derive-release-branch-name.outputs.tag != 'null' &&
+        needs.derive-release-branch-name.outputs.tag != 'null' &&
       needs.check-for-existing-release.outputs.pending-release-tag !=
-      needs.derive-release-branch-name.outputs.tag
+        needs.derive-release-branch-name.outputs.tag &&
+      needs.rebase-release-branch.result != 'success'
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
