@@ -32,7 +32,7 @@ jobs:
     with:
       build-type: node
       update-pyproject-toml: false
-      update-json-file-path: package.json
+      update-json-file-path: item_warehouse_website/package.json
       update-yaml-file-path: '{{ config_path }}'
       node-build-directory: item_warehouse_website
       publish-to-test-pypi: false
