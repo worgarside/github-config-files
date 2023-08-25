@@ -97,6 +97,7 @@ jobs:
         run: |
           cd ${{ inputs.node-build-directory }}
           npm install --verbose
+          npm install --verbose --only=dev
 
       - name: Build
         run: |
