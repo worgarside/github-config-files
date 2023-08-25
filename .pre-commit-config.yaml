@@ -7,6 +7,7 @@ repos:
         entry: python utilities/gha_sync/get_file_mappings.py
         language: python
         types: [python]
+        always_run: true
         additional_dependencies:
           - pyyaml
 
