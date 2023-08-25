@@ -89,6 +89,7 @@ jobs:
   build-node:
     name: Build (Node)
     if: inputs.build-type == 'node'
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     env:
       NODE_ENV: production
@@ -108,6 +109,8 @@ jobs:
       - name: Install Dependencies
         run: |
           cd ${{ inputs.node-build-directory }}
+          rm -rf .next/
+          rm -rf dist/
           npm ci --verbose
 
       - name: Build

@@ -1,0 +1,29 @@
+---
+name: Publish Release
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  publish-release:
+    name: Publish Release
+    uses: worgarside/github-config-files/.github/workflows/__publish_release.yml@main
+    with:
+      base-ref-name: main
+      build-type: node
+      commit-build-directory: true
+      head-ref-name: ${{ github.head_ref || github.ref_name }}
+      node-build-directory: item_warehouse_website
+      pr-merged: ${{ github.event.pull_request.merged }}
+      publish-to-pypi: false
+    secrets:
+      gh-token: ${{ secrets.GITHUB_TOKEN}}
+      wg-dev-token: ${{ secrets.WORGARSIDE_DEV_TOKEN}}
