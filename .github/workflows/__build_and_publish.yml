@@ -111,7 +111,6 @@ jobs:
         run: |
           cd ${{ inputs.node-build-directory }}
           rm -rf .next/
-          rm -rf dist/
           npm ci --verbose
 
       - name: Build
@@ -125,11 +124,7 @@ jobs:
           git config --global user.name "worgarside-dev"
           git config --global user.email "worgarside.dev@gmail.com"
 
-          mv \
-            ${{ inputs.node-build-directory }}/.next/ \
-            ${{ inputs.node-build-directory }}/dist/
-
-          git add ${{ inputs.node-build-directory }}/dist/
+          git add ${{ inputs.node-build-directory }}/.next/
           git commit -m "Built version ${{ inputs.release-tag }} 📦"
           git push origin ${{ inputs.build-branch }}
 
