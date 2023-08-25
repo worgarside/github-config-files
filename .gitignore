@@ -313,3 +313,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+item_warehouse_website/src
+
+!item_warehouse_website/tsconfig.json
+!item_warehouse_website/package.json
+!item_warehouse_website/package-lock.json
+!item_warehouse_website/.eslintrc.json
