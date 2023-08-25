@@ -93,8 +93,15 @@ jobs:
         with:
           node-version: 18
 
+      - name: Install Dependencies
+        run: |
+          cd ${{ inputs.node-build-directory }}
+          npm install --verbose
+
       - name: Build
-        run: cd ${{ inputs.node-build-directory }} && npm install && npm run build
+        run: |
+          cd ${{ inputs.node-build-directory }}
+          npm run build
 
       - name: Commit Build Directory
         if: inputs.commit-build-directory == 'true'
