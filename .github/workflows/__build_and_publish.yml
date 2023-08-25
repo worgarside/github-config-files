@@ -93,15 +93,8 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install Dependencies
-        run: |
-          cd ${{ inputs.node-build-directory }}
-          npm install
-
       - name: Build
-        run: |
-          cd ${{ inputs.node-build-directory }}
-          npm run build
+        run: cd ${{ inputs.node-build-directory }} && npm install && npm run build
 
       - name: Commit Build Directory
         if: inputs.commit-build-directory == 'true'
@@ -109,8 +102,12 @@ jobs:
           git config --global user.name "worgarside-dev"
           git config --global user.email "worgarside.dev@gmail.com"
 
-          git add ${{ inputs.node-build-directory }}/.next/
-          git commit -m "Build ${{ inputs.node-build-directory }}/.next/"
+          mv \
+            ${{ inputs.node-build-directory }}/.next/ \
+            ${{ inputs.node-build-directory }}/dist/
+
+          git add ${{ inputs.node-build-directory }}/dist/
+          git commit -m "Built version ${{ inputs.release-tag }} 📦"
           git push origin ${{ inputs.build-branch }}
 
       - name: Upload Artifact
