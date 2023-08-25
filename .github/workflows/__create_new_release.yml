@@ -263,9 +263,10 @@ jobs:
       needs.derive-release-branch-name.outputs.tag != 'null' &&
       needs.check-for-existing-release.outputs.pending-release-tag ==
         needs.derive-release-branch-name.outputs.tag
-    continue-on-error: true
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
+    outputs:
+      status: ${{ steps.rebase-release-branch.outputs.status }}
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
@@ -275,6 +276,7 @@ jobs:
           token: ${{ secrets.gh-token }}
 
       - name: Rebase Release Branch
+        id: rebase-release-branch
         run: |
           release_branch="${{ needs.derive-release-branch-name.outputs.branch }}"
 
@@ -288,8 +290,11 @@ jobs:
 
           if ! git rebase develop; then
             echo "Rebase failed. Exiting."
+            echo "status=failure" >> "$GITHUB_OUTPUT"
             exit 1
           fi
+
+          echo "status=success" >> "$GITHUB_OUTPUT"
 
           git push origin "$release_branch" --force
 
@@ -306,11 +311,12 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
     if: |
+      always() && !cancelled() &&
       needs.check-for-existing-release.outputs.pending-release-tag != 'null' &&
         needs.derive-release-branch-name.outputs.tag != 'null' &&
       needs.check-for-existing-release.outputs.pending-release-tag !=
         needs.derive-release-branch-name.outputs.tag &&
-      needs.rebase-release-branch.result != 'success'
+      needs.rebase-release-branch.outputs.status != 'success'
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
