@@ -116,7 +116,7 @@ jobs:
           npm run build
 
       - name: Commit Build Directory
-        if: inputs.commit-build-directory == 'true'
+        if: inputs.commit-build-directory
         run: |
           git config --global user.name "worgarside-dev"
           git config --global user.email "worgarside.dev@gmail.com"
