@@ -114,6 +114,7 @@ jobs:
       - name: Build
         run: |
           cd ${{ inputs.node-build-directory }}
+          npm i --save-dev @types/js-cookie eslint-plugin-prettier
           npm run build
 
       - name: Commit Build Directory
