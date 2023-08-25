@@ -12,10 +12,24 @@ on:
         description: The branch the PR is merging into (github.base_ref)
         required: true
         type: string
+      build-type:
+        description: The build type to use for the PR ("python", "node")
+        required: false
+        type: string
+      commit-build-directory:
+        description: Whether to commit (and push) the build directory
+        required: false
+        type: boolean
+        default: false
       head-ref-name:
         description: Branch the PR is merging from (github.head_ref || github.ref_name)
         required: true
         type: string
+      node-build-directory:
+        description: The directory to build the Node project in
+        required: false
+        type: string
+        default: .
       publish-to-pypi:
         default: false
         description: Whether to publish to PyPI
@@ -99,15 +113,19 @@ jobs:
             --draft=false \
             --repo ${{ github.repository }}
 
-  publish-to-pypi:
-    name: Publish to PyPi
-    if: inputs.publish-to-pypi
+  build-and-publish:
+    name: Build and Publish
+    if: inputs.build-type
     uses: ./.github/workflows/__build_and_publish.yml
     needs:
       - get-release-tag
     with:
       build-branch: ${{ inputs.head-ref-name }}
+      build-type: ${{ inputs.build-type }}
+      commit-build-directory: ${{ inputs.commit-build-directory }}
       environment: production
+      node-build-directory: ${{ inputs.node-build-directory }}
+      publish-to-pypi: ${{ inputs.publish-to-pypi }}
       python-version: '3.11'
       release-tag: ${{ needs.get-release-tag.outputs.release-tag }}
     secrets:

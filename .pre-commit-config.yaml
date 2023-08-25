@@ -1,5 +1,15 @@
 ---
 repos:
+  - repo: local
+    hooks:
+      - id: generate-readme
+        name: Generate README
+        entry: python utilities/gha_sync/get_file_mappings.py
+        language: python
+        types: [python]
+        additional_dependencies:
+          - pyyaml
+
   - repo: https://github.com/rhysd/actionlint
     rev: v1.6.25
     hooks:
@@ -59,7 +69,6 @@ repos:
         args:
           - -a
           - from __future__ import annotations
-
 
   - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
     rev: 0.2.3
