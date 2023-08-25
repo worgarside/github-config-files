@@ -8,6 +8,11 @@ on:
         description: The build type to use for the PR ("python", "node")
         required: false
         type: string
+      commit-build-directory:
+        description: Whether to commit (and push) the build directory
+        required: false
+        type: boolean
+        default: false
       draft-release:
         description: Whether to draft a release
         required: false
@@ -419,6 +424,9 @@ jobs:
     with:
       base-ref-name: main
       build-type: ${{ inputs.build-type }}
+      # Only want to commit if (requested, and) the release branch was newly created
+      # yamllint disable-line rule:line-length
+      commit-build-directory: ${{ inputs.commit-build-directory == 'true' && needs.create-release-branch.result == 'success' }}
       head-ref-name: ${{ needs.derive-release-branch-name.outputs.branch }}
       node-build-directory: ${{ inputs.node-build-directory }}
       publish-to-test-pypi: ${{ inputs.publish-to-test-pypi }}
