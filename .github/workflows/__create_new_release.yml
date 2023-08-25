@@ -406,6 +406,29 @@ jobs:
           git push origin \
             ${{ needs.derive-release-branch-name.outputs.branch }}
 
+  log-stuff:
+    needs:
+      - create-release-branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Inputs
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: |
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Log create-release-branch result
+        env:
+          INPUTS: ${{ needs.create-release-branch.result }}
+        run: |
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Log Outputs
+        env:
+          OUTPUTS: ${{ toJson(steps) }}
+        run: |
+          echo -e "\`\`\`json\n$OUTPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+
   draft-release:
     if: |
       always() &&
