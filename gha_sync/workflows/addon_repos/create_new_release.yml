@@ -31,6 +31,5 @@ jobs:
     uses: worgarside/github-config-files/.github/workflows/__create_new_release.yml@main
     with:
       update-yaml-file-path: '{{ config_path }}'
-      publish-to-test-pypi: false
     secrets:
       gh-token: '{{ secrets_WORGARSIDE_DEV_TOKEN }}'

@@ -1,0 +1,35 @@
+---
+name: Development Build
+
+on:
+  push:
+    branches:
+      - release/*
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  get-release-tag:
+    name: Get Release Tag
+    uses: worgarside/github-config-files/.github/workflows/__get_release_tag.yml@main
+    with:
+      branch-name: ${{ github.ref }}
+
+  run-development-build:
+    name: Run Development Build
+    needs:
+      - get-release-tag
+    uses: worgarside/github-config-files/.github/workflows/__build_and_publish.yml@main
+    with:
+      build-branch: ${{ github.ref }}
+      build-type: node
+      commit-build-directory: false
+      environment: development
+      node-build-directory: item_warehouse_website
+      publish-to-pypi: false
+      release-tag: ${{ needs.get-release-tag.outputs.release-tag }}
+    secrets:
+      gh-token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+      PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
