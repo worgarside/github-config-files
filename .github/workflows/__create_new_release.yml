@@ -13,11 +13,6 @@ on:
         required: false
         type: boolean
         default: false
-      draft-release:
-        description: Whether to draft a release
-        required: false
-        default: true
-        type: boolean
       node-build-directory:
         description: The directory to build the Node project in
         required: false
@@ -35,8 +30,8 @@ on:
       update-pyproject-toml:
         description: Update the pyproject.toml version
         required: false
-        default: 'true'
-        type: string
+        default: true
+        type: boolean
       update-json-file-path:
         description: The path to a JSON file containing a `version` top level key
         required: false
@@ -53,9 +48,13 @@ on:
         description: The Test PyPi token to use for the workflow
         required: false
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-  check-for-existing-release:
-    name: Check for Existing Release
+  get-existing-release-branch:
+    name: Check for Existing Release Branch
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
@@ -98,7 +97,6 @@ jobs:
   derive-release-branch-name:
     name: Derive Release Branch Name
     runs-on: ubuntu-latest
-    needs: check-for-existing-release
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
     outputs:
@@ -251,9 +249,9 @@ jobs:
         # yamllint enable rule:line-length
 
   # --------------------------------------------------------------------------------- #
-  # From here, if the existing branch is not for the correct release, then it is      #
-  # deleted and a new one is created; otherwise, the existing branch is rebased to    #
-  # ensure it is up to date with the latest changes                                   #
+  # From here, if the existing branch is for the correct release then it is rebased   #
+  # to ensure it is up to date with the latest changes, otherwise it is deleted and a #
+  # a new one is created.                                                             #
   # --------------------------------------------------------------------------------- #
 
   # If the pending release is the same as the release we want to create, then rebase
@@ -262,11 +260,11 @@ jobs:
     name: Rebase Release Branch
     runs-on: ubuntu-latest
     needs:
-      - check-for-existing-release
+      - get-existing-release-branch
       - derive-release-branch-name
     if: |
       needs.derive-release-branch-name.outputs.tag != 'null' &&
-      needs.check-for-existing-release.outputs.pending-release-tag ==
+      needs.get-existing-release-branch.outputs.pending-release-tag ==
         needs.derive-release-branch-name.outputs.tag
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
@@ -310,16 +308,16 @@ jobs:
     name: Delete Pending Release
     runs-on: ubuntu-latest
     needs:
-      - check-for-existing-release
+      - get-existing-release-branch
       - derive-release-branch-name
       - rebase-release-branch
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
     if: |
       always() && !cancelled() &&
-      needs.check-for-existing-release.outputs.pending-release-tag != 'null' &&
+      needs.get-existing-release-branch.outputs.pending-release-tag != 'null' &&
         needs.derive-release-branch-name.outputs.tag != 'null' &&
-      needs.check-for-existing-release.outputs.pending-release-tag !=
+      needs.get-existing-release-branch.outputs.pending-release-tag !=
         needs.derive-release-branch-name.outputs.tag &&
       needs.rebase-release-branch.outputs.status != 'success'
     steps:
@@ -329,7 +327,7 @@ jobs:
       - name: Delete Release Branch
         run: |
           git push origin --delete \
-            release/${{ needs.check-for-existing-release.outputs.pending-release-tag }}
+            release/${{ needs.get-existing-release-branch.outputs.pending-release-tag }}
 
   # If nothing has failed, and there is no pending release, or the pending release is
   # not the same as the release we want to create, then create the new release branch
@@ -337,22 +335,23 @@ jobs:
     name: Create Release Branch
     runs-on: ubuntu-latest
     needs:
-      - check-for-existing-release
+      - get-existing-release-branch
       - derive-release-branch-name
       - delete-pending-release
     if: |
       always() && !cancelled() &&
-      needs.check-for-existing-release.result == 'success' &&
+      needs.get-existing-release-branch.result == 'success' &&
       needs.derive-release-branch-name.result == 'success' &&
       needs.derive-release-branch-name.outputs.tag != 'null' &&
       (
-        needs.check-for-existing-release.outputs.pending-release-tag ==
+        needs.get-existing-release-branch.outputs.pending-release-tag ==
         'null' ||
-        needs.check-for-existing-release.outputs.pending-release-tag !=
+        needs.get-existing-release-branch.outputs.pending-release-tag !=
         needs.derive-release-branch-name.outputs.tag
       )
     env:
       GH_TOKEN: ${{ secrets.gh-token }}
+      TAG: ${{ needs.derive-release-branch-name.outputs.tag }}
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
@@ -368,15 +367,15 @@ jobs:
         if: inputs.path-to-__version__-file
         # yamllint disable rule:line-length
         run: |
-          sed -i "s/^__version__ = .*/__version__ = \"${{ needs.derive-release-branch-name.outputs.tag }}\"/" ${{ inputs.path-to-__version__-file }}
+          sed -i "s/^__version__ = .*/__version__ = \"$TAG\"/" ${{ inputs.path-to-__version__-file }}
           git add ${{ inputs.path-to-__version__-file }}
         # yamllint enable rule:line-length
 
       - name: Update `pyproject.toml` Version
-        if: inputs.update-pyproject-toml == 'true'
+        if: inputs.update-pyproject-toml
         # yamllint disable rule:line-length
         run: |
-          sed -i "s/^version = .*/version = \"${{ needs.derive-release-branch-name.outputs.tag }}\"/" pyproject.toml
+          sed -i "s/^version = .*/version = \"$TAG\"/" pyproject.toml
           git add pyproject.toml
         # yamllint enable rule:line-length
 
@@ -384,21 +383,21 @@ jobs:
         if: inputs.update-json-file-path
         # yamllint disable rule:line-length
         run: |
-          sed -i "s/^  \"version\": \".*\",/  \"version\": \"${{ needs.derive-release-branch-name.outputs.tag }}\",/" ${{ inputs.update-json-file-path }}
+          sed -i "s/^  \"version\": \".*\",/  \"version\": \"$TAG\",/" ${{ inputs.update-json-file-path }}
           git add ${{ inputs.update-json-file-path }}
 
       - name: Update `${{ inputs.update-yaml-file-path }}` Version
         if: inputs.update-yaml-file-path
         # yamllint disable rule:line-length
         run: |
-          sed -i "s/^version: .*/version: ${{ needs.derive-release-branch-name.outputs.tag }}/" ${{ inputs.update-yaml-file-path }}
+          sed -i "s/^version: .*/version: $TAG/" ${{ inputs.update-yaml-file-path }}
           git add ${{ inputs.update-yaml-file-path }}
         # yamllint enable rule:line-length
 
       - name: Commit Changes
         run: |
           git commit \
-            -m "Bump version to ${{ needs.derive-release-branch-name.outputs.tag }}" \
+            -m "Bump version to $TAG" \
             --allow-empty
 
       - name: Push Branch
@@ -406,31 +405,81 @@ jobs:
           git push origin \
             ${{ needs.derive-release-branch-name.outputs.branch }}
 
-  draft-release:
+  # Create a pull request for the release branch if a release tag has been derived, and
+  # the release branch has been created or rebased successfully
+  create-pr:
+    name: Create PR
+    needs:
+      - derive-release-branch-name
+      - rebase-release-branch
+      - create-release-branch
     if: |
-      always() &&
-      inputs.draft-release &&
+      always() && !cancelled() &&
       needs.derive-release-branch-name.outputs.tag != 'null' &&
       needs.derive-release-branch-name.result == 'success' &&
       (
-        needs.create-release-branch.result == 'success' ||
-        needs.create-release-branch.result == 'skipped'
+        needs.rebase-release-branch.result == 'success' ||
+        needs.create-release-branch.result == 'success'
       )
-    name: Draft Release
-    uses: ./.github/workflows/__draft_release.yml
-    needs:
-      - derive-release-branch-name
-      - create-release-branch
+    # yamllint disable rule:line-length
+    uses: worgarside/github-config-files/.github/workflows/__create_pull_request.yml@main
     with:
       base-ref-name: main
-      build-type: ${{ inputs.build-type }}
-      # Only want to commit if (requested, and) the release branch was newly created
-      # yamllint disable-line rule:line-length
-      commit-build-directory: ${{ inputs.commit-build-directory && needs.create-release-branch.result == 'success' }}
       head-ref-name: ${{ needs.derive-release-branch-name.outputs.branch }}
+      pr-title: Release ${{ needs.derive-release-branch-name.outputs.tag }}
+      pr-draft: false
+      update-pr-body-if-exists: true
+      pr-labels: bot:delete-on-merge,release
+    secrets:
+      gh-token: ${{ secrets.gh-token }}
+
+  draft-release:
+    name: Draft Release
+    needs:
+      - derive-release-branch-name
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.derive-release-branch-name.outputs.branch }}
+
+      - name: Validate `pyproject.toml` version
+        if: inputs.build-type == 'python' || inputs.update-pyproject-toml
+        # yamllint disable rule:line-length
+        run: |
+          expected_line="version = \"${{ needs.derive-release-branch-name.outputs.tag }}\""
+          actual_line=$(grep -E "^version = \"" pyproject.toml)
+          if [ "$expected_line" != "$actual_line" ]
+          then
+              echo "\`pyproject.toml\` version is invalid: \`$actual_line\`" >> "$GITHUB_STEP_SUMMARY"
+              exit 1
+          fi
+        # yamllint enable rule:line-length
+
+      - name: Draft Release
+        uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.gh-token }}
+
+  build-and-publish:
+    name: Build & Publish
+    if: inputs.build-type
+    uses: ./.github/workflows/__build_and_publish.yml
+    needs:
+      - derive-release-branch-name
+    with:
+      build-branch: ${{ needs.derive-release-branch-name.outputs.branch }}
+      build-type: ${{ inputs.build-type }}
+      commit-build-directory: ${{ inputs.commit-build-directory }}
+      environment: development
       node-build-directory: ${{ inputs.node-build-directory }}
-      publish-to-test-pypi: ${{ inputs.publish-to-test-pypi }}
-      validate-pyproject-toml: ${{ inputs.update-pyproject-toml }}
+      publish-to-pypi: ${{ inputs.publish-to-test-pypi }}
+      python-version: '3.11'
+      release-tag: ${{ needs.derive-release-branch-name.outputs.tag }}
     secrets:
       gh-token: ${{ secrets.gh-token }}
       PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
