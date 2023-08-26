@@ -129,11 +129,17 @@ jobs:
           git commit -m "Built version ${{ inputs.release-tag }} 📦"
           git push origin ${{ inputs.build-branch }}
 
+      - name: Zip Build Directory
+        run: |
+          cd ${{ inputs.node-build-directory }}
+          zip -r ${{ inputs.release-tag }}.zip .next/
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: build-artifact
-          path: ${{ inputs.node-build-directory }}/.next/
+          path: ${{ inputs.node-build-directory }}/${{ inputs.release-tag }}.zip
+
 
   add-artifacts-to-release-notes:
     name: Add Artifacts to Release Notes
