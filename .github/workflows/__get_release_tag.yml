@@ -33,13 +33,17 @@ jobs:
         id: get-tag
         env:
           BRANCH_NAME: ${{ inputs.branch-name }}
+        # yamllint disable rule:line-length
         run: |
-          release_tag=$(echo "$BRANCH_NAME" | cut -d '/' -f2)
+          clean_branch_name=${BRANCH_NAME#refs/heads/}
+
+          release_tag=$(echo "$clean_branch_name" | cut -d '/' -f2)
 
           if ! [[ $release_tag =~ ^[0-9]{1,2}\.[0-9]{1,4}\.[0-9]{1,4}$ ]]
           then
-              echo "Release tag is invalid: \`$release_tag\`" >> "$GITHUB_STEP_SUMMARY"
+              echo "Release tag is bollocks: \`$release_tag\` 😡" >> "$GITHUB_STEP_SUMMARY"
               exit 1
           fi
 
           echo "release-tag=$release_tag" >> "$GITHUB_OUTPUT"
+        # yamllint enable rule:line-length
