@@ -54,6 +54,7 @@ jobs:
           done
 
       - name: Record Updated PRs
+        if: github.actor == 'worgarside-dev'
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           URL_LIST: ${{ join(fromJson(steps.sync.outputs.pull_request_urls)) }}
