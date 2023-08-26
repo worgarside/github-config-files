@@ -33,8 +33,9 @@ on:
         default: false
       python-version:
         description: The Python version to build with
-        required: true
+        required: false
         type: string
+        default: '3.11'
       release-tag:
         description: The tag of the release to add the artifacts to
         required: true
