@@ -372,7 +372,7 @@ jobs:
         # yamllint enable rule:line-length
 
       - name: Update `pyproject.toml` Version
-        if: inputs.update-pyproject-toml == 'true'
+        if: inputs.update-pyproject-toml
         # yamllint disable rule:line-length
         run: |
           sed -i "s/^version = .*/version = \"$TAG\"/" pyproject.toml
