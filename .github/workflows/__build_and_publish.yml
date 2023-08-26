@@ -128,7 +128,7 @@ jobs:
 
           git add ${{ inputs.node-build-directory }}/.next/
           git commit -m "Built version ${{ inputs.release-tag }} 📦"
-          git push origin ${{ inputs.build-branch }}
+          git push origin ${{ inputs.build-branch }} --force
 
       - name: Zip Build Directory
         run: |
