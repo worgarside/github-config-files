@@ -128,12 +128,13 @@ jobs:
         run: |
           git fetch origin ${{ inputs.build-branch }}
           LATEST_COMMIT_MSG=$(git log -1 --pretty=%B)
-          echo "latest_commit_msg=$LATEST_COMMIT_MSG" >> "$GITHUB_OUTPUT"
+          echo -e "\`\`\`\n$LATEST_COMMIT_MSG\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "latest-commit-msg=$LATEST_COMMIT_MSG" >> "$GITHUB_OUTPUT"
 
       - name: Commit Build Directory
         if: |
           inputs.commit-build-directory &&
-          steps.check-last-commit.outputs.latest_commit_msg != env.COMMIT_MESSAGE
+          steps.check-last-commit.outputs.latest-commit-msg != env.COMMIT_MESSAGE
         run: |
           git config --global user.name "worgarside-dev"
           git config --global user.email "worgarside.dev@gmail.com"
