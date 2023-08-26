@@ -94,6 +94,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ARTIFACT_NAME: ${{ inputs.release-tag }}-${{ inputs.environment }}.zip
+      COMMIT_MESSAGE: 📦 Built version ${{ inputs.release-tag }}
       NODE_ENV: ${{ inputs.environment }}
       GH_TOKEN: ${{ secrets.gh-token }}
       GITHUB_TOKEN: ${{ secrets.gh-token }}
@@ -122,14 +123,23 @@ jobs:
           cd ${{ inputs.node-build-directory }}
           npm run build
 
+      - name: Check Latest Commit Message
+        id: check-last-commit
+        run: |
+          git fetch origin ${{ inputs.build-branch }}
+          LATEST_COMMIT_MSG=$(git log -1 --pretty=%B)
+          echo "latest_commit_msg=$LATEST_COMMIT_MSG" >> "$GITHUB_OUTPUT"
+
       - name: Commit Build Directory
-        if: inputs.commit-build-directory
+        if: |
+          inputs.commit-build-directory &&
+          steps.check-last-commit.outputs.latest_commit_msg != env.COMMIT_MESSAGE
         run: |
           git config --global user.name "worgarside-dev"
           git config --global user.email "worgarside.dev@gmail.com"
 
           git add ${{ inputs.node-build-directory }}/.next/
-          git commit -m "Built version ${{ inputs.release-tag }} 📦"
+          git commit -m "$COMMIT_MESSAGE"
           git push origin ${{ inputs.build-branch }} --force
 
       - name: Zip Build Directory
