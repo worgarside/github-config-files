@@ -30,7 +30,6 @@ jobs:
     # yamllint disable-line rule:line-length
     uses: worgarside/github-config-files/.github/workflows/__create_new_release.yml@main
     with:
-      build-type: node
       update-pyproject-toml: false
       update-json-file-path: item_warehouse_website/package.json
       update-yaml-file-path: '{{ config_path }}'
