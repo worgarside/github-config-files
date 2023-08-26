@@ -46,7 +46,7 @@ on:
         required: true
       PYPI_API_TOKEN:
         description: The PyPi API token
-        required: true
+        required: false
 
 jobs:
   log-inputs:
