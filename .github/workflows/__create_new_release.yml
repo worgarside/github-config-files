@@ -467,10 +467,19 @@ jobs:
 
   build-and-publish:
     name: Build & Publish
-    if: inputs.build-type
     uses: ./.github/workflows/__build_and_publish.yml
     needs:
+      - create-pr
       - derive-release-branch-name
+      - draft-release
+    if: |
+      always() && !cancelled() &&
+      inputs.build-type &&
+      needs.draft-release.result == 'success' &&
+      (
+        needs.create-pr.result == 'success' ||
+        needs.create-pr.result == 'skipped'
+      )
     with:
       build-branch: ${{ needs.derive-release-branch-name.outputs.branch }}
       build-type: ${{ inputs.build-type }}
