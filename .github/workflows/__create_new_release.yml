@@ -333,6 +333,8 @@ jobs:
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.gh-token }}
 
       - name: Create Release Branch
         run: |
