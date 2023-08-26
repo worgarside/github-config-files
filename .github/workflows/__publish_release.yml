@@ -120,7 +120,7 @@ jobs:
     needs:
       - get-release-tag
     with:
-      build-branch: ${{ inputs.head-ref-name }}
+      build-branch: ${{ inputs.base-ref-name }}
       build-type: ${{ inputs.build-type }}
       commit-build-directory: ${{ inputs.commit-build-directory }}
       environment: production
@@ -141,9 +141,9 @@ jobs:
     uses: worgarside/github-config-files/.github/workflows/__create_pull_request.yml@main
     with:
       base-ref-name: develop
-      head-ref-name: ${{ inputs.head-ref-name }}
-      pr-title: Merge `${{ inputs.head-ref-name }}` back into `develop`
+      head-ref-name: ${{ inputs.base-ref-name }}
+      pr-title: Merge `${{ inputs.base-ref-name }}` into `develop`
       pr-draft: false
-      pr-labels: bot:delete-on-merge,non-functional,skip-changelog
+      pr-labels: non-functional,skip-changelog
     secrets:
       gh-token: ${{ secrets.wg-dev-token }}
