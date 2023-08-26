@@ -93,7 +93,8 @@ jobs:
     environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
     env:
-      NODE_ENV: production
+      ARTIFACT_NAME: ${{ inputs.release-tag }}-${{ inputs.environment }}.zip
+      NODE_ENV: ${{ inputs.environment }}
       GH_TOKEN: ${{ secrets.gh-token }}
     steps:
       - name: Checkout Repository
@@ -132,14 +133,45 @@ jobs:
       - name: Zip Build Directory
         run: |
           cd ${{ inputs.node-build-directory }}
-          zip -r ${{ inputs.release-tag }}.zip .next/
+          zip -r "$ARTIFACT_NAME" .next/
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: build-artifact
-          path: ${{ inputs.node-build-directory }}/${{ inputs.release-tag }}.zip
+          path: ${{ inputs.node-build-directory }}/${{ env.ARTIFACT_NAME }}
 
+  # Check that the production build will succeed if the environment is not production
+  build-node-production-check:
+    name: Build (Node) - Production Check
+    if: inputs.build-type == 'node' && inputs.environment != 'production'
+    runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+      GH_TOKEN: ${{ secrets.gh-token }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.build-branch }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          cache: npm
+          cache-dependency-path: ${{ inputs.node-build-directory }}/package-lock.json
+          node-version: 18
+
+      - name: Install Dependencies
+        run: |
+          cd ${{ inputs.node-build-directory }}
+          rm -rf .next/
+          npm ci --verbose
+
+      - name: Build
+        run: |
+          cd ${{ inputs.node-build-directory }}
+          npm run build
 
   add-artifacts-to-release-notes:
     name: Add Artifacts to Release Notes
