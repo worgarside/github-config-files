@@ -50,7 +50,9 @@ jobs:
     name: Set Auto Merge
     runs-on: ubuntu-latest
     if: |
-      !inputs.pr-is-draft && !startsWith(inputs.head-ref, 'release/')
+      !inputs.pr-is-draft &&
+      !startsWith(inputs.head-ref, 'release/') &&
+      inputs.head-ref != 'main'
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
@@ -79,7 +81,10 @@ jobs:
     name: Set Release Auto Merge
     runs-on: ubuntu-latest
     if: |
-      startsWith(inputs.head-ref, 'release/') &&
+      (
+        startsWith(inputs.head-ref, 'release/') ||
+        inputs.head-ref == 'main'
+      ) &&
       github.repository != 'worgarside/github-config-files' &&
       !inputs.pr-is-draft
     steps:
