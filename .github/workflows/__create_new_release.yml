@@ -4,29 +4,10 @@ name: Create New Release
 on:
   workflow_call:
     inputs:
-      build-type:
-        description: The build type to use for the PR ("python", "node")
-        required: false
-        type: string
-      commit-build-directory:
-        description: Whether to commit (and push) the build directory
-        required: false
-        type: boolean
-        default: false
-      node-build-directory:
-        description: The directory to build the Node project in
-        required: false
-        type: string
-        default: .
       path-to-__version__-file:
         description: The path to a Python file containing a `__version__` variable
         required: false
         type: string
-      publish-to-test-pypi:
-        default: false
-        description: Whether to publish to Test PyPI
-        required: false
-        type: boolean
       update-pyproject-toml:
         description: Update the pyproject.toml version
         required: false
@@ -44,9 +25,6 @@ on:
       gh-token:
         description: The GitHub token to use for the PR creation
         required: true
-      PYPI_API_TOKEN:
-        description: The Test PyPi token to use for the workflow
-        required: false
 
 permissions:
   contents: write
@@ -448,7 +426,7 @@ jobs:
           ref: ${{ needs.derive-release-branch-name.outputs.branch }}
 
       - name: Validate `pyproject.toml` version
-        if: inputs.build-type == 'python' || inputs.update-pyproject-toml
+        if: inputs.update-pyproject-toml
         # yamllint disable rule:line-length
         run: |
           expected_line="version = \"${{ needs.derive-release-branch-name.outputs.tag }}\""
@@ -464,31 +442,3 @@ jobs:
         uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.gh-token }}
-
-  build-and-publish:
-    name: Build & Publish
-    uses: ./.github/workflows/__build_and_publish.yml
-    needs:
-      - create-pr
-      - derive-release-branch-name
-      - draft-release
-    if: |
-      always() && !cancelled() &&
-      inputs.build-type &&
-      needs.draft-release.result == 'success' &&
-      (
-        needs.create-pr.result == 'success' ||
-        needs.create-pr.result == 'skipped'
-      )
-    with:
-      build-branch: ${{ needs.derive-release-branch-name.outputs.branch }}
-      build-type: ${{ inputs.build-type }}
-      commit-build-directory: ${{ inputs.commit-build-directory }}
-      environment: development
-      node-build-directory: ${{ inputs.node-build-directory }}
-      publish-to-pypi: ${{ inputs.publish-to-test-pypi }}
-      python-version: '3.11'
-      release-tag: ${{ needs.derive-release-branch-name.outputs.tag }}
-    secrets:
-      gh-token: ${{ secrets.gh-token }}
-      PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}

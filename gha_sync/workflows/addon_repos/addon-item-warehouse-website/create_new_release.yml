@@ -31,11 +31,8 @@ jobs:
     uses: worgarside/github-config-files/.github/workflows/__create_new_release.yml@main
     with:
       build-type: node
-      commit-build-directory: false # Still ensures it can be built
       update-pyproject-toml: false
       update-json-file-path: item_warehouse_website/package.json
       update-yaml-file-path: '{{ config_path }}'
-      node-build-directory: item_warehouse_website
-      publish-to-test-pypi: false
     secrets:
       gh-token: '{{ secrets_WORGARSIDE_DEV_TOKEN }}'

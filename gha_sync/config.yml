@@ -121,15 +121,14 @@ worgarside/addon-item-warehouse-website:
   - .github/dependabot.yml
   - source: gha_sync/workflows/all_repos
     dest: .github/workflows/
+  - source: gha_sync/workflows/addon_repos/addon-item-warehouse-website/
+    dest: .github/workflows/
   # yamllint disable-line rule:line-length
   - source: gha_sync/workflows/addon_repos/addon-item-warehouse-website/create_new_release.yml
     dest: .github/workflows/create_new_release.yml
     template:
       config_path: item_warehouse_website/config.yaml
       secrets_WORGARSIDE_DEV_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-  # yamllint disable-line rule:line-length
-  - source: gha_sync/workflows/addon_repos/addon-item-warehouse-website/publish_release.yml
-    dest: .github/workflows/publish_release.yml
     # I know this excludes all current files, it's futureproofing
   - source: gha_sync/workflows/versioned_repos
     dest: .github/workflows/
