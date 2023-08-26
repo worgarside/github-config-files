@@ -314,9 +314,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-!item_warehouse_website/.next
-!item_warehouse_website/.next/*
-
 !item_warehouse_website/tsconfig.json
 !item_warehouse_website/package.json
 !item_warehouse_website/package-lock.json
