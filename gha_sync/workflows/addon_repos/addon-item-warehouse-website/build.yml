@@ -41,7 +41,7 @@ jobs:
     with:
       build-branch: ${{ github.ref }}
       build-type: node
-      commit-build-directory: true
+      commit-build-directory: false
       environment: production
       node-build-directory: item_warehouse_website
       publish-to-pypi: false
