@@ -96,10 +96,12 @@ jobs:
       ARTIFACT_NAME: ${{ inputs.release-tag }}-${{ inputs.environment }}.zip
       NODE_ENV: ${{ inputs.environment }}
       GH_TOKEN: ${{ secrets.gh-token }}
+      GITHUB_TOKEN: ${{ secrets.gh-token }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
+          token: ${{ secrets.gh-token }}
           ref: ${{ inputs.build-branch }}
 
       - name: Set up Node
