@@ -115,7 +115,7 @@ jobs:
       - name: Install Dependencies
         run: |
           cd ${{ inputs.node-build-directory }}
-          rm -rf .next/
+          rm -rf dist/
           npm ci --verbose
 
       - name: Build
@@ -139,14 +139,14 @@ jobs:
           git config --global user.name "worgarside-dev"
           git config --global user.email "worgarside.dev@gmail.com"
 
-          git add ${{ inputs.node-build-directory }}/.next/
+          git add ${{ inputs.node-build-directory }}/dist/
           git commit -m "$COMMIT_MESSAGE"
           git push origin ${{ inputs.build-branch }} --force
 
       - name: Zip Build Directory
         run: |
           cd ${{ inputs.node-build-directory }}
-          zip -r "$ARTIFACT_NAME" .next/
+          zip -r "$ARTIFACT_NAME" dist/
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
@@ -178,7 +178,7 @@ jobs:
       - name: Install Dependencies
         run: |
           cd ${{ inputs.node-build-directory }}
-          rm -rf .next/
+          rm -rf dist/
           npm ci --verbose
 
       - name: Build
