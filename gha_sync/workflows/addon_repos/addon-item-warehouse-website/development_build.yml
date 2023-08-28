@@ -2,9 +2,12 @@
 name: Build (Development)
 
 on:
-  pull_request:
+  push:
     branches:
-      - develop
+      - feature/*
+      - bugfix/*
+      - chore/*
+      - hotfix/*
 
 permissions:
   contents: write

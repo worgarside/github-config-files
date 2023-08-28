@@ -18,9 +18,7 @@ on:
         description: The release tag
         value: ${{ jobs.get-release-tag.outputs.release-tag }}
 
-
 jobs:
-
   get-release-tag:
     name: Get Release Tag
     runs-on: ubuntu-latest
