@@ -2,13 +2,9 @@
 name: Build (Development)
 
 on:
-  push:
+  pull_request:
     branches:
-      - feature/*
-      - bugfix/*
-      - chore/*
-      - hotfix/*
-      - repo-sync/*
+      - develop
 
 permissions:
   contents: write

@@ -7,7 +7,7 @@ on:
     inputs:
       branch-name:
         description: The name of the branch to extract the release tag from
-        required: true
+        required: false
         type: string
     secrets:
       gh-token:
