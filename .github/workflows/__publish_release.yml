@@ -90,6 +90,8 @@ jobs:
       - cancel-if-not-merged
     with:
       branch-name: ${{ inputs.head-ref-name }}
+    secrets:
+      gh-token: ${{ secrets.gh-token }}
 
   publish-release-notes:
     name: Publish Release Notes

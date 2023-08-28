@@ -16,6 +16,8 @@ jobs:
     uses: worgarside/github-config-files/.github/workflows/__get_release_tag.yml@main
     with:
       branch-name: ${{ github.ref }}
+    secrets:
+      gh-token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
   run-production-build:
     name: Run Production Build

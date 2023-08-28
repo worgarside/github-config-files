@@ -9,10 +9,15 @@ on:
         description: The name of the branch to extract the release tag from
         required: true
         type: string
+    secrets:
+      gh-token:
+        description: The GitHub token to use for the PR creation
+        required: true
     outputs:
       release-tag:
         description: The release tag
         value: ${{ jobs.get-release-tag.outputs.release-tag }}
+
 
 jobs:
 
@@ -33,6 +38,7 @@ jobs:
         id: get-tag
         env:
           BRANCH_NAME: ${{ inputs.branch-name }}
+          GH_TOKEN: ${{ secrets.gh-token }}
         # yamllint disable rule:line-length
         run: |
           clean_branch_name=${BRANCH_NAME#refs/heads/}
@@ -41,8 +47,8 @@ jobs:
 
           if ! [[ $release_tag =~ ^[0-9]{1,2}\.[0-9]{1,4}\.[0-9]{1,4}$ ]]
           then
-              echo "Release tag is bollocks: \`$release_tag\` 😡" >> "$GITHUB_STEP_SUMMARY"
-              exit 1
+            release_tag=$(gh release view --json tagName --jq '.tagName') ||
+              echo "Release tag is bollocks: \`$release_tag\` 😡" >> "$GITHUB_STEP_SUMMARY" && exit 1
           fi
 
           echo "release-tag=$release_tag" >> "$GITHUB_OUTPUT"
