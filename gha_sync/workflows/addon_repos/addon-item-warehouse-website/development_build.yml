@@ -8,6 +8,7 @@ on:
       - bugfix/*
       - chore/*
       - hotfix/*
+      - repo-sync/*
 
 permissions:
   contents: write
