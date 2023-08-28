@@ -34,6 +34,13 @@ jobs:
         run: |
           echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Clone Repo
+        uses: actions/checkout@v3
+        if: |
+          !inputs.branch-name
+        with:
+          token: ${{ secrets.gh-token }}
+
       - name: Get Release Tag
         id: get-tag
         env:
@@ -41,14 +48,19 @@ jobs:
           GH_TOKEN: ${{ secrets.gh-token }}
         # yamllint disable rule:line-length
         run: |
-          clean_branch_name=${BRANCH_NAME#refs/heads/}
+          if [[ -z "$BRANCH_NAME" ]]
+          then
+            release_tag=$(gh release view --json tagName --jq '.tagName')
+          else
+            clean_branch_name=${BRANCH_NAME#refs/heads/}
 
-          release_tag=$(echo "$clean_branch_name" | cut -d '/' -f2)
+            release_tag=$(echo "$clean_branch_name" | cut -d '/' -f2)
+          fi
 
           if ! [[ $release_tag =~ ^[0-9]{1,2}\.[0-9]{1,4}\.[0-9]{1,4}$ ]]
           then
-            release_tag=$(gh release view --json tagName --jq '.tagName') ||
-              echo "Release tag is bollocks: \`$release_tag\` 😡" >> "$GITHUB_STEP_SUMMARY" && exit 1
+            echo "Release tag is bollocks: \`$release_tag\` 😡" >> "$GITHUB_STEP_SUMMARY"
+            exit 1
           fi
 
           echo "release-tag=$release_tag" >> "$GITHUB_OUTPUT"

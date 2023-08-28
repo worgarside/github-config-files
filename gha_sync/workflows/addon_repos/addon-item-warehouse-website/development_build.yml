@@ -14,8 +14,6 @@ jobs:
   get-release-tag:
     name: Get Release Tag
     uses: worgarside/github-config-files/.github/workflows/__get_release_tag.yml@main
-    with:
-      branch-name: ${{ github.ref }}
     secrets:
       gh-token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
