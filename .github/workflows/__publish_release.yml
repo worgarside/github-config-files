@@ -135,7 +135,7 @@ jobs:
       PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
 
   create-pr-back-to-develop:
-    name: Create PR back to `develop`
+    name: Create PR from `${{ inputs.base-ref-name }}` back to `develop`
     needs:
       - get-release-tag
       - publish-release-notes
