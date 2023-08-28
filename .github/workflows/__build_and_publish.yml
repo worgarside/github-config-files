@@ -112,6 +112,17 @@ jobs:
           cache-dependency-path: ${{ inputs.node-build-directory }}/package-lock.json
           node-version: 18
 
+      - name: Cache Build
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            ${{ github.workspace }}/${{ inputs.node-build-directory }}/.next/cache
+          # yamllint disable-line rule:line-length
+          key: nextjs-${{ inputs.environment }}-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            nextjs-${{ inputs.environment }}-${{ hashFiles('**/package-lock.json') }}-
+
       - name: Install Dependencies
         run: |
           cd ${{ inputs.node-build-directory }}
