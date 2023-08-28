@@ -126,7 +126,7 @@ jobs:
       - name: Install Dependencies
         run: |
           cd ${{ inputs.node-build-directory }}
-          rm -rf dist/
+          rm -rf .next/
           npm ci --verbose
 
       - name: Build
@@ -150,7 +150,7 @@ jobs:
           git config --global user.name "worgarside-dev"
           git config --global user.email "worgarside.dev@gmail.com"
 
-          git add ${{ inputs.node-build-directory }}/dist/
+          git add ${{ inputs.node-build-directory }}/.next/
           git add ${{ inputs.node-build-directory }}/package-lock.json
           git commit -m "$COMMIT_MESSAGE"
           git push origin ${{ inputs.build-branch }} --force
@@ -158,7 +158,7 @@ jobs:
       - name: Zip Build Directory
         run: |
           cd ${{ inputs.node-build-directory }}
-          zip -r "$ARTIFACT_NAME" dist/
+          zip -r "$ARTIFACT_NAME" .next/
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
@@ -190,7 +190,7 @@ jobs:
       - name: Install Dependencies
         run: |
           cd ${{ inputs.node-build-directory }}
-          rm -rf dist/
+          rm -rf .next/
           npm ci --verbose
 
       - name: Build
