@@ -140,6 +140,7 @@ jobs:
           git config --global user.email "worgarside.dev@gmail.com"
 
           git add ${{ inputs.node-build-directory }}/dist/
+          git add ${{ inputs.node-build-directory }}/package-lock.json
           git commit -m "$COMMIT_MESSAGE"
           git push origin ${{ inputs.build-branch }} --force
 
