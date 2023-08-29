@@ -29,7 +29,7 @@
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/addon-item-warehouse-api/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
-### [addon-item-warehouse-website](https://github.com/worgarside/addon-item-warehouse-website)(19 files)
+### [addon-item-warehouse-website](https://github.com/worgarside/addon-item-warehouse-website) (19 files)
 
 <details>
 <summary>Mapping Table</summary>
