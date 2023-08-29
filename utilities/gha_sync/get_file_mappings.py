@@ -34,7 +34,7 @@ class InvalidMappingError(Exception):
 
         msg += f": {dumps(mapping, default=str, sort_keys=True)}"
 
-        super().__init__()
+        super().__init__(msg)
 
 
 def markdown_url(text: str, url: str) -> str:
@@ -42,36 +42,41 @@ def markdown_url(text: str, url: str) -> str:
     return f"[{text}]({url})"
 
 
+def _process_complex_entry(entry: dict[str, str]) -> dict[str, str]:
+    source = REPO_PATH / entry["source"]
+    excluded_files = [
+        file for file in entry.get("exclude", "").strip().split("\n") if file
+    ]
+
+    if source.is_file():
+        if excluded_files:
+            raise InvalidMappingError(
+                entry, reason="Cannot exclude files from a single file"
+            )
+
+        return {entry["dest"]: entry["source"]}
+
+    if source.is_dir():
+        for efile in excluded_files:
+            if not (source / efile).is_file():
+                raise InvalidMappingError(
+                    entry, reason=f"Excluded file `{efile}` does not exist"
+                )
+
+        return {
+            entry["dest"] + file.name: file.relative_to(REPO_PATH).as_posix()
+            for file in source.rglob("*")
+            if file.name not in excluded_files
+        }
+
+    raise InvalidMappingError(entry, reason=f"Source `{source}` does not exist")
+
+
 def _process_entry(entry: str | dict[str, str]) -> dict[str, str]:
     if isinstance(entry, str):
         mapping = {entry: entry}
     elif isinstance(entry, dict):
-        source = REPO_PATH / entry["source"]
-        excluded_files = [
-            file for file in entry.get("exclude", "").strip().split("\n") if file
-        ]
-
-        if source.is_file():
-            if excluded_files:
-                raise InvalidMappingError(
-                    entry, reason="Cannot exclude files from a single file"
-                )
-
-            mapping = {entry["dest"]: entry["source"]}
-        elif source.is_dir():
-            for efile in excluded_files:
-                if not (source / efile).is_file():
-                    raise InvalidMappingError(
-                        entry, reason=f"Excluded file `{efile}` does not exist"
-                    )
-
-            mapping = {
-                entry["dest"] + file.name: file.relative_to(REPO_PATH).as_posix()
-                for file in source.rglob("*")
-                if file.name not in excluded_files
-            }
-        else:
-            raise InvalidMappingError(entry, reason=f"Source `{source}` does not exist")
+        mapping = _process_complex_entry(entry)
     else:
         raise InvalidMappingError(entry, reason="Invalid mapping type")
 
@@ -202,7 +207,14 @@ def generate_readme() -> str:
         details_section += "|--------|-------------|\n"
         for dest, source in sorted(mappings.items(), key=lambda x: x[1]):
             file_count += 1
-            details_section += f"| {markdown_url(source, source)} | {markdown_url(dest, repo_url + '/' + dest)} |\n"  # noqa: E501
+            details_section += "|".join(
+                (
+                    "",
+                    f" {markdown_url(source, source)} ",
+                    f" {markdown_url(dest, repo_url + '/' + dest)} ",
+                    "\n",
+                )
+            )
         details_section += "</details>\n\n"
 
         header += f"({file_count} files)\n\n"
