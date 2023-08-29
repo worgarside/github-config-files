@@ -161,9 +161,7 @@ worgarside/addon-yas-209-bridge:
 worgarside/home-assistant:
   - source: gha_sync/workflows/repo/home-assistant/
     dest: .github/workflows/
-    deleteOrphaned: true
 
 worgarside/wg-utilities:
   - source: gha_sync/workflows/repo/wg-utilities
     dest: .github/workflows/
-    deleteOrphaned: true

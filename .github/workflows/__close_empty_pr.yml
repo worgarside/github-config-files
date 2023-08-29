@@ -63,4 +63,5 @@ jobs:
         if: steps.get-pr-changes.outputs.total-changes == '0'
         run: |
           gh pr close ${{ inputs.pr-number }} \
+            --delete-branch \
             -c "This PR is empty, closing it. :no_good:"
