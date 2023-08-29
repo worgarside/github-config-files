@@ -158,6 +158,12 @@ worgarside/addon-yas-209-bridge:
       config_path: yas_209_bridge/config.yaml
       secrets_WORGARSIDE_DEV_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
+worgarside/home-assistant:
+  - source: gha_sync/workflows/repo/home-assistant/
+    dest: .github/workflows/
+    deleteOrphaned: true
+
 worgarside/wg-utilities:
   - source: gha_sync/workflows/repo/wg-utilities
     dest: .github/workflows/
+    deleteOrphaned: true
