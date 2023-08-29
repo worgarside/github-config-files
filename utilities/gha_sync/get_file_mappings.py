@@ -19,6 +19,23 @@ SYNC_CONFIG = Path(__file__).parents[2] / "gha_sync/config.yml"
 
 REPO_FILE_MAPPINGS: dict[str, dict[str, str]] = {}
 
+IGNORED_FILES = (".DS_Store", "config.yml")
+
+
+class InvalidMappingError(Exception):
+    """Raised when an invalid file mapping is found."""
+
+    def __init__(self, mapping: dict[str, str], *, reason: str | None = None) -> None:
+        """Initialise the exception."""
+        msg = "Invalid file mapping"
+
+        if reason:
+            msg += f" ({reason})"
+
+        msg += f": {dumps(mapping, default=str, sort_keys=True)}"
+
+        super().__init__()
+
 
 def markdown_url(text: str, url: str) -> str:
     """Return a markdown link."""
@@ -27,19 +44,41 @@ def markdown_url(text: str, url: str) -> str:
 
 def _process_entry(entry: str | dict[str, str]) -> dict[str, str]:
     if isinstance(entry, str):
-        return {entry: entry}
+        mapping = {entry: entry}
+    elif isinstance(entry, dict):
+        source = REPO_PATH / entry["source"]
+        excluded_files = [
+            file for file in entry.get("exclude", "").strip().split("\n") if file
+        ]
 
-    if isinstance(entry, dict):
-        if (REPO_PATH / entry["source"]).is_file():
-            return {entry["dest"]: entry["source"]}
+        if source.is_file():
+            if excluded_files:
+                raise InvalidMappingError(
+                    entry, reason="Cannot exclude files from a single file"
+                )
 
-        return {
-            entry["dest"] + file.name: file.relative_to(REPO_PATH).as_posix()
-            for file in (REPO_PATH / entry["source"]).rglob("*")
-            if file.name not in entry.get("exclude", "").strip().split("\n")
-        }
+            mapping = {entry["dest"]: entry["source"]}
+        elif source.is_dir():
+            for efile in excluded_files:
+                if not (source / efile).is_file():
+                    raise InvalidMappingError(
+                        entry, reason=f"Excluded file `{efile}` does not exist"
+                    )
 
-    raise TypeError(f"Invalid entry type: {type(entry)}")  # noqa: TRY003
+            mapping = {
+                entry["dest"] + file.name: file.relative_to(REPO_PATH).as_posix()
+                for file in source.rglob("*")
+                if file.name not in excluded_files
+            }
+        else:
+            raise InvalidMappingError(entry, reason=f"Source `{source}` does not exist")
+    else:
+        raise InvalidMappingError(entry, reason="Invalid mapping type")
+
+    if any(not (REPO_PATH / source).is_file() for source in mapping.values()):
+        raise InvalidMappingError(mapping, reason="One or more sources do not exist")
+
+    return mapping
 
 
 class GroupMappingTypeDef(TypedDict):
@@ -61,7 +100,14 @@ def process_group_mapping(group_mapping: GroupMappingTypeDef) -> None:
 
         LOGGER.debug("Adding group mapping to %s: %r", repo, group_file_mapping)
 
-        REPO_FILE_MAPPINGS[repo].update(group_file_mapping)
+        for dest, source in group_file_mapping.items():
+            if REPO_FILE_MAPPINGS[repo].get(dest) is not None:
+                raise InvalidMappingError(
+                    group_file_mapping,
+                    reason=f"Duplicate destination `{dest}` in group mapping for {repo}",
+                )
+
+            REPO_FILE_MAPPINGS[repo][dest] = source
 
 
 def generate_mappings() -> None:
@@ -83,7 +129,15 @@ def generate_mappings() -> None:
                 repo_key,
                 dumps(processed_entry, indent=2, default=sorted, sort_keys=True),
             )
-            REPO_FILE_MAPPINGS[repo_key].update(processed_entry)
+
+            for dest, source in processed_entry.items():
+                if REPO_FILE_MAPPINGS[repo_key].get(dest) is not None:
+                    raise InvalidMappingError(
+                        processed_entry,
+                        reason=f"Duplicate destination `{dest}` in mapping for {repo_key}",
+                    )
+
+                REPO_FILE_MAPPINGS[repo_key][dest] = source
 
 
 def _get_all_destinations() -> list[str]:
@@ -94,7 +148,9 @@ def _get_all_destinations() -> list[str]:
 
     for file in (REPO_PATH / "gha_sync/workflows").rglob("*"):
         if file.is_file():
-            all_destinations.add(f".github/workflows/{file.name}")
+            all_destinations.add(
+                f".github/workflows/{file.name.replace('.template.', '.')}"
+            )
 
     return sorted(all_destinations)
 
@@ -158,6 +214,21 @@ def main() -> None:
     """Generate a README containing the current file mappings across repositories."""
 
     generate_mappings()
+
+    all_used_sources = set()
+
+    for mappings in REPO_FILE_MAPPINGS.values():
+        all_used_sources.update(list(mappings.values()))
+
+    for file in (REPO_PATH / "gha_sync/").rglob("*"):
+        if (
+            file.is_file()
+            and file.name not in IGNORED_FILES
+            and file.relative_to(REPO_PATH).as_posix() not in all_used_sources
+        ):
+            raise RuntimeError(  # noqa: TRY003
+                f"Unused file: {file.relative_to(REPO_PATH).as_posix()}"
+            )
 
     readme = generate_readme()
 
