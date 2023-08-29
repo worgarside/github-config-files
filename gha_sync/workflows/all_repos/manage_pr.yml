@@ -41,10 +41,7 @@ jobs:
       contents: read
       pull-requests: write
     with:
-      base-ref: ${{ github.base_ref }}
-      event-action: ${{ github.event.action }}
       head-ref: ${{ github.head_ref }}
-      pr-author: ${{ github.event.pull_request.user.login }}
       pr-number: ${{ github.event.pull_request.number }}
     secrets:
       gh-token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
