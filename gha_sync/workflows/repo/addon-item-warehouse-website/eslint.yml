@@ -1,0 +1,33 @@
+---
+name: ESLint
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          cache: npm
+          cache-dependency-path: item_warehouse_website/package-lock.json
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: cd item_warehouse_website && npm ci
+
+      - name: Run ESLint
+        run: cd item_warehouse_website && npm run lint
