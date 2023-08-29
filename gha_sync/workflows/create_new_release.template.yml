@@ -27,7 +27,6 @@ jobs:
           'release'
         )
       )
-    # yamllint disable-line rule:line-length
     uses: worgarside/github-config-files/.github/workflows/__create_new_release.yml@main
     with:
       update-yaml-file-path: '{{ config_path }}'

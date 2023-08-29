@@ -1,15 +1,51 @@
 ---
+# yamllint disable rule:line-length
+
 group:
-  # All "Normal" Repos
-  # This is every repo apart from `wg-utilities` (needs PyPi stuff) and
-  # `addon-item-warehouse-website` (doesn't use Pylint)
+  # All Repos
   - files:
-      - .pylintrc
+      - .gitignore
       - .github/CODEOWNERS
       - .github/dependabot.yml
-      - source: gha_sync/workflows/all_repos
+      - source: gha_sync/workflows/all
         dest: .github/workflows/
         deleteOrphaned: true
+    repos: |
+      worgarside/addon-item-warehouse-api
+      worgarside/addon-item-warehouse-website
+      worgarside/addon-rss-log-feed
+      worgarside/addon-yas-209-bridge
+      worgarside/home-assistant
+      worgarside/home-assistant-config-validator
+      worgarside/led-matrix-now-playing
+      worgarside/plant-monitor
+      worgarside/python-template
+      worgarside/smart-mini-crt-interface
+      worgarside/very-slow-movie-player
+      worgarside/wg-scripts
+      worgarside/wg-utilities
+
+  # This is every repo apart from `wg-utilities` (Runs SonarCloud after UTs)
+  - files:
+      - source: gha_sync/workflows/run_sonarcloud_scan.yml
+        dest: .github/workflows/run_sonarcloud_scan.yml
+    repos: |
+      worgarside/addon-item-warehouse-api
+      worgarside/addon-item-warehouse-website
+      worgarside/addon-rss-log-feed
+      worgarside/addon-yas-209-bridge
+      worgarside/home-assistant
+      worgarside/home-assistant-config-validator
+      worgarside/led-matrix-now-playing
+      worgarside/plant-monitor
+      worgarside/python-template
+      worgarside/smart-mini-crt-interface
+      worgarside/very-slow-movie-player
+      worgarside/wg-scripts
+
+  # This is every repo apart from `addon-item-warehouse-website` (Doesn't use Pylint)
+  - files:
+      - .pylintrc
     repos: |
       worgarside/addon-item-warehouse-api
       worgarside/addon-rss-log-feed
@@ -22,9 +58,11 @@ group:
       worgarside/smart-mini-crt-interface
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
+      worgarside/wg-utilities
 
   # No Custom Labels
-  # Think the only exclusion is `home-assistant`
+  # The only exclusion is `home-assistant`, which has its own repo_labels.yml:
+  # https://github.com/worgarside/home-assistant/blob/develop/.github/repo_labels.yml
   - files:
       - .github/labeler.yml
       - .github/repo_labels.yml
@@ -42,22 +80,6 @@ group:
       worgarside/wg-scripts
       worgarside/wg-utilities
 
-  # Standard .gitignore
-  - files:
-      - .gitignore
-    repos: |
-      worgarside/addon-item-warehouse-api
-      worgarside/addon-item-warehouse-website
-      worgarside/addon-rss-log-feed
-      worgarside/addon-yas-209-bridge
-      worgarside/home-assistant-config-validator
-      worgarside/led-matrix-now-playing
-      worgarside/plant-monitor
-      worgarside/python-template
-      worgarside/smart-mini-crt-interface
-      worgarside/very-slow-movie-player
-      worgarside/wg-scripts
-
   # Standard .yamllint
   - files:
       - .yamllint
@@ -73,93 +95,75 @@ group:
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
 
-  # Versioned Repos
+  # Standard Release Notes Template
   - files:
-      - source: gha_sync/workflows/versioned_repos
-        dest: .github/workflows/
-        # deleteOrphaned: true
-      - source: gha_sync/configs/versioned_repos
-        dest: .github/
-        # Home Assistant has its own template
-        exclude: |
-          release-drafter.yml
+      - source: gha_sync/configs/release-drafter.yml
+        dest: .github/release-drafter.yml
+    repos: |
+      worgarside/addon-item-warehouse-api
+      worgarside/addon-item-warehouse-website
+      worgarside/addon-rss-log-feed
+      worgarside/addon-yas-209-bridge
+      worgarside/home-assistant-config-validator
+
+  # Publish Release with no build
+  - files:
+      - source: gha_sync/workflows/publish_release.yml
+        dest: .github/workflows/publish_release.yml
+    repos: |
+      worgarside/addon-item-warehouse-api
+      worgarside/addon-rss-log-feed
+      worgarside/addon-yas-209-bridge
+      worgarside/home-assistant
+      worgarside/home-assistant-config-validator
+
+  # Standard release with version bump in pyproject.toml
+  - files:
+      - source: gha_sync/workflows/create_new_release.yml
+        dest: .github/create_new_release.yml
     repos: |
       worgarside/home-assistant
       worgarside/home-assistant-config-validator
 
-worgarside/wg-utilities:
-  - .pylintrc
-  - .github/CODEOWNERS
-  - .github/dependabot.yml
-  - source: gha_sync/workflows/all_repos
-    dest: .github/workflows/
-    exclude: run_sonarcloud_scan.yml
-  - source: gha_sync/workflows/pypi_repos
-    dest: .github/workflows/
-  - source: gha_sync/configs/versioned_repos
-    dest: .github/
-
 worgarside/addon-item-warehouse-api:
-  - source: gha_sync/workflows/addon_repos/create_new_release.yml
+  - source: gha_sync/workflows/create_new_release.template.yml
     dest: .github/workflows/create_new_release.yml
     template:
       config_path: item_warehouse_api/config.yaml
       secrets_WORGARSIDE_DEV_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-  - source: gha_sync/workflows/versioned_repos
-    dest: .github/workflows/
-    exclude: |
-      create_new_release.yml
-  - source: gha_sync/configs/versioned_repos
-    dest: .github/
 
 worgarside/addon-item-warehouse-website:
-  - .github/CODEOWNERS
-  - .github/dependabot.yml
-  - source: gha_sync/workflows/all_repos
-    dest: .github/workflows/
-  - source: gha_sync/workflows/addon_repos/addon-item-warehouse-website/
-    dest: .github/workflows/
-  # yamllint disable-line rule:line-length
-  - source: gha_sync/workflows/addon_repos/addon-item-warehouse-website/create_new_release.yml
+  - source: gha_sync/workflows/repo/addon-item-warehouse-website/create_new_release.template.yml
     dest: .github/workflows/create_new_release.yml
     template:
       config_path: item_warehouse_website/config.yaml
       secrets_WORGARSIDE_DEV_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-    # I know this excludes all current files, it's futureproofing
-  - source: gha_sync/workflows/versioned_repos
+  - source: gha_sync/workflows/repo/addon-item-warehouse-website/
     dest: .github/workflows/
-    exclude: |
-      create_new_release.yml
-      publish_release.yml
-  - source: gha_sync/configs/versioned_repos
-    dest: .github/
+    deleteOrphaned: true
+    # Excluded to allow above templating
+    exclude: create_new_release.template.yml
 
 worgarside/addon-rss-log-feed:
-  - source: gha_sync/workflows/addon_repos/create_new_release.yml
+  - source: gha_sync/workflows/create_new_release.template.yml
     dest: .github/workflows/create_new_release.yml
     template:
       config_path: rss_log_feed/config.yaml
       secrets_WORGARSIDE_DEV_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-  - source: gha_sync/workflows/versioned_repos
-    dest: .github/workflows/
-    exclude: |
-      create_new_release.yml
-  - source: gha_sync/configs/versioned_repos
-    dest: .github/
 
 worgarside/addon-yas-209-bridge:
-  - source: gha_sync/workflows/addon_repos/create_new_release.yml
+  - source: gha_sync/workflows/create_new_release.template.yml
     dest: .github/workflows/create_new_release.yml
     template:
       config_path: yas_209_bridge/config.yaml
       secrets_WORGARSIDE_DEV_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-  - source: gha_sync/workflows/versioned_repos
-    dest: .github/workflows/
-    exclude: |
-      create_new_release.yml
-  - source: gha_sync/configs/versioned_repos
-    dest: .github/
 
-worgarside/home-assistant-config-validator:
-  - source: gha_sync/configs/versioned_repos/release-drafter.yml
-    dest: .github/release-drafter.yml
+worgarside/home-assistant:
+  - source: gha_sync/workflows/repo/home-assistant/
+    dest: .github/workflows/
+    deleteOrphaned: true
+
+worgarside/wg-utilities:
+  - source: gha_sync/workflows/repo/wg-utilities
+    dest: .github/workflows/
+    deleteOrphaned: true
