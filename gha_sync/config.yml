@@ -9,7 +9,7 @@ group:
       - .github/dependabot.yml
       - source: gha_sync/workflows/all_repos
         dest: .github/workflows/
-        # deleteOrphaned: true
+        deleteOrphaned: true
     repos: |
       worgarside/addon-item-warehouse-api
       worgarside/addon-rss-log-feed
