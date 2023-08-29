@@ -199,7 +199,7 @@ def generate_readme() -> str:
     for repo, mappings in sorted(REPO_FILE_MAPPINGS.items()):
         repo_url = f"https://github.com/{repo}"
 
-        header = f"### {markdown_url(repo.removeprefix('worgarside/'), repo_url)}"
+        header = f"### {markdown_url(repo.removeprefix('worgarside/'), repo_url)} "
         file_count = 0
 
         details_section = "<details>\n<summary>Mapping Table</summary>\n\n"
