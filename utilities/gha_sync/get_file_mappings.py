@@ -194,16 +194,21 @@ def generate_readme() -> str:
     for repo, mappings in sorted(REPO_FILE_MAPPINGS.items()):
         repo_url = f"https://github.com/{repo}"
 
-        readme_contents_structure += (
-            f"### {markdown_url(repo.removeprefix('worgarside/'), repo_url)}\n\n"
-        )
-        readme_contents_structure += "<details>\n<summary>Mapping Table</summary>\n\n"
-        readme_contents_structure += "| Source | Destination |\n"
-        readme_contents_structure += "|--------|-------------|\n"
+        header = f"### {markdown_url(repo.removeprefix('worgarside/'), repo_url)}"
+        file_count = 0
+
+        details_section = "<details>\n<summary>Mapping Table</summary>\n\n"
+        details_section += "| Source | Destination |\n"
+        details_section += "|--------|-------------|\n"
         for dest, source in sorted(mappings.items(), key=lambda x: x[1]):
-            readme_contents_structure += f"| {markdown_url(source, source)} | {markdown_url(dest, repo_url + '/' + dest)} |\n"  # noqa: E501
-        readme_contents_structure += "</details>\n"
-        readme_contents_structure += "\n"
+            file_count += 1
+            details_section += f"| {markdown_url(source, source)} | {markdown_url(dest, repo_url + '/' + dest)} |\n"  # noqa: E501
+        details_section += "</details>\n\n"
+
+        header += f"({file_count} files)\n\n"
+
+        readme_contents_structure += header
+        readme_contents_structure += details_section
 
     readme_contents_structure += generate_single_table()
 

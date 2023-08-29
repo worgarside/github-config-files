@@ -140,6 +140,7 @@ worgarside/addon-item-warehouse-website:
       secrets_WORGARSIDE_DEV_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
   - source: gha_sync/workflows/repo/addon-item-warehouse-website/
     dest: .github/workflows/
+    deleteOrphaned: true
     # Excluded to allow above templating
     exclude: create_new_release.template.yml
 
