@@ -120,7 +120,7 @@ group:
   # Standard release with version bump in pyproject.toml
   - files:
       - source: gha_sync/workflows/create_new_release.yml
-        dest: .github/create_new_release.yml
+        dest: .github/workflows/create_new_release.yml
     repos: |
       worgarside/home-assistant
       worgarside/home-assistant-config-validator
