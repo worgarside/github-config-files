@@ -1,0 +1,66 @@
+---
+name: '"Close Empty PR" Runner'
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_call:
+    inputs:
+      head-ref:
+        description: The head branch's name (source branch)
+        required: true
+        type: string
+      pr-number:
+        description: The PR number
+        required: true
+        type: number
+    secrets:
+      gh-token:
+        description: The GitHub token to use for the PR creation
+        required: true
+
+jobs:
+  log-inputs:
+    name: Log Inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Inputs
+        if: runner.debug == '1'
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: |
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+
+  close-pr-if-empty:
+    name: Close Empty PR
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.gh-token }}
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.head-ref }}
+          fetch-depth: 0
+          token: ${{ secrets.gh-token }}
+
+      - name: Get PR Changes
+        id: get-pr-changes
+        run: |
+          total_changes=$(
+            gh pr view ${{ inputs.pr-number }} \
+              --json additions,deletions \
+              --jq '. | add'
+          )
+
+          echo "$total_changes changes found on PR" >> "$GITHUB_STEP_SUMMARY"
+
+          echo "total-changes=$total_changes" >> "$GITHUB_OUTPUT"
+
+      - name: Close PR
+        if: steps.get-pr-changes.outputs.total-changes == '0'
+        run: |
+          gh pr close ${{ inputs.pr-number }} \
+            -c "This PR is empty, closing it. :no_good:"
