@@ -2,7 +2,7 @@
 
 ## Repository File Mappings
 
-### [addon-item-warehouse-api](https://github.com/worgarside/addon-item-warehouse-api)(18 files)
+### [addon-item-warehouse-api](https://github.com/worgarside/addon-item-warehouse-api) (18 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -29,7 +29,7 @@
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/addon-item-warehouse-api/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
-### [addon-item-warehouse-website](https://github.com/worgarside/addon-item-warehouse-website)(19 files)
+### [addon-item-warehouse-website](https://github.com/worgarside/addon-item-warehouse-website) (19 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -57,7 +57,7 @@
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
-### [addon-rss-log-feed](https://github.com/worgarside/addon-rss-log-feed)(18 files)
+### [addon-rss-log-feed](https://github.com/worgarside/addon-rss-log-feed) (18 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -84,7 +84,7 @@
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/addon-rss-log-feed/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
-### [addon-yas-209-bridge](https://github.com/worgarside/addon-yas-209-bridge)(18 files)
+### [addon-yas-209-bridge](https://github.com/worgarside/addon-yas-209-bridge) (18 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -111,7 +111,7 @@
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/addon-yas-209-bridge/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
-### [home-assistant](https://github.com/worgarside/home-assistant)(15 files)
+### [home-assistant](https://github.com/worgarside/home-assistant) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -135,7 +135,7 @@
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/home-assistant/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
-### [home-assistant-config-validator](https://github.com/worgarside/home-assistant-config-validator)(18 files)
+### [home-assistant-config-validator](https://github.com/worgarside/home-assistant-config-validator) (18 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -162,7 +162,7 @@
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
-### [led-matrix-now-playing](https://github.com/worgarside/led-matrix-now-playing)(15 files)
+### [led-matrix-now-playing](https://github.com/worgarside/led-matrix-now-playing) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -186,7 +186,7 @@
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/led-matrix-now-playing/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
-### [plant-monitor](https://github.com/worgarside/plant-monitor)(15 files)
+### [plant-monitor](https://github.com/worgarside/plant-monitor) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -210,7 +210,7 @@
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/plant-monitor/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
-### [python-template](https://github.com/worgarside/python-template)(15 files)
+### [python-template](https://github.com/worgarside/python-template) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -234,7 +234,7 @@
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/python-template/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
-### [smart-mini-crt-interface](https://github.com/worgarside/smart-mini-crt-interface)(15 files)
+### [smart-mini-crt-interface](https://github.com/worgarside/smart-mini-crt-interface) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -258,7 +258,7 @@
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/smart-mini-crt-interface/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
-### [very-slow-movie-player](https://github.com/worgarside/very-slow-movie-player)(15 files)
+### [very-slow-movie-player](https://github.com/worgarside/very-slow-movie-player) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -282,7 +282,7 @@
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/very-slow-movie-player/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
-### [wg-scripts](https://github.com/worgarside/wg-scripts)(15 files)
+### [wg-scripts](https://github.com/worgarside/wg-scripts) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -306,7 +306,7 @@
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/wg-scripts/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
-### [wg-utilities](https://github.com/worgarside/wg-utilities)(19 files)
+### [wg-utilities](https://github.com/worgarside/wg-utilities) (19 files)
 
 <details>
 <summary>Mapping Table</summary>
