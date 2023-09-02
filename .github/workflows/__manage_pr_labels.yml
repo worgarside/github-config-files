@@ -158,10 +158,6 @@ jobs:
       (
         inputs.base-ref != 'main' ||
         !startsWith(inputs.head-ref, 'release/')
-      ) &&
-      (
-        inputs.event-action == 'labeled' ||
-        inputs.event-action == 'unlabeled'
       )
     steps:
       - name: Validate SemVer Label
