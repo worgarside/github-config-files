@@ -63,7 +63,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -134,7 +134,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.gh-token }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Remove major/minor/patch Labels
         run: |
@@ -191,7 +191,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: |
           ${{
