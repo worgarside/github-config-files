@@ -55,7 +55,7 @@ jobs:
       inputs.head-ref != 'main'
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set Auto-Merge on PR
         if: github.repository != 'worgarside/github-config-files'
@@ -89,7 +89,7 @@ jobs:
       !inputs.pr-is-draft
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set Auto-Merge on Release PR
         run: |

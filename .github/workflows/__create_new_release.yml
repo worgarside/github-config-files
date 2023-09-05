@@ -47,7 +47,7 @@ jobs:
           echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -82,7 +82,7 @@ jobs:
       tag: ${{ steps.get-release-version.outputs.release-tag }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get SemVer Label
         id: get-semver-label
@@ -250,7 +250,7 @@ jobs:
       status: ${{ steps.rebase-release-branch.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ needs.derive-release-branch-name.outputs.branch }}
@@ -300,7 +300,7 @@ jobs:
       needs.rebase-release-branch.outputs.status != 'success'
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Delete Release Branch
         run: |
@@ -332,7 +332,7 @@ jobs:
       TAG: ${{ needs.derive-release-branch-name.outputs.tag }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.gh-token }}
 
@@ -423,7 +423,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ needs.derive-release-branch-name.outputs.branch }}
 
