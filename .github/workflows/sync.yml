@@ -47,11 +47,24 @@ jobs:
         if: github.event.head_commit.message != 'Auto-update Pre-Commit hooks'
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+        # yamllint disable rule:line-length
         run: |
           arr=$(echo '${{ steps.sync.outputs.pull_request_urls }}' | jq -c -r '.[]')
           for url in $arr; do
-              gh pr merge --delete-branch --squash --auto "$url"
+              pr_status=$(gh pr view "$url" --json state -q '.state')
+              if [[ "$pr_status" == "OPEN" ]]; then
+                  gh pr merge --delete-branch --squash --auto "$url"
+              else
+                  IFS='/' read -ra ADDR <<< "$url"
+                  repo_owner="${ADDR[-4]}"
+                  repo_name="${ADDR[-3]}"
+                  pr_number="${ADDR[-1]}"
+
+                  echo -e "PR $repo_owner/$repo_name#$pr_number is \`${pr_status,,}\`; not setting auto merge." >> $GITHUB_STEP_SUMMARY
+              fi
           done
+        # yamllint enable rule:line-length
+
 
       - name: Record Updated PRs
         if: github.actor == 'worgarside-dev'
