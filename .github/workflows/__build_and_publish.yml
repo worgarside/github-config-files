@@ -256,8 +256,8 @@ jobs:
     name: Publish to PyPI
     environment: ${{ inputs.environment }}
     if: |
-      inputs.publish-to-pypi == 'true' &&
-      needs.add-artifacts-to-release-notes.outputs.pr-is-draft != 'true' &&
+      inputs.publish-to-pypi &&
+      needs.add-artifacts-to-release-notes.outputs.pr-is-draft != true &&
       success()
     needs:
       - add-artifacts-to-release-notes
