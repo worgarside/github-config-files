@@ -66,6 +66,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.gh-token }}
 
       - name: Get Previous Tag
         id: get-previous-tag
@@ -135,6 +136,8 @@ jobs:
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.gh-token }}
 
       - name: Remove major/minor/patch Labels
         run: |
@@ -192,6 +195,8 @@ jobs:
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.gh-token }}
 
       - name: |
           ${{
