@@ -41,10 +41,6 @@ on:
         required: false
         type: boolean
         default: false
-    secrets:
-      gh-token:
-        description: The GitHub token to use for the PR creation
-        required: true
 
 jobs:
   create-pr:
@@ -64,7 +60,7 @@ jobs:
       - name: Check If PR Exists
         id: check-if-pr-exists
         env:
-          GH_TOKEN: ${{ secrets.gh-token }}
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         # yamllint disable rule:line-length
         run: |
           existing_pr=$(
@@ -101,12 +97,12 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ inputs.head-ref-name }}
-          token: ${{ secrets.gh-token }}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Create PR
         if: steps.check-if-pr-exists.outputs.create-pr == 'true'
         env:
-          GH_TOKEN: ${{ secrets.gh-token }}
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
            # yamllint disable-line rule:line-length
           PR_BODY_ARG: ${{ inputs.pr-body && format('--body "{0}"', inputs.pr-body) || '--fill' }}
           PR_DRAFT_ARG: ${{ inputs.pr-draft && '--draft' || '' }}
@@ -138,7 +134,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ inputs.base-ref-name }}
-          token: ${{ secrets.gh-token }}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Get Commits
         if: |
@@ -181,7 +177,7 @@ jobs:
 
       - name: Update PR
         env:
-          GH_TOKEN: ${{ secrets.gh-token }}
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
           if [ -z "${{ inputs.pr-body }}" ] || [ "${{ inputs.pr-body }}" == "--fill" ]
           then

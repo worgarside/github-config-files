@@ -33,5 +33,4 @@ jobs:
       update-pyproject-toml: false
       update-json-file-path: item_warehouse_website/package.json
       update-yaml-file-path: '{{ config_path }}'
-    secrets:
-      gh-token: '{{ secrets_WORGARSIDE_DEV_TOKEN }}'
+    secrets: inherit

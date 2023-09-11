@@ -30,5 +30,4 @@ jobs:
     uses: worgarside/github-config-files/.github/workflows/__create_new_release.yml@main
     with:
       update-yaml-file-path: '{{ config_path }}'
-    secrets:
-      gh-token: '{{ secrets_WORGARSIDE_DEV_TOKEN }}'
+    secrets: inherit
