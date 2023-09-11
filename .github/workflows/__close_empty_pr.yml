@@ -13,10 +13,6 @@ on:
         description: The PR number
         required: true
         type: number
-    secrets:
-      gh-token:
-        description: The GitHub token to use for the PR creation
-        required: true
 
 jobs:
   log-inputs:
@@ -34,7 +30,7 @@ jobs:
     name: Close Empty PR
     runs-on: ubuntu-latest
     env:
-      GH_TOKEN: ${{ secrets.gh-token }}
+      GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
     permissions:
       contents: read
       pull-requests: write
@@ -44,7 +40,7 @@ jobs:
         with:
           ref: ${{ inputs.head-ref }}
           fetch-depth: 0
-          token: ${{ secrets.gh-token }}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Get PR Changes
         id: get-pr-changes
