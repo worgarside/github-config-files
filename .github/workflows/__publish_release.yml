@@ -30,11 +30,6 @@ on:
         required: false
         type: string
         default: .
-      publish-to-pypi:
-        default: false
-        description: Whether to publish to PyPI
-        required: false
-        type: boolean
 
 jobs:
   cancel-if-not-merged:
@@ -114,7 +109,6 @@ jobs:
       commit-build-directory: ${{ inputs.commit-build-directory }}
       environment: production
       node-build-directory: ${{ inputs.node-build-directory }}
-      publish-to-pypi: ${{ inputs.publish-to-pypi }}
       python-version: '3.11'
       release-tag: ${{ needs.get-release-tag.outputs.release-tag }}
     secrets: inherit

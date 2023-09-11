@@ -26,11 +26,6 @@ on:
         required: false
         type: string
         default: .
-      publish-to-pypi:
-        description: Whether to publish to PyPI
-        required: false
-        type: boolean
-        default: false
       python-version:
         description: The Python version to build with
         required: false
@@ -229,7 +224,7 @@ jobs:
   publish-to-pypi:
     name: Publish to PyPi
     environment: ${{ inputs.environment }}
-    if: ${{ inputs.publish-to-pypi == true || inputs.publish-to-pypi == 'true' }}
+    if: ${{ inputs.build-type == 'python' }}
     needs:
       - add-artifacts-to-release-notes
       - build-python
