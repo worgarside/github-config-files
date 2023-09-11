@@ -16,6 +16,7 @@ jobs:
     uses: worgarside/github-config-files/.github/workflows/__get_release_tag.yml@main
     with:
       branch-name: ${{ github.ref }}
+      get-from-current-commit: true
 
   run-production-build:
     name: Run Production Build
