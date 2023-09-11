@@ -227,9 +227,9 @@ jobs:
         # yamllint enable rule:line-length
 
   publish-to-pypi:
-    name: Publish to PyPI
+    name: Publish to PyPi
     environment: ${{ inputs.environment }}
-    if: inputs.publish-to-pypi == true || inputs.publish-to-pypi == 'true'
+    if: ${{ inputs.publish-to-pypi == true || inputs.publish-to-pypi == 'true' }}
     needs:
       - add-artifacts-to-release-notes
       - build-python
