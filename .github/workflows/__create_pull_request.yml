@@ -101,6 +101,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ inputs.head-ref-name }}
+          token: ${{ secrets.gh-token }}
 
       - name: Create PR
         if: steps.check-if-pr-exists.outputs.create-pr == 'true'
@@ -137,6 +138,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ inputs.base-ref-name }}
+          token: ${{ secrets.gh-token }}
 
       - name: Get Commits
         if: |

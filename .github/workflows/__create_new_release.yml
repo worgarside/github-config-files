@@ -50,6 +50,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.gh-token }}
 
       - name: Get Release Branch(es)
         id: get-release-branch
@@ -83,6 +84,8 @@ jobs:
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.gh-token }}
 
       - name: Get SemVer Label
         id: get-semver-label
@@ -301,6 +304,8 @@ jobs:
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.gh-token }}
 
       - name: Delete Release Branch
         run: |
@@ -426,6 +431,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ needs.derive-release-branch-name.outputs.branch }}
+          token: ${{ secrets.gh-token }}
 
       - name: Validate `pyproject.toml` version
         if: inputs.update-pyproject-toml

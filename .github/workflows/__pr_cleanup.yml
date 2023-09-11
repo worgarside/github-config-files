@@ -48,6 +48,7 @@ jobs:
         continue-on-error: true
         with:
           ref: ${{ inputs.head-ref }}
+          token: ${{ secrets.gh-token }}
 
       - name: Parse Label Names
         id: parse-label-names
