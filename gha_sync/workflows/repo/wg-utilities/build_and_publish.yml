@@ -16,10 +16,6 @@ on:
         description: The tag of the release to add the artifacts to
         required: false
         type: string
-    secrets:
-      PYPI_API_TOKEN:
-        description: The PyPi API token
-        required: true
 
 env:
   BUILD_PYTHON_VERSION: '3.11'

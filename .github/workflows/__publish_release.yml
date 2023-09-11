@@ -35,21 +35,13 @@ on:
         description: Whether to publish to PyPI
         required: false
         type: boolean
-    secrets:
-      gh-token:
-        description: The GitHub token to use for publishing the release
-        required: true
-      wg-dev-token:
-        description: The GitHub token to use for creating the PR back to `develop`
-        required: true
-      PYPI_API_TOKEN:
-        description: The PyPI token to use for publishing the release
-        required: false
 
 jobs:
   cancel-if-not-merged:
     name: Cancel Workflow if Pull Request is not merged
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
     steps:
       - name: Log Inputs
         if: runner.debug == '1'
@@ -71,8 +63,6 @@ jobs:
             echo "cancelling=false" >> $GITHUB_ENV
           fi
         # yamllint enable rule:line-length
-        env:
-          GITHUB_TOKEN: ${{ secrets.gh-token }}
 
       # Give the cancel command up to 2 mins to take effect, otherwise fail the workflow
       - name: Wait for workflow to be cancelled
@@ -80,8 +70,6 @@ jobs:
         run: |
           sleep 120
           exit 1
-        env:
-          GITHUB_TOKEN: ${{ secrets.gh-token }}
 
   get-release-tag:
     name: Get Release Tag
@@ -90,8 +78,7 @@ jobs:
       - cancel-if-not-merged
     with:
       branch-name: ${{ inputs.head-ref-name }}
-    secrets:
-      gh-token: ${{ secrets.gh-token }}
+    secrets: inherit
 
   publish-release-notes:
     name: Publish Release Notes
@@ -99,7 +86,7 @@ jobs:
     needs:
       - get-release-tag
     env:
-      GITHUB_TOKEN: ${{ secrets.gh-token }}
+      GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
     permissions:
       contents: write
     steps:
@@ -130,9 +117,7 @@ jobs:
       publish-to-pypi: ${{ inputs.publish-to-pypi }}
       python-version: '3.11'
       release-tag: ${{ needs.get-release-tag.outputs.release-tag }}
-    secrets:
-      gh-token: ${{ secrets.wg-dev-token }}
-      PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+    secrets: inherit
 
   create-pr-back-to-develop:
     name: Create PR from `${{ inputs.base-ref-name }}` back to `develop`
@@ -147,5 +132,4 @@ jobs:
       pr-title: Merge `${{ inputs.base-ref-name }}` into `develop`
       pr-draft: false
       pr-labels: non-functional,skip-changelog
-    secrets:
-      gh-token: ${{ secrets.wg-dev-token }}
+    secrets: inherit

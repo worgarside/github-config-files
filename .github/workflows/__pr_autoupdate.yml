@@ -3,10 +3,6 @@ name: '"Auto-Update PRs" Runner'
 
 on:
   workflow_call:
-    secrets:
-      gh-token:
-        description: The GitHub token to use
-        required: true
 
 jobs:
   autoupdate:
@@ -15,7 +11,7 @@ jobs:
     steps:
       - uses: docker://chinthakagodawita/autoupdate-action:v1
         env:
-          GITHUB_TOKEN: ${{ secrets.gh-token }}
+          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           PR_FILTER: labelled
           PR_LABELS: bot:keep-updated
           MERGE_CONFLICT_ACTION: ignore

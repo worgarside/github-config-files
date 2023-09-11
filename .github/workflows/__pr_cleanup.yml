@@ -20,16 +20,12 @@ on:
         description: 'The PR number: `github.event.pull_request.number`'
         required: true
         type: number
-    secrets:
-      gh-token:
-        description: The GitHub token to use
-        required: true
 
 jobs:
   delete-branch:
     name: Delete Branch on PR Merge
     env:
-      GITHUB_TOKEN: ${{ secrets.gh-token }}
+      GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
     if: inputs.pr-merged
     permissions:
       contents: write
@@ -48,7 +44,7 @@ jobs:
         continue-on-error: true
         with:
           ref: ${{ inputs.head-ref }}
-          token: ${{ secrets.gh-token }}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Parse Label Names
         id: parse-label-names
@@ -86,7 +82,7 @@ jobs:
     steps:
       - name: Remove Bot Labels
         env:
-          GITHUB_TOKEN: ${{ secrets.gh-token }}
+          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           PR_LABELS: ${{ inputs.pr-label-names }}
         run: |
           bot_labels=$(

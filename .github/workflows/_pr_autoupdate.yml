@@ -18,5 +18,4 @@ jobs:
   autoupdate:
     name: PR Auto-Update
     uses: ./.github/workflows/__pr_autoupdate.yml
-    secrets:
-      gh-token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+    secrets: inherit

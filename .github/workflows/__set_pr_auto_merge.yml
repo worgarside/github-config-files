@@ -26,13 +26,9 @@ on:
         description: 'The PRs title: `github.event.pull_request.title`'
         required: true
         type: string
-    secrets:
-      gh-token:
-        description: The GitHub token to use
-        required: true
 
 env:
-  GITHUB_TOKEN: ${{ secrets.gh-token }}
+  GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
 jobs:
   log-inputs:
@@ -57,7 +53,7 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.gh-token }}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Set Auto-Merge on PR
         if: github.repository != 'worgarside/github-config-files'
@@ -93,7 +89,7 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.gh-token }}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Set Auto-Merge on Release PR
         run: |

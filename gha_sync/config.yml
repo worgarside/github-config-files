@@ -130,14 +130,12 @@ worgarside/addon-item-warehouse-api:
     dest: .github/workflows/create_new_release.yml
     template:
       config_path: item_warehouse_api/config.yaml
-      secrets_WORGARSIDE_DEV_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
 worgarside/addon-item-warehouse-website:
   - source: gha_sync/workflows/repo/addon-item-warehouse-website/create_new_release.template.yml
     dest: .github/workflows/create_new_release.yml
     template:
       config_path: item_warehouse_website/config.yaml
-      secrets_WORGARSIDE_DEV_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
   - source: gha_sync/workflows/repo/addon-item-warehouse-website/
     dest: .github/workflows/
     # Excluded to allow above templating
@@ -148,14 +146,12 @@ worgarside/addon-rss-log-feed:
     dest: .github/workflows/create_new_release.yml
     template:
       config_path: rss_log_feed/config.yaml
-      secrets_WORGARSIDE_DEV_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
 worgarside/addon-yas-209-bridge:
   - source: gha_sync/workflows/create_new_release.template.yml
     dest: .github/workflows/create_new_release.yml
     template:
       config_path: yas_209_bridge/config.yaml
-      secrets_WORGARSIDE_DEV_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
 worgarside/home-assistant:
   - source: gha_sync/workflows/repo/home-assistant/

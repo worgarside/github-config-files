@@ -21,10 +21,6 @@ on:
         description: The path to a YAML file containing a `version` variable
         required: false
         type: string
-    secrets:
-      gh-token:
-        description: The GitHub token to use for the PR creation
-        required: true
 
 permissions:
   contents: write
@@ -35,7 +31,7 @@ jobs:
     name: Check for Existing Release Branch
     runs-on: ubuntu-latest
     env:
-      GH_TOKEN: ${{ secrets.gh-token }}
+      GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
     outputs:
       pending-release-tag: ${{ steps.get-release-branch.outputs.pending-release-tag }}
     steps:
@@ -50,7 +46,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.gh-token }}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Get Release Branch(es)
         id: get-release-branch
@@ -77,7 +73,7 @@ jobs:
     name: Derive Release Branch Name
     runs-on: ubuntu-latest
     env:
-      GH_TOKEN: ${{ secrets.gh-token }}
+      GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
     outputs:
       branch: ${{ steps.get-release-version.outputs.release-branch }}
       tag: ${{ steps.get-release-version.outputs.release-tag }}
@@ -85,7 +81,7 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.gh-token }}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Get SemVer Label
         id: get-semver-label
@@ -248,7 +244,7 @@ jobs:
       needs.get-existing-release-branch.outputs.pending-release-tag ==
         needs.derive-release-branch-name.outputs.tag
     env:
-      GH_TOKEN: ${{ secrets.gh-token }}
+      GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
     outputs:
       status: ${{ steps.rebase-release-branch.outputs.status }}
     steps:
@@ -257,7 +253,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ needs.derive-release-branch-name.outputs.branch }}
-          token: ${{ secrets.gh-token }}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Rebase Release Branch
         id: rebase-release-branch
@@ -293,7 +289,7 @@ jobs:
       - derive-release-branch-name
       - rebase-release-branch
     env:
-      GH_TOKEN: ${{ secrets.gh-token }}
+      GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
     if: |
       always() && !cancelled() &&
       needs.get-existing-release-branch.outputs.pending-release-tag != 'null' &&
@@ -305,7 +301,7 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.gh-token }}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Delete Release Branch
         run: |
@@ -333,13 +329,13 @@ jobs:
         needs.derive-release-branch-name.outputs.tag
       )
     env:
-      GH_TOKEN: ${{ secrets.gh-token }}
+      GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
       TAG: ${{ needs.derive-release-branch-name.outputs.tag }}
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.gh-token }}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Create Release Branch
         run: |
@@ -415,8 +411,7 @@ jobs:
       pr-draft: false
       update-pr-body-if-exists: true
       pr-labels: bot:delete-on-merge,release
-    secrets:
-      gh-token: ${{ secrets.gh-token }}
+    secrets: inherit
 
   draft-release:
     name: Draft Release
@@ -431,7 +426,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ needs.derive-release-branch-name.outputs.branch }}
-          token: ${{ secrets.gh-token }}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Validate `pyproject.toml` version
         if: inputs.update-pyproject-toml
@@ -449,4 +444,4 @@ jobs:
       - name: Draft Release
         uses: release-drafter/release-drafter@v5
         env:
-          GITHUB_TOKEN: ${{ secrets.gh-token }}
+          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
