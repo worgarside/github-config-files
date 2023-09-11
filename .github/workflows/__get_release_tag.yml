@@ -39,6 +39,7 @@ jobs:
 
       - name: Clone Repo
         uses: actions/checkout@v4
+        if: inputs.get-from-current-commit || !inputs.branch-name
         with:
           fetch-depth: 0
           token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
