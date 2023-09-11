@@ -203,8 +203,6 @@ jobs:
         needs.build-python.result == 'success' ||
         needs.build-node.result == 'success'
       )
-    outputs:
-      pr-is-draft: ${{ steps.is-pr-draft.outputs.pr-is-draft }}
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v3
@@ -220,40 +218,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
-      - name: Check Release PR is not Draft
-        id: is-pr-draft
-        env:
-          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-        run: |
-          echo "pr-is-draft=$(
-            gh pr list \
-            --json baseRefName,headRefName,isDraft \
-            --repo ${{ github.repository }} \
-            --jq '
-              .[] | select(
-                .baseRefName == "main"
-              ) | select(
-                .headRefName == "release/${{ inputs.release-tag }}"
-              ) | .isDraft
-            '
-          )" >> "$GITHUB_OUTPUT"
-
       - name: Summarise Environment
         # yamllint disable rule:line-length
         run: |
           echo -e "Environment:  \`${{ inputs.environment }}\`" >> "$GITHUB_STEP_SUMMARY"
           echo -e "Build Branch: \`${{ inputs.build-branch }}\`" >> "$GITHUB_STEP_SUMMARY"
           echo -e "Release Tag:  \`${{ inputs.release-tag }}\`" >> "$GITHUB_STEP_SUMMARY"
-          echo -e "PR is Draft:  \`${{ steps.is-pr-draft.outputs.pr-is-draft }}\`" >> "$GITHUB_STEP_SUMMARY"
-
-          echo -e "Publishing to PyPI: \`${{ inputs.publish-to-pypi && !steps.is-pr-draft.outputs.pr-is-draft }}\`" >> "$GITHUB_STEP_SUMMARY"
         # yamllint enable rule:line-length
 
   publish-to-pypi:
     name: Publish to PyPI
     environment: ${{ inputs.environment }}
-    # yamllint disable-line rule:line-length
-    if: inputs.publish-to-pypi && !needs.add-artifacts-to-release-notes.outputs.pr-is-draft
+    if: inputs.publish-to-pypi == true || inputs.publish-to-pypi == 'true'
     needs:
       - add-artifacts-to-release-notes
       - build-python
