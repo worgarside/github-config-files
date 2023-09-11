@@ -118,14 +118,14 @@ jobs:
 
       - uses: release-drafter/release-drafter@v5
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
   build-and-add-to-notes:
     name: Build and Add to Release Notes
     needs:
       - create-pr
       - draft-release
-    uses: ./.github/workflows/build_and_publish.yml
+    uses: worgarside/wg-utilities/.github/workflows/build_and_publish.yml@develop
     with:
       build_branch: ${{ github.head_ref || github.ref_name }}
       environment: development

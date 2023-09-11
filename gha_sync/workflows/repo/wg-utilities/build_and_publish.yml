@@ -68,7 +68,7 @@ jobs:
           --clobber \
           --repo ${{ github.repository }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Check Release PR is not Draft
         id: is-pr-draft
