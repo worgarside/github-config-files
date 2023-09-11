@@ -65,7 +65,6 @@ jobs:
           done
         # yamllint enable rule:line-length
 
-
       - name: Record Updated PRs
         if: github.actor == 'worgarside-dev'
         env:
