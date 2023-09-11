@@ -3,8 +3,8 @@ name: Production Build/Deploy
 
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      - main
 
 permissions:
   contents: write
