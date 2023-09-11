@@ -57,7 +57,7 @@ jobs:
             )
           fi
 
-          if ! [[ -z "$release_tag" ]]
+          if [[ -z "$release_tag" ]]
           then
             echo "Release tag is bollocks: \`$release_tag\` 😡" >> "$GITHUB_STEP_SUMMARY"
             exit 1
