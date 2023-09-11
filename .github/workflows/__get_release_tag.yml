@@ -9,6 +9,15 @@ on:
         description: The name of the branch to extract the release tag from
         required: false
         type: string
+      get-from-current-commit:
+        description: Whether to get the release tag from the current commit
+        required: false
+        type: boolean
+      current-commit-timeout:
+        description: The timeout for getting the current commit's tag
+        required: false
+        type: number
+        default: 120
     outputs:
       release-tag:
         description: The release tag
@@ -30,31 +39,57 @@ jobs:
 
       - name: Clone Repo
         uses: actions/checkout@v4
-        if: |
-          !inputs.branch-name
         with:
+          fetch-depth: 0
           token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+          ref: ${{ inputs.branch-name || github.ref }}
 
       - name: Get Release Tag
         id: get-tag
         env:
           BRANCH_NAME: ${{ inputs.branch-name }}
+          GET_FROM_COMMIT: ${{ inputs.get-from-current-commit }}
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         # yamllint disable rule:line-length
         run: |
-          if [[ -z "$BRANCH_NAME" ]]
+          echo -e "Branch name: \`${BRANCH_NAME}\`" >> "${GITHUB_STEP_SUMMARY}"
+          echo -e "Get from current commit: \`${GET_FROM_COMMIT}\`" >> "${GITHUB_STEP_SUMMARY}"
+
+          if [[ "$GET_FROM_COMMIT" == "true" ]]
           then
-            release_tag=$(gh release view --json tagName --jq '.tagName')
+              TIMEOUT=${{ inputs.current-commit-timeout }}
+
+              echo "Timeout: ${TIMEOUT}s" >> "${GITHUB_STEP_SUMMARY}"
+
+              while [[ "${TIMEOUT}" -gt 0 ]]; do
+                  git fetch --tags
+
+                  TAG=$(git describe --tags --exact-match 2> /dev/null)
+
+                  if [[ -n "${TAG}" ]]; then
+                      echo "Found tag: ${TAG}"
+                      echo "found-tag=${TAG}" >> "${GITHUB_OUTPUT}"
+                      exit 0
+                  fi
+                  sleep 5
+                  TIMEOUT=$((TIMEOUT - 5))
+              done
+
+              echo "Oi, timed out waitin' for a tag, ya numpty!" >> "${GITHUB_STEP_SUMMARY}"
+              exit 1
+          elif [[ -z "$BRANCH_NAME" ]]
+          then
+              release_tag=$(gh release view --json tagName --jq '.tagName')
           else
-            release_tag=$(
-              echo "$BRANCH_NAME" | awk -F'/' '{
-                for(i=1; i<=NF; ++i) {
-                  if($i ~ /^[0-9]+\.[0-9]+\.[0-9]+$/) {
-                    print $i;
+              release_tag=$(
+                echo "$BRANCH_NAME" | awk -F'/' '{
+                  for(i=1; i<=NF; ++i) {
+                    if($i ~ /^[0-9]+\.[0-9]+\.[0-9]+$/) {
+                      print $i;
+                    }
                   }
-                }
-              }'
-            )
+                }'
+              )
           fi
 
           if [[ -z "$release_tag" ]]
