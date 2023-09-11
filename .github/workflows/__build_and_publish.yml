@@ -224,7 +224,10 @@ jobs:
   publish-to-pypi:
     name: Publish to PyPi
     environment: ${{ inputs.environment }}
-    if: ${{ inputs.build-type == 'python' }}
+    if: |
+      always() &&
+      needs.add-artifacts-to-release-notes.result == 'success' &&
+      needs.build-python.result == 'success'
     needs:
       - add-artifacts-to-release-notes
       - build-python
