@@ -72,8 +72,8 @@ jobs:
                       TIMEOUT=0
                   else
                       TIMEOUT=$((TIMEOUT - 5))
+                      sleep 5
                   fi
-                  sleep 5
               done
           elif [[ -z "$BRANCH_NAME" ]]
           then
