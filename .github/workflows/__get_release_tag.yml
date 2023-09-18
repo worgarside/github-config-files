@@ -65,7 +65,7 @@ jobs:
               while [[ "${TIMEOUT}" -gt 0 ]]; do
                   git fetch --tags
 
-                  release_tag=$(git describe --tags --exact-match 2> /dev/null)
+                  release_tag=$(git describe --tags --exact-match 2> /dev/null || :)
 
                   echo "Found tag: ${release_tag}" >> "${GITHUB_STEP_SUMMARY}"
                   if [[ -n "${release_tag}" ]]; then
