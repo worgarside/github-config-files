@@ -105,6 +105,7 @@ group:
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant-config-validator
+      worgarside/wg-utilities
 
   # Publish Release with no build
   - files:

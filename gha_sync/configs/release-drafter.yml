@@ -26,7 +26,11 @@ categories:
       - github-actions
       - maintenance
       - tools
+      - non-functional
     collapse-after: 5
+  - title: 🛠️ Dependencies
+    labels:
+      - dependencies
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: \<*_&
 template: |
