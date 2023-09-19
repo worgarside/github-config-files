@@ -12,7 +12,7 @@ repos:
           - pyyaml
 
   - repo: https://github.com/rhysd/actionlint
-    rev: v1.6.25
+    rev: v1.6.26
     hooks:
       - id: actionlint
         args:
@@ -22,7 +22,7 @@ repos:
           - ''
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.10.1
+    rev: v3.11.0
     hooks:
       - id: pyupgrade
         args:
@@ -155,6 +155,6 @@ repos:
           - '*.svg,*.json'
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.0.288
+    rev: v0.0.290
     hooks:
       - id: ruff
