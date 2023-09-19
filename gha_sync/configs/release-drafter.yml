@@ -22,7 +22,6 @@ categories:
   - title: 🧰 Maintenance
     labels:
       - chore
-      - dependencies
       - github-actions
       - maintenance
       - tools
