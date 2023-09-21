@@ -417,6 +417,16 @@ jobs:
     name: Draft Release
     needs:
       - derive-release-branch-name
+      - rebase-release-branch
+      - create-release-branch
+    if: |
+      always() && !cancelled() &&
+      needs.derive-release-branch-name.outputs.tag != 'null' &&
+      needs.derive-release-branch-name.result == 'success' &&
+      (
+        needs.rebase-release-branch.result == 'success' ||
+        needs.create-release-branch.result == 'success'
+      )
     permissions:
       contents: write
       pull-requests: write
