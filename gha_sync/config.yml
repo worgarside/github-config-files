@@ -95,7 +95,7 @@ group:
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
 
-  # Standard Release Notes Template
+  # Release Notes Template
   - files:
       - source: gha_sync/configs/release-drafter.yml
         dest: .github/release-drafter.yml
@@ -104,6 +104,7 @@ group:
       worgarside/addon-item-warehouse-website
       worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
+      worgarside/home-assistant
       worgarside/home-assistant-config-validator
       worgarside/wg-utilities
 
