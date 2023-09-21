@@ -26,8 +26,8 @@ categories:
       - maintenance
       - tools
       - non-functional
-    collapse-after: 5
   - title: 🛠️ Dependencies
+    collapse-after: 5
     labels:
       - dependencies
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
