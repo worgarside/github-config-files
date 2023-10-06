@@ -19,6 +19,7 @@ group:
       worgarside/home-assistant-config-validator
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
+      worgarside/pre-commit-hooks-dependency-sync
       worgarside/python-template
       worgarside/smart-mini-crt-interface
       worgarside/very-slow-movie-player
@@ -38,6 +39,7 @@ group:
       worgarside/home-assistant-config-validator
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
+      worgarside/pre-commit-hooks-dependency-sync
       worgarside/python-template
       worgarside/smart-mini-crt-interface
       worgarside/very-slow-movie-player
@@ -54,6 +56,7 @@ group:
       worgarside/home-assistant-config-validator
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
+      worgarside/pre-commit-hooks-dependency-sync
       worgarside/python-template
       worgarside/smart-mini-crt-interface
       worgarside/very-slow-movie-player
@@ -74,6 +77,7 @@ group:
       worgarside/home-assistant-config-validator
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
+      worgarside/pre-commit-hooks-dependency-sync
       worgarside/python-template
       worgarside/smart-mini-crt-interface
       worgarside/very-slow-movie-player
@@ -90,6 +94,7 @@ group:
       worgarside/home-assistant-config-validator
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
+      worgarside/pre-commit-hooks-dependency-sync
       worgarside/python-template
       worgarside/smart-mini-crt-interface
       worgarside/very-slow-movie-player
@@ -106,6 +111,7 @@ group:
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant
       worgarside/home-assistant-config-validator
+      worgarside/pre-commit-hooks-dependency-sync
       worgarside/wg-utilities
 
   # Publish Release with no build
@@ -118,6 +124,7 @@ group:
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant
       worgarside/home-assistant-config-validator
+      worgarside/pre-commit-hooks-dependency-sync
 
   # Standard release with version bump in pyproject.toml
   - files:
@@ -126,6 +133,7 @@ group:
     repos: |
       worgarside/home-assistant
       worgarside/home-assistant-config-validator
+      worgarside/pre-commit-hooks-dependency-sync
 
 worgarside/addon-item-warehouse-api:
   - source: gha_sync/workflows/create_new_release.template.yml
