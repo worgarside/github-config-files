@@ -13,7 +13,6 @@ group:
     repos: |
       worgarside/addon-item-warehouse-api
       worgarside/addon-item-warehouse-website
-      worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant
       worgarside/home-assistant-config-validator
@@ -33,7 +32,6 @@ group:
     repos: |
       worgarside/addon-item-warehouse-api
       worgarside/addon-item-warehouse-website
-      worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant
       worgarside/home-assistant-config-validator
@@ -50,7 +48,6 @@ group:
       - .pylintrc
     repos: |
       worgarside/addon-item-warehouse-api
-      worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant
       worgarside/home-assistant-config-validator
@@ -72,7 +69,6 @@ group:
     repos: |
       worgarside/addon-item-warehouse-api
       worgarside/addon-item-warehouse-website
-      worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant-config-validator
       worgarside/led-matrix-now-playing
@@ -89,7 +85,6 @@ group:
       - .yamllint
     repos: |
       worgarside/addon-item-warehouse-api
-      worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant-config-validator
       worgarside/led-matrix-now-playing
@@ -107,7 +102,6 @@ group:
     repos: |
       worgarside/addon-item-warehouse-api
       worgarside/addon-item-warehouse-website
-      worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant
       worgarside/home-assistant-config-validator
@@ -120,7 +114,6 @@ group:
         dest: .github/workflows/publish_release.yml
     repos: |
       worgarside/addon-item-warehouse-api
-      worgarside/addon-rss-log-feed
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant
       worgarside/home-assistant-config-validator
@@ -150,12 +143,6 @@ worgarside/addon-item-warehouse-website:
     dest: .github/workflows/
     # Excluded to allow above templating
     exclude: create_new_release.template.yml
-
-worgarside/addon-rss-log-feed:
-  - source: gha_sync/workflows/create_new_release.template.yml
-    dest: .github/workflows/create_new_release.yml
-    template:
-      config_path: rss_log_feed/config.yaml
 
 worgarside/addon-yas-209-bridge:
   - source: gha_sync/workflows/create_new_release.template.yml
