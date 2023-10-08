@@ -103,7 +103,6 @@ jobs:
           all_prs=$(
             gh pr list \
             --state merged \
-            --author worgarside-dev \
             --json baseRefName,headRefName,labels,number,mergedAt,title,url \
             --limit 100 \
             --jq '
