@@ -143,6 +143,7 @@ jobs:
             jq -r '
               .labels[] |
               select(
+                .name == "dependencies" or
                 .name == "major" or
                 .name == "minor" or
                 .name == "patch" or
@@ -155,17 +156,19 @@ jobs:
           echo -e "New PR labels:\n\`\`\`\n$new_pr_labels\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
           if echo "$new_pr_labels" | grep -q 'major' ||
-          [ "$new_pr_labels" = "major" ]
+            [ "$new_pr_labels" = "major" ]
           then
               semver_label="major"
           elif echo "$new_pr_labels" | grep -q 'minor' ||
-          [  "$new_pr_labels" = "minor" ]
+            [  "$new_pr_labels" = "minor" ]
           then
               semver_label="minor"
-          elif echo "$new_pr_labels" | grep -q 'patch' ||
-          echo "$new_pr_labels" | grep -q 'bug' ||
-          [ "$new_pr_labels" = "patch" ] ||
-          [ "$new_pr_labels" = "bug" ]
+          elif echo "$new_pr_labels" | grep -q 'dependencies' ||
+            echo "$new_pr_labels" | grep -q 'patch' ||
+            echo "$new_pr_labels" | grep -q 'bug' ||
+            [ "$new_pr_labels" = "dependencies" ] ||
+            [ "$new_pr_labels" = "patch" ] ||
+            [ "$new_pr_labels" = "bug" ]
           then
               semver_label="patch"
           else
