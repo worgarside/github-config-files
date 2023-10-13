@@ -3,7 +3,6 @@ from __future__ import annotations
 from collections import OrderedDict
 from copy import deepcopy
 from enum import StrEnum, auto
-from itertools import chain
 from json import dumps
 from logging import StreamHandler, getLogger
 from pathlib import Path
@@ -30,7 +29,7 @@ class TriggerType(StrEnum):
     @property
     def real_path(self) -> Path:
         return Path(self.name)
-    
+
 
 class Trigger(BaseModel):
     branches: list[str] | None = None
@@ -40,11 +39,13 @@ class Trigger(BaseModel):
     tags: list[str] | None = None
     inputs: dict[str, Any] | None = None
     outputs: dict[str, Any] | None = None
-    
-    model_config:ClassVar[ConfigDict]  = ConfigDict(extra="forbid")
+
+    model_config: ClassVar[ConfigDict] = ConfigDict(extra="forbid")
 
     def __mermaid__(self) -> str:
-        return self.model_dump_json(exclude_none=True, exclude_defaults=True, exclude_unset=True)
+        return self.model_dump_json(
+            exclude_none=True, exclude_defaults=True, exclude_unset=True
+        )
 
 
 class Step(BaseModel):
@@ -53,7 +54,8 @@ class Step(BaseModel):
     with_: dict[str, Any]
     if_: str = Field(alias="if")
 
-    model_config:ClassVar[ConfigDict]  = ConfigDict(extra="forbid")
+    model_config: ClassVar[ConfigDict] = ConfigDict(extra="forbid")
+
 
 class Job(BaseModel):
     name: str
@@ -61,7 +63,7 @@ class Job(BaseModel):
     steps: list[dict[str, Any]] | None = None
     uses: str | None = None
     outputs: dict[str, Any] | None = None
-    needs: str| list[str] | None = None
+    needs: str | list[str] | None = None
     if_: str | None = Field(None, alias="if")
     continue_on_error: bool | None = Field(None, alias="continue-on-error")
     timeout_minutes: int | None = Field(None, alias="timeout-minutes")
@@ -72,13 +74,15 @@ class Job(BaseModel):
     permissions: dict[str, str] | None = None
     strategy: dict[str, Any] | None = None
 
-    model_config:ClassVar[ConfigDict]  = ConfigDict(extra="forbid")
+    model_config: ClassVar[ConfigDict] = ConfigDict(extra="forbid")
+
 
 class Concurrency(BaseModel):
     group: str
     cancel_in_progress: bool = Field(alias="cancel-in-progress")
 
-    model_config:ClassVar[ConfigDict]  = ConfigDict(extra="forbid")
+    model_config: ClassVar[ConfigDict] = ConfigDict(extra="forbid")
+
 
 class Workflow(BaseModel):
     INSTANCES: ClassVar[dict[Path, Workflow]] = {}
@@ -94,7 +98,8 @@ class Workflow(BaseModel):
     concurrency: str | Concurrency | None = None
     jobs: OrderedDict[str, Job]
 
-    model_config:ClassVar[ConfigDict]  = ConfigDict(extra="forbid")
+    model_config: ClassVar[ConfigDict] = ConfigDict(extra="forbid")
+
     @classmethod
     def by_reference(cls, /, reference: str) -> Workflow:
         reference = reference.split("@")[0]
@@ -190,7 +195,7 @@ class Workflow(BaseModel):
             output.append(dumps({trigger: config}, sort_keys=True))
 
         return tuple(output)
-    
+
     @computed_field
     @property
     def calling_workflows(self) -> list[Workflow]:
@@ -199,34 +204,34 @@ class Workflow(BaseModel):
             for workflow in Workflow.INSTANCES.values()
             if self in workflow.reusable_workflows
         ]
-    
+
     @computed_field
     @property
     def real_path(self) -> Path:
         return NotImplemented
-    
+
     @computed_field
     @property
     def rel_path(self) -> Path:
         return self.local_path.relative_to(REPO_PATH)
-    
+
     def __eq__(self, o: object) -> bool:
         if not isinstance(o, Workflow):
             return NotImplemented
-        
+
         return self.real_path == o.real_path
 
     def __hash__(self) -> int:
         return hash(self.real_path)
-    
+
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.real_path.as_posix()!r})"
 
     def __str__(self) -> str:
         return self.real_path.as_posix()
 
-class PatriarchWorkflow(Workflow):
 
+class PatriarchWorkflow(Workflow):
     @computed_field
     @property
     def real_path(self) -> Path:
@@ -234,26 +239,28 @@ class PatriarchWorkflow(Workflow):
             for dest, source in repo_mappings.items():
                 if self.rel_path.as_posix() == source:
                     return Path(dest)
-                
+
         raise RuntimeError(f"Could not find real path for {self.rel_path.as_posix()}")
 
     def __str__(self) -> str:
         return "Patriarch Workflow: " + super().__str__()
+
 
 class ReusableWorkflow(Workflow):
     @computed_field
     @property
     def real_path(self) -> Path:
         return self.rel_path
-    
+
     def __str__(self) -> str:
         return "Reusable Workflow: " + super().__str__()
+
 
 def _get_workflow_dependencies() -> list[tuple[Workflow, Workflow]]:
     for file in (REPO_PATH / ".github/workflows/").rglob("__*.yml"):
         ReusableWorkflow.import_file(file)
 
-    for file in  (REPO_PATH / "gha_sync/workflows/").rglob("*.yml"):
+    for file in (REPO_PATH / "gha_sync/workflows/").rglob("*.yml"):
         PatriarchWorkflow.import_file(file)
 
     dependency_tuples = set()
@@ -264,7 +271,6 @@ def _get_workflow_dependencies() -> list[tuple[Workflow, Workflow]]:
 
         for calling_workflow in workflow.calling_workflows:
             dependency_tuples.add((calling_workflow, workflow))
-
 
     return list(dependency_tuples)
 
@@ -286,9 +292,10 @@ def main():
     triggers = _get_workflow_triggers()
 
     # markup += "\n".join(map(lambda x: "-->".join(map(lambda y: y.real_path.as_posix(), x)), dependencies ))
-# 
+    #
     # print(markup)
     print(dumps(triggers, default=str, indent=2))
+
 
 if __name__ == "__main__":
     main()
