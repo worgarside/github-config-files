@@ -4,7 +4,6 @@ name: '"Manage Repo Labels" Runner'
 # yamllint disable-line rule:truthy
 on:
   workflow_call:
-  workflow_dispatch:
 
 jobs:
   labeler:
