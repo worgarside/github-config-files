@@ -394,8 +394,7 @@
 ## Workflow Dependencies
 
 ```mermaid
-flowchart LR
-subgraph EW[" "]
+flowchart TB
 CU-- invokes -->AD
 CV-- triggers -->CU
 CV-- triggers -->ED
@@ -411,21 +410,74 @@ CG-- triggers -->BW
 CG-- triggers -->CE
 CF-- triggers -->CE
 CE-- invokes -->A
-end
-subgraph EX[" "]
+A[["Auto-Update PRs"]]
+AD[["actionlint"]]
+BI[["SonarCloud"]]
+BW("Run SonarCloud Scan")
+BY{{"PULL REQUEST"}}
+CE("Auto-Update PRs")
+CF{{"PULL REQUEST
+Types: labeled, opened, reopened, synchronize
+"}}
+CG{{"PUSH
+Branches: develop, main, master
+"}}
+CU("actionlint")
+CV{{"PULL REQUEST
+Types: opened, reopened, synchronize
+"}}
+DB("Validate Home Assistant Config")
+DR("Test & Scan")
+DU{{"PULL REQUEST
+Types: opened, ready_for_review, reopened, synchronize
+"}}
+DV{{"PUSH
+Branches: develop
+"}}
+ED("ESLint")
+EE{{"PUSH
+Branches: develop, main
+"}}
+```
+
+```mermaid
+flowchart TB
 CB-- triggers -->CA
 CA-- invokes -->BD
-end
-subgraph EY[" "]
+BD[["Set PR Auto Merge"]]
+CA("Set PR Auto Merge")
+CB{{"PULL REQUEST
+Types: opened, ready_for_review
+"}}
+```
+
+```mermaid
+flowchart TB
 CJ-- triggers -->CI
 CI-- invokes -->AV
 CI-- invokes -->Z
-end
-subgraph EZ[" "]
+AV[["Manage PR Labels"]]
+CI("Manage PR")
+CJ{{"PULL REQUEST
+Types: auto_merge_disabled, auto_merge_enabled, labeled, opened, ready_for_review, reopened, synchronize, unlabeled
+"}}
+Z[["Close Empty PR"]]
+```
+
+```mermaid
+flowchart TB
 CR-- triggers -->CQ
 CQ-- invokes -->AR
-end
-subgraph FA[" "]
+AR[["Manage Repo Labels"]]
+CQ("Manage Repo Labels")
+CR{{"PUSH
+Branches: develop, main
+Paths: .github/repo_labels.yml, .github/workflows/manage_repo_labels.yml
+"}}
+```
+
+```mermaid
+flowchart TB
 ET-- triggers -->DZ
 DO-- triggers -->DN
 BQ-- triggers -->BP
@@ -445,15 +497,8 @@ EA-- triggers -->DN
 EA-- triggers -->DZ
 DZ-- invokes -->AG
 DZ-- invokes -->D
-end
-A[["Auto-Update PRs"]]
-AD[["actionlint"]]
 AG[["Build & Publish"]]
 AN[["Create Pull Request"]]
-AR[["Manage Repo Labels"]]
-AV[["Manage PR Labels"]]
-BD[["Set PR Auto Merge"]]
-BI[["SonarCloud"]]
 BL("Create New Release")
 BN{{"PULL REQUEST
 Types: closed
@@ -463,57 +508,19 @@ BQ{{"PULL REQUEST
 Branches: main
 Types: closed
 "}}
-BW("Run SonarCloud Scan")
-BY{{"PULL REQUEST"}}
-CA("Set PR Auto Merge")
-CB{{"PULL REQUEST
-Types: opened, ready_for_review
-"}}
-CE("Auto-Update PRs")
-CF{{"PULL REQUEST
-Types: labeled, opened, reopened, synchronize
-"}}
-CG{{"PUSH
-Branches: develop, main, master
-"}}
-CI("Manage PR")
-CJ{{"PULL REQUEST
-Types: auto_merge_disabled, auto_merge_enabled, labeled, opened, ready_for_review, reopened, synchronize, unlabeled
-"}}
 CN("PR Cleanup")
-CQ("Manage Repo Labels")
-CR{{"PUSH
-Branches: develop, main
-Paths: .github/repo_labels.yml, .github/workflows/manage_repo_labels.yml
-"}}
-CU("actionlint")
-CV{{"PULL REQUEST
-Types: opened, reopened, synchronize
-"}}
 CY("Auto-Create PR")
 CZ{{"PUSH
 Branches: bugfix/*, chore/*, feature/*, hotfix/*
 "}}
 D[["Get Release Tag"]]
-DB("Validate Home Assistant Config")
 DN("Production Build/Deploy")
 DO{{"PUSH
 Branches: main
 "}}
-DR("Test & Scan")
-DU{{"PULL REQUEST
-Types: opened, ready_for_review, reopened, synchronize
-"}}
-DV{{"PUSH
-Branches: develop
-"}}
 DZ("Development Build/Deploy")
 EA{{"PUSH
 Branches: release/*
-"}}
-ED("ESLint")
-EE{{"PUSH
-Branches: develop, main
 "}}
 ET{{"PULL REQUEST
 Branches: develop
@@ -521,5 +528,4 @@ Branches: develop
 G[["Publish Release"]]
 M[["PR Cleanup"]]
 Q[["Create New Release"]]
-Z[["Close Empty PR"]]
 ```

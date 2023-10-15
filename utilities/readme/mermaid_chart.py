@@ -466,7 +466,6 @@ class Relationship:
         if not isinstance(other, Relationship):
             return NotImplemented
 
-        # Sort by relationship type, special case for 'triggers'
         if self.label != other.label:
             return self.label != "triggers"  # 'triggers' comes first, all else equal
 
@@ -508,12 +507,12 @@ def group_relationships(
             component (list): The component to add the nodes to.
         """
         visited.add(node)
-        for neighbor in entity_graph[node]:
+        for neighbor in sorted(entity_graph[node]):
             if neighbor not in visited:
                 dfs(neighbor, component)
         component.append(node)
 
-    for _rel_node in entity_graph:
+    for _rel_node in sorted(entity_graph.keys()):
         if _rel_node not in visited:
             _rel_grp: list[str] = []
             dfs(_rel_node, _rel_grp)
@@ -533,7 +532,7 @@ def group_relationships(
     return sorted(relationship_groups)
 
 
-def generate_mermaid_chart() -> str:
+def generate_mermaid_chart(*, use_subgraphs: bool = False) -> str:
     """Generate a mermaid chart of the workflow dependencies."""
     relationships = set()
     displayed_entities = set()
@@ -556,17 +555,36 @@ def generate_mermaid_chart() -> str:
         displayed_entities.add(trigger.entity_id)
         displayed_entities.add(workflow.entity_id)
 
-    graph_markup = "flowchart LR\n"
+    if use_subgraphs:
+        graph_markup = "flowchart LR\n"
+
+        for grp in group_relationships(sorted(relationships)):
+            subgraph_id = next(_mermaid_entity_ids)
+
+            graph_markup += f'subgraph {subgraph_id}[" "]\n'
+            graph_markup += "\n".join(map(mermaid, grp))
+            graph_markup += "\nend\n"
+
+        graph_markup += "\n".join(
+            mermaid(MermaidEntity.by_entity_id(e)) for e in sorted(displayed_entities)
+        )
+
+        return "## Workflow Dependencies\n\n```mermaid\n" + graph_markup + "\n```"
+
+    content = "## Workflow Dependencies\n\n"
 
     for grp in group_relationships(sorted(relationships)):
-        subgraph_id = next(_mermaid_entity_ids)
+        group_entities = set()
+        for rel in grp:
+            group_entities.add(rel.start.entity_id)
+            group_entities.add(rel.end.entity_id)
 
-        graph_markup += f'subgraph {subgraph_id}[" "]\n'
-        graph_markup += "\n".join(map(mermaid, grp))
-        graph_markup += "\nend\n"
+        content += "```mermaid\nflowchart TB\n"
+        content += "\n".join(map(mermaid, grp))
+        content += "\n"
+        content += "\n".join(
+            mermaid(MermaidEntity.by_entity_id(e)) for e in sorted(group_entities)
+        )
+        content += "\n```\n\n"
 
-    graph_markup += "\n".join(
-        mermaid(MermaidEntity.by_entity_id(e)) for e in sorted(displayed_entities)
-    )
-
-    return "## Workflow Dependencies\n\n```mermaid\n" + graph_markup + "\n```"
+    return content
