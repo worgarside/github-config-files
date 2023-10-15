@@ -517,7 +517,7 @@ Types: opened, reopened, synchronize
 "}}
 CA("Auto-Update PRs")
 CB{{"PULL REQUEST
-Types: labeled, opened, reopened, synchronize
+Types: labeled
 "}}
 DE("ESLint")
 DF{{"PUSH
