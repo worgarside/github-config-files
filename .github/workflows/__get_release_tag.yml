@@ -1,5 +1,5 @@
 ---
-name: Get Release Tag
+name: '"Get Release Tag" Runner'
 
 # yamllint disable-line rule:truthy
 on:

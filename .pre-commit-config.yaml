@@ -1,15 +1,21 @@
 ---
 repos:
+  - repo: https://github.com/worgarside/pre-commit-hooks-dependency-sync
+    rev: 1.0.1
+    hooks:
+      - id: sync-additional-dependencies
+
   - repo: local
     hooks:
       - id: generate-readme
         name: Generate README
-        entry: python utilities/gha_sync/get_file_mappings.py
+        entry: python utilities/readme/update_readme.py
         language: python
         types: [python]
         always_run: true
         additional_dependencies:
-          - pyyaml
+          - pydantic==2.4.2
+          - pyyaml==6.0.1
 
   - repo: https://github.com/rhysd/actionlint
     rev: v1.6.26
@@ -26,13 +32,13 @@ repos:
     hooks:
       - id: pyupgrade
         args:
-          - --py310-plus
+          - --py311-plus
 
   - repo: https://github.com/psf/black
     rev: 23.9.1
     hooks:
       - id: black
-        language_version: python3.10
+        language_version: python3.11
 
   - repo: https://github.com/asottile/blacken-docs
     rev: 1.16.0
@@ -109,17 +115,8 @@ repos:
           - --strict
           - --show-error-codes
         additional_dependencies:
-          - types-requests
-          - types-paramiko
-          - boto3-stubs
-          - lxml-stubs
-          - types-flask
-          - types-Pillow
-          - types-setuptools
-          - types-tzlocal
-          - pydantic
+          - pydantic==2.4.2
           - types-PyYAML
-          - types-python-dateutil
 
   - repo: local
     hooks:
@@ -135,7 +132,7 @@ repos:
         types:
           - python
         additional_dependencies:
-          - pylint<3.0.0
+          - pylint==2.17.7
           - pylint-strict-informational
 
   - repo: https://github.com/pre-commit/pygrep-hooks
@@ -151,9 +148,6 @@ repos:
       - id: codespell
         additional_dependencies:
           - tomli
-        args:
-          - --skip
-          - '*.svg,*.json'
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.0.292

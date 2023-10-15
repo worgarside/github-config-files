@@ -1,5 +1,5 @@
 ---
-name: Create Pull Request
+name: '"Create Pull Request" Runner'
 
 on:
   workflow_call:

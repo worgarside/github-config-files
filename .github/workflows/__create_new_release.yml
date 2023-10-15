@@ -1,5 +1,5 @@
 ---
-name: Create New Release
+name: '"Create New Release" Runner'
 
 on:
   workflow_call:

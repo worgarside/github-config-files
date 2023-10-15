@@ -1,5 +1,5 @@
 ---
-name: Build & Publish
+name: '"Build & Publish" Runner'
 
 on:
   workflow_call:
