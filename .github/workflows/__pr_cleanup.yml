@@ -67,8 +67,7 @@ jobs:
               startsWith(inputs.head-ref, 'hotfix/') ||
               startsWith(inputs.head-ref, 'release/') ||
               inputs.head-ref == 'develop' ||
-              inputs.head-ref == 'main' ||
-              inputs.head-ref == 'master'
+              inputs.head-ref == 'main'
             )
           )
         run: git push origin --delete "$GITHUB_HEAD_REF"
