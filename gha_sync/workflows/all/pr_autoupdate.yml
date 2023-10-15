@@ -10,7 +10,6 @@ on:
       - reopened
   push:
     branches:
-      - main
       - develop
 
 jobs:
