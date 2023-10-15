@@ -571,4 +571,4 @@ def generate_mermaid_chart() -> str:
         mermaid(MermaidEntity.by_entity_id(e)) for e in sorted(displayed_entities)
     )
 
-    return graph_markup
+    return "## Workflow Dependencies\n\n```mermaid\n" + graph_markup + "\n```"

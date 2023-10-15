@@ -1,5 +1,5 @@
 ---
-name: SonarCloud
+name: '"SonarCloud" Runner'
 
 on:
   workflow_call:

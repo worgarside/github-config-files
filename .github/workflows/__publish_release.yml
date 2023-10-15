@@ -1,5 +1,5 @@
 ---
-name: Publish Release
+name: '"Publish Release" Runner'
 
 on:
   workflow_call:

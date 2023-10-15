@@ -6,6 +6,7 @@ from logging import StreamHandler, getLogger
 from sys import stdout
 
 from common import REPO_FILE_MAPPINGS, REPO_PATH
+from mermaid_chart import generate_mermaid_chart
 from repo_sync_table import generate_config_mappings
 
 LOGGER = getLogger(__name__)
@@ -36,6 +37,10 @@ def main() -> None:
     readme = "# GitHub Config Files\n\n"
 
     readme += generate_config_mappings()
+
+    readme += generate_mermaid_chart()
+
+    readme = readme.rstrip() + "\n"
 
     (REPO_PATH / "README.md").write_text(readme)
 

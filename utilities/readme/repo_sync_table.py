@@ -9,7 +9,7 @@ def generate_overview_table() -> str:
     """Generate a single table containing all the file mappings."""
     all_repos = sorted(REPO_FILE_MAPPINGS.keys())
 
-    readme_contents_structure = "## All Mappings\n\n"
+    readme_contents_structure = "### All Mappings\n\n"
 
     readme_contents_structure += "| Destination |"
     for repo in all_repos:
@@ -36,12 +36,12 @@ def generate_overview_table() -> str:
 
         readme_contents_structure += "\n"
 
-    return readme_contents_structure.rstrip()
+    return readme_contents_structure
 
 
-def generate_readme() -> str:
+def generate_repo_level_mappings() -> str:
     """Generate a README containing the current file mappings across repositories."""
-    readme_contents_structure = "## Repository File Mappings\n\n"
+    readme_contents_structure = "### Per-Repository Mappings\n\n"
 
     for repo, mappings in sorted(REPO_FILE_MAPPINGS.items()):
         repo_url = f"https://github.com/{repo}"
@@ -74,4 +74,8 @@ def generate_readme() -> str:
 
 def generate_config_mappings() -> str:
     """Generate the file mappings section."""
-    return generate_readme() + generate_overview_table() + "\n"
+    return (
+        "## Repository File Mappings\n\n"
+        + generate_overview_table()
+        + generate_repo_level_mappings()
+    )
