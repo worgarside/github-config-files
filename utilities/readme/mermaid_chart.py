@@ -116,28 +116,26 @@ class Trigger(MermaidEntity):
 
     def __mermaid__(self) -> str:
         """Return a mermaid representation of the entity."""
-        mermaid_str = self.entity_id + '{{"`' + self.trigger_type.name.replace("_", " ")
+        mermaid_str = self.entity_id + '{{"' + self.trigger_type.name.replace("_", " ")
 
         if not any((self.branches, self.paths, self.tags, self.types)):
-            return mermaid_str + '`"}}'
+            return mermaid_str + '"}}'
 
         mermaid_str += "\n"
 
         if self.branches:
-            mermaid_str += (
-                "**Branches:** " + ", ".join(map(re.escape, self.branches)) + "\n"
-            )
+            mermaid_str += "Branches: " + ", ".join(self.branches) + "\n"
 
         if self.paths:
-            mermaid_str += "**Paths:** " + ", ".join(map(re.escape, self.paths)) + "\n"
+            mermaid_str += "Paths: " + ", ".join(self.paths) + "\n"
 
         if self.tags:
-            mermaid_str += "**Tags:** " + ", ".join(map(re.escape, self.tags)) + "\n"
+            mermaid_str += "Tags: " + ", ".join(self.tags) + "\n"
 
         if self.types:
-            mermaid_str += "**Types:** " + ", ".join(map(re.escape, self.types)) + "\n"
+            mermaid_str += "Types: " + ", ".join(self.types) + "\n"
 
-        return mermaid_str + '`"}}'
+        return mermaid_str + '"}}'
 
 
 class Step(MermaidEntity):
@@ -320,7 +318,7 @@ class PatriarchWorkflow(Workflow):
 
     def __mermaid__(self) -> str:
         """Return a mermaid representation of the entity."""
-        return self.entity_id + '("`**' + self.name.replace('"', "'") + '**`")'
+        return self.entity_id + '("' + self.name.replace('"', "'") + '")'
 
 
 class ReusableWorkflow(Workflow):
@@ -335,7 +333,7 @@ class ReusableWorkflow(Workflow):
     def __mermaid__(self) -> str:
         """Return a mermaid representation of the entity."""
         if match := re.fullmatch(r"^\"(.+)\" Runner$", self.name):
-            return self.entity_id + '[["`**' + match.group(1) + '**`"]]'
+            return self.entity_id + '[["' + match.group(1) + '"]]'
 
         raise ValueError(self.name)
 
@@ -563,7 +561,7 @@ def generate_mermaid_chart() -> str:
     for grp in group_relationships(sorted(relationships)):
         subgraph_id = next(_mermaid_entity_ids)
 
-        graph_markup += f'subgraph {subgraph_id}["` `"]\n'
+        graph_markup += f'subgraph {subgraph_id}[" "]\n'
         graph_markup += "\n".join(map(mermaid, grp))
         graph_markup += "\nend\n"
 
