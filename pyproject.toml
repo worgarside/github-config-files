@@ -74,7 +74,7 @@ warn_required_dynamic_aliases = true
 warn_untyped_fields = true
 
 [tool.codespell]
-skip = '*.json,*.csv,*.xml,*.lock'
+skip = '*.json,*.csv,*.xml,*.lock,README.md'
 
 [tool.pycln]
 path = "*"
