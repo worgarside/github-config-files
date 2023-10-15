@@ -78,6 +78,7 @@ class MermaidEntity(BaseModel):
         raise NotImplementedError(self.__class__.__name__ + ".__mermaid__")
 
 
+@total_ordering
 class Trigger(MermaidEntity):
     """Trigger for a GitHub Actions Workflow."""
 
@@ -112,6 +113,42 @@ class Trigger(MermaidEntity):
                 ),
                 sort_keys=True,
             ),
+        )
+
+    def __eq__(self, __value: object) -> bool:
+        """Return whether the given object is equal to this object."""
+        if not isinstance(__value, Trigger):
+            return NotImplemented
+
+        return self.model_dump(
+            exclude_none=True,
+            exclude_defaults=True,
+            exclude_unset=True,
+            exclude={"inputs", "outputs"},
+        ) == __value.model_dump(
+            exclude_none=True,
+            exclude_defaults=True,
+            exclude_unset=True,
+            exclude={"inputs", "outputs"},
+        )
+
+    def __lt__(self, __value: Trigger) -> bool:
+        """Sort by trigger_type, branches, paths, tags, types."""
+        if not isinstance(__value, Trigger):
+            return NotImplemented
+
+        return (
+            self.trigger_type,
+            self.branches,
+            self.paths,
+            self.tags,
+            self.types,
+        ) < (
+            __value.trigger_type,
+            __value.branches,
+            __value.paths,
+            __value.tags,
+            __value.types,
         )
 
     def __mermaid__(self) -> str:
@@ -174,6 +211,7 @@ class Concurrency(MermaidEntity):
     cancel_in_progress: bool = Field(alias="cancel-in-progress")
 
 
+@total_ordering
 class Workflow(MermaidEntity):
     """GitHub Actions Workflow."""
 
@@ -257,21 +295,21 @@ class Workflow(MermaidEntity):
     @property
     def reusable_workflows(self) -> list[Workflow]:
         """Return the reusable workflows used by this workflow."""
-        return [
+        return sorted(
             ReusableWorkflow.by_reference(job.uses)
             for job in self.jobs.values()
             if job.uses is not None
-        ]
+        )
 
     @computed_field  # type: ignore[misc]
     @property
     def calling_workflows(self) -> list[Workflow]:
         """Return the workflows that call this workflow."""
-        return [
+        return sorted(
             workflow
             for workflow in Workflow.INSTANCES.values()
             if self in workflow.reusable_workflows
-        ]
+        )
 
     @property
     def real_path(self) -> Path:
@@ -339,10 +377,10 @@ class ReusableWorkflow(Workflow):
 
 
 def _get_workflow_dependencies() -> list[tuple[Workflow, Workflow]]:
-    for file in (REPO_PATH / ".github/workflows/").rglob("__*.yml"):
+    for file in sorted((REPO_PATH / ".github/workflows/").rglob("__*.yml")):
         ReusableWorkflow.import_file(file)
 
-    for file in (REPO_PATH / "gha_sync/workflows/").rglob("*.yml"):
+    for file in sorted((REPO_PATH / "gha_sync/workflows/").rglob("*.yml")):
         PatriarchWorkflow.import_file(file)
 
     dependency_tuples = set()
@@ -377,7 +415,7 @@ def _get_workflow_dependencies() -> list[tuple[Workflow, Workflow]]:
 def _get_workflow_triggers() -> Generator[tuple[Trigger, Workflow], None, None]:
     triggers: dict[int, str] = {}
     for workflow in sorted(Workflow.INSTANCES.values()):
-        for trigger in workflow.on.values():
+        for trigger in sorted(workflow.on.values()):
             if trigger is None:
                 continue
 

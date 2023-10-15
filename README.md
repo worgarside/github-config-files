@@ -395,137 +395,137 @@
 
 ```mermaid
 flowchart TB
-EH-- invokes -->U
-BR-- triggers -->BP
-BR-- triggers -->EH
-BP-- invokes -->A
-EU-- triggers -->ET
-ET-- invokes -->AV
-CV-- triggers -->CU
-DK-- triggers -->CI
-CI-- invokes -->AL
-CI-- invokes -->J
-CJ-- triggers -->CI
-CJ-- triggers -->CU
-CU-- invokes -->AL
-CU-- invokes -->J
-BU-- triggers -->BT
-BT-- invokes -->AC
-AC-- calls -->AV
-AC-- calls -->J
-A-- calls -->AV
-A[["Create New Release"]]
-AC[["Publish Release"]]
-AL[["Build & Publish"]]
-AV[["Create Pull Request"]]
-BP("Create New Release")
-BR{{"PULL REQUEST
-Types: closed
+BT-- triggers -->BS
+BS-- invokes -->AE
+BS-- invokes -->K
+AE[["Manage PR Labels"]]
+BS("Manage PR")
+BT{{"PULL REQUEST
+Types: auto_merge_disabled, auto_merge_enabled, labeled, opened, ready_for_review, reopened, synchronize, unlabeled
 "}}
-BT("Publish Release")
-BU{{"PULL REQUEST
-Branches: main
-Types: closed
-"}}
-CI("Development Build/Deploy")
-CJ{{"PUSH
-Branches: release/*
-"}}
-CU("Production Build/Deploy")
-CV{{"PUSH
-Branches: main
-"}}
-DK{{"PULL REQUEST
-Branches: develop
-"}}
-EH("PR Cleanup")
-ET("Auto-Create PR")
-EU{{"PUSH
-Branches: bugfix/*, chore/*, feature/*, hotfix/*
-"}}
-J[["Get Release Tag"]]
-U[["PR Cleanup"]]
+K[["Close Empty PR"]]
 ```
 
 ```mermaid
 flowchart TB
-CQ-- triggers -->CM
-CP-- triggers -->CM
-CM-- invokes -->AI
-EE-- triggers -->ED
-ED-- invokes -->AS
-EF-- triggers -->BL
-EF-- triggers -->ED
-EK-- invokes -->R
-EL-- triggers -->DN
-EL-- triggers -->EK
-DO-- triggers -->CA
-DO-- triggers -->DN
-BN-- triggers -->BL
-BN-- triggers -->CA
-BL-- invokes -->AI
-AI[["SonarCloud"]]
-AS[["Auto-Update PRs"]]
-BL("Run SonarCloud Scan")
-BN{{"PULL REQUEST"}}
-CA("Validate Home Assistant Config")
-CM("Test & Scan")
-CP{{"PULL REQUEST
-Types: opened, ready_for_review, reopened, synchronize
-"}}
-CQ{{"PUSH
-Branches: develop
-"}}
-DN("ESLint")
-DO{{"PUSH
-Branches: develop, main
-"}}
-ED("Auto-Update PRs")
-EE{{"PULL REQUEST
-Types: labeled, opened, reopened, synchronize
-"}}
-EF{{"PUSH
-Branches: develop, main, master
-"}}
-EK("actionlint")
-EL{{"PULL REQUEST
-Types: opened, reopened, synchronize
-"}}
-R[["actionlint"]]
-```
-
-```mermaid
-flowchart TB
-DW-- triggers -->DV
-DV-- invokes -->M
-DV("Set PR Auto Merge")
-DW{{"PULL REQUEST
-Types: opened, ready_for_review
-"}}
-M[["Set PR Auto Merge"]]
-```
-
-```mermaid
-flowchart TB
-EA-- triggers -->DZ
-DZ-- invokes -->Y
-DZ("Manage Repo Labels")
-EA{{"PUSH
+BY-- triggers -->BX
+BX-- invokes -->AM
+AM[["Manage Repo Labels"]]
+BX("Manage Repo Labels")
+BY{{"PUSH
 Branches: develop, main
 Paths: .github/repo_labels.yml, .github/workflows/manage_repo_labels.yml
 "}}
-Y[["Manage Repo Labels"]]
 ```
 
 ```mermaid
 flowchart TB
-EP-- triggers -->EO
-EO-- invokes -->AZ
-EO-- invokes -->BH
-AZ[["Manage PR Labels"]]
-BH[["Close Empty PR"]]
-EO("Manage PR")
-EP{{"PULL REQUEST
-Types: auto_merge_disabled, auto_merge_enabled, labeled, opened, ready_for_review, reopened, synchronize, unlabeled
+CC-- triggers -->CB
+CB-- invokes -->AQ
+CD-- triggers -->CB
+CD-- triggers -->ES
+EO-- triggers -->EK
+EN-- triggers -->EK
+EK-- invokes -->BI
+ES-- invokes -->BI
+EU-- triggers -->DQ
+EU-- triggers -->ES
+DG-- triggers -->DF
+DG-- triggers -->DQ
+BM-- triggers -->BL
+BM-- triggers -->DF
+BL-- invokes -->A
+A[["actionlint"]]
+AQ[["Auto-Update PRs"]]
+BI[["SonarCloud"]]
+BL("actionlint")
+BM{{"PULL REQUEST
+Types: opened, reopened, synchronize
 "}}
+CB("Auto-Update PRs")
+CC{{"PULL REQUEST
+Types: labeled, opened, reopened, synchronize
+"}}
+CD{{"PUSH
+Branches: develop, main, master
+"}}
+DF("ESLint")
+DG{{"PUSH
+Branches: develop, main
+"}}
+DQ("Validate Home Assistant Config")
+EK("Test & Scan")
+EN{{"PULL REQUEST
+Types: opened, ready_for_review, reopened, synchronize
+"}}
+EO{{"PUSH
+Branches: develop
+"}}
+ES("Run SonarCloud Scan")
+EU{{"PULL REQUEST"}}
+```
+
+```mermaid
+flowchart TB
+CJ-- triggers -->CI
+CI-- invokes -->BD
+BD[["Set PR Auto Merge"]]
+CI("Set PR Auto Merge")
+CJ{{"PULL REQUEST
+Types: opened, ready_for_review
+"}}
+```
+
+```mermaid
+flowchart TB
+EE-- triggers -->DJ
+DC-- triggers -->DB
+DB-- invokes -->AB
+DB-- invokes -->D
+EA-- triggers -->DB
+EA-- triggers -->DJ
+DJ-- invokes -->AB
+DJ-- invokes -->D
+CF-- invokes -->AT
+CO-- triggers -->CF
+CO-- triggers -->CM
+CM-- invokes -->O
+O-- calls -->X
+BQ-- triggers -->BP
+BP-- invokes -->X
+CV-- triggers -->CU
+CU-- invokes -->AX
+AX-- calls -->AB
+AX-- calls -->X
+AB[["Get Release Tag"]]
+AT[["PR Cleanup"]]
+AX[["Publish Release"]]
+BP("Auto-Create PR")
+BQ{{"PUSH
+Branches: bugfix/*, chore/*, feature/*, hotfix/*
+"}}
+CF("PR Cleanup")
+CM("Create New Release")
+CO{{"PULL REQUEST
+Types: closed
+"}}
+CU("Publish Release")
+CV{{"PULL REQUEST
+Branches: main
+Types: closed
+"}}
+D[["Build & Publish"]]
+DB("Build (Development)")
+DC{{"PULL REQUEST
+Branches: develop
+"}}
+DJ("Build (Production)")
+EA{{"PUSH
+Branches: release/*
+"}}
+EE{{"PUSH
+Branches: main
+"}}
+O[["Create New Release"]]
+X[["Create Pull Request"]]
 ```
