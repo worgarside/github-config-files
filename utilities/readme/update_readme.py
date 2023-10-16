@@ -38,7 +38,7 @@ def main() -> None:
 
     readme += generate_config_mappings()
 
-    readme += generate_mermaid_chart()
+    readme += generate_mermaid_chart(use_subgraphs=True)
 
     readme = readme.rstrip() + "\n"
 

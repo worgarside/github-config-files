@@ -356,7 +356,7 @@ class PatriarchWorkflow(Workflow):
 
     def __mermaid__(self) -> str:
         """Return a mermaid representation of the entity."""
-        return self.entity_id + '("' + self.name.replace('"', "'") + '")'
+        return self.entity_id + '("' + self.name + '")'
 
 
 class ReusableWorkflow(Workflow):
@@ -514,7 +514,7 @@ class Relationship:
 
     def __str__(self) -> str:
         """Return a string representation of the relationship."""
-        return f"{self.start.entity_id}-- {self.label} -->{self.end.entity_id}"
+        return f"{self.start.entity_id}-->{self.end.entity_id}"
 
 
 def group_relationships(
@@ -598,7 +598,7 @@ def generate_mermaid_chart(*, use_subgraphs: bool = False) -> str:
         for grp in group_relationships(sorted(relationships)):
             subgraph_id = next(_mermaid_entity_ids)
 
-            graph_markup += f'subgraph {subgraph_id}[" "]\n'
+            graph_markup += f'subgraph {subgraph_id}[" "]\ndirection LR\n'
             graph_markup += "\n".join(map(mermaid, grp))
             graph_markup += "\nend\n"
 

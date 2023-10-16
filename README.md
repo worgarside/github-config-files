@@ -394,53 +394,91 @@
 ## Workflow Dependencies
 
 ```mermaid
-flowchart TB
-BS-- triggers -->BR
-BR-- invokes -->AE
-BR-- invokes -->K
-AE[["Manage PR Labels"]]
-BR("Manage PR")
-BS{{"PULL REQUEST
-Types: auto_merge_disabled, auto_merge_enabled, labeled, opened, ready_for_review, reopened, synchronize, unlabeled
-"}}
-K[["Close Empty PR"]]
-```
-
-```mermaid
-flowchart TB
-BX-- triggers -->BW
-BW-- invokes -->AM
-AM[["Manage Repo Labels"]]
-BW("Manage Repo Labels")
-BX{{"PUSH
-Branches: develop, main
-Paths: .github/repo_labels.yml, .github/workflows/manage_repo_labels.yml
-"}}
-```
-
-```mermaid
-flowchart TB
-CB-- triggers -->CA
-CA-- invokes -->AP
-CC-- triggers -->CA
-CC-- triggers -->ER
-DF-- triggers -->DE
-DF-- triggers -->DP
-DF-- triggers -->EJ
-EJ-- invokes -->BH
-ER-- invokes -->BH
-BL-- triggers -->BK
-BL-- triggers -->DE
-BL-- triggers -->DP
-BL-- triggers -->EJ
-BL-- triggers -->ER
-BK-- invokes -->A
+flowchart LR
+subgraph EV[" "]
+direction LR
+BS-->BR
+BR-->AE
+BR-->K
+end
+subgraph EW[" "]
+direction LR
+BX-->BW
+BW-->AM
+end
+subgraph EX[" "]
+direction LR
+CB-->CA
+CA-->AP
+CC-->CA
+CC-->ER
+DF-->DE
+DF-->DP
+DF-->EJ
+EJ-->BH
+ER-->BH
+BL-->BK
+BL-->DE
+BL-->DP
+BL-->EJ
+BL-->ER
+BK-->A
+end
+subgraph EY[" "]
+direction LR
+CF-->CE
+CE-->AS
+end
+subgraph EZ[" "]
+direction LR
+CI-->CH
+CH-->BC
+end
+subgraph FA[" "]
+direction LR
+ED-->DI
+DB-->DA
+DA-->AB
+DA-->D
+DZ-->DA
+DZ-->DI
+DI-->AB
+DI-->D
+CN-->CL
+CL-->O
+O-->X
+BP-->BO
+BO-->X
+CU-->CT
+CT-->AW
+AW-->AB
+AW-->X
+end
 A[["actionlint"]]
+AB[["Get Release Tag"]]
+AE[["Manage PR Labels"]]
+AM[["Manage Repo Labels"]]
 AP[["Auto-Update PRs"]]
+AS[["PR Cleanup"]]
+AW[["Publish Release"]]
+BC[["Set PR Auto Merge"]]
 BH[["SonarCloud"]]
 BK("actionlint")
 BL{{"PULL REQUEST
 Types: opened, reopened, synchronize
+"}}
+BO("Auto-Create PR")
+BP{{"PUSH
+Branches: bugfix/*, chore/*, feature/*, hotfix/*
+"}}
+BR("Manage PR")
+BS{{"PULL REQUEST
+Types: auto_merge_disabled, auto_merge_enabled, labeled, opened, ready_for_review, reopened, synchronize, unlabeled
+"}}
+BW("Manage Repo Labels")
+BX{{"PUSH
+Branches: develop, main
+Paths: .github/repo_labels.yml, .github/workflows/manage_repo_labels.yml
 "}}
 CA("Auto-Update PRs")
 CB{{"PULL REQUEST
@@ -449,61 +487,13 @@ Types: labeled
 CC{{"PUSH
 Branches: develop, main
 "}}
-DE("ESLint")
-DF{{"PUSH
-Branches: develop
-"}}
-DP("Validate Home Assistant Config")
-EJ("Test & Scan")
-ER("Run SonarCloud Scan")
-```
-
-```mermaid
-flowchart TB
-CF-- triggers -->CE
-CE-- invokes -->AS
-AS[["PR Cleanup"]]
 CE("PR Cleanup")
 CF{{"PULL REQUEST
 Types: closed
 "}}
-```
-
-```mermaid
-flowchart TB
-CI-- triggers -->CH
-CH-- invokes -->BC
-BC[["Set PR Auto Merge"]]
 CH("Set PR Auto Merge")
 CI{{"PULL REQUEST
 Types: opened, ready_for_review
-"}}
-```
-
-```mermaid
-flowchart TB
-ED-- triggers -->DI
-DB-- triggers -->DA
-DA-- invokes -->AB
-DA-- invokes -->D
-DZ-- triggers -->DA
-DZ-- triggers -->DI
-DI-- invokes -->AB
-DI-- invokes -->D
-CN-- triggers -->CL
-CL-- invokes -->O
-O-- calls -->X
-BP-- triggers -->BO
-BO-- invokes -->X
-CU-- triggers -->CT
-CT-- invokes -->AW
-AW-- calls -->AB
-AW-- calls -->X
-AB[["Get Release Tag"]]
-AW[["Publish Release"]]
-BO("Auto-Create PR")
-BP{{"PUSH
-Branches: bugfix/*, chore/*, feature/*, hotfix/*
 "}}
 CL("Create New Release")
 CN{{"PULL REQUEST
@@ -519,14 +509,23 @@ D[["Build & Publish"]]
 DA("Build (Development)")
 DB{{"PULL REQUEST
 Branches: develop
+Types: opened, reopened, synchronize
+"}}
+DE("ESLint")
+DF{{"PUSH
+Branches: develop
 "}}
 DI("Build (Production)")
+DP("Validate Home Assistant Config")
 DZ{{"PUSH
 Branches: release/*
 "}}
 ED{{"PUSH
 Branches: main
 "}}
+EJ("Test & Scan")
+ER("Run SonarCloud Scan")
+K[["Close Empty PR"]]
 O[["Create New Release"]]
 X[["Create Pull Request"]]
 ```
