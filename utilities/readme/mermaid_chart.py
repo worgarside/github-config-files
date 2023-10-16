@@ -528,7 +528,6 @@ def group_relationships(
     Returns:
         list: A list of tuples of relationships, grouped by their connected components.
     """
-    # Step 1: Build the graph
     entity_graph = defaultdict(set)
     for rel in relationships:
         entity_graph[rel.start.entity_id].add(rel.end.entity_id)

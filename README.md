@@ -420,6 +420,46 @@ Paths: .github/repo_labels.yml, .github/workflows/manage_repo_labels.yml
 
 ```mermaid
 flowchart TB
+CB-- triggers -->CA
+CA-- invokes -->AP
+CC-- triggers -->CA
+CC-- triggers -->ER
+DF-- triggers -->DE
+DF-- triggers -->DP
+DF-- triggers -->EJ
+EJ-- invokes -->BH
+ER-- invokes -->BH
+BL-- triggers -->BK
+BL-- triggers -->DE
+BL-- triggers -->DP
+BL-- triggers -->EJ
+BL-- triggers -->ER
+BK-- invokes -->A
+A[["actionlint"]]
+AP[["Auto-Update PRs"]]
+BH[["SonarCloud"]]
+BK("actionlint")
+BL{{"PULL REQUEST
+Types: opened, reopened, synchronize
+"}}
+CA("Auto-Update PRs")
+CB{{"PULL REQUEST
+Types: labeled
+"}}
+CC{{"PUSH
+Branches: develop, main
+"}}
+DE("ESLint")
+DF{{"PUSH
+Branches: develop
+"}}
+DP("Validate Home Assistant Config")
+EJ("Test & Scan")
+ER("Run SonarCloud Scan")
+```
+
+```mermaid
+flowchart TB
 CF-- triggers -->CE
 CE-- invokes -->AS
 AS[["PR Cleanup"]]
@@ -489,44 +529,4 @@ Branches: main
 "}}
 O[["Create New Release"]]
 X[["Create Pull Request"]]
-```
-
-```mermaid
-flowchart TB
-ES-- triggers -->ER
-CB-- triggers -->CA
-CA-- invokes -->AP
-DF-- triggers -->CA
-DF-- triggers -->DE
-DF-- triggers -->DP
-DF-- triggers -->EJ
-EJ-- invokes -->BH
-ER-- invokes -->BH
-BL-- triggers -->BK
-BL-- triggers -->DE
-BL-- triggers -->DP
-BL-- triggers -->EJ
-BL-- triggers -->ER
-BK-- invokes -->A
-A[["actionlint"]]
-AP[["Auto-Update PRs"]]
-BH[["SonarCloud"]]
-BK("actionlint")
-BL{{"PULL REQUEST
-Types: opened, reopened, synchronize
-"}}
-CA("Auto-Update PRs")
-CB{{"PULL REQUEST
-Types: labeled
-"}}
-DE("ESLint")
-DF{{"PUSH
-Branches: develop
-"}}
-DP("Validate Home Assistant Config")
-EJ("Test & Scan")
-ER("Run SonarCloud Scan")
-ES{{"PUSH
-Branches: develop, main
-"}}
 ```
