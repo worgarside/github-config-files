@@ -114,22 +114,10 @@ group:
       worgarside/pre-commit-hooks-dependency-sync
       worgarside/wg-utilities
 
-  # Publish Release with no build
-  - files:
-      - source: gha_sync/workflows/publish_release.yml
-        dest: .github/workflows/publish_release.yml
-    repos: |
-      worgarside/addon-item-warehouse-api
-      worgarside/addon-yas-209-bridge
-      worgarside/home-assistant
-      worgarside/home-assistant-appdaemon
-      worgarside/home-assistant-config-validator
-      worgarside/pre-commit-hooks-dependency-sync
-
   # Standard release with version bump in pyproject.toml
   - files:
-      - source: gha_sync/workflows/create_new_release.yml
-        dest: .github/workflows/create_new_release.yml
+      - source: gha_sync/workflows/ci.yml
+        dest: .github/workflows/ci.yml
     repos: |
       worgarside/home-assistant
       worgarside/home-assistant-appdaemon
@@ -137,24 +125,18 @@ group:
       worgarside/pre-commit-hooks-dependency-sync
 
 worgarside/addon-item-warehouse-api:
-  - source: gha_sync/workflows/create_new_release.template.yml
-    dest: .github/workflows/create_new_release.yml
+  - source: gha_sync/workflows/ci.template.yml
+    dest: .github/workflows/ci.yml
     template:
       config_path: item_warehouse_api/config.yaml
 
 worgarside/addon-item-warehouse-website:
-  - source: gha_sync/workflows/repo/addon-item-warehouse-website/create_new_release.template.yml
-    dest: .github/workflows/create_new_release.yml
-    template:
-      config_path: item_warehouse_website/config.yaml
   - source: gha_sync/workflows/repo/addon-item-warehouse-website/
     dest: .github/workflows/
-    # Excluded to allow above templating
-    exclude: create_new_release.template.yml
 
 worgarside/addon-yas-209-bridge:
-  - source: gha_sync/workflows/create_new_release.template.yml
-    dest: .github/workflows/create_new_release.yml
+  - source: gha_sync/workflows/ci.template.yml
+    dest: .github/workflows/ci.yml
     template:
       config_path: yas_209_bridge/config.yaml
 

@@ -1,0 +1,39 @@
+---
+name: CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to deploy to
+        required: true
+        default: development
+        type: choice
+        options:
+          - development
+          - production
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+  push:
+    branches:
+      - main
+
+jobs:
+  ci:
+    name: CI
+    uses: worgarside/github-config-files/.github/workflows/__ci.yml@main
+    with:
+      build-branch: ${{ github.ref }}
+      build-type: node
+      event-name: ${{ github.event_name }}
+      node-build-directory: item_warehouse_website
+      pr-merged: ${{ github.event.pull_request.merged }}
+      update-pyproject-toml: false
+      update-json-file-path: item_warehouse_website/package.json
+      update-yaml-file-path: item_warehouse_website/config.yaml
+    secrets: inherit

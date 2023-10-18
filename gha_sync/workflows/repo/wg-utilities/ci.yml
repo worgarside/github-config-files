@@ -1,0 +1,38 @@
+---
+name: CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to deploy to
+        required: true
+        default: development
+        type: choice
+        options:
+          - development
+          - production
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+  push:
+    branches:
+      - main
+
+jobs:
+  ci:
+    name: CI
+    uses: worgarside/github-config-files/.github/workflows/__ci.yml@main
+    with:
+      build-branch: ${{ github.ref }}
+      build-type: python
+      event-name: ${{ github.event_name }}
+      path-to-__version__-file: wg_utilities/__init__.py
+      pr-merged: ${{ github.event.pull_request.merged }}
+      python-version: '3.11'
+      update-pyproject-toml: true
+    secrets: inherit
