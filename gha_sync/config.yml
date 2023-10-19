@@ -116,7 +116,7 @@ group:
 
   # Standard release with version bump in pyproject.toml
   - files:
-      - source: gha_sync/workflows/ci.template.yml
+      - source: gha_sync/workflows/template/ci.template.yml
         dest: .github/workflows/ci.yml
         template:
           build_branch: ${{ github.ref }}
@@ -129,10 +129,15 @@ group:
       worgarside/home-assistant
       worgarside/home-assistant-appdaemon
       worgarside/home-assistant-config-validator
+      worgarside/led-matrix-now-playing
+      worgarside/plant-monitor
       worgarside/pre-commit-hooks-dependency-sync
+      worgarside/smart-mini-crt-interface
+      worgarside/very-slow-movie-player
+      worgarside/wg-scripts
 
 worgarside/addon-item-warehouse-api:
-  - source: gha_sync/workflows/ci.template.yml
+  - source: gha_sync/workflows/template/ci.template.yml
     dest: .github/workflows/ci.yml
     template:
       build_branch: ${{ github.ref }}
@@ -146,7 +151,7 @@ worgarside/addon-item-warehouse-api:
 worgarside/addon-item-warehouse-website:
   - source: gha_sync/workflows/repo/addon-item-warehouse-website/
     dest: .github/workflows/
-  - source: gha_sync/workflows/ci.template.yml
+  - source: gha_sync/workflows/template/ci.template.yml
     dest: .github/workflows/ci.yml
     template:
       build_branch: ${{ github.ref }}
@@ -159,7 +164,7 @@ worgarside/addon-item-warehouse-website:
       update_yaml_file_path: item_warehouse_website/config.yaml
 
 worgarside/addon-yas-209-bridge:
-  - source: gha_sync/workflows/ci.template.yml
+  - source: gha_sync/workflows/template/ci.template.yml
     dest: .github/workflows/ci.yml
     template:
       build_branch: ${{ github.ref }}
@@ -175,7 +180,7 @@ worgarside/home-assistant:
     dest: .github/workflows/
 
 worgarside/wg-utilities:
-  - source: gha_sync/workflows/ci.template.yml
+  - source: gha_sync/workflows/template/ci.template.yml
     dest: .github/workflows/ci.yml
     template:
       build_branch: ${{ github.ref }}

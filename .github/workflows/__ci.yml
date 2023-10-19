@@ -88,6 +88,10 @@ jobs:
           fi
         # yamllint enable rule:line-length
 
+  actionlint:
+    name: Lint GitHUb Actions Workflows
+    uses: worgarside/github-config-files/.github/workflows/__actionlint.yml@main
+
   test-and-scan:
     name: Test and Scan
     if: inputs.build-type == 'python' && inputs.unit-test
