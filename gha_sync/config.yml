@@ -119,6 +119,9 @@ group:
       - source: gha_sync/workflows/ci.template.yml
         dest: .github/workflows/ci.yml
         template:
+          build_branch: ${{ github.ref }}
+          event_name: ${{ github.event_name }}
+          pr_merged: ${{ github.event.pull_request.merged }}
           build_type: python
           python_version: 3.11
           update_pyproject_toml: true
@@ -132,6 +135,9 @@ worgarside/addon-item-warehouse-api:
   - source: gha_sync/workflows/ci.template.yml
     dest: .github/workflows/ci.yml
     template:
+      build_branch: ${{ github.ref }}
+      event_name: ${{ github.event_name }}
+      pr_merged: ${{ github.event.pull_request.merged }}
       build_type: python
       python_version: 3.11
       update_pyproject_toml: true
@@ -143,6 +149,9 @@ worgarside/addon-item-warehouse-website:
   - source: gha_sync/workflows/ci.template.yml
     dest: .github/workflows/ci.yml
     template:
+      build_branch: ${{ github.ref }}
+      event_name: ${{ github.event_name }}
+      pr_merged: ${{ github.event.pull_request.merged }}
       build_type: node
       node_build_directory: item_warehouse_website
       update_pyproject_toml: false
@@ -153,6 +162,9 @@ worgarside/addon-yas-209-bridge:
   - source: gha_sync/workflows/ci.template.yml
     dest: .github/workflows/ci.yml
     template:
+      build_branch: ${{ github.ref }}
+      event_name: ${{ github.event_name }}
+      pr_merged: ${{ github.event.pull_request.merged }}
       build_type: python
       python_version: 3.11
       update_pyproject_toml: true
@@ -166,6 +178,9 @@ worgarside/wg-utilities:
   - source: gha_sync/workflows/ci.template.yml
     dest: .github/workflows/ci.yml
     template:
+      build_branch: ${{ github.ref }}
+      event_name: ${{ github.event_name }}
+      pr_merged: ${{ github.event.pull_request.merged }}
       build_type: python
       path_to___version___file: wg_utilities/__init__.py
       python_version: 3.11

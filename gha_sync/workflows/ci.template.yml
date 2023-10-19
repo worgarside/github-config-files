@@ -28,13 +28,15 @@ jobs:
     name: CI
     uses: worgarside/github-config-files/.github/workflows/__ci.yml@main
     with:
-      build-branch: ${{{{ github.ref }}}}
+      # Context Variables
+      build-branch: '{{ build-branch }}'
+      event-name: '{{ event_name }}'
+      python-version: '{{ python_version }}'
+      # Templated Variables
       build-type: '{{ build_type }}'
-      event-name: ${{{{ github.event_name }}}}
       node-build-directory: '{{ node_build_directory }}'
       path-to-__version__-file: '{{ path_to___version___file }}'
-      pr-merged: ${{{{ github.event.pull_request.merged }}}}
-      python-version: '{{ python_version }}'
+      pr-merged: '{{ pr_merged }}'
       unit-test: '{{ unit_test }}'
       update-pyproject-toml: '{{ update_pyproject_toml }}'
       update-json-file-path: '{{ update_json_file_path }}'
