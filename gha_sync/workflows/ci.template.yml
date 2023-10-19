@@ -28,8 +28,15 @@ jobs:
     name: CI
     uses: worgarside/github-config-files/.github/workflows/__ci.yml@main
     with:
-      build-branch: ${{ github.ref }}
-      event-name: ${{ github.event_name }}
-      pr-merged: ${{ github.event.pull_request.merged }}
-      update-yaml-file-path: '{{ config_path }}'
+      build-branch: ${{{{ github.ref }}}}
+      build-type: '{{ build_type }}'
+      event-name: ${{{{ github.event_name }}}}
+      node-build-directory: '{{ node_build_directory }}'
+      path-to-__version__-file: '{{ path_to___version___file }}'
+      pr-merged: ${{{{ github.event.pull_request.merged }}}}
+      python-version: '{{ python_version }}'
+      unit-test: '{{ unit_test }}'
+      update-pyproject-toml: '{{ update_pyproject_toml }}'
+      update-json-file-path: '{{ update_json_file_path }}'
+      update-yaml-file-path: '{{ update_yaml_file_path }}'
     secrets: inherit

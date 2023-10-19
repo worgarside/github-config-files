@@ -116,8 +116,12 @@ group:
 
   # Standard release with version bump in pyproject.toml
   - files:
-      - source: gha_sync/workflows/ci.yml
+      - source: gha_sync/workflows/ci.template.yml
         dest: .github/workflows/ci.yml
+        template:
+          build_type: python
+          python_version: 3.11
+          update_pyproject_toml: true
     repos: |
       worgarside/home-assistant
       worgarside/home-assistant-appdaemon
@@ -128,22 +132,42 @@ worgarside/addon-item-warehouse-api:
   - source: gha_sync/workflows/ci.template.yml
     dest: .github/workflows/ci.yml
     template:
-      config_path: item_warehouse_api/config.yaml
+      build_type: python
+      python_version: 3.11
+      update_pyproject_toml: true
+      update_yaml_file_path: item_warehouse_api/config.yaml
 
 worgarside/addon-item-warehouse-website:
   - source: gha_sync/workflows/repo/addon-item-warehouse-website/
     dest: .github/workflows/
+  - source: gha_sync/workflows/ci.template.yml
+    dest: .github/workflows/ci.yml
+    template:
+      build_type: node
+      node_build_directory: item_warehouse_website
+      update_pyproject_toml: false
+      update_json_file_path: item_warehouse_website/package.json
+      update_yaml_file_path: item_warehouse_website/config.yaml
 
 worgarside/addon-yas-209-bridge:
   - source: gha_sync/workflows/ci.template.yml
     dest: .github/workflows/ci.yml
     template:
-      config_path: yas_209_bridge/config.yaml
+      build_type: python
+      python_version: 3.11
+      update_pyproject_toml: true
+      update_yaml_file_path: yas_209_bridge/config.yaml
 
 worgarside/home-assistant:
   - source: gha_sync/workflows/repo/home-assistant/
     dest: .github/workflows/
 
 worgarside/wg-utilities:
-  - source: gha_sync/workflows/repo/wg-utilities
-    dest: .github/workflows/
+  - source: gha_sync/workflows/ci.template.yml
+    dest: .github/workflows/ci.yml
+    template:
+      build_type: python
+      path_to___version___file: wg_utilities/__init__.py
+      python_version: 3.11
+      unit_test: true
+      update_pyproject_toml: true

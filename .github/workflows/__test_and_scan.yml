@@ -8,9 +8,11 @@ on:  # yamllint disable-line rule:truthy
         type: string
         description: Branch to run tests on
         required: true
-
-env:
-  LTS_PYTHON_VERSION: 3.11
+      python-version:
+        description: The Python version to build with
+        required: false
+        type: string
+        default: '3.11'
 
 jobs:
   test:
@@ -66,14 +68,14 @@ jobs:
         continue-on-error: true
 
       - name: Upload `coverage.xml` as Artifact
-        if: matrix.python-version == env.LTS_PYTHON_VERSION
+        if: matrix.python-version == inputs.python-version
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report
           path: ./coverage.xml
 
       - name: Upload coverage to Codecov
-        if: matrix.python-version == env.LTS_PYTHON_VERSION
+        if: matrix.python-version == inputs.python-version
         uses: codecov/codecov-action@v3
         with:
           flags: unittests

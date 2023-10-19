@@ -13,7 +13,7 @@
 | **.github/repo_labels.yml** | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](.github/repo_labels.yml) | | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](.github/repo_labels.yml) |
 | **.github/workflows/actionlint.yml** | [gha_sync/workflows/all/actionlint.yml](gha_sync/workflows/all/actionlint.yml) | [gha_sync/workflows/all/actionlint.yml](gha_sync/workflows/all/actionlint.yml) | [gha_sync/workflows/all/actionlint.yml](gha_sync/workflows/all/actionlint.yml) | [gha_sync/workflows/all/actionlint.yml](gha_sync/workflows/all/actionlint.yml) | [gha_sync/workflows/all/actionlint.yml](gha_sync/workflows/all/actionlint.yml) | [gha_sync/workflows/all/actionlint.yml](gha_sync/workflows/all/actionlint.yml) | [gha_sync/workflows/all/actionlint.yml](gha_sync/workflows/all/actionlint.yml) | [gha_sync/workflows/all/actionlint.yml](gha_sync/workflows/all/actionlint.yml) | [gha_sync/workflows/all/actionlint.yml](gha_sync/workflows/all/actionlint.yml) | [gha_sync/workflows/all/actionlint.yml](gha_sync/workflows/all/actionlint.yml) | [gha_sync/workflows/all/actionlint.yml](gha_sync/workflows/all/actionlint.yml) | [gha_sync/workflows/all/actionlint.yml](gha_sync/workflows/all/actionlint.yml) | [gha_sync/workflows/all/actionlint.yml](gha_sync/workflows/all/actionlint.yml) | [gha_sync/workflows/all/actionlint.yml](gha_sync/workflows/all/actionlint.yml) |
 | **.github/workflows/auto_create_pr.yml** | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) |
-| **.github/workflows/ci.yml** | [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | [gha_sync/workflows/repo/addon-item-warehouse-website/ci.yml](gha_sync/workflows/repo/addon-item-warehouse-website/ci.yml) | [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | [gha_sync/workflows/ci.yml](gha_sync/workflows/ci.yml) | [gha_sync/workflows/ci.yml](gha_sync/workflows/ci.yml) | [gha_sync/workflows/ci.yml](gha_sync/workflows/ci.yml) | | | [gha_sync/workflows/ci.yml](gha_sync/workflows/ci.yml) | | | | | [gha_sync/workflows/repo/wg-utilities/ci.yml](gha_sync/workflows/repo/wg-utilities/ci.yml) |
+| **.github/workflows/ci.yml** | [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | | | [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | | | | | [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) |
 | **.github/workflows/eslint.yml** | | [gha_sync/workflows/repo/addon-item-warehouse-website/eslint.yml](gha_sync/workflows/repo/addon-item-warehouse-website/eslint.yml) | | | | | | | | | | | | |
 | **.github/workflows/manage_pr.yml** | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) |
 | **.github/workflows/manage_repo_labels.yml** | [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) |
@@ -73,7 +73,7 @@
 | [gha_sync/workflows/all/pr_autoupdate.yml](gha_sync/workflows/all/pr_autoupdate.yml) | [.github/workflows/pr_autoupdate.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/workflows/pr_autoupdate.yml) |
 | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [.github/workflows/pr_cleanup.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/workflows/pr_cleanup.yml) |
 | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [.github/workflows/set_pr_auto_merge.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/workflows/set_pr_auto_merge.yml) |
-| [gha_sync/workflows/repo/addon-item-warehouse-website/ci.yml](gha_sync/workflows/repo/addon-item-warehouse-website/ci.yml) | [.github/workflows/ci.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/workflows/ci.yml) |
+| [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | [.github/workflows/ci.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/workflows/ci.yml) |
 | [gha_sync/workflows/repo/addon-item-warehouse-website/eslint.yml](gha_sync/workflows/repo/addon-item-warehouse-website/eslint.yml) | [.github/workflows/eslint.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/workflows/eslint.yml) |
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
@@ -123,7 +123,7 @@
 | [gha_sync/workflows/all/pr_autoupdate.yml](gha_sync/workflows/all/pr_autoupdate.yml) | [.github/workflows/pr_autoupdate.yml](https://github.com/worgarside/home-assistant/.github/workflows/pr_autoupdate.yml) |
 | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [.github/workflows/pr_cleanup.yml](https://github.com/worgarside/home-assistant/.github/workflows/pr_cleanup.yml) |
 | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [.github/workflows/set_pr_auto_merge.yml](https://github.com/worgarside/home-assistant/.github/workflows/set_pr_auto_merge.yml) |
-| [gha_sync/workflows/ci.yml](gha_sync/workflows/ci.yml) | [.github/workflows/ci.yml](https://github.com/worgarside/home-assistant/.github/workflows/ci.yml) |
+| [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | [.github/workflows/ci.yml](https://github.com/worgarside/home-assistant/.github/workflows/ci.yml) |
 | [gha_sync/workflows/repo/home-assistant/validate_home_assistant_config.yml](gha_sync/workflows/repo/home-assistant/validate_home_assistant_config.yml) | [.github/workflows/validate_home_assistant_config.yml](https://github.com/worgarside/home-assistant/.github/workflows/validate_home_assistant_config.yml) |
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/home-assistant/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
@@ -150,7 +150,7 @@
 | [gha_sync/workflows/all/pr_autoupdate.yml](gha_sync/workflows/all/pr_autoupdate.yml) | [.github/workflows/pr_autoupdate.yml](https://github.com/worgarside/home-assistant-appdaemon/.github/workflows/pr_autoupdate.yml) |
 | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [.github/workflows/pr_cleanup.yml](https://github.com/worgarside/home-assistant-appdaemon/.github/workflows/pr_cleanup.yml) |
 | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [.github/workflows/set_pr_auto_merge.yml](https://github.com/worgarside/home-assistant-appdaemon/.github/workflows/set_pr_auto_merge.yml) |
-| [gha_sync/workflows/ci.yml](gha_sync/workflows/ci.yml) | [.github/workflows/ci.yml](https://github.com/worgarside/home-assistant-appdaemon/.github/workflows/ci.yml) |
+| [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | [.github/workflows/ci.yml](https://github.com/worgarside/home-assistant-appdaemon/.github/workflows/ci.yml) |
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/home-assistant-appdaemon/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
@@ -176,7 +176,7 @@
 | [gha_sync/workflows/all/pr_autoupdate.yml](gha_sync/workflows/all/pr_autoupdate.yml) | [.github/workflows/pr_autoupdate.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/pr_autoupdate.yml) |
 | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [.github/workflows/pr_cleanup.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/pr_cleanup.yml) |
 | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [.github/workflows/set_pr_auto_merge.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/set_pr_auto_merge.yml) |
-| [gha_sync/workflows/ci.yml](gha_sync/workflows/ci.yml) | [.github/workflows/ci.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/ci.yml) |
+| [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | [.github/workflows/ci.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/ci.yml) |
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
@@ -250,7 +250,7 @@
 | [gha_sync/workflows/all/pr_autoupdate.yml](gha_sync/workflows/all/pr_autoupdate.yml) | [.github/workflows/pr_autoupdate.yml](https://github.com/worgarside/pre-commit-hooks-dependency-sync/.github/workflows/pr_autoupdate.yml) |
 | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [.github/workflows/pr_cleanup.yml](https://github.com/worgarside/pre-commit-hooks-dependency-sync/.github/workflows/pr_cleanup.yml) |
 | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [.github/workflows/set_pr_auto_merge.yml](https://github.com/worgarside/pre-commit-hooks-dependency-sync/.github/workflows/set_pr_auto_merge.yml) |
-| [gha_sync/workflows/ci.yml](gha_sync/workflows/ci.yml) | [.github/workflows/ci.yml](https://github.com/worgarside/pre-commit-hooks-dependency-sync/.github/workflows/ci.yml) |
+| [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | [.github/workflows/ci.yml](https://github.com/worgarside/pre-commit-hooks-dependency-sync/.github/workflows/ci.yml) |
 | [gha_sync/workflows/run_sonarcloud_scan.yml](gha_sync/workflows/run_sonarcloud_scan.yml) | [.github/workflows/run_sonarcloud_scan.yml](https://github.com/worgarside/pre-commit-hooks-dependency-sync/.github/workflows/run_sonarcloud_scan.yml) |
 </details>
 
@@ -371,109 +371,110 @@
 | [gha_sync/workflows/all/pr_autoupdate.yml](gha_sync/workflows/all/pr_autoupdate.yml) | [.github/workflows/pr_autoupdate.yml](https://github.com/worgarside/wg-utilities/.github/workflows/pr_autoupdate.yml) |
 | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [.github/workflows/pr_cleanup.yml](https://github.com/worgarside/wg-utilities/.github/workflows/pr_cleanup.yml) |
 | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [.github/workflows/set_pr_auto_merge.yml](https://github.com/worgarside/wg-utilities/.github/workflows/set_pr_auto_merge.yml) |
-| [gha_sync/workflows/repo/wg-utilities/ci.yml](gha_sync/workflows/repo/wg-utilities/ci.yml) | [.github/workflows/ci.yml](https://github.com/worgarside/wg-utilities/.github/workflows/ci.yml) |
+| [gha_sync/workflows/ci.template.yml](gha_sync/workflows/ci.template.yml) | [.github/workflows/ci.yml](https://github.com/worgarside/wg-utilities/.github/workflows/ci.yml) |
 </details>
 
 ## Workflow Dependencies
 
 ```mermaid
 flowchart LR
-subgraph DO[" "]
+subgraph DA[" "]
 direction LR
+BD-->BA
+K-->BD
 K-->D
-CJ-->CH
-CH-->K
-BX-->BW
-BW-->AN
-CK-->BW
-CK-->CH
-CK-->CW
-CK-->DA
-CK-->DK
-BC-->AZ
-DK-->AZ
-BH-->BG
-BH-->CW
-BH-->DA
-BH-->DK
-BG-->A
+CK-->CI
+CI-->K
+BY-->BX
+BX-->AO
+CL-->BX
+CL-->CI
+CL-->CN
+CL-->CR
+CL-->CW
+CW-->BA
+BI-->BH
+BI-->CN
+BI-->CR
+BI-->CW
+BH-->A
 end
-subgraph DP[" "]
+subgraph DB[" "]
 direction LR
-BL-->BK
-BK-->V
+BM-->BL
+BL-->W
 end
-subgraph DQ[" "]
+subgraph DC[" "]
 direction LR
-BO-->BN
-BN-->AC
-BN-->R
+BP-->BO
+BO-->AD
+BO-->S
 end
-subgraph DR[" "]
+subgraph DD[" "]
 direction LR
-BT-->BS
-BS-->AK
+BU-->BT
+BT-->AL
 end
-subgraph DS[" "]
+subgraph DE[" "]
 direction LR
-CB-->CA
-CA-->AQ
+CC-->CB
+CB-->AR
 end
-subgraph DT[" "]
+subgraph DF[" "]
 direction LR
-CE-->CD
-CD-->AU
+CF-->CE
+CE-->AV
 end
 A[["actionlint"]]
-AC[["Manage PR Labels"]]
-AK[["Manage Repo Labels"]]
-AN[["Auto-Update PRs"]]
-AQ[["PR Cleanup"]]
-AU[["Set PR Auto Merge"]]
-AZ[["SonarCloud"]]
-BC[["Test & Scan"]]
-BG("actionlint")
-BH{{"PULL REQUEST
+AD[["Manage PR Labels"]]
+AL[["Manage Repo Labels"]]
+AO[["Auto-Update PRs"]]
+AR[["PR Cleanup"]]
+AV[["Set PR Auto Merge"]]
+BA[["SonarCloud"]]
+BD[["Test & Scan"]]
+BH("actionlint")
+BI{{"PULL REQUEST
 Types: opened, reopened, synchronize
 "}}
-BK("Auto-Create PR")
-BL{{"PUSH
+BL("Auto-Create PR")
+BM{{"PUSH
 Branches: bugfix/*, chore/*, feature/*, hotfix/*
 "}}
-BN("Manage PR")
-BO{{"PULL REQUEST
+BO("Manage PR")
+BP{{"PULL REQUEST
 Types: auto_merge_disabled, auto_merge_enabled, labeled, opened, ready_for_review, reopened, synchronize, unlabeled
 "}}
-BS("Manage Repo Labels")
-BT{{"PUSH
+BT("Manage Repo Labels")
+BU{{"PUSH
 Branches: main
 Paths: .github/repo_labels.yml, .github/workflows/manage_repo_labels.yml
 "}}
-BW("Auto-Update PRs")
-BX{{"PULL REQUEST
+BX("Auto-Update PRs")
+BY{{"PULL REQUEST
 Types: labeled
 "}}
-CA("PR Cleanup")
-CB{{"PULL REQUEST
+CB("PR Cleanup")
+CC{{"PULL REQUEST
 Types: closed
 "}}
-CD("Set PR Auto Merge")
-CE{{"PULL REQUEST
+CE("Set PR Auto Merge")
+CF{{"PULL REQUEST
 Types: opened, ready_for_review
 "}}
-CH("CI")
-CJ{{"PULL REQUEST
+CI("CI")
+CK{{"PULL REQUEST
 Branches: main
 Types: opened, reopened, synchronize
 "}}
-CK{{"PUSH
+CL{{"PUSH
 Branches: main
 "}}
-CW("ESLint")
+CN("ESLint")
+CR("Validate Home Assistant Config")
+CW("Run SonarCloud Scan")
 D[["Build & Deploy"]]
-DA("Validate Home Assistant Config")
-DK("Run SonarCloud Scan")
 K[["CI"]]
-R[["Close Empty PR"]]
-V[["Create Pull Request"]]
+S[["Close Empty PR"]]
+W[["Create Pull Request"]]
 ```
