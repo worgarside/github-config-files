@@ -181,6 +181,7 @@ worgarside/wg-utilities:
       build_branch: ${{ github.ref }}
       event_name: ${{ github.event_name }}
       pr_merged: ${{ github.event.pull_request.merged }}
+      workflow_dispatch_env: ${{ inputs.environment }}
       build_type: python
       path_to___version___file: wg_utilities/__init__.py
       python_version: 3.11

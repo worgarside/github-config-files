@@ -55,6 +55,11 @@ on:
         description: The path to a YAML file containing a `version` variable
         required: false
         type: string
+      workflow-dispatch-env:
+        description: The environment passed in from a workflow_dispatch event
+        required: false
+        type: string
+
 
 permissions:
   contents: write
@@ -75,7 +80,7 @@ jobs:
         # yamllint disable rule:line-length
         run: |
           if [[ "${{ inputs.event-name }}" == "workflow_dispatch" ]]; then
-            echo "environment=${{ github.event.inputs.environment }}" >> "${GITHUB_OUTPUT}"
+            echo "environment=${{ inputs.workflow-dispatch-env }}" >> "${GITHUB_OUTPUT}"
           elif [[ "${{ inputs.event-name }}" == "pull_request" ]]; then
             echo "environment=development" >> "${GITHUB_OUTPUT}"
           elif [[ "${{ inputs.event-name }}" == "push" ]]; then

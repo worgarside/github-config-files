@@ -32,6 +32,7 @@ jobs:
       build-branch: '{{ build-branch }}'
       event-name: '{{ event_name }}'
       python-version: '{{ python_version }}'
+      workflow-dispatch-env: '{{ workflow_dispatch_env }}'
       # Templated Variables
       build-type: '{{ build_type }}'
       node-build-directory: '{{ node_build_directory }}'
