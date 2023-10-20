@@ -97,8 +97,14 @@ group:
 
   # Standard release with version bump in pyproject.toml
   - files:
-      - source: gha_sync/workflows/template/ci.template.yml
-        dest: .github/workflows/ci.yml
+      - source: gha_sync/workflows/template/ci_validation.template.yml
+        dest: .github/workflows/ci_validation.yml
+        template:
+          build_branch: ${{ github.ref }}
+          build_type: python
+          python_version: '3.11'
+      - source: gha_sync/workflows/template/ci_deployment.template.yml
+        dest: .github/workflows/ci_deployment.yml
         template:
           build_branch: ${{ github.ref }}
           event_name: ${{ github.event_name }}
@@ -118,8 +124,13 @@ group:
       worgarside/wg-scripts
 
 worgarside/addon-item-warehouse-api:
-  - source: gha_sync/workflows/template/ci.template.yml
-    dest: .github/workflows/ci.yml
+  - source: gha_sync/workflows/template/ci_validation.template.yml
+    dest: .github/workflows/ci_validation.yml
+    template:
+      build_branch: ${{ github.ref }}
+      python_version: 3.11
+  - source: gha_sync/workflows/template/ci_deployment.template.yml
+    dest: .github/workflows/ci_deployment.yml
     template:
       build_branch: ${{ github.ref }}
       event_name: ${{ github.event_name }}
@@ -133,8 +144,13 @@ worgarside/addon-item-warehouse-api:
 worgarside/addon-item-warehouse-website:
   - source: gha_sync/workflows/repo/addon-item-warehouse-website/
     dest: .github/workflows/
-  - source: gha_sync/workflows/template/ci.template.yml
-    dest: .github/workflows/ci.yml
+  - source: gha_sync/workflows/template/ci_validation.template.yml
+    dest: .github/workflows/ci_validation.yml
+    template:
+      build_branch: ${{ github.ref }}
+      build_type: node
+  - source: gha_sync/workflows/template/ci_deployment.template.yml
+    dest: .github/workflows/ci_deployment.yml
     template:
       build_branch: ${{ github.ref }}
       event_name: ${{ github.event_name }}
@@ -147,8 +163,14 @@ worgarside/addon-item-warehouse-website:
       update_yaml_file_path: item_warehouse_website/config.yaml
 
 worgarside/addon-yas-209-bridge:
-  - source: gha_sync/workflows/template/ci.template.yml
-    dest: .github/workflows/ci.yml
+  - source: gha_sync/workflows/template/ci_validation.template.yml
+    dest: .github/workflows/ci_validation.yml
+    template:
+      build_branch: ${{ github.ref }}
+      build_type: python
+      python_version: '3.11'
+  - source: gha_sync/workflows/template/ci_deployment.template.yml
+    dest: .github/workflows/ci_deployment.yml
     template:
       build_branch: ${{ github.ref }}
       event_name: ${{ github.event_name }}
@@ -164,8 +186,15 @@ worgarside/home-assistant:
     dest: .github/workflows/
 
 worgarside/wg-utilities:
-  - source: gha_sync/workflows/template/ci.template.yml
-    dest: .github/workflows/ci.yml
+  - source: gha_sync/workflows/template/ci_validation.template.yml
+    dest: .github/workflows/ci_validation.yml
+    template:
+      build_branch: ${{ github.ref }}
+      build_type: python
+      python_version: '3.11'
+      unit_test: 'true'
+  - source: gha_sync/workflows/template/ci_deployment.template.yml
+    dest: .github/workflows/ci_deployment.yml
     template:
       build_branch: ${{ github.ref }}
       event_name: ${{ github.event_name }}
