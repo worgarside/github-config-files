@@ -35,6 +35,8 @@ jobs:
   ci-deployment:
     name: 'CI: Deployment'
     needs: ci-validation
+    permissions:
+      id-token: write
     if: github.event_name == 'push' || inputs.environment == 'production'
     uses: worgarside/github-config-files/.github/workflows/__ci_deployment.yml@main
     with:
