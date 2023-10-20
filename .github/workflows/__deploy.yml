@@ -36,7 +36,7 @@ jobs:
   add-artifacts-to-release-notes:
     name: Add Artifacts to Release Notes
     runs-on: ubuntu-latest
-    if: inputs.release-tag != 'NULL'
+    if: inputs.release-tag
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v3

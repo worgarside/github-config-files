@@ -77,7 +77,7 @@ jobs:
     name: Deploy to Development
     if: |
       always() && !failure() &&
-      inputs.build-type != 'null' &&
+      inputs.build-type &&
       needs.draft-release.result == 'success'
     needs: draft-release
     uses: ./.github/workflows/__deploy.yml
@@ -144,7 +144,7 @@ jobs:
     name: Run Production Build
     if: |
       always() && !failure() &&
-      inputs.build-type != 'null'
+      inputs.build-type
     needs:
       - publish-release
     uses: ./.github/workflows/__build.yml

@@ -57,7 +57,7 @@ jobs:
     name: Run Development Build
     if: |
       always() && !failure() &&
-      inputs.build-type != 'null'
+      inputs.build-type
     uses: ./.github/workflows/__build.yml
     with:
       build-branch: ${{ inputs.build-branch }}
