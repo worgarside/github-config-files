@@ -1,0 +1,21 @@
+---
+name: 'CI: Validation'
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  ci-validation:
+    name: 'CI: Validation'
+    uses: worgarside/github-config-files/.github/workflows/__ci_validation.yml@main
+    with:
+      build-branch: '{{ build_branch }}'
+      build-type: '{{ build_type }}'
+      python-version: '{{ python_version }}'
+      unit-test: '{{ unit_test }}'
+    secrets: inherit

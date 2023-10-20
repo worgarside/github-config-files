@@ -1,5 +1,5 @@
 ---
-name: '"Build & Publish" Runner'
+name: '"Build & Deploy" Runner'
 
 on:
   workflow_call:
@@ -12,11 +12,10 @@ on:
         description: The type of build to perform ("python", "node")
         required: true
         type: string
-      commit-build-directory:
-        description: Whether to commit (and push) the build directory
-        required: false
+      deploy:
+        description: Whether to deploy the build
+        required: true
         type: boolean
-        default: false
       environment:
         description: The environment to deploy to
         required: true
@@ -129,19 +128,6 @@ jobs:
           echo -e "\`\`\`\n$LATEST_COMMIT_MSG\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
           echo "latest-commit-msg=$LATEST_COMMIT_MSG" >> "$GITHUB_OUTPUT"
 
-      - name: Commit Build Directory
-        if: |
-          inputs.commit-build-directory &&
-          steps.check-last-commit.outputs.latest-commit-msg != env.COMMIT_MESSAGE
-        run: |
-          git config --global user.name "worgarside-dev"
-          git config --global user.email "worgarside.dev@gmail.com"
-
-          git add ${{ inputs.node-build-directory }}/.next/
-          git add ${{ inputs.node-build-directory }}/package-lock.json
-          git commit -m "$COMMIT_MESSAGE"
-          git push origin ${{ inputs.build-branch }} --force
-
       - name: Zip Build Directory
         run: |
           cd ${{ inputs.node-build-directory }}
@@ -188,17 +174,20 @@ jobs:
           echo -e "Release Tag:  \`${{ inputs.release-tag }}\`" >> "$GITHUB_STEP_SUMMARY"
         # yamllint enable rule:line-length
 
-  publish-to-pypi:
-    name: Publish to PyPi
+  deploy-to-pypi:
+    name: Deploy to PyPi
     environment: ${{ inputs.environment }}
     if: |
       always() &&
+      inputs.deploy &&
       needs.add-artifacts-to-release-notes.result == 'success' &&
       needs.build-python.result == 'success'
     needs:
       - add-artifacts-to-release-notes
       - build-python
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v3
@@ -206,9 +195,8 @@ jobs:
           name: build-artifact-${{ inputs.environment }}
           path: dist/
 
-      - name: Publish to PyPI
+      - name: Deploy to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         continue-on-error: ${{ inputs.environment == 'development' }}
         with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
           repository-url: ${{ vars.REPOSITORY_URL }}
