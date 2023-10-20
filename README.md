@@ -368,50 +368,50 @@
 
 ```mermaid
 flowchart LR
+subgraph CR[" "]
+direction LR
+BD-->BC
+BC-->X
+end
+subgraph CS[" "]
+direction LR
+BG-->BF
+BF-->AE
+BF-->T
+end
 subgraph CT[" "]
 direction LR
-BF-->BE
-BE-->X
+BL-->BK
+BK-->AI
 end
 subgraph CU[" "]
 direction LR
-BI-->BH
-BH-->AE
-BH-->T
+BT-->BS
+BS-->AO
 end
 subgraph CV[" "]
 direction LR
-BN-->BM
-BM-->AI
+BW-->BV
+BV-->AS
 end
 subgraph CW[" "]
 direction LR
-BV-->BU
-BU-->AO
-end
-subgraph CX[" "]
-direction LR
-BY-->BX
-BX-->AS
-end
-subgraph CY[" "]
-direction LR
-CD-->CB
-CD-->CF
-CD-->CK
-BA-->AX
-CK-->AX
-BR-->BQ
-BQ-->AL
-CR-->BQ
-CR-->CB
-CR-->CF
-CR-->CK
-CR-->CO
-CQ-->CO
-CO-->K
+CB-->BZ
+CB-->CD
+CB-->CI
+AY-->AV
+CI-->AV
+BP-->BO
+BO-->AL
+CP-->BO
+CP-->BZ
+CP-->CD
+CP-->CI
+CP-->CM
+CO-->CM
+CM-->K
 K-->A
-K-->BA
+K-->AY
 K-->D
 end
 A[["actionlint"]]
@@ -420,45 +420,45 @@ AI[["Manage Repo Labels"]]
 AL[["Auto-Update PRs"]]
 AO[["PR Cleanup"]]
 AS[["Set PR Auto Merge"]]
-AX[["SonarCloud"]]
-BA[["Test & Scan"]]
-BE("Auto-Create PR")
-BF{{"PUSH
+AV[["SonarCloud"]]
+AY[["Test & Scan"]]
+BC("Auto-Create PR")
+BD{{"PUSH
 Branches: bugfix/*, chore/*, feature/*, hotfix/*
 "}}
-BH("Manage PR")
-BI{{"PULL REQUEST
+BF("Manage PR")
+BG{{"PULL REQUEST
 Types: auto_merge_disabled, auto_merge_enabled, labeled, opened, ready_for_review, reopened, synchronize, unlabeled
 "}}
-BM("Manage Repo Labels")
-BN{{"PUSH
+BK("Manage Repo Labels")
+BL{{"PUSH
 Branches: main
 Paths: .github/repo_labels.yml, .github/workflows/manage_repo_labels.yml
 "}}
-BQ("Auto-Update PRs")
-BR{{"PULL REQUEST
+BO("Auto-Update PRs")
+BP{{"PULL REQUEST
 Types: labeled
 "}}
-BU("PR Cleanup")
-BV{{"PULL REQUEST
+BS("PR Cleanup")
+BT{{"PULL REQUEST
 Types: closed
 "}}
-BX("Set PR Auto Merge")
-BY{{"PULL REQUEST
+BV("Set PR Auto Merge")
+BW{{"PULL REQUEST
 Types: opened, ready_for_review
 "}}
-CB("ESLint")
-CD{{"PULL REQUEST
+BZ("ESLint")
+CB{{"PULL REQUEST
 Types: opened, reopened, synchronize
 "}}
-CF("Validate Home Assistant Config")
-CK("Run SonarCloud Scan")
-CO("CI")
-CQ{{"PULL REQUEST
+CD("Validate Home Assistant Config")
+CI("Run SonarCloud Scan")
+CM("CI")
+CO{{"PULL REQUEST
 Branches: main
 Types: opened, reopened, synchronize
 "}}
-CR{{"PUSH
+CP{{"PUSH
 Branches: main
 "}}
 D[["Build & Deploy"]]
