@@ -5,17 +5,17 @@ repos:
     hooks:
       - id: sync-additional-dependencies
 
-  - repo: local
-    hooks:
-      - id: generate-readme
-        name: Generate README
-        entry: python utilities/readme/update_readme.py
-        language: python
-        types: [python]
-        always_run: true
-        additional_dependencies:
-          - pydantic==2.4.2
-          - pyyaml==6.0.1
+  # - repo: local
+  #   hooks:
+  #     - id: generate-readme
+  #       name: Generate README
+  #       entry: python utilities/readme/update_readme.py
+  #       language: python
+  #       types: [python]
+  #       always_run: true
+  #       additional_dependencies:
+  #         - pydantic==2.4.2
+  #         - pyyaml==6.0.1
 
   - repo: https://github.com/rhysd/actionlint
     rev: v1.6.26
