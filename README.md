@@ -449,11 +449,11 @@ Types: opened, ready_for_review
 "}}
 BY("ESLint")
 CC("Validate Home Assistant Config")
-CH("CI")
+CH("CI: Validation & Deployment")
 CJ{{"PUSH
 Branches: main
 "}}
-CM("CI")
+CM("CI: Validation")
 CO{{"PULL REQUEST
 Types: opened, reopened, synchronize
 "}}
