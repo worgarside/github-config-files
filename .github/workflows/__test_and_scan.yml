@@ -1,35 +1,18 @@
 ---
-name: Test & Scan
+name: '"Test & Scan" Runner'
 
-# yamllint disable-line rule:truthy
-on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: Branch to run tests on
-        required: true
-        default: main
+on:  # yamllint disable-line rule:truthy
   workflow_call:
     inputs:
-      branch:
+      test-branch:
         type: string
         description: Branch to run tests on
         required: true
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-  push:
-    branches:
-      - develop
-
-env:
-  LTS_PYTHON_VERSION: 3.11
-
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
+      python-version:
+        description: The Python version to build with
+        required: false
+        type: string
+        default: '3.11'
 
 jobs:
   test:
@@ -45,24 +28,38 @@ jobs:
           # - macos-latest
         python-version:
           - '3.11'
-          # - '3.12'
+          - '3.12'
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.branch || github.ref }}
+          ref: ${{ inputs.test-branch }}
 
-      - name: Install poetry
-        run: pipx install poetry
+      - name: Load cached .local
+        uses: actions/cache@v2
+        with:
+          path: ~/.local
+          key: dotlocal-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Load Cached Venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
-        with:
-          cache: poetry
-          python-version: ${{ matrix.python-version }}
 
       - name: Install Dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --all-extras --sync
 
       - name: Run Tests
@@ -71,14 +68,14 @@ jobs:
         continue-on-error: true
 
       - name: Upload `coverage.xml` as Artifact
-        if: matrix.python-version == env.LTS_PYTHON_VERSION
+        if: matrix.python-version == inputs.python-version
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report
           path: ./coverage.xml
 
       - name: Upload coverage to Codecov
-        if: matrix.python-version == env.LTS_PYTHON_VERSION
+        if: matrix.python-version == inputs.python-version
         uses: codecov/codecov-action@v3
         with:
           flags: unittests
@@ -94,8 +91,8 @@ jobs:
   run-sonarcloud-scan:
     name: Run SonarCloud Scan
     needs: test
-    uses: worgarside/github-config-files/.github/workflows/__sonarcloud.yml@main
+    uses: ./.github/workflows/__sonarcloud.yml
     with:
-      branch: ${{ inputs.branch || github.ref }}
+      branch: ${{ inputs.test-branch }}
       coverage-artifact: coverage-report
     secrets: inherit

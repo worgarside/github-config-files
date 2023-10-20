@@ -48,10 +48,30 @@ jobs:
             sync
             bot:keep-updated
 
-      - name: Summarise
-        if: github.event.head_commit.message != 'Auto-update Pre-Commit hooks'
-        # yamllint disable-line rule:line-length
-        run: echo -e "Pull Request URLs:\n\`\`\`json\n${{ toJson(steps.sync.outputs.pull_request_urls) }}\n\`\`\`" >> $GITHUB_STEP_SUMMARY
+      - name: Record Updated PRs
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+          URL_LIST: ${{ join(fromJson(steps.sync.outputs.pull_request_urls)) }}
+        run: |
+          url_list_formatted=$(echo "$URL_LIST" | sed 's/,/\n- /g')
+          output="# Repo Sync PRs
+
+          - $url_list_formatted"
+
+          echo -e "${output}" >> $GITHUB_STEP_SUMMARY
+
+          if [[ "${{ github.actor }}" == "workflow_dispatch" ]]; then
+            gh pr comment \
+              "$(
+                gh pr list \
+                  --base main \
+                  --state merged \
+                  --limit 1 \
+                  --json url  |
+                    jq -r '.[].url'
+              )" \
+              --body "$output"
+          fi
 
       - name: Enable Auto-Merge on PRs
         if: github.event.head_commit.message != 'Auto-update Pre-Commit hooks'
@@ -74,25 +94,3 @@ jobs:
               fi
           done
         # yamllint enable rule:line-length
-
-      - name: Record Updated PRs
-        if: github.actor == 'worgarside-dev'
-        env:
-          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-          URL_LIST: ${{ join(fromJson(steps.sync.outputs.pull_request_urls)) }}
-        run: |
-          url_list_formatted=$(echo "$URL_LIST" | sed 's/,/\n- /g')
-          output="# Repo Sync PRs
-
-          - $url_list_formatted"
-
-          gh pr comment \
-            "$(
-              gh pr list \
-                --base main \
-                --state merged \
-                --limit 1 \
-                --json url  |
-                  jq -r '.[].url'
-            )" \
-            --body "$output"

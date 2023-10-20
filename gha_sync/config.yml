@@ -65,7 +65,7 @@ group:
 
   # No Custom Labels
   # The only exclusion is `home-assistant`, which has its own repo_labels.yml:
-  # https://github.com/worgarside/home-assistant/blob/develop/.github/repo_labels.yml
+  # https://github.com/worgarside/home-assistant/blob/main/.github/repo_labels.yml
   - files:
       - .github/labeler.yml
       - .github/repo_labels.yml
@@ -114,54 +114,85 @@ group:
       worgarside/pre-commit-hooks-dependency-sync
       worgarside/wg-utilities
 
-  # Publish Release with no build
-  - files:
-      - source: gha_sync/workflows/publish_release.yml
-        dest: .github/workflows/publish_release.yml
-    repos: |
-      worgarside/addon-item-warehouse-api
-      worgarside/addon-yas-209-bridge
-      worgarside/home-assistant
-      worgarside/home-assistant-appdaemon
-      worgarside/home-assistant-config-validator
-      worgarside/pre-commit-hooks-dependency-sync
-
   # Standard release with version bump in pyproject.toml
   - files:
-      - source: gha_sync/workflows/create_new_release.yml
-        dest: .github/workflows/create_new_release.yml
+      - source: gha_sync/workflows/template/ci.template.yml
+        dest: .github/workflows/ci.yml
+        template:
+          build_branch: ${{ github.ref }}
+          event_name: ${{ github.event_name }}
+          pr_merged: ${{ github.event.pull_request.merged }}
+          workflow_dispatch_env: ${{ inputs.environment }}
+          build_type: python
+          python_version: 3.11
+          update_pyproject_toml: true
     repos: |
       worgarside/home-assistant
       worgarside/home-assistant-appdaemon
       worgarside/home-assistant-config-validator
+      worgarside/led-matrix-now-playing
+      worgarside/plant-monitor
       worgarside/pre-commit-hooks-dependency-sync
+      worgarside/smart-mini-crt-interface
+      worgarside/very-slow-movie-player
+      worgarside/wg-scripts
 
 worgarside/addon-item-warehouse-api:
-  - source: gha_sync/workflows/create_new_release.template.yml
-    dest: .github/workflows/create_new_release.yml
+  - source: gha_sync/workflows/template/ci.template.yml
+    dest: .github/workflows/ci.yml
     template:
-      config_path: item_warehouse_api/config.yaml
+      build_branch: ${{ github.ref }}
+      event_name: ${{ github.event_name }}
+      pr_merged: ${{ github.event.pull_request.merged }}
+      workflow_dispatch_env: ${{ inputs.environment }}
+      build_type: python
+      python_version: 3.11
+      update_pyproject_toml: true
+      update_yaml_file_path: item_warehouse_api/config.yaml
 
 worgarside/addon-item-warehouse-website:
-  - source: gha_sync/workflows/repo/addon-item-warehouse-website/create_new_release.template.yml
-    dest: .github/workflows/create_new_release.yml
-    template:
-      config_path: item_warehouse_website/config.yaml
   - source: gha_sync/workflows/repo/addon-item-warehouse-website/
     dest: .github/workflows/
-    # Excluded to allow above templating
-    exclude: create_new_release.template.yml
+  - source: gha_sync/workflows/template/ci.template.yml
+    dest: .github/workflows/ci.yml
+    template:
+      build_branch: ${{ github.ref }}
+      event_name: ${{ github.event_name }}
+      pr_merged: ${{ github.event.pull_request.merged }}
+      workflow_dispatch_env: ${{ inputs.environment }}
+      build_type: node
+      node_build_directory: item_warehouse_website
+      update_pyproject_toml: false
+      update_json_file_path: item_warehouse_website/package.json
+      update_yaml_file_path: item_warehouse_website/config.yaml
 
 worgarside/addon-yas-209-bridge:
-  - source: gha_sync/workflows/create_new_release.template.yml
-    dest: .github/workflows/create_new_release.yml
+  - source: gha_sync/workflows/template/ci.template.yml
+    dest: .github/workflows/ci.yml
     template:
-      config_path: yas_209_bridge/config.yaml
+      build_branch: ${{ github.ref }}
+      event_name: ${{ github.event_name }}
+      pr_merged: ${{ github.event.pull_request.merged }}
+      workflow_dispatch_env: ${{ inputs.environment }}
+      build_type: python
+      python_version: 3.11
+      update_pyproject_toml: true
+      update_yaml_file_path: yas_209_bridge/config.yaml
 
 worgarside/home-assistant:
   - source: gha_sync/workflows/repo/home-assistant/
     dest: .github/workflows/
 
 worgarside/wg-utilities:
-  - source: gha_sync/workflows/repo/wg-utilities
-    dest: .github/workflows/
+  - source: gha_sync/workflows/template/ci.template.yml
+    dest: .github/workflows/ci.yml
+    template:
+      build_branch: ${{ github.ref }}
+      event_name: ${{ github.event_name }}
+      pr_merged: ${{ github.event.pull_request.merged }}
+      workflow_dispatch_env: ${{ inputs.environment }}
+      build_type: python
+      path_to___version___file: wg_utilities/__init__.py
+      python_version: 3.11
+      unit_test: true
+      update_pyproject_toml: true

@@ -1,23 +1,18 @@
 ---
 name: '"Set PR Auto Merge" Runner'
 
-# yamllint disable-line rule:truthy
-on:
+on: # yamllint disable-line rule:truthy
   workflow_call:
     inputs:
       head-ref:
-        # yamllint disable-line rule:line-length
-        description: "The head branch's name (source branch): `github.event.pull_request.head.ref`"
+        description: >
+          The head branch's name (source branch): `github.event.pull_request.head.ref`
         required: true
         type: string
       pr-html-url:
         description: 'The PRs HTML URL: `github.event.pull_request.html_url`'
         required: true
         type: string
-      pr-is-draft:
-        description: 'Whether the PR is a draft: `github.event.pull_request.draft`'
-        required: true
-        type: boolean
       pr-number:
         description: 'The PRs number: `github.event.pull_request.number`'
         required: true
@@ -31,8 +26,8 @@ env:
   GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
 jobs:
-  log-inputs:
-    name: Log Inputs
+  set-auto-merge:
+    name: Set Auto Merge
     runs-on: ubuntu-latest
     steps:
       - name: Log Inputs
@@ -41,19 +36,6 @@ jobs:
           INPUTS: ${{ toJson(inputs) }}
         run: |
           echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
-
-  set-auto-merge:
-    name: Set Auto Merge
-    runs-on: ubuntu-latest
-    if: |
-      !inputs.pr-is-draft &&
-      !startsWith(inputs.head-ref, 'release/') &&
-      inputs.head-ref != 'main'
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Set Auto-Merge on PR
         if: github.repository != 'worgarside/github-config-files'
@@ -74,25 +56,3 @@ jobs:
             --auto \
             --subject "$PR_TITLE" \
             --body "${{ github.repository }}#${{ inputs.pr-number }}"
-
-  set-release-auto-merge:
-    name: Set Release Auto Merge
-    runs-on: ubuntu-latest
-    if: |
-      (
-        startsWith(inputs.head-ref, 'release/') ||
-        inputs.head-ref == 'main'
-      ) &&
-      github.repository != 'worgarside/github-config-files' &&
-      !inputs.pr-is-draft
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-
-      - name: Set Auto-Merge on Release PR
-        run: |
-          gh pr merge "${{ inputs.pr-html-url }}" \
-            --merge \
-            --auto
