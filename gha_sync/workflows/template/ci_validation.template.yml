@@ -1,0 +1,30 @@
+---
+name: CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to deploy to
+        required: true
+        default: development
+        type: choice
+        options:
+          - development
+          - production
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  ci-validation:
+    name: 'CI: Validation'
+    uses: worgarside/github-config-files/.github/workflows/__ci_validation.yml@main
+    with:
+      build-branch: '{{ build_branch }}'
+      build-type: '{{ build_type }}'
+      python-version: '{{ python_version }}'
+      unit-test: '{{ unit_test }}'
+    secrets: inherit
