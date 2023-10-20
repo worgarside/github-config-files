@@ -32,8 +32,9 @@ on:
         default: '3.11'
       release-tag:
         description: The tag of the release to add the artifacts to
-        required: true
+        required: false
         type: string
+        default: 'NULL'
 
 jobs:
   log-inputs:
@@ -81,7 +82,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ARTIFACT_NAME: ${{ inputs.release-tag }}-${{ inputs.environment }}.zip
-      COMMIT_MESSAGE: 📦 Built version ${{ inputs.release-tag }}
       GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
     steps:
@@ -110,27 +110,19 @@ jobs:
             nextjs-${{ inputs.environment }}-${{ hashFiles('**/package-lock.json') }}-
 
       - name: Install Dependencies
+        working-directory: ${{ inputs.node-build-directory }}
         run: |
-          cd ${{ inputs.node-build-directory }}
           rm -rf .next/
           npm ci --verbose
 
       - name: Build
+        working-directory: ${{ inputs.node-build-directory }}
         run: |
-          cd ${{ inputs.node-build-directory }}
           npm run build
 
-      - name: Check Latest Commit Message
-        id: check-last-commit
-        run: |
-          git fetch origin ${{ inputs.build-branch }}
-          LATEST_COMMIT_MSG=$(git log -1 --pretty=%B)
-          echo -e "\`\`\`\n$LATEST_COMMIT_MSG\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "latest-commit-msg=$LATEST_COMMIT_MSG" >> "$GITHUB_OUTPUT"
-
       - name: Zip Build Directory
+        working-directory: ${{ inputs.node-build-directory }}
         run: |
-          cd ${{ inputs.node-build-directory }}
           zip -r "$ARTIFACT_NAME" .next/
 
       - name: Upload Artifact
@@ -147,10 +139,7 @@ jobs:
       - build-node
     if: |
       always() && !failure() &&
-      (
-        needs.build-python.result == 'success' ||
-        needs.build-node.result == 'success'
-      )
+      inputs.release-tag != 'NULL'
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v3
@@ -181,7 +170,8 @@ jobs:
       always() && !failure() &&
       inputs.deploy &&
       needs.add-artifacts-to-release-notes.result == 'success' &&
-      needs.build-python.result == 'success'
+      needs.build-python.result == 'success' &&
+      inputs.release-tag != 'NULL'
     needs:
       - add-artifacts-to-release-notes
       - build-python

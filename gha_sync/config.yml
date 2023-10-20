@@ -96,8 +96,6 @@ group:
         dest: .github/workflows/ci_deployment.yml
         template:
           build_branch: ${{ github.ref }}
-          event_name: ${{ github.event_name }}
-          workflow_dispatch_env: ${{ inputs.environment }}
           build_type: python
           python_version: '3.11'
           update_pyproject_toml: 'true'
@@ -122,9 +120,7 @@ worgarside/addon-item-warehouse-api:
     dest: .github/workflows/ci_deployment.yml
     template:
       build_branch: ${{ github.ref }}
-      event_name: ${{ github.event_name }}
       pr_merged: ${{ github.event.pull_request.merged }}
-      workflow_dispatch_env: ${{ inputs.environment }}
       build_type: python
       python_version: 3.11
       update_pyproject_toml: 'true'
@@ -138,13 +134,12 @@ worgarside/addon-item-warehouse-website:
     template:
       build_branch: ${{ github.ref }}
       build_type: node
+      node_build_directory: item_warehouse_website
   - source: gha_sync/workflows/template/ci_deployment.template.yml
     dest: .github/workflows/ci_deployment.yml
     template:
       build_branch: ${{ github.ref }}
-      event_name: ${{ github.event_name }}
       pr_merged: ${{ github.event.pull_request.merged }}
-      workflow_dispatch_env: ${{ inputs.environment }}
       build_type: node
       node_build_directory: item_warehouse_website
       update_pyproject_toml: 'false'
@@ -162,9 +157,7 @@ worgarside/addon-yas-209-bridge:
     dest: .github/workflows/ci_deployment.yml
     template:
       build_branch: ${{ github.ref }}
-      event_name: ${{ github.event_name }}
       pr_merged: ${{ github.event.pull_request.merged }}
-      workflow_dispatch_env: ${{ inputs.environment }}
       build_type: python
       python_version: '3.11'
       update_pyproject_toml: 'true'
@@ -186,9 +179,7 @@ worgarside/wg-utilities:
     dest: .github/workflows/ci_deployment.yml
     template:
       build_branch: ${{ github.ref }}
-      event_name: ${{ github.event_name }}
       pr_merged: ${{ github.event.pull_request.merged }}
-      workflow_dispatch_env: ${{ inputs.environment }}
       build_type: python
       path_to___version___file: wg_utilities/__init__.py
       python_version: '3.11'

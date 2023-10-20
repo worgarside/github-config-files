@@ -2,16 +2,6 @@
 name: 'CI: Validation & Deployment'
 
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: Environment to deploy to
-        required: true
-        default: development
-        type: choice
-        options:
-          - development
-          - production
   push:
     branches:
       - main
@@ -23,6 +13,7 @@ jobs:
     with:
       build-branch: '{{ build_branch }}'
       build-type: '{{ build_type }}'
+      node-build-directory: '{{ node_build_directory }}'
       python-version: '{{ python_version }}'
       unit-test: '{{ unit_test }}'
     secrets: inherit
@@ -32,12 +23,10 @@ jobs:
     needs: ci-validation
     permissions:
       id-token: write
-    if: github.event_name == 'push' || inputs.environment == 'production'
     uses: worgarside/github-config-files/.github/workflows/__ci_deployment.yml@main
     with:
       build-branch: '{{ build_branch }}'
       build-type: '{{ build_type }}'
-      event-name: '{{ event_name }}'
       node-build-directory: '{{ node_build_directory }}'
       path-to-__version__-file: '{{ path_to___version___file }}'
       python-version: '{{ python_version }}'
@@ -45,5 +34,4 @@ jobs:
       update-pyproject-toml: '{{ update_pyproject_toml }}'
       update-json-file-path: '{{ update_json_file_path }}'
       update-yaml-file-path: '{{ update_yaml_file_path }}'
-      workflow-dispatch-env: '{{ workflow_dispatch_env }}'
     secrets: inherit

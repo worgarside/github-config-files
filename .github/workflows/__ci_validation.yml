@@ -12,6 +12,11 @@ on:
         description: The type of build to perform ("python", "node")
         required: false
         type: string
+      node-build-directory:
+        description: The directory to build the Node project in
+        required: false
+        type: string
+        default: .
       python-version:
         description: The Python version to build with
         required: false
@@ -46,4 +51,19 @@ jobs:
     with:
       branch: ${{ inputs.build-branch }}
       coverage-artifact: coverage-report-${{ github.run_id}}
+    secrets: inherit
+
+  run-development-build:
+    name: Run Development Build
+    if: |
+      always() && !failure() &&
+      inputs.build-type != 'null'
+    uses: ./.github/workflows/__build_and_deploy.yml
+    with:
+      build-branch: ${{ inputs.build-branch }}
+      build-type: ${{ inputs.build-type }}
+      deploy: false
+      environment: development
+      node-build-directory: ${{ inputs.node-build-directory }}
+      python-version: ${{ inputs.python-version }}
     secrets: inherit

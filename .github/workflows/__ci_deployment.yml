@@ -12,10 +12,6 @@ on:
         description: The type of build to perform ("python", "node")
         required: false
         type: string
-      event-name:
-        description: Name of the event which triggered the workflow
-        required: true
-        type: string
       node-build-directory:
         description: The directory to build the Node project in
         required: false
@@ -46,10 +42,6 @@ on:
         default: 'true'
       update-yaml-file-path:
         description: The path to a YAML file containing a `version` variable
-        required: false
-        type: string
-      workflow-dispatch-env:
-        description: The environment passed in from a workflow_dispatch event
         required: false
         type: string
 
@@ -85,7 +77,7 @@ jobs:
     with:
       build-branch: ${{ inputs.build-branch }}
       build-type: ${{ inputs.build-type }}
-      deploy: ${{ inputs.event-name != 'pull_request' }}
+      deploy: true
       environment: development
       node-build-directory: ${{ inputs.node-build-directory }}
       python-version: ${{ inputs.python-version }}

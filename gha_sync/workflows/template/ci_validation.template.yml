@@ -16,6 +16,7 @@ jobs:
     with:
       build-branch: '{{ build_branch }}'
       build-type: '{{ build_type }}'
+      node-build-directory: '{{ node_build_directory }}'
       python-version: '{{ python_version }}'
       unit-test: '{{ unit_test }}'
     secrets: inherit

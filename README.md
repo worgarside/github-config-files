@@ -376,85 +376,87 @@
 flowchart LR
 subgraph CP[" "]
 direction LR
-K-->D
-CG-->Q
-CG-->K
-BN-->BM
-BM-->AK
-CI-->BM
-CI-->BX
-CI-->CB
-CI-->CG
-CN-->BX
-CN-->CB
-CN-->CL
 CL-->Q
+CN-->BY
+CN-->CC
+CN-->CL
+BO-->BN
+BN-->AL
+CI-->BN
+CI-->BY
+CI-->CC
+CI-->CH
+CH-->Q
+CH-->K
+K-->D
 Q-->A
-Q-->AU
-Q-->AX
+Q-->AV
+Q-->AY
+Q-->D
 end
 subgraph CQ[" "]
 direction LR
-BB-->BA
-BA-->Z
+BC-->BB
+BB-->AA
 end
 subgraph CR[" "]
 direction LR
-BE-->BD
-BD-->AD
-BD-->V
+BF-->BE
+BE-->AE
+BE-->W
 end
 subgraph CS[" "]
 direction LR
-BJ-->BI
-BI-->AH
+BK-->BJ
+BJ-->AI
 end
 subgraph CT[" "]
 direction LR
-BR-->BQ
-BQ-->AN
+BS-->BR
+BR-->AO
 end
 subgraph CU[" "]
 direction LR
-BU-->BT
-BT-->AR
+BV-->BU
+BU-->AS
 end
 A[["actionlint"]]
-AD[["Manage PR Labels"]]
-AH[["Manage Repo Labels"]]
-AK[["Auto-Update PRs"]]
-AN[["PR Cleanup"]]
-AR[["Set PR Auto Merge"]]
-AU[["SonarCloud"]]
-AX[["Test & Scan"]]
-BA("Auto-Create PR")
-BB{{"PUSH
+AA[["Create Pull Request"]]
+AE[["Manage PR Labels"]]
+AI[["Manage Repo Labels"]]
+AL[["Auto-Update PRs"]]
+AO[["PR Cleanup"]]
+AS[["Set PR Auto Merge"]]
+AV[["SonarCloud"]]
+AY[["Test & Scan"]]
+BB("Auto-Create PR")
+BC{{"PUSH
 Branches: bugfix/*, chore/*, feature/*, hotfix/*
 "}}
-BD("Manage PR")
-BE{{"PULL REQUEST
+BE("Manage PR")
+BF{{"PULL REQUEST
 Types: auto_merge_disabled, auto_merge_enabled, labeled, opened, ready_for_review, reopened, synchronize, unlabeled
 "}}
-BI("Manage Repo Labels")
-BJ{{"PUSH
+BJ("Manage Repo Labels")
+BK{{"PUSH
 Branches: main
 Paths: .github/repo_labels.yml, .github/workflows/manage_repo_labels.yml
 "}}
-BM("Auto-Update PRs")
-BN{{"PULL REQUEST
+BN("Auto-Update PRs")
+BO{{"PULL REQUEST
 Types: labeled
 "}}
-BQ("PR Cleanup")
-BR{{"PULL REQUEST
+BR("PR Cleanup")
+BS{{"PULL REQUEST
 Types: closed
 "}}
-BT("Set PR Auto Merge")
-BU{{"PULL REQUEST
+BU("Set PR Auto Merge")
+BV{{"PULL REQUEST
 Types: opened, ready_for_review
 "}}
-BX("ESLint")
-CB("Validate Home Assistant Config")
-CG("CI: Validation & Deployment")
+BY("ESLint")
+CC("Validate Home Assistant Config")
+CH("CI: Validation & Deployment")
 CI{{"PUSH
 Branches: main
 "}}
@@ -465,6 +467,5 @@ Types: opened, reopened, synchronize
 D[["Build & Deploy"]]
 K[["CI: Deployment"]]
 Q[["CI: Validation"]]
-V[["Close Empty PR"]]
-Z[["Create Pull Request"]]
+W[["Close Empty PR"]]
 ```
