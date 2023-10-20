@@ -12,6 +12,10 @@ on:
         description: The type of build to perform ("python", "node")
         required: true
         type: string
+      deploy:
+        description: Whether to deploy the build
+        required: true
+        type: boolean
       environment:
         description: The environment to deploy to
         required: true
@@ -175,6 +179,7 @@ jobs:
     environment: ${{ inputs.environment }}
     if: |
       always() &&
+      inputs.deploy &&
       needs.add-artifacts-to-release-notes.result == 'success' &&
       needs.build-python.result == 'success'
     needs:

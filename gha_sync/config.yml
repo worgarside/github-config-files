@@ -11,57 +11,20 @@ group:
         dest: .github/workflows/
         deleteOrphaned: true
     repos: |
-      worgarside/addon-item-warehouse-api
-      worgarside/addon-item-warehouse-website
-      worgarside/addon-yas-209-bridge
-      worgarside/home-assistant
       worgarside/home-assistant-appdaemon
-      worgarside/home-assistant-config-validator
-      worgarside/led-matrix-now-playing
-      worgarside/plant-monitor
-      worgarside/pre-commit-hooks-dependency-sync
-      worgarside/python-template
-      worgarside/smart-mini-crt-interface
-      worgarside/very-slow-movie-player
-      worgarside/wg-scripts
-      worgarside/wg-utilities
 
   # This is every repo apart from `wg-utilities` (Runs SonarCloud after UTs)
   - files:
       - source: gha_sync/workflows/run_sonarcloud_scan.yml
         dest: .github/workflows/run_sonarcloud_scan.yml
     repos: |
-      worgarside/addon-item-warehouse-api
-      worgarside/addon-item-warehouse-website
-      worgarside/addon-yas-209-bridge
-      worgarside/home-assistant
       worgarside/home-assistant-appdaemon
-      worgarside/home-assistant-config-validator
-      worgarside/led-matrix-now-playing
-      worgarside/plant-monitor
-      worgarside/pre-commit-hooks-dependency-sync
-      worgarside/python-template
-      worgarside/smart-mini-crt-interface
-      worgarside/very-slow-movie-player
-      worgarside/wg-scripts
 
   # This is every repo apart from `addon-item-warehouse-website` (Doesn't use Pylint)
   - files:
       - .pylintrc
     repos: |
-      worgarside/addon-item-warehouse-api
-      worgarside/addon-yas-209-bridge
-      worgarside/home-assistant
       worgarside/home-assistant-appdaemon
-      worgarside/home-assistant-config-validator
-      worgarside/led-matrix-now-playing
-      worgarside/plant-monitor
-      worgarside/pre-commit-hooks-dependency-sync
-      worgarside/python-template
-      worgarside/smart-mini-crt-interface
-      worgarside/very-slow-movie-player
-      worgarside/wg-scripts
-      worgarside/wg-utilities
 
   # No Custom Labels
   # The only exclusion is `home-assistant`, which has its own repo_labels.yml:
@@ -70,49 +33,20 @@ group:
       - .github/labeler.yml
       - .github/repo_labels.yml
     repos: |
-      worgarside/addon-item-warehouse-api
-      worgarside/addon-item-warehouse-website
-      worgarside/addon-yas-209-bridge
       worgarside/home-assistant-appdaemon
-      worgarside/home-assistant-config-validator
-      worgarside/led-matrix-now-playing
-      worgarside/plant-monitor
-      worgarside/pre-commit-hooks-dependency-sync
-      worgarside/python-template
-      worgarside/smart-mini-crt-interface
-      worgarside/very-slow-movie-player
-      worgarside/wg-scripts
-      worgarside/wg-utilities
 
   # Standard .yamllint
   - files:
       - .yamllint
     repos: |
-      worgarside/addon-item-warehouse-api
-      worgarside/addon-yas-209-bridge
       worgarside/home-assistant-appdaemon
-      worgarside/home-assistant-config-validator
-      worgarside/led-matrix-now-playing
-      worgarside/plant-monitor
-      worgarside/pre-commit-hooks-dependency-sync
-      worgarside/python-template
-      worgarside/smart-mini-crt-interface
-      worgarside/very-slow-movie-player
-      worgarside/wg-scripts
 
   # Release Notes Template
   - files:
       - source: gha_sync/configs/release-drafter.yml
         dest: .github/release-drafter.yml
     repos: |
-      worgarside/addon-item-warehouse-api
-      worgarside/addon-item-warehouse-website
-      worgarside/addon-yas-209-bridge
-      worgarside/home-assistant
       worgarside/home-assistant-appdaemon
-      worgarside/home-assistant-config-validator
-      worgarside/pre-commit-hooks-dependency-sync
-      worgarside/wg-utilities
 
   # Standard release with version bump in pyproject.toml
   - files:
@@ -127,72 +61,4 @@ group:
           python_version: '3.11'
           update_pyproject_toml: 'true'
     repos: |
-      worgarside/home-assistant
       worgarside/home-assistant-appdaemon
-      worgarside/home-assistant-config-validator
-      worgarside/led-matrix-now-playing
-      worgarside/plant-monitor
-      worgarside/pre-commit-hooks-dependency-sync
-      worgarside/smart-mini-crt-interface
-      worgarside/very-slow-movie-player
-      worgarside/wg-scripts
-
-worgarside/addon-item-warehouse-api:
-  - source: gha_sync/workflows/template/ci.template.yml
-    dest: .github/workflows/ci.yml
-    template:
-      build_branch: ${{ github.ref }}
-      event_name: ${{ github.event_name }}
-      pr_merged: ${{ github.event.pull_request.merged }}
-      workflow_dispatch_env: ${{ inputs.environment }}
-      build_type: python
-      python_version: 3.11
-      update_pyproject_toml: 'true'
-      update_yaml_file_path: item_warehouse_api/config.yaml
-
-worgarside/addon-item-warehouse-website:
-  - source: gha_sync/workflows/repo/addon-item-warehouse-website/
-    dest: .github/workflows/
-  - source: gha_sync/workflows/template/ci.template.yml
-    dest: .github/workflows/ci.yml
-    template:
-      build_branch: ${{ github.ref }}
-      event_name: ${{ github.event_name }}
-      pr_merged: ${{ github.event.pull_request.merged }}
-      workflow_dispatch_env: ${{ inputs.environment }}
-      build_type: node
-      node_build_directory: item_warehouse_website
-      update_pyproject_toml: 'false'
-      update_json_file_path: item_warehouse_website/package.json
-      update_yaml_file_path: item_warehouse_website/config.yaml
-
-worgarside/addon-yas-209-bridge:
-  - source: gha_sync/workflows/template/ci.template.yml
-    dest: .github/workflows/ci.yml
-    template:
-      build_branch: ${{ github.ref }}
-      event_name: ${{ github.event_name }}
-      pr_merged: ${{ github.event.pull_request.merged }}
-      workflow_dispatch_env: ${{ inputs.environment }}
-      build_type: python
-      python_version: '3.11'
-      update_pyproject_toml: 'true'
-      update_yaml_file_path: yas_209_bridge/config.yaml
-
-worgarside/home-assistant:
-  - source: gha_sync/workflows/repo/home-assistant/
-    dest: .github/workflows/
-
-worgarside/wg-utilities:
-  - source: gha_sync/workflows/template/ci.template.yml
-    dest: .github/workflows/ci.yml
-    template:
-      build_branch: ${{ github.ref }}
-      event_name: ${{ github.event_name }}
-      pr_merged: ${{ github.event.pull_request.merged }}
-      workflow_dispatch_env: ${{ inputs.environment }}
-      build_type: python
-      path_to___version___file: wg_utilities/__init__.py
-      python_version: '3.11'
-      unit_test: 'true'
-      update_pyproject_toml: 'true'
