@@ -354,98 +354,97 @@
 
 ```mermaid
 flowchart LR
-subgraph CL[" "]
-direction LR
-BB-->BA
-BA-->Y
-end
-subgraph CM[" "]
-direction LR
-BE-->BD
-BD-->AC
-BD-->U
-end
-subgraph CN[" "]
-direction LR
-BJ-->BI
-BI-->AG
-end
-subgraph CO[" "]
-direction LR
-BR-->BQ
-BQ-->AM
-end
-subgraph CP[" "]
-direction LR
-BU-->BT
-BT-->AQ
-end
 subgraph CQ[" "]
 direction LR
-BZ-->BX
-BZ-->CB
-BN-->BM
-BM-->AJ
-CJ-->BM
-CJ-->BX
-CJ-->CB
-CJ-->CG
-CI-->CG
-CG-->K
-AW-->AT
-K-->A
-K-->AT
-K-->AW
-K-->D
+O-->D
+CN-->CC
+CN-->CG
+CN-->CL
+BS-->BR
+BR-->AP
+CO-->BR
+CO-->CC
+CO-->CG
+CO-->CL
+CL-->K
+K-->O
+K-->V
+V-->A
+V-->AZ
+V-->BC
+end
+subgraph CR[" "]
+direction LR
+BG-->BF
+BF-->AE
+end
+subgraph CS[" "]
+direction LR
+BJ-->BI
+BI-->AA
+BI-->AI
+end
+subgraph CT[" "]
+direction LR
+BO-->BN
+BN-->AM
+end
+subgraph CU[" "]
+direction LR
+BW-->BV
+BV-->AS
+end
+subgraph CV[" "]
+direction LR
+BZ-->BY
+BY-->AW
 end
 A[["actionlint"]]
-AC[["Manage PR Labels"]]
-AG[["Manage Repo Labels"]]
-AJ[["Auto-Update PRs"]]
-AM[["PR Cleanup"]]
-AQ[["Set PR Auto Merge"]]
-AT[["SonarCloud"]]
-AW[["Test & Scan"]]
-BA("Auto-Create PR")
-BB{{"PUSH
+AA[["Close Empty PR"]]
+AE[["Create Pull Request"]]
+AI[["Manage PR Labels"]]
+AM[["Manage Repo Labels"]]
+AP[["Auto-Update PRs"]]
+AS[["PR Cleanup"]]
+AW[["Set PR Auto Merge"]]
+AZ[["SonarCloud"]]
+BC[["Test & Scan"]]
+BF("Auto-Create PR")
+BG{{"PUSH
 Branches: bugfix/*, chore/*, feature/*, hotfix/*
 "}}
-BD("Manage PR")
-BE{{"PULL REQUEST
+BI("Manage PR")
+BJ{{"PULL REQUEST
 Types: auto_merge_disabled, auto_merge_enabled, labeled, opened, ready_for_review, reopened, synchronize, unlabeled
 "}}
-BI("Manage Repo Labels")
-BJ{{"PUSH
+BN("Manage Repo Labels")
+BO{{"PUSH
 Branches: main
 Paths: .github/repo_labels.yml, .github/workflows/manage_repo_labels.yml
 "}}
-BM("Auto-Update PRs")
-BN{{"PULL REQUEST
+BR("Auto-Update PRs")
+BS{{"PULL REQUEST
 Types: labeled
 "}}
-BQ("PR Cleanup")
-BR{{"PULL REQUEST
+BV("PR Cleanup")
+BW{{"PULL REQUEST
 Types: closed
 "}}
-BT("Set PR Auto Merge")
-BU{{"PULL REQUEST
+BY("Set PR Auto Merge")
+BZ{{"PULL REQUEST
 Types: opened, ready_for_review
 "}}
-BX("ESLint")
-BZ{{"PULL REQUEST
+CC("ESLint")
+CG("Validate Home Assistant Config")
+CL("CI")
+CN{{"PULL REQUEST
 Types: opened, reopened, synchronize
 "}}
-CB("Validate Home Assistant Config")
-CG("CI")
-CI{{"PULL REQUEST
-Branches: main
-Types: opened, reopened, synchronize
-"}}
-CJ{{"PUSH
+CO{{"PUSH
 Branches: main
 "}}
 D[["Build & Deploy"]]
 K[["CI"]]
-U[["Close Empty PR"]]
-Y[["Create Pull Request"]]
+O[["CI: Deployment"]]
+V[["CI: Validation"]]
 ```

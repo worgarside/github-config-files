@@ -25,11 +25,6 @@ on:
         description: The path to a Python file containing a `__version__` variable
         required: false
         type: string
-      pr-merged:
-        description: Whether the PR was merged
-        required: false
-        type: boolean
-        default: false
       python-version:
         description: The Python version to build with
         required: false
@@ -59,191 +54,29 @@ on:
         type: string
 
 jobs:
-  set-env:
-    name: Set Environment
-    runs-on: ubuntu-latest
-    if: |
-      inputs.event-name == 'workflow_dispatch' ||
-      inputs.event-name == 'push' ||
-      inputs.pr-merged
-    outputs:
-      environment: ${{ steps.set-env.outputs.environment }}
-    steps:
-      - id: set-env
-        run: |
-          if [[ "${{ inputs.event-name }}" == "workflow_dispatch" ]]; then
-            echo "environment=${{ inputs.workflow-dispatch-env }}" >> "${GITHUB_OUTPUT}"
-          elif [[ "${{ inputs.event-name }}" == "pull_request" ]]; then
-            echo "environment=development" >> "${GITHUB_OUTPUT}"
-          elif [[ "${{ inputs.event-name }}" == "push" ]]; then
-            echo "environment=production" >> "${GITHUB_OUTPUT}"
-          fi
-
-  actionlint:
-    name: Lint GitHub Actions Workflows
-    uses: ./.github/workflows/__actionlint.yml
-
-  test-and-scan:
-    name: Test and Scan
-    if: inputs.build-type == 'python' && inputs.unit-test == 'true'
-    uses: ./.github/workflows/__test_and_scan.yml
-    with:
-      python-version: ${{ inputs.python-version }}
-      test-branch: ${{ inputs.build-branch }}
-
-  run-sonarcloud-scan:
-    name: Run SonarCloud Scan
-    if: |
-      always() &&
-      needs.test-and-scan.result == 'skipped'
-    needs:
-      - test-and-scan
-    uses: ./.github/workflows/__sonarcloud.yml
-    with:
-      branch: ${{ github.ref }}
-    secrets: inherit
-
-  draft-release:
-    name: Draft Release
-    runs-on: ubuntu-latest
-    if: |
-      always() &&
-      inputs.event-name != 'pull_request' &&
-      (
-        needs.test-and-scan.result == 'success' ||
-        needs.test-and-scan.result == 'skipped'
-      )
-    needs:
-      - test-and-scan
-    outputs:
-      release-draft-url: ${{ steps.draft-release.outputs.html_url }}
-      release-tag: ${{ steps.draft-release.outputs.tag_name }}
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-
-      - name: Draft Release
-        id: draft-release
-        uses: release-drafter/release-drafter@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-
-  run-development-build:
-    name: Run Development Build
-    if: |
-      always() &&
-      inputs.build-type != 'null' &&
-      needs.draft-release.result == 'success' &&
-      (
-        needs.test-and-scan.result == 'success' ||
-        needs.test-and-scan.result == 'skipped'
-      )
-    needs:
-      - draft-release
-      - test-and-scan
-    uses: ./.github/workflows/__build_and_deploy.yml
+  ci-validation:
+    name: 'CI: Validation'
+    uses: ./.github/workflows/__ci_validation.yml
     with:
       build-branch: ${{ inputs.build-branch }}
       build-type: ${{ inputs.build-type }}
-      deploy: ${{ inputs.event-name != 'pull_request' }}
-      environment: development
-      node-build-directory: ${{ inputs.node-build-directory }}
       python-version: ${{ inputs.python-version }}
-      release-tag: ${{ needs.draft-release.outputs.release-tag }}
-    secrets: inherit
+      unit-test: ${{ inputs.unit-test }}
 
-  run-production-build:
-    name: Run Production Build
-    if: |
-      always() &&
-      inputs.build-type != 'null' &&
-      needs.set-env.outputs.environment == 'production' && (
-        needs.run-development-build.result == 'success' ||
-        needs.run-development-build.result == 'skipped'
-      )
-    needs:
-      - draft-release
-      - run-development-build
-      - set-env
-    uses: ./.github/workflows/__build_and_deploy.yml
+  ci-deployment:
+    name: 'CI: Deployment'
+    needs: ci-validation
+    if: inputs.event-name == 'push' || inputs.workflow-dispatch-env == 'production'
+    uses: ./.github/workflows/__ci_deployment.yml
     with:
       build-branch: ${{ inputs.build-branch }}
       build-type: ${{ inputs.build-type }}
-      deploy: true
-      environment: production
+      event-name: ${{ inputs.event-name }}
       node-build-directory: ${{ inputs.node-build-directory }}
+      path-to-__version__-file: ${{ inputs.path-to-__version__-file }}
       python-version: ${{ inputs.python-version }}
-      release-tag: ${{ needs.draft-release.outputs.release-tag }}
-    secrets: inherit
-
-  publish-release:
-    name: Publish Release
-    runs-on: ubuntu-latest
-    if: |
-      always() &&
-      needs.set-env.outputs.environment == 'production' && (
-        needs.run-production-build.result == 'success' ||
-        needs.run-production-build.result == 'skipped'
-      )
-    needs:
-      - draft-release
-      - run-production-build
-      - set-env
-    environment: production
-    env:
-      GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-      TAG: ${{ needs.draft-release.outputs.release-tag }}
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-
-      - name: Update `${{ inputs.path-to-__version__-file }}` __version__
-        if: inputs.path-to-__version__-file
-        # yamllint disable rule:line-length
-        run: |
-          sed -i "s/^__version__ = .*/__version__ = \"$TAG\"/" ${{ inputs.path-to-__version__-file }}
-          git add ${{ inputs.path-to-__version__-file }}
-        # yamllint enable rule:line-length
-
-      - name: Update `pyproject.toml` Version
-        if: inputs.update-pyproject-toml == 'true'
-        # yamllint disable rule:line-length
-        run: |
-          sed -i "s/^version = .*/version = \"$TAG\"/" pyproject.toml
-          git add pyproject.toml
-        # yamllint enable rule:line-length
-
-      - name: Update `${{ inputs.update-json-file-path }}` Version
-        if: inputs.update-json-file-path
-        # yamllint disable rule:line-length
-        run: |
-          sed -i "s/^  \"version\": \".*\",/  \"version\": \"$TAG\",/" ${{ inputs.update-json-file-path }}
-          git add ${{ inputs.update-json-file-path }}
-
-      - name: Update `${{ inputs.update-yaml-file-path }}` Version
-        if: inputs.update-yaml-file-path
-        # yamllint disable rule:line-length
-        run: |
-          sed -i "s/^version: .*/version: $TAG/" ${{ inputs.update-yaml-file-path }}
-          git add ${{ inputs.update-yaml-file-path }}
-        # yamllint enable rule:line-length
-
-      - name: Commit Changes
-        run: |
-          git commit -m "${TAG}" --allow-empty
-
-      - name: Push Branch
-        run: |
-          git push origin main
-
-      - name: Publish Release Notes
-        run: |
-          gh release edit ${{ needs.draft-release.outputs.release-tag }} \
-            --draft=false \
-            --repo ${{ github.repository }}
+      unit-test: ${{ inputs.unit-test }}
+      update-json-file-path: ${{ inputs.update-json-file-path }}
+      update-pyproject-toml: ${{ inputs.update-pyproject-toml }}
+      update-yaml-file-path: ${{ inputs.update-yaml-file-path }}
+      workflow-dispatch-env: ${{ inputs.workflow-dispatch-env }}
