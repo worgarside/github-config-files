@@ -26,6 +26,8 @@ on:
 jobs:
   ci:
     name: CI
+    permissions:
+      id-token: write
     uses: worgarside/github-config-files/.github/workflows/__ci.yml@main
     with:
       # Context Variables
