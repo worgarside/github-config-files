@@ -1,5 +1,5 @@
 ---
-name: CI
+name: 'CI: Validation'
 
 on:
   workflow_dispatch:
