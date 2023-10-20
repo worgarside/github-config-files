@@ -368,97 +368,97 @@
 
 ```mermaid
 flowchart LR
-subgraph CR[" "]
+subgraph CO[" "]
+direction LR
+BA-->AZ
+AZ-->X
+end
+subgraph CP[" "]
 direction LR
 BD-->BC
-BC-->X
+BC-->AB
+BC-->T
+end
+subgraph CQ[" "]
+direction LR
+BI-->BH
+BH-->AF
+end
+subgraph CR[" "]
+direction LR
+BQ-->BP
+BP-->AL
 end
 subgraph CS[" "]
 direction LR
-BG-->BF
-BF-->AE
-BF-->T
+BT-->BS
+BS-->AP
 end
 subgraph CT[" "]
 direction LR
-BL-->BK
-BK-->AI
-end
-subgraph CU[" "]
-direction LR
-BT-->BS
-BS-->AO
-end
-subgraph CV[" "]
-direction LR
-BW-->BV
-BV-->AS
-end
-subgraph CW[" "]
-direction LR
-CB-->BZ
-CB-->CD
-CB-->CI
-AY-->AV
-CI-->AV
-BP-->BO
-BO-->AL
-CP-->BO
-CP-->BZ
-CP-->CD
-CP-->CI
-CP-->CM
-CO-->CM
-CM-->K
+BY-->BW
+BY-->CA
+BY-->CF
+AV-->AS
+CF-->AS
+BM-->BL
+BL-->AI
+CM-->BL
+CM-->BW
+CM-->CA
+CM-->CF
+CM-->CJ
+CL-->CJ
+CJ-->K
 K-->A
-K-->AY
+K-->AV
 K-->D
 end
 A[["actionlint"]]
-AE[["Manage PR Labels"]]
-AI[["Manage Repo Labels"]]
-AL[["Auto-Update PRs"]]
-AO[["PR Cleanup"]]
-AS[["Set PR Auto Merge"]]
-AV[["SonarCloud"]]
-AY[["Test & Scan"]]
-BC("Auto-Create PR")
-BD{{"PUSH
+AB[["Manage PR Labels"]]
+AF[["Manage Repo Labels"]]
+AI[["Auto-Update PRs"]]
+AL[["PR Cleanup"]]
+AP[["Set PR Auto Merge"]]
+AS[["SonarCloud"]]
+AV[["Test & Scan"]]
+AZ("Auto-Create PR")
+BA{{"PUSH
 Branches: bugfix/*, chore/*, feature/*, hotfix/*
 "}}
-BF("Manage PR")
-BG{{"PULL REQUEST
+BC("Manage PR")
+BD{{"PULL REQUEST
 Types: auto_merge_disabled, auto_merge_enabled, labeled, opened, ready_for_review, reopened, synchronize, unlabeled
 "}}
-BK("Manage Repo Labels")
-BL{{"PUSH
+BH("Manage Repo Labels")
+BI{{"PUSH
 Branches: main
 Paths: .github/repo_labels.yml, .github/workflows/manage_repo_labels.yml
 "}}
-BO("Auto-Update PRs")
-BP{{"PULL REQUEST
+BL("Auto-Update PRs")
+BM{{"PULL REQUEST
 Types: labeled
 "}}
-BS("PR Cleanup")
-BT{{"PULL REQUEST
+BP("PR Cleanup")
+BQ{{"PULL REQUEST
 Types: closed
 "}}
-BV("Set PR Auto Merge")
-BW{{"PULL REQUEST
+BS("Set PR Auto Merge")
+BT{{"PULL REQUEST
 Types: opened, ready_for_review
 "}}
-BZ("ESLint")
-CB{{"PULL REQUEST
+BW("ESLint")
+BY{{"PULL REQUEST
 Types: opened, reopened, synchronize
 "}}
-CD("Validate Home Assistant Config")
-CI("Run SonarCloud Scan")
-CM("CI")
-CO{{"PULL REQUEST
+CA("Validate Home Assistant Config")
+CF("Run SonarCloud Scan")
+CJ("CI")
+CL{{"PULL REQUEST
 Branches: main
 Types: opened, reopened, synchronize
 "}}
-CP{{"PUSH
+CM{{"PUSH
 Branches: main
 "}}
 D[["Build & Deploy"]]

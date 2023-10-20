@@ -8,12 +8,10 @@ on:
         description: The branch to build from
         required: false
         type: string
-        default: 'null'
       build-type:
         description: The type of build to perform ("python", "node")
         required: false
         type: string
-        default: 'null'
       event-name:
         description: Name of the event which triggered the workflow
         required: true
@@ -40,8 +38,8 @@ on:
       unit-test:
         description: Whether to run unit tests
         required: false
-        type: boolean
-        default: false
+        type: string
+        default: 'false'
       update-json-file-path:
         description: The path to a JSON file containing a `version` top level key
         required: false
@@ -49,8 +47,8 @@ on:
       update-pyproject-toml:
         description: Update the pyproject.toml version
         required: false
-        default: true
-        type: boolean
+        type: string
+        default: 'true'
       update-yaml-file-path:
         description: The path to a YAML file containing a `version` variable
         required: false
@@ -91,7 +89,7 @@ jobs:
 
   test-and-scan:
     name: Test and Scan
-    if: inputs.build-type == 'python' && inputs.unit-test
+    if: inputs.build-type == 'python' && inputs.unit-test == 'true'
     uses: ./.github/workflows/__test_and_scan.yml
     with:
       python-version: ${{ inputs.python-version }}
@@ -199,7 +197,7 @@ jobs:
         # yamllint enable rule:line-length
 
       - name: Update `pyproject.toml` Version
-        if: inputs.update-pyproject-toml
+        if: inputs.update-pyproject-toml == 'true'
         # yamllint disable rule:line-length
         run: |
           sed -i "s/^version = .*/version = \"$TAG\"/" pyproject.toml
