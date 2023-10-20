@@ -5,14 +5,6 @@ name: '"Manage PR Labels" Runner'
 on:
   workflow_call:
     inputs:
-      base-ref:
-        description: The base branch's name (target branch)
-        required: true
-        type: string
-      event-action:
-        description: The event action
-        required: true
-        type: string
       head-ref:
         description: The head branch's name (source branch)
         required: true
@@ -26,134 +18,80 @@ on:
         required: true
         type: number
 
+env:
+  ADD_LABELS: ''
+  REMOVE_LABELS: github_actions # Dependabot adds this, it's always going to be removed
+
 jobs:
-  log-inputs:
-    name: Log Inputs
+  set-labels:
+    name: Set Labels
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
     steps:
       - name: Log Inputs
         if: runner.debug == '1'
         env:
           INPUTS: ${{ toJson(inputs) }}
         run: |
-          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "${GITHUB_STEP_SUMMARY}"
 
-  set-labels:
-    name: Set Non-Release Labels
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    steps:
-      - uses: srvaroa/labeler@v1.6.3
-        env:
-          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-
-  set-release-label:
-    name: Set Release Label
-    runs-on: ubuntu-latest
-    # This dependency is just to ensure that the jobs don't interfere with each other
-    needs: set-labels
-    if: inputs.base-ref == 'main' && startsWith(inputs.head-ref, 'release/')
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-
-      - name: Get Previous Tag
-        id: get-previous-tag
-        uses: WyriHaximus/github-action-get-previous-tag@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-        with:
-          fallback: 0.0.0
-
-      - name: Derive Label
-        id: derive-label
-        # yamllint disable rule:line-length
+      - name: Clean Dependabot Labels
+        if: inputs.pr-author == 'dependabot[bot]'
         run: |
-          new_release_number=$(echo $GITHUB_HEAD_REF | cut -d '/' -f2)
-          latest_release=${{ steps.get-previous-tag.outputs.tag }}
-
-          if ! [[ $new_release_number =~ ^[0-9]{1,2}\.[0-9]{1,4}\.[0-9]{1,4}$ ]]
-          then
-              echo "Release number is invalid: \`$new_release_number\`" >> "$GITHUB_STEP_SUMMARY"
-              exit 1
-          else
-            echo "new-release-number=$new_release_number" >> "$GITHUB_OUTPUT"
-            echo "latest-release=$latest_release" >> "$GITHUB_OUTPUT"
-          fi
-
-          if [ "${new_release_number%%.*}" != "${latest_release%%.*}" ]
-          then
-              echo "release-label=major" >> "$GITHUB_OUTPUT"
-          elif [ $( cut -d '.' -f2 <<< $new_release_number) != $( cut -d '.' -f2 <<< $latest_release ) ]
-          then
-            echo "release-label=minor" >> "$GITHUB_OUTPUT"
-          elif [ "${new_release_number##*.}" != "${latest_release##*.}" ]
-          then
-            echo "release-label=patch" >> "$GITHUB_OUTPUT"
-          else
-              echo "new_release_number is \`$new_release_number\`" >> "$GITHUB_STEP_SUMMARY"
-              echo "latest_release is \`$latest_release\`" >> "$GITHUB_STEP_SUMMARY"
-              exit 1
-          fi
-        # yamllint enable rule:line-length
-
-      - name: Apply Label
-        run: |
-          gh pr edit ${{ inputs.pr-number }} \
-            --add-label "${{ steps.derive-label.outputs.release-label}},release"
-        env:
-          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-
-      - name: Summarise
-        # yamllint disable rule:line-length
-        run: |
-          echo "# :label: Release Label Info" >> "$GITHUB_STEP_SUMMARY"
-          echo "Release Number (derived from branch): \`${{ steps.derive-label.outputs.new-release-number }}\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "Previous Release (latest tag):  \`${{ steps.derive-label.outputs.latest-release }}\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "Release label is \`${{ steps.derive-label.outputs.release-label }}\`" >> "$GITHUB_STEP_SUMMARY"
-        # yamllint enable rule:line-length
-
-  clean-dependabot-labels:
-    name: Clean Dependabot Labels
-    runs-on: ubuntu-latest
-    needs: set-labels
-    if: inputs.pr-author == 'dependabot[bot]'
-    permissions:
-      pull-requests: write
-    env:
-      GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-
-      - name: Remove major/minor/patch Labels
-        run: |
-          labels_to_remove=("major" "minor" "patch" "github_actions")
+          labels_to_remove=("major" "minor" "patch")
 
           pr_labels=$(
-            gh pr view ${{ inputs.pr-number }} --json labels | jq -r '.labels[].name'
+            gh pr view ${{ inputs.pr-number }} \
+              --repo ${{ github.repository }} \
+              --json labels \
+              --jq '.labels[].name'
           )
 
           for label in "${labels_to_remove[@]}"; do
-          if echo "$pr_labels" | grep -q "$label"; then
-              echo -e "Removing \`$label\`" >> "$GITHUB_STEP_SUMMARY"
-              gh pr edit ${{ inputs.pr-number }} --remove-label "$label"
-          fi
+            if echo "$pr_labels" | grep -q "$label"; then
+                echo -e "Removing \`$label\`" >> "${GITHUB_STEP_SUMMARY}"
+                echo "REMOVE_LABELS=${{ env.REMOVE_LABELS }},$label" >> "${GITHUB_ENV}"
+            fi
           done
+
+      - name: Check Auto-Merge Status
+        id: check-auto-merge-status
+        # yamllint disable rule:line-length
+        run: |
+          auto_merge_status=$(
+            gh pr view ${{ inputs.pr-number }} \
+              --repo ${{ github.repository }} \
+              --json autoMergeRequest \
+              --jq '.autoMergeRequest'
+          )
+
+          if [[ -n "${auto_merge_status}" ]]; then
+              echo "ADD_LABELS=${{ env.ADD_LABELS }},bot:keep-updated" >> "${GITHUB_ENV}"
+          else
+              echo "REMOVE_LABELS=${{ env.REMOVE_LABELS }},bot:keep-updated" >> "${GITHUB_ENV}"
+          fi
+        # yamllint enable rule:line-length
+
+      - name: Auto-Label
+        uses: srvaroa/labeler@v1.6.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+
+      - name: Add/Remove Labels
+        env:
+          ADD_ARG: ${{ env.ADD_LABELS && '--add-label "${ADD_LABELS}"' || '' }}
+        run: |
+          gh pr edit ${{ inputs.pr-number }} \
+            --repo ${{ github.repository }} \
+            --remove-label ${{ env.REMOVE_LABELS }} \
+            $ADD_ARG
 
   validate-semver-label:
     name: Validate SemVer Label
     runs-on: ubuntu-latest
-    needs: set-labels
     steps:
       - name: Validate SemVer Label
         env:
@@ -161,48 +99,17 @@ jobs:
           REQUIRED_LABELS: bug,dependencies,hotfix,major,minor,non-functional,patch,sync
         # yamllint disable rule:line-length
         run: |
-          labels=$(gh pr view ${{ inputs.pr-number }} --repo ${{ github.repository }} --json labels | jq -r '.labels[].name')
+          labels=$(
+            gh pr view ${{ inputs.pr-number }} \
+              --repo ${{ github.repository }} \
+              --json labels \
+              --jq '.labels[].name'
+          )
 
           if ! echo "$labels" | grep -qE "$(echo $REQUIRED_LABELS | tr ',' '|')"; then
-            echo "No SemVer label found." >> "$GITHUB_STEP_SUMMARY"
-            echo -e "Please add one of the following labels: \`$REQUIRED_LABELS\`" >> "$GITHUB_STEP_SUMMARY"
-            echo -e "Found: \`$labels\`" >> "$GITHUB_STEP_SUMMARY"
+            echo "No SemVer label found." >> "${GITHUB_STEP_SUMMARY}"
+            echo -e "Please add one of the following labels: \`$REQUIRED_LABELS\`" >> "${GITHUB_STEP_SUMMARY}"
+            echo -e "Found: \`$labels\`" >> "${GITHUB_STEP_SUMMARY}"
             exit 1
           fi
         # yamllint enable rule:line-length
-
-  edit-keep-updated-label:
-    name: Edit `bot:keep-updated` label
-    needs:
-      - set-labels
-      - clean-dependabot-labels
-    if: |
-      always() && !cancelled() &&
-      startsWith(inputs.event-action, 'auto_merge_') &&
-      !startsWith(inputs.head-ref, 'release/') &&
-      needs.set-labels.result == 'success' &&
-      (
-        needs.clean-dependabot-labels.result == 'success' ||
-        needs.clean-dependabot-labels.result == 'skipped'
-      )
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-
-      - name: |
-          ${{
-            inputs.event-action == 'auto_merge_enabled' && 'Add' ||
-            'Remove'
-          }} label
-        run: |
-          gh pr edit ${{ inputs.pr-number }} \
-            --${{
-              inputs.event-action == 'auto_merge_enabled' && 'add' || 'remove'
-            }}-label "bot:keep-updated" || :
-        env:
-          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
