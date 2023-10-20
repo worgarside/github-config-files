@@ -22,18 +22,25 @@ on:
       - main
 
 jobs:
-  ci:
-    name: CI
-    permissions:
-      id-token: write
-    uses: worgarside/github-config-files/.github/workflows/__ci.yml@main
+  ci-validation:
+    name: 'CI: Validation'
+    uses: ./.github/workflows/__ci_validation.yml
     with:
-      # Context Variables
       build-branch: '{{ build_branch }}'
-      event-name: '{{ event_name }}'
-      workflow-dispatch-env: '{{ workflow_dispatch_env }}'
-      # Templated Variables
       build-type: '{{ build_type }}'
+      python-version: '{{ python_version }}'
+      unit-test: '{{ unit_test }}'
+    secrets: inherit
+
+  ci-deployment:
+    name: 'CI: Deployment'
+    needs: ci-validation
+    if: github.event_name == 'push' || inputs.environment == 'production'
+    uses: ./.github/workflows/__ci_deployment.yml
+    with:
+      build-branch: '{{ build_branch }}'
+      build-type: '{{ build_type }}'
+      event-name: '{{ event_name }}'
       node-build-directory: '{{ node_build_directory }}'
       path-to-__version__-file: '{{ path_to___version___file }}'
       python-version: '{{ python_version }}'
@@ -41,4 +48,5 @@ jobs:
       update-pyproject-toml: '{{ update_pyproject_toml }}'
       update-json-file-path: '{{ update_json_file_path }}'
       update-yaml-file-path: '{{ update_yaml_file_path }}'
+      workflow-dispatch-env: '{{ workflow_dispatch_env }}'
     secrets: inherit
