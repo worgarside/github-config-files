@@ -40,6 +40,8 @@ jobs:
     name: Run SonarCloud Scan
     needs:
       - test-and-scan
+    if: |
+      always() && !failure()
     uses: ./.github/workflows/__sonarcloud.yml
     with:
       branch: ${{ inputs.build-branch }}
