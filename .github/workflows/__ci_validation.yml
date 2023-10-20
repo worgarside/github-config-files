@@ -1,0 +1,47 @@
+---
+name: '"CI: Validation" Runner'
+
+on:
+  workflow_call:
+    inputs:
+      build-branch:
+        description: The branch to build from
+        required: false
+        type: string
+      build-type:
+        description: The type of build to perform ("python", "node")
+        required: false
+        type: string
+      python-version:
+        description: The Python version to build with
+        required: false
+        type: string
+        default: '3.11'
+      unit-test:
+        description: Whether to run unit tests
+        required: false
+        type: string
+        default: 'false'
+
+jobs:
+  actionlint:
+    name: Lint GitHub Actions Workflows
+    uses: ./.github/workflows/__actionlint.yml
+
+  test-and-scan:
+    name: Test and Scan
+    if: inputs.build-type == 'python' && inputs.unit-test == 'true'
+    uses: ./.github/workflows/__test_and_scan.yml
+    with:
+      python-version: ${{ inputs.python-version }}
+      test-branch: ${{ inputs.build-branch }}
+
+  run-sonarcloud-scan:
+    name: Run SonarCloud Scan
+    needs:
+      - test-and-scan
+    uses: ./.github/workflows/__sonarcloud.yml
+    with:
+      branch: ${{ inputs.build-branch }}
+      coverage-artifact: coverage-report-${{ github.run_id}}
+    secrets: inherit

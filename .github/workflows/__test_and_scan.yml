@@ -71,7 +71,7 @@ jobs:
         if: matrix.python-version == inputs.python-version
         uses: actions/upload-artifact@v3
         with:
-          name: coverage-report
+          name: coverage-report-${{ github.run_id}}
           path: ./coverage.xml
 
       - name: Upload coverage to Codecov
@@ -87,12 +87,3 @@ jobs:
       - name: Check on UT failures
         if: steps.unit_tests.outcome != 'success'
         run: exit 1
-
-  run-sonarcloud-scan:
-    name: Run SonarCloud Scan
-    needs: test
-    uses: ./.github/workflows/__sonarcloud.yml
-    with:
-      branch: ${{ inputs.test-branch }}
-      coverage-artifact: coverage-report
-    secrets: inherit

@@ -13,8 +13,6 @@ on:
           - development
           - production
   pull_request:
-    branches:
-      - main
     types:
       - opened
       - reopened
@@ -33,7 +31,6 @@ jobs:
       # Context Variables
       build-branch: '{{ build_branch }}'
       event-name: '{{ event_name }}'
-      pr-merged: '{{ pr_merged }}'
       workflow-dispatch-env: '{{ workflow_dispatch_env }}'
       # Templated Variables
       build-type: '{{ build_type }}'
