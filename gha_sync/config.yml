@@ -102,7 +102,6 @@ group:
         template:
           build_branch: ${{ github.ref }}
           event_name: ${{ github.event_name }}
-          pr_merged: ${{ github.event.pull_request.merged }}
           workflow_dispatch_env: ${{ inputs.environment }}
           build_type: python
           python_version: '3.11'
