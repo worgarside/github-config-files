@@ -369,8 +369,8 @@ CK-->CH
 CH-->K
 CH-->R
 R-->A
-R-->AV
 R-->AY
+R-->AV
 end
 subgraph CO[" "]
 direction LR
