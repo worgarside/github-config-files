@@ -96,6 +96,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       always() &&
+      inputs.event-name != 'pull_request' &&
       (
         needs.test-and-scan.result == 'success' ||
         needs.test-and-scan.result == 'skipped'
@@ -120,13 +121,22 @@ jobs:
 
   run-development-build:
     name: Run Development Build
-    if: inputs.build-type != 'null'
+    if: |
+      always() &&
+      inputs.build-type != 'null' &&
+      needs.draft-release.result == 'success' &&
+      (
+        needs.test-and-scan.result == 'success' ||
+        needs.test-and-scan.result == 'skipped'
+      )
     needs:
       - draft-release
+      - test-and-scan
     uses: ./.github/workflows/__build_and_deploy.yml
     with:
       build-branch: ${{ inputs.build-branch }}
       build-type: ${{ inputs.build-type }}
+      deploy: ${{ inputs.event-name != 'pull_request' }}
       environment: development
       node-build-directory: ${{ inputs.node-build-directory }}
       python-version: ${{ inputs.python-version }}
@@ -150,6 +160,7 @@ jobs:
     with:
       build-branch: ${{ inputs.build-branch }}
       build-type: ${{ inputs.build-type }}
+      deploy: true
       environment: production
       node-build-directory: ${{ inputs.node-build-directory }}
       python-version: ${{ inputs.python-version }}
