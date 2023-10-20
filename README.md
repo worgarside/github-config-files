@@ -451,8 +451,8 @@ BP-->BO
 BO-->X
 CU-->CT
 CT-->AW
-AW-->AB
 AW-->X
+AW-->AB
 end
 A[["actionlint"]]
 AB[["Get Release Tag"]]
