@@ -20,7 +20,7 @@ on:
 
 env:
   ADD_LABELS: ''
-  REMOVE_LABELS: github_actions # Dependabot adds this, it's always going to be removed
+  REMOVE_LABELS: ''
 
 jobs:
   set-labels:
@@ -41,7 +41,7 @@ jobs:
       - name: Clean Dependabot Labels
         if: inputs.pr-author == 'dependabot[bot]'
         run: |
-          labels_to_remove=("major" "minor" "patch")
+          labels_to_remove=("major" "minor" "patch" "github_actions")
 
           pr_labels=$(
             gh pr view ${{ inputs.pr-number }} \
@@ -81,13 +81,28 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Add/Remove Labels
-        env:
-          ADD_ARG: ${{ env.ADD_LABELS && '--add-label "${ADD_LABELS}"' || '' }}
+        if: env.ADD_LABELS || env.REMOVE_LABELS
+        # yamllint disable rule:line-length
         run: |
+          if [[ -n "$ADD_LABELS" ]]; then
+            ADD_ARG="--add-label ${ADD_LABELS#,}"
+          else
+            ADD_ARG=""
+          fi
+
+          if [[ -n "$REMOVE_LABELS" ]]; then
+            REMOVE_ARG="--remove-label ${REMOVE_LABELS#,}"
+          else
+            REMOVE_ARG=""
+          fi
+
+          echo -e "\`gh pr edit ${{ inputs.pr-number }} --repo ${{ github.repository }} $ADD_ARG $REMOVE_ARG\`" >> "${GITHUB_STEP_SUMMARY}"
+
           gh pr edit ${{ inputs.pr-number }} \
             --repo ${{ github.repository }} \
-            --remove-label ${{ env.REMOVE_LABELS }} \
-            $ADD_ARG
+            $ADD_ARG \
+            $REMOVE_ARG
+        # yamllint enable rule:line-length
 
   validate-semver-label:
     name: Validate SemVer Label

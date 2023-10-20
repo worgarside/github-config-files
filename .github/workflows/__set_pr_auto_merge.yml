@@ -6,8 +6,8 @@ on:
   workflow_call:
     inputs:
       head-ref:
-        # yamllint disable-line rule:line-length
-        description: "The head branch's name (source branch): `github.event.pull_request.head.ref`"
+        description: >
+          The head branch's name (source branch): `github.event.pull_request.head.ref`
         required: true
         type: string
       pr-html-url:
