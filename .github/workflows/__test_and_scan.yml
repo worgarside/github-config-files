@@ -37,7 +37,7 @@ jobs:
           ref: ${{ inputs.test-branch }}
 
       - name: Load cached .local
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.local
           key: dotlocal-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
@@ -50,7 +50,7 @@ jobs:
 
       - name: Load Cached Venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
