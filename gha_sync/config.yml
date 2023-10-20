@@ -124,8 +124,8 @@ group:
           pr_merged: ${{ github.event.pull_request.merged }}
           workflow_dispatch_env: ${{ inputs.environment }}
           build_type: python
-          python_version: 3.11
-          update_pyproject_toml: true
+          python_version: '3.11'
+          update_pyproject_toml: 'true'
     repos: |
       worgarside/home-assistant
       worgarside/home-assistant-appdaemon
@@ -147,7 +147,7 @@ worgarside/addon-item-warehouse-api:
       workflow_dispatch_env: ${{ inputs.environment }}
       build_type: python
       python_version: 3.11
-      update_pyproject_toml: true
+      update_pyproject_toml: 'true'
       update_yaml_file_path: item_warehouse_api/config.yaml
 
 worgarside/addon-item-warehouse-website:
@@ -162,7 +162,7 @@ worgarside/addon-item-warehouse-website:
       workflow_dispatch_env: ${{ inputs.environment }}
       build_type: node
       node_build_directory: item_warehouse_website
-      update_pyproject_toml: false
+      update_pyproject_toml: 'false'
       update_json_file_path: item_warehouse_website/package.json
       update_yaml_file_path: item_warehouse_website/config.yaml
 
@@ -175,8 +175,8 @@ worgarside/addon-yas-209-bridge:
       pr_merged: ${{ github.event.pull_request.merged }}
       workflow_dispatch_env: ${{ inputs.environment }}
       build_type: python
-      python_version: 3.11
-      update_pyproject_toml: true
+      python_version: '3.11'
+      update_pyproject_toml: 'true'
       update_yaml_file_path: yas_209_bridge/config.yaml
 
 worgarside/home-assistant:
@@ -193,6 +193,6 @@ worgarside/wg-utilities:
       workflow_dispatch_env: ${{ inputs.environment }}
       build_type: python
       path_to___version___file: wg_utilities/__init__.py
-      python_version: 3.11
-      unit_test: true
-      update_pyproject_toml: true
+      python_version: '3.11'
+      unit_test: 'true'
+      update_pyproject_toml: 'true'
