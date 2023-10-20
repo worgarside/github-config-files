@@ -54,22 +54,6 @@ on:
         type: string
 
 jobs:
-  set-env:
-    name: Set Environment
-    runs-on: ubuntu-latest
-    outputs:
-      environment: ${{ steps.set-env.outputs.environment }}
-    steps:
-      - id: set-env
-        run: |
-          if [[ "${{ inputs.event-name }}" == "workflow_dispatch" ]]; then
-            echo "environment=${{ inputs.workflow-dispatch-env }}" >> "${GITHUB_OUTPUT}"
-          elif [[ "${{ inputs.event-name }}" == "pull_request" ]]; then
-            echo "environment=development" >> "${GITHUB_OUTPUT}"
-          elif [[ "${{ inputs.event-name }}" == "push" ]]; then
-            echo "environment=production" >> "${GITHUB_OUTPUT}"
-          fi
-
   draft-release:
     name: Draft Release
     runs-on: ubuntu-latest
@@ -112,15 +96,10 @@ jobs:
     name: Run Production Build
     if: |
       always() && !failure() &&
-      inputs.build-type != 'null' &&
-      needs.set-env.outputs.environment == 'production' && (
-        needs.run-development-build.result == 'success' ||
-        needs.run-development-build.result == 'skipped'
-      )
+      inputs.build-type != 'null'
     needs:
       - draft-release
       - run-development-build
-      - set-env
     uses: ./.github/workflows/__build_and_deploy.yml
     with:
       build-branch: ${{ inputs.build-branch }}
@@ -136,15 +115,10 @@ jobs:
     name: Publish Release
     runs-on: ubuntu-latest
     if: |
-      always() && !failure() &&
-      needs.set-env.outputs.environment == 'production' && (
-        needs.run-production-build.result == 'success' ||
-        needs.run-production-build.result == 'skipped'
-      )
+      always() && !failure()
     needs:
       - draft-release
       - run-production-build
-      - set-env
     environment: production
     env:
       GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
