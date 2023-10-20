@@ -58,10 +58,6 @@ on:
         required: false
         type: string
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   set-env:
     name: Set Environment
@@ -106,8 +102,6 @@ jobs:
       )
     needs:
       - test-and-scan
-    permissions:
-      contents: write
     outputs:
       release-draft-url: ${{ steps.draft-release.outputs.html_url }}
       release-tag: ${{ steps.draft-release.outputs.tag_name }}
@@ -176,8 +170,6 @@ jobs:
       - run-production-build
       - set-env
     environment: production
-    permissions:
-      contents: write
     env:
       GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
