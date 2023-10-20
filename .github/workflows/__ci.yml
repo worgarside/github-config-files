@@ -58,10 +58,6 @@ on:
         required: false
         type: string
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   set-env:
     name: Set Environment
