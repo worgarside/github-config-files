@@ -26,25 +26,6 @@ group:
       worgarside/wg-scripts
       worgarside/wg-utilities
 
-  # This is every repo apart from `wg-utilities` (Runs SonarCloud after UTs)
-  - files:
-      - source: gha_sync/workflows/run_sonarcloud_scan.yml
-        dest: .github/workflows/run_sonarcloud_scan.yml
-    repos: |
-      worgarside/addon-item-warehouse-api
-      worgarside/addon-item-warehouse-website
-      worgarside/addon-yas-209-bridge
-      worgarside/home-assistant
-      worgarside/home-assistant-appdaemon
-      worgarside/home-assistant-config-validator
-      worgarside/led-matrix-now-playing
-      worgarside/plant-monitor
-      worgarside/pre-commit-hooks-dependency-sync
-      worgarside/python-template
-      worgarside/smart-mini-crt-interface
-      worgarside/very-slow-movie-player
-      worgarside/wg-scripts
-
   # This is every repo apart from `addon-item-warehouse-website` (Doesn't use Pylint)
   - files:
       - .pylintrc
