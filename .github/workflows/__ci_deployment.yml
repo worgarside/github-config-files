@@ -92,7 +92,7 @@ jobs:
   run-development-build:
     name: Run Development Build
     if: |
-      always() &&
+      always() && !failure() &&
       inputs.build-type != 'null' &&
       needs.draft-release.result == 'success'
     needs:
@@ -111,7 +111,7 @@ jobs:
   run-production-build:
     name: Run Production Build
     if: |
-      always() &&
+      always() && !failure() &&
       inputs.build-type != 'null' &&
       needs.set-env.outputs.environment == 'production' && (
         needs.run-development-build.result == 'success' ||
@@ -136,7 +136,7 @@ jobs:
     name: Publish Release
     runs-on: ubuntu-latest
     if: |
-      always() &&
+      always() && !failure() &&
       needs.set-env.outputs.environment == 'production' && (
         needs.run-production-build.result == 'success' ||
         needs.run-production-build.result == 'skipped'

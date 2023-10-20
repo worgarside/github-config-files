@@ -146,7 +146,7 @@ jobs:
       - build-python
       - build-node
     if: |
-      always() &&
+      always() && !failure() &&
       (
         needs.build-python.result == 'success' ||
         needs.build-node.result == 'success'
@@ -178,7 +178,7 @@ jobs:
     name: Deploy to PyPi
     environment: ${{ inputs.environment }}
     if: |
-      always() &&
+      always() && !failure() &&
       inputs.deploy &&
       needs.add-artifacts-to-release-notes.result == 'success' &&
       needs.build-python.result == 'success'
