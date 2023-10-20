@@ -60,7 +60,6 @@ on:
         required: false
         type: string
 
-
 permissions:
   contents: write
   pull-requests: write
@@ -77,7 +76,6 @@ jobs:
       environment: ${{ steps.set-env.outputs.environment }}
     steps:
       - id: set-env
-        # yamllint disable rule:line-length
         run: |
           if [[ "${{ inputs.event-name }}" == "workflow_dispatch" ]]; then
             echo "environment=${{ inputs.workflow-dispatch-env }}" >> "${GITHUB_OUTPUT}"
@@ -86,7 +84,6 @@ jobs:
           elif [[ "${{ inputs.event-name }}" == "push" ]]; then
             echo "environment=production" >> "${GITHUB_OUTPUT}"
           fi
-        # yamllint enable rule:line-length
 
   actionlint:
     name: Lint GitHUb Actions Workflows

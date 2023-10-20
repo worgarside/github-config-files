@@ -31,13 +31,13 @@ jobs:
       # Context Variables
       build-branch: '{{ build_branch }}'
       event-name: '{{ event_name }}'
-      python-version: '{{ python_version }}'
+      pr-merged: '{{ pr_merged }}'
       workflow-dispatch-env: '{{ workflow_dispatch_env }}'
       # Templated Variables
       build-type: '{{ build_type }}'
       node-build-directory: '{{ node_build_directory }}'
       path-to-__version__-file: '{{ path_to___version___file }}'
-      pr-merged: '{{ pr_merged }}'
+      python-version: '{{ python_version }}'
       unit-test: '{{ unit_test }}'
       update-pyproject-toml: '{{ update_pyproject_toml }}'
       update-json-file-path: '{{ update_json_file_path }}'

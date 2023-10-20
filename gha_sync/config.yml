@@ -65,7 +65,7 @@ group:
 
   # No Custom Labels
   # The only exclusion is `home-assistant`, which has its own repo_labels.yml:
-  # https://github.com/worgarside/home-assistant/blob/develop/.github/repo_labels.yml
+  # https://github.com/worgarside/home-assistant/blob/main/.github/repo_labels.yml
   - files:
       - .github/labeler.yml
       - .github/repo_labels.yml
@@ -122,6 +122,7 @@ group:
           build_branch: ${{ github.ref }}
           event_name: ${{ github.event_name }}
           pr_merged: ${{ github.event.pull_request.merged }}
+          workflow_dispatch_env: ${{ inputs.environment }}
           build_type: python
           python_version: 3.11
           update_pyproject_toml: true
@@ -143,6 +144,7 @@ worgarside/addon-item-warehouse-api:
       build_branch: ${{ github.ref }}
       event_name: ${{ github.event_name }}
       pr_merged: ${{ github.event.pull_request.merged }}
+      workflow_dispatch_env: ${{ inputs.environment }}
       build_type: python
       python_version: 3.11
       update_pyproject_toml: true
@@ -157,6 +159,7 @@ worgarside/addon-item-warehouse-website:
       build_branch: ${{ github.ref }}
       event_name: ${{ github.event_name }}
       pr_merged: ${{ github.event.pull_request.merged }}
+      workflow_dispatch_env: ${{ inputs.environment }}
       build_type: node
       node_build_directory: item_warehouse_website
       update_pyproject_toml: false
@@ -170,6 +173,7 @@ worgarside/addon-yas-209-bridge:
       build_branch: ${{ github.ref }}
       event_name: ${{ github.event_name }}
       pr_merged: ${{ github.event.pull_request.merged }}
+      workflow_dispatch_env: ${{ inputs.environment }}
       build_type: python
       python_version: 3.11
       update_pyproject_toml: true
