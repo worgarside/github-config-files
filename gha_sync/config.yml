@@ -10,6 +10,8 @@ group:
       - source: gha_sync/workflows/all
         dest: .github/workflows/
         deleteOrphaned: true
+      - source: gha_sync/configs/release-drafter.yml
+        dest: .github/release-drafter.yml
     repos: |
       worgarside/addon-item-warehouse-api
       worgarside/addon-item-warehouse-website
@@ -81,19 +83,6 @@ group:
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
 
-  # Release Notes Template
-  - files:
-      - source: gha_sync/configs/release-drafter.yml
-        dest: .github/release-drafter.yml
-    repos: |
-      worgarside/addon-item-warehouse-api
-      worgarside/addon-item-warehouse-website
-      worgarside/addon-yas-209-bridge
-      worgarside/home-assistant
-      worgarside/home-assistant-appdaemon
-      worgarside/home-assistant-config-validator
-      worgarside/pre-commit-hooks-dependency-sync
-      worgarside/wg-utilities
 
   # Standard release with version bump in pyproject.toml
   - files:
