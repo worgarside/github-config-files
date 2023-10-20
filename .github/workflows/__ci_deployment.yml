@@ -44,6 +44,10 @@ on:
         description: The path to a YAML file containing a `version` variable
         required: false
         type: string
+    outputs:
+      release-tag:
+        description: The tag of the published release
+        value: ${{ jobs.publish-release.outputs.release-tag }}
 
 jobs:
   draft-release:
@@ -65,61 +69,36 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
-  run-development-build:
-    name: Run Development Build
+  deploy-to-development:
+    name: Deploy to Development
     if: |
       always() && !failure() &&
       inputs.build-type != 'null' &&
       needs.draft-release.result == 'success'
-    needs:
-      - draft-release
-    uses: ./.github/workflows/__build_and_deploy.yml
+    needs: draft-release
+    uses: ./.github/workflows/__deploy.yml
     with:
-      build-branch: ${{ inputs.build-branch }}
-      build-type: ${{ inputs.build-type }}
-      deploy: true
+      deploy-type: ${{ inputs.build-type }}
       environment: development
-      node-build-directory: ${{ inputs.node-build-directory }}
-      python-version: ${{ inputs.python-version }}
-      release-tag: ${{ needs.draft-release.outputs.release-tag }}
-    secrets: inherit
-
-  run-production-build:
-    name: Run Production Build
-    if: |
-      always() && !failure() &&
-      inputs.build-type != 'null'
-    needs:
-      - draft-release
-      - run-development-build
-    uses: ./.github/workflows/__build_and_deploy.yml
-    with:
-      build-branch: ${{ inputs.build-branch }}
-      build-type: ${{ inputs.build-type }}
-      deploy: true
-      environment: production
-      node-build-directory: ${{ inputs.node-build-directory }}
-      python-version: ${{ inputs.python-version }}
       release-tag: ${{ needs.draft-release.outputs.release-tag }}
     secrets: inherit
 
   publish-release:
     name: Publish Release
     runs-on: ubuntu-latest
-    if: |
-      always() && !failure()
-    needs:
-      - draft-release
-      - run-production-build
+    needs: deploy-to-development
     environment: production
     env:
       GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-      TAG: ${{ needs.draft-release.outputs.release-tag }}
+      TAG: ${{ needs.deploy-to-development.outputs.release-tag }}
+    outputs:
+      release-tag: ${{ needs.deploy-to-development.outputs.release-tag }}
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4
         with:
+          ref: main
           token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Update `${{ inputs.path-to-__version__-file }}` __version__
@@ -128,26 +107,21 @@ jobs:
         run: |
           sed -i "s/^__version__ = .*/__version__ = \"$TAG\"/" ${{ inputs.path-to-__version__-file }}
           git add ${{ inputs.path-to-__version__-file }}
-         # yamllint enable rule:line-length
 
       - name: Update `pyproject.toml` Version
         if: inputs.update-pyproject-toml == 'true'
-          # yamllint disable rule:line-length
         run: |
           sed -i "s/^version = .*/version = \"$TAG\"/" pyproject.toml
           git add pyproject.toml
-         # yamllint enable rule:line-length
 
       - name: Update `${{ inputs.update-json-file-path }}` Version
         if: inputs.update-json-file-path
-          # yamllint disable rule:line-length
         run: |
           sed -i "s/^  \"version\": \".*\",/  \"version\": \"$TAG\",/" ${{ inputs.update-json-file-path }}
           git add ${{ inputs.update-json-file-path }}
 
       - name: Update `${{ inputs.update-yaml-file-path }}` Version
         if: inputs.update-yaml-file-path
-          # yamllint disable rule:line-length
         run: |
           sed -i "s/^version: .*/version: $TAG/" ${{ inputs.update-yaml-file-path }}
           git add ${{ inputs.update-yaml-file-path }}
@@ -158,11 +132,35 @@ jobs:
           git commit -m "${TAG}" --allow-empty
 
       - name: Push Branch
-        run: |
-          git push origin main
+        run: git push origin main
 
-      - name: Publish Release Notes
-        run: |
-          gh release edit ${{ needs.draft-release.outputs.release-tag }} \
-            --draft=false \
-            --repo ${{ github.repository }}
+  run-production-build:
+    name: Run Production Build
+    if: |
+      always() && !failure() &&
+      inputs.build-type != 'null'
+    needs:
+      - publish-release
+    uses: ./.github/workflows/__build.yml
+    with:
+      build-branch: ${{ inputs.build-branch }}
+      build-type: ${{ inputs.build-type }}
+      environment: production
+      node-build-directory: ${{ inputs.node-build-directory }}
+      python-version: ${{ inputs.python-version }}
+      release-tag: ${{ needs.publish-release.outputs.release-tag }}
+    secrets: inherit
+
+  deploy-to-production:
+    name: Deploy to Production
+    if: |
+      always() && !failure() &&
+      needs.run-production-build.result == 'success'
+    needs:
+      - run-production-build
+    uses: ./.github/workflows/__deploy.yml
+    with:
+      deploy-type: ${{ inputs.build-type }}
+      environment: development
+      release-tag: ${{ needs.run-production-build.outputs.release-tag }}
+    secrets: inherit

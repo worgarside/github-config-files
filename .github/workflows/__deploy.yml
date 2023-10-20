@@ -1,0 +1,99 @@
+---
+name: '"Deploy" Runner'
+
+on:
+  workflow_call:
+    inputs:
+      deploy-type:
+        description: Where to deploy to
+        required: true
+        type: string
+      environment:
+        description: The environment to deploy to
+        required: true
+        type: string
+      release-tag:
+        description: The tag of the release to add the artifacts to
+        required: true
+        type: string
+    outputs:
+      release-tag:
+        description: The tag of the release being deployed
+        value: ${{ inputs.release-tag }}
+
+jobs:
+  log-inputs:
+    name: Log Inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Inputs
+        if: runner.debug == '1'
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: |
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+
+  add-artifacts-to-release-notes:
+    name: Add Artifacts to Release Notes
+    runs-on: ubuntu-latest
+    if: inputs.release-tag != 'NULL'
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact-${{ inputs.environment }}
+          path: dist/
+
+      - name: Upload Artifacts
+        run: |
+          gh release upload ${{ inputs.release-tag }} dist/* \
+          --clobber \
+          --repo ${{ github.repository }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+
+      - name: Summarise Environment
+        # yamllint disable rule:line-length
+        run: |
+          echo -e "Environment:  \`${{ inputs.environment }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo -e "Release Tag:  \`${{ inputs.release-tag }}\`" >> "$GITHUB_STEP_SUMMARY"
+        # yamllint enable rule:line-length
+
+      - name: Publish Release Notes
+        if: inputs.environment == 'production' && inputs.deploy-type != 'python'
+        run: |
+          gh release edit ${{ inputs.release-tag }} \
+            --draft=false \
+            --repo ${{ github.repository }}
+
+  deploy-to-pypi:
+    name: Deploy to PyPi
+    environment: ${{ inputs.environment }}
+    if: |
+      always() && !failure() &&
+      needs.add-artifacts-to-release-notes.result == 'success' &&
+      inputs.deploy-type == 'python'
+    needs:
+      - add-artifacts-to-release-notes
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact-${{ inputs.environment }}
+          path: dist/
+
+      - name: Deploy to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        continue-on-error: ${{ inputs.environment == 'development' }}
+        with:
+          repository-url: ${{ vars.REPOSITORY_URL }}
+
+      - name: Publish Release Notes
+        if: inputs.environment == 'production'
+        run: |
+          gh release edit ${{ inputs.release-tag }} \
+            --draft=false \
+            --repo ${{ github.repository }}

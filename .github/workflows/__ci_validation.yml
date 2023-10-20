@@ -58,11 +58,10 @@ jobs:
     if: |
       always() && !failure() &&
       inputs.build-type != 'null'
-    uses: ./.github/workflows/__build_and_deploy.yml
+    uses: ./.github/workflows/__build.yml
     with:
       build-branch: ${{ inputs.build-branch }}
       build-type: ${{ inputs.build-type }}
-      deploy: false
       environment: development
       node-build-directory: ${{ inputs.node-build-directory }}
       python-version: ${{ inputs.python-version }}

@@ -1,5 +1,5 @@
 ---
-name: '"Build & Deploy" Runner'
+name: '"Build" Runner'
 
 on:
   workflow_call:
@@ -12,12 +12,8 @@ on:
         description: The type of build to perform ("python", "node")
         required: true
         type: string
-      deploy:
-        description: Whether to deploy the build
-        required: true
-        type: boolean
       environment:
-        description: The environment to deploy to
+        description: The environment to build for
         required: true
         type: string
       node-build-directory:
@@ -35,6 +31,10 @@ on:
         required: false
         type: string
         default: 'NULL'
+    outputs:
+      release-tag:
+        description: The tag of the release to add the artifacts to
+        value: ${{ inputs.release-tag }}
 
 jobs:
   log-inputs:
@@ -162,31 +162,3 @@ jobs:
           echo -e "Build Branch: \`${{ inputs.build-branch }}\`" >> "$GITHUB_STEP_SUMMARY"
           echo -e "Release Tag:  \`${{ inputs.release-tag }}\`" >> "$GITHUB_STEP_SUMMARY"
         # yamllint enable rule:line-length
-
-  deploy-to-pypi:
-    name: Deploy to PyPi
-    environment: ${{ inputs.environment }}
-    if: |
-      always() && !failure() &&
-      inputs.deploy &&
-      needs.add-artifacts-to-release-notes.result == 'success' &&
-      needs.build-python.result == 'success' &&
-      inputs.release-tag != 'NULL'
-    needs:
-      - add-artifacts-to-release-notes
-      - build-python
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-    steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: build-artifact-${{ inputs.environment }}
-          path: dist/
-
-      - name: Deploy to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        continue-on-error: ${{ inputs.environment == 'development' }}
-        with:
-          repository-url: ${{ vars.REPOSITORY_URL }}
