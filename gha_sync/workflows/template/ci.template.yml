@@ -24,7 +24,7 @@ on:
 jobs:
   ci-validation:
     name: 'CI: Validation'
-    uses: ./.github/workflows/__ci_validation.yml
+    uses: worgarside/github-config-files/.github/workflows/__ci_validation.yml@main
     with:
       build-branch: '{{ build_branch }}'
       build-type: '{{ build_type }}'
@@ -36,7 +36,7 @@ jobs:
     name: 'CI: Deployment'
     needs: ci-validation
     if: github.event_name == 'push' || inputs.environment == 'production'
-    uses: ./.github/workflows/__ci_deployment.yml
+    uses: worgarside/github-config-files/.github/workflows/__ci_deployment.yml@main
     with:
       build-branch: '{{ build_branch }}'
       build-type: '{{ build_type }}'
