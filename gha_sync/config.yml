@@ -90,13 +90,11 @@ group:
         dest: .github/workflows/ci_validation.yml
         template:
           build_branch: ${{ github.ref }}
-          build_type: python
           python_version: '3.11'
       - source: gha_sync/workflows/template/ci_deployment.template.yml
         dest: .github/workflows/ci_deployment.yml
         template:
           build_branch: ${{ github.ref }}
-          build_type: python
           python_version: '3.11'
           update_pyproject_toml: 'true'
     repos: |
