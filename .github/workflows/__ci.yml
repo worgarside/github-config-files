@@ -80,8 +80,8 @@ jobs:
           fi
 
   actionlint:
-    name: Lint GitHUb Actions Workflows
-    uses: worgarside/github-config-files/.github/workflows/__actionlint.yml@main
+    name: Lint GitHub Actions Workflows
+    uses: ./.github/workflows/__actionlint.yml
 
   test-and-scan:
     name: Test and Scan
@@ -90,6 +90,18 @@ jobs:
     with:
       python-version: ${{ inputs.python-version }}
       test-branch: ${{ inputs.build-branch }}
+
+  run-sonarcloud-scan:
+    name: Run SonarCloud Scan
+    if: |
+      always() &&
+      needs.test-and-scan.result == 'skipped'
+    needs:
+      - test-and-scan
+    uses: ./.github/workflows/__sonarcloud.yml
+    with:
+      branch: ${{ github.ref }}
+    secrets: inherit
 
   draft-release:
     name: Draft Release

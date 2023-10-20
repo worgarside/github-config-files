@@ -13,13 +13,6 @@ group:
     repos: |
       worgarside/home-assistant-appdaemon
 
-  # This is every repo apart from `wg-utilities` (Runs SonarCloud after UTs)
-  - files:
-      - source: gha_sync/workflows/run_sonarcloud_scan.yml
-        dest: .github/workflows/run_sonarcloud_scan.yml
-    repos: |
-      worgarside/home-assistant-appdaemon
-
   # This is every repo apart from `addon-item-warehouse-website` (Doesn't use Pylint)
   - files:
       - .pylintrc
