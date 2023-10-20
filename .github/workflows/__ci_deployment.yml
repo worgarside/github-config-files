@@ -12,6 +12,10 @@ on:
         description: The type of build to perform ("python", "node")
         required: false
         type: string
+      deploy-to:
+        description: Where to deploy to
+        required: false
+        type: string
       node-build-directory:
         description: The directory to build the Node project in
         required: false
@@ -80,7 +84,7 @@ jobs:
     permissions:
       id-token: write
     with:
-      deploy-type: ${{ inputs.build-type }}
+      deploy-to: ${{ inputs.deploy-to }}
       environment: development
       release-tag: ${{ needs.draft-release.outputs.release-tag }}
     secrets: inherit
@@ -164,7 +168,7 @@ jobs:
     permissions:
       id-token: write
     with:
-      deploy-type: ${{ inputs.build-type }}
+      deploy-to: ${{ inputs.deploy-to }}
       environment: development
       release-tag: ${{ needs.run-production-build.outputs.release-tag }}
     secrets: inherit

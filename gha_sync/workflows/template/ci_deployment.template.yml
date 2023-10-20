@@ -27,6 +27,7 @@ jobs:
     with:
       build-branch: '{{ build_branch }}'
       build-type: '{{ build_type }}'
+      deploy-to: '{{ deploy_to }}'
       node-build-directory: '{{ node_build_directory }}'
       path-to-__version__-file: '{{ path_to___version___file }}'
       python-version: '{{ python_version }}'

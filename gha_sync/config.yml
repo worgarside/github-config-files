@@ -179,6 +179,7 @@ worgarside/wg-utilities:
     dest: .github/workflows/ci_deployment.yml
     template:
       build_branch: ${{ github.ref }}
+      deploy_to: pypi
       pr_merged: ${{ github.event.pull_request.merged }}
       build_type: python
       path_to___version___file: wg_utilities/__init__.py

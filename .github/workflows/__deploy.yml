@@ -4,9 +4,9 @@ name: '"Deploy" Runner'
 on:
   workflow_call:
     inputs:
-      deploy-type:
+      deploy-to:
         description: Where to deploy to
-        required: true
+        required: false
         type: string
       environment:
         description: The environment to deploy to
@@ -60,7 +60,7 @@ jobs:
         # yamllint enable rule:line-length
 
       - name: Publish Release Notes
-        if: inputs.environment == 'production' && inputs.deploy-type != 'python'
+        if: inputs.environment == 'production' && inputs.deploy-to
         run: |
           gh release edit ${{ inputs.release-tag }} \
             --draft=false \
@@ -72,7 +72,7 @@ jobs:
     if: |
       always() && !failure() &&
       needs.add-artifacts-to-release-notes.result == 'success' &&
-      inputs.deploy-type == 'python'
+      inputs.deploy-to == 'pypi'
     needs:
       - add-artifacts-to-release-notes
     runs-on: ubuntu-latest
