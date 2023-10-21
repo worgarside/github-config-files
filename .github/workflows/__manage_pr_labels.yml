@@ -69,12 +69,13 @@ jobs:
 
           auto_merge_status=$(echo "${pr}" | jq -r '.autoMergeRequest')
           state=$(echo "${pr}" | jq -r '.state')
+          label_exists=$(echo "${pr}" | jq -r '.labels[] | select(.name == "bot:keep-updated")')
 
           echo -e "\`\`\`json\n${pr}\n\`\`\`" >> "${GITHUB_STEP_SUMMARY}"
 
-          if [[ -n "${auto_merge_status}" && "${state}" == "OPEN" ]]; then
+          if [[ -n "${auto_merge_status}" && "${state}" == "OPEN" && -z "${label_exists}" ]]; then
               echo "ADD_LABELS=${{ env.ADD_LABELS }},bot:keep-updated" >> "${GITHUB_ENV}"
-          else
+          elif [[ -n "${label_exists}" ]]; then
               echo "REMOVE_LABELS=${{ env.REMOVE_LABELS }},bot:keep-updated" >> "${GITHUB_ENV}"
           fi
         # yamllint enable rule:line-length
