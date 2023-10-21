@@ -603,7 +603,7 @@ def generate_mermaid_chart(*, use_subgraphs: bool = False) -> str:
             graph_markup += "\nend\n"
 
         graph_markup += "\n".join(
-            mermaid(MermaidEntity.by_entity_id(e)) for e in sorted(displayed_entities)
+            sorted(mermaid(MermaidEntity.by_entity_id(e)) for e in displayed_entities),
         )
 
         return "## Workflow Dependencies\n\n```mermaid\n" + graph_markup + "\n```"
@@ -620,7 +620,7 @@ def generate_mermaid_chart(*, use_subgraphs: bool = False) -> str:
         content += "\n".join(map(mermaid, grp))
         content += "\n"
         content += "\n".join(
-            mermaid(MermaidEntity.by_entity_id(e)) for e in sorted(group_entities)
+            sorted(mermaid(MermaidEntity.by_entity_id(e)) for e in group_entities),
         )
         content += "\n```\n\n"
 

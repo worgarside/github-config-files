@@ -93,6 +93,7 @@ jobs:
     name: Publish Release
     runs-on: ubuntu-latest
     needs: deploy-to-development
+    if: always() && !failure()
     environment: production
     env:
       GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}

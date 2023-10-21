@@ -421,7 +421,6 @@ direction LR
 CA-->BZ
 BZ-->AX
 end
-A[["actionlint"]]
 AA[["Create Pull Request"]]
 AE[["Deploy"]]
 AJ[["Manage PR Labels"]]
@@ -429,6 +428,7 @@ AN[["Manage Repo Labels"]]
 AQ[["Auto-Update PRs"]]
 AT[["PR Cleanup"]]
 AX[["Set PR Auto Merge"]]
+A[["actionlint"]]
 BA[["SonarCloud"]]
 BD[["Test & Scan"]]
 BG("Auto-Create PR")
