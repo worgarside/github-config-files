@@ -58,8 +58,9 @@ jobs:
     name: Draft Release
     runs-on: ubuntu-latest
     outputs:
+      semver-bump: ${{ steps.get-semver-bump.outputs.semver-bump }}
       release-draft-url: ${{ steps.draft-release.outputs.html_url }}
-      release-tag: ${{ steps.draft-release.outputs.tag_name }}
+      release-tag: ${{ steps.get-release-version.outputs.release-tag }}
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4
@@ -67,18 +68,160 @@ jobs:
           ref: main
           token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
+      - name: Get SemVer Bump
+        id: get-semver-bump
+        run: |
+          latest_release=$(gh release view --json publishedAt,tagName) ||
+            latest_release='{"publishedAt": "1970-01-01T00:00:00Z", "tagName": "0.0.0"}'
+
+          latest_release_tag=$(echo "$latest_release" | jq -r '.tagName')
+          latest_release_date=$(echo "$latest_release" | jq -r '.publishedAt')
+
+          echo "\`latest_release_tag\`: \`$latest_release_tag\`" >> "${GITHUB_STEP_SUMMARY}"
+          echo "\`latest_release_date\`: \`$latest_release_date\`" >> "${GITHUB_STEP_SUMMARY}"
+
+          echo "latest-release-tag=$latest_release_tag" >> "$GITHUB_OUTPUT"
+
+          all_prs=$(
+            gh pr list \
+            --state merged \
+            --json baseRefName,headRefName,labels,number,mergedAt,title,url \
+            --limit 100 \
+            --jq '
+                .[] |
+                select(
+                  (.baseRefName == "develop") and
+                  (.headRefName != "repo-sync/github-config-files/default") and
+                  (
+                    .labels |
+                    map(.name) |
+                    index("skip-changelog") |
+                    not
+                  ) and
+                  (
+                    .labels |
+                    map(.name) |
+                    index("non-functional") |
+                    not
+                  )
+                )
+            '
+          )
+
+          echo -e "All PRs\n\`\`\`json\n$all_prs\n\`\`\`\n---\n" \
+            >> "${GITHUB_STEP_SUMMARY}"
+
+          new_prs=$(
+            echo "$all_prs" |
+            jq -r --arg latest_release_date "$latest_release_date" '
+              select(.mergedAt > $latest_release_date)
+            '
+          )
+
+          echo -e "New PRs\n\`\`\`json\n$new_prs\n\`\`\`\n---\n" \
+            >> "${GITHUB_STEP_SUMMARY}"
+
+          new_pr_labels=$(
+            echo "$new_prs" |
+            jq -r '
+              .labels[] |
+              select(
+                .name == "dependencies" or
+                .name == "major" or
+                .name == "minor" or
+                .name == "patch" or
+                .name == "bug"
+              ) |
+              .name
+            '
+          )
+
+          echo -e "New PR Labels:\n\`\`\`\n$new_pr_labels\n\`\`\`" \
+            >> "${GITHUB_STEP_SUMMARY}"
+
+          if echo "$new_pr_labels" | grep -q 'major' ||
+            [ "$new_pr_labels" = "major" ]
+          then
+              semver_bump="major"
+          elif echo "$new_pr_labels" | grep -q 'minor' ||
+            [  "$new_pr_labels" = "minor" ]
+          then
+              semver_bump="minor"
+          elif echo "$new_pr_labels" | grep -q 'dependencies' ||
+            echo "$new_pr_labels" | grep -q 'patch' ||
+            echo "$new_pr_labels" | grep -q 'bug' ||
+            [ "$new_pr_labels" = "dependencies" ] ||
+            [ "$new_pr_labels" = "patch" ] ||
+            [ "$new_pr_labels" = "bug" ]
+          then
+              semver_bump="patch"
+          else
+              echo "No matching label found" >> "${GITHUB_STEP_SUMMARY}"
+              echo -e "\`\`\`\n$new_pr_labels\n\`\`\`" >> "${GITHUB_STEP_SUMMARY}"
+
+              semver_bump="null"
+          fi
+
+          echo "semver-bump=$semver_bump" >> "$GITHUB_OUTPUT"
+          echo "SemVer Bump: \`$semver_bump\`" >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Get Release Branch Name
+        id: get-release-version
+        if: steps.get-semver-bump.outputs.semver-bump != 'null'
+        env:
+          BUMP: ${{ steps.get-semver-bump.outputs.semver-bump }}
+          TAG: ${{ steps.get-semver-bump.outputs.latest-release-tag }}
+        run: |
+          IFS=. read major minor patch <<< "${TAG}"
+
+          echo "Major: \`$major\`" >> "${GITHUB_STEP_SUMMARY}"
+          echo "Minor: \`$minor\`" >> "${GITHUB_STEP_SUMMARY}"
+          echo "Patch: \`$patch\`" >> "${GITHUB_STEP_SUMMARY}"
+
+          case "${BUMP}" in
+            major)
+              echo "SemVer label is major" >> "${GITHUB_STEP_SUMMARY}"
+              major=$(expr $major + 1)
+              echo "Incremented major to $major" >> "${GITHUB_STEP_SUMMARY}"
+              minor=0
+              patch=0
+              ;;
+            minor)
+              echo "SemVer label is minor" >> "${GITHUB_STEP_SUMMARY}"
+              minor=$(expr $minor + 1)
+              echo "Incremented minor to $minor" >> "${GITHUB_STEP_SUMMARY}"
+              patch=0
+              ;;
+            patch)
+              echo "SemVer label is patch" >> "${GITHUB_STEP_SUMMARY}"
+              patch=$(expr $patch + 1)
+              echo "Incremented patch to $patch" >> "${GITHUB_STEP_SUMMARY}"
+              ;;
+          esac
+
+          release_tag="$major.$minor.$patch"
+
+          echo "release-tag=$release_tag" >> "$GITHUB_OUTPUT"
+          echo "\`release-tag\`: \`$release_tag\`" >> "${GITHUB_STEP_SUMMARY}"
+
+
       - name: Draft Release
         id: draft-release
         uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+        with:
+          publish: false
+          tag: ${{ steps.get-release-version.outputs.release-tag }}
+          version: ${{ steps.get-release-version.outputs.release-tag }}
 
   deploy-to-development:
     name: Deploy to Development
     if: |
       always() && !failure() &&
       inputs.build-type &&
-      needs.draft-release.result == 'success'
+      needs.draft-release.result == 'success' &&
+      needs.draft-release.outputs.semver-bump != 'null'
     needs: draft-release
     uses: ./.github/workflows/__deploy.yml
     permissions:
