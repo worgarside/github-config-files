@@ -73,9 +73,9 @@ jobs:
 
           echo -e "\`\`\`json\n${pr}\n\`\`\`" >> "${GITHUB_STEP_SUMMARY}"
 
-          if [[ -n "${auto_merge_status}" && "${state}" == "OPEN" && -z "${label_exists}" ]]; then
+          if [[ "${auto_merge_status}" != "null" && "${state}" == "OPEN" && -z "${label_exists}" ]]; then
               echo "ADD_LABELS=${{ env.ADD_LABELS }},bot:keep-updated" >> "${GITHUB_ENV}"
-          elif [[ (-z "${auto_merge_status}" || "${state}" != "OPEN") && -n "${label_exists}" ]]; then
+          elif [[ ("${auto_merge_status}" == "null" || "${state}" != "OPEN") && -n "${label_exists}" ]]; then
               echo "REMOVE_LABELS=${{ env.REMOVE_LABELS }},bot:keep-updated" >> "${GITHUB_ENV}"
           fi
         # yamllint enable rule:line-length
