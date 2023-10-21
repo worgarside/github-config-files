@@ -290,7 +290,11 @@ jobs:
           git commit -m "${TAG}" --allow-empty
 
       - name: Push Branch
-        run: git push origin main
+        run: |
+          git fetch origin
+          git rebase origin/main
+
+          git push origin main --force
 
   run-production-build:
     name: Run Production Build
