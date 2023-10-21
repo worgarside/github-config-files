@@ -14,7 +14,7 @@ on:
 
 jobs:
   actionlint:
-    name: Lint GitHub Actions Workflows
+    name: actionlint
     runs-on: ubuntu-latest
     steps:
       - name: Log Inputs
