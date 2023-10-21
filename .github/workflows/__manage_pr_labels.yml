@@ -64,7 +64,7 @@ jobs:
           pr=$(
             gh pr view ${{ inputs.pr-number }} \
               --repo ${{ github.repository }} \
-              --json autoMergeRequest,state
+              --json autoMergeRequest,labels,state
           )
 
           auto_merge_status=$(echo "${pr}" | jq -r '.autoMergeRequest')
