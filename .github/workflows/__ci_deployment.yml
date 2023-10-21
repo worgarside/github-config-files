@@ -246,9 +246,9 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-      TAG: ${{ needs.deploy-to-development.outputs.release-tag }}
+      TAG: ${{ needs.draft-release.outputs.release-tag }}
     outputs:
-      release-tag: ${{ needs.deploy-to-development.outputs.release-tag }}
+      release-tag: ${{ needs.draft-release.outputs.release-tag }}
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4

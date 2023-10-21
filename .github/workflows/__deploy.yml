@@ -16,10 +16,6 @@ on:
         description: The tag of the release to add the artifacts to
         required: true
         type: string
-    outputs:
-      release-tag:
-        description: The tag of the release being deployed
-        value: ${{ inputs.release-tag }}
 
 jobs:
   log-inputs:
