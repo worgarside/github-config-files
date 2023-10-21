@@ -284,6 +284,9 @@ jobs:
 
       - name: Commit Changes
         run: |
+          git config --global user.email "worgarside.dev@gmail.com"
+          git config --global user.name "worgarside-dev"
+
           git commit -m "${TAG}" --allow-empty
 
       - name: Push Branch
