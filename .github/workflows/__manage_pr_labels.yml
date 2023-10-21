@@ -68,6 +68,9 @@ jobs:
               --jq '.autoMergeRequest'
           )
 
+          echo -e "Auto-Merge Status: \`\`\`json\n$auto_merge_status\n\`\`\`" \
+            >> "${GITHUB_STEP_SUMMARY}"
+
           if [[ -n "${auto_merge_status}" ]]; then
               echo "ADD_LABELS=${{ env.ADD_LABELS }},bot:keep-updated" >> "${GITHUB_ENV}"
           else
