@@ -92,7 +92,7 @@ jobs:
             --jq '
                 .[] |
                 select(
-                  (.baseRefName == "develop") and
+                  (.baseRefName == "main") and
                   (.headRefName != "repo-sync/github-config-files/default") and
                   (
                     .labels |

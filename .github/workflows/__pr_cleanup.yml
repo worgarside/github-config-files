@@ -65,8 +65,6 @@ jobs:
             ) ||
             !(
               startsWith(inputs.head-ref, 'hotfix/') ||
-              startsWith(inputs.head-ref, 'release/') ||
-              inputs.head-ref == 'develop' ||
               inputs.head-ref == 'main'
             )
           )
