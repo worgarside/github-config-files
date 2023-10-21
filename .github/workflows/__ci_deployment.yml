@@ -209,6 +209,7 @@ jobs:
 
       - name: Draft Release
         id: draft-release
+        if: steps.get-semver-bump.outputs.semver-bump != 'null'
         uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
@@ -237,8 +238,10 @@ jobs:
   publish-release:
     name: Publish Release
     runs-on: ubuntu-latest
-    needs: deploy-to-development
-    if: always() && !failure()
+    needs:
+      - deploy-to-development
+      - draft-release
+    if: always() && !failure() && needs.draft-release.outputs.semver-bump != 'null'
     environment: production
     env:
       GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
