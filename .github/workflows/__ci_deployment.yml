@@ -70,6 +70,8 @@ jobs:
 
       - name: Get SemVer Bump
         id: get-semver-bump
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
           latest_release=$(gh release view --json publishedAt,tagName) ||
             latest_release='{"publishedAt": "1970-01-01T00:00:00Z", "tagName": "0.0.0"}'
