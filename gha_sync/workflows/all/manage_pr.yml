@@ -34,6 +34,7 @@ jobs:
   close-empty-pr:
     name: Close Empty PR
     uses: worgarside/github-config-files/.github/workflows/__close_empty_pr.yml@main
+    if: github.event.pull_request.state == 'open'
     permissions:
       contents: read
       pull-requests: write
