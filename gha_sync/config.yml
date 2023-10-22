@@ -119,7 +119,6 @@ worgarside/addon-item-warehouse-api:
     template:
       build_branch: ${{ github.ref }}
       pr_merged: ${{ github.event.pull_request.merged }}
-      build_type: python
       python_version: 3.11
       update_pyproject_toml: 'true'
       update_yaml_file_path: item_warehouse_api/config.yaml
@@ -149,14 +148,12 @@ worgarside/addon-yas-209-bridge:
     dest: .github/workflows/ci_validation.yml
     template:
       build_branch: ${{ github.ref }}
-      build_type: python
       python_version: '3.11'
   - source: gha_sync/workflows/template/ci_deployment.template.yml
     dest: .github/workflows/ci_deployment.yml
     template:
       build_branch: ${{ github.ref }}
       pr_merged: ${{ github.event.pull_request.merged }}
-      build_type: python
       python_version: '3.11'
       update_pyproject_toml: 'true'
       update_yaml_file_path: yas_209_bridge/config.yaml
