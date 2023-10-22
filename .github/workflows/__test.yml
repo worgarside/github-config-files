@@ -66,8 +66,10 @@ jobs:
 
       - name: Run Tests
         id: unit_tests
-        run: poetry run pytest --cov=./ --cov-report=xml
         continue-on-error: true
+        run: |
+          source "${VENV}"
+          poetry run pytest --cov=./ --cov-report=xml
 
       - name: Upload `coverage.xml` as Artifact
         if: matrix.python-version == inputs.python-version
