@@ -68,7 +68,7 @@ jobs:
           BUILD_BRANCH: ${{ inputs.build-branch }}
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
-          if [[ "${BUILD_BRANCH}" != "main" ]]; then
+          if [[ "${BUILD_BRANCH}" != "refs/heads/main" ]]; then
             echo "release-tag=null" >> "${GITHUB_OUTPUT}"
             echo "\`release-tag\`: \`null\` <sup>(PR)</sup>" >> "${GITHUB_STEP_SUMMARY}"
             exit 0
