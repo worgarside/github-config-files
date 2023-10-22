@@ -96,6 +96,7 @@ group:
         template:
           build_branch: ${{ github.ref }}
           python_version: '3.11'
+          release_tag: ${{ needs.ci-validation.outputs.release-tag }}
           update_pyproject_toml: 'true'
     repos: |
       worgarside/home-assistant
@@ -120,6 +121,7 @@ worgarside/addon-item-warehouse-api:
       build_branch: ${{ github.ref }}
       pr_merged: ${{ github.event.pull_request.merged }}
       python_version: 3.11
+      release_tag: ${{ needs.ci-validation.outputs.release-tag }}
       update_pyproject_toml: 'true'
       update_yaml_file_path: item_warehouse_api/config.yaml
 
@@ -139,6 +141,7 @@ worgarside/addon-item-warehouse-website:
       pr_merged: ${{ github.event.pull_request.merged }}
       build_type: node
       node_build_directory: item_warehouse_website
+      release_tag: ${{ needs.ci-validation.outputs.release-tag }}
       update_pyproject_toml: 'false'
       update_json_file_path: item_warehouse_website/package.json
       update_yaml_file_path: item_warehouse_website/config.yaml
@@ -155,6 +158,7 @@ worgarside/addon-yas-209-bridge:
       build_branch: ${{ github.ref }}
       pr_merged: ${{ github.event.pull_request.merged }}
       python_version: '3.11'
+      release_tag: ${{ needs.ci-validation.outputs.release-tag }}
       update_pyproject_toml: 'true'
       update_yaml_file_path: yas_209_bridge/config.yaml
 
@@ -179,5 +183,6 @@ worgarside/wg-utilities:
       build_type: python
       path_to___version___file: wg_utilities/__init__.py
       python_version: '3.11'
+      release_tag: ${{ needs.ci-validation.outputs.release-tag }}
       unit_test: 'true'
       update_pyproject_toml: 'true'

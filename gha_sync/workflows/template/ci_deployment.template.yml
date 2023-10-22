@@ -20,7 +20,9 @@ jobs:
 
   ci-deployment:
     name: 'CI: Deployment'
-    needs: ci-validation
+    needs:
+      - ci-validation
+    if: needs.ci-validation.outputs.release-tag != 'null'
     permissions:
       id-token: write
     uses: worgarside/github-config-files/.github/workflows/__ci_deployment.yml@main
@@ -31,6 +33,7 @@ jobs:
       node-build-directory: '{{ node_build_directory }}'
       path-to-__version__-file: '{{ path_to___version___file }}'
       python-version: '{{ python_version }}'
+      release-tag: '{{ release_tag }}'
       unit-test: '{{ unit_test }}'
       update-pyproject-toml: '{{ update_pyproject_toml }}'
       update-json-file-path: '{{ update_json_file_path }}'

@@ -374,100 +374,100 @@
 
 ```mermaid
 flowchart LR
-subgraph CU[" "]
-direction LR
-CQ-->Q
-CS-->CD
-CS-->CH
-CS-->CQ
-BT-->BS
-BS-->AQ
-CN-->BS
-CN-->CD
-CN-->CH
-CN-->CM
-CM-->J
-CM-->Q
-J-->AE
-J-->D
-Q-->A
-Q-->BA
-Q-->BD
-Q-->D
-end
 subgraph CV[" "]
 direction LR
-BH-->BG
-BG-->AA
+CR-->Q
+CT-->CE
+CT-->CI
+CT-->CR
+BU-->BT
+BT-->AR
+CO-->BT
+CO-->CE
+CO-->CI
+CO-->CN
+CN-->J
+CN-->Q
+J-->AF
+J-->D
+Q-->A
+Q-->BB
+Q-->BE
+Q-->D
 end
 subgraph CW[" "]
 direction LR
-BK-->BJ
-BJ-->AJ
-BJ-->W
+BI-->BH
+BH-->AB
 end
 subgraph CX[" "]
 direction LR
-BP-->BO
-BO-->AN
+BL-->BK
+BK-->AK
+BK-->X
 end
 subgraph CY[" "]
 direction LR
-BX-->BW
-BW-->AT
+BQ-->BP
+BP-->AO
 end
 subgraph CZ[" "]
 direction LR
-CA-->BZ
-BZ-->AX
+BY-->BX
+BX-->AU
 end
-AA[["Create Pull Request"]]
-AE[["Deploy"]]
-AJ[["Manage PR Labels"]]
-AN[["Manage Repo Labels"]]
-AQ[["Auto-Update PRs"]]
-AT[["PR Cleanup"]]
-AX[["Set PR Auto Merge"]]
+subgraph DA[" "]
+direction LR
+CB-->CA
+CA-->AY
+end
+AB[["Create Pull Request"]]
+AF[["Deploy"]]
+AK[["Manage PR Labels"]]
+AO[["Manage Repo Labels"]]
+AR[["Auto-Update PRs"]]
+AU[["PR Cleanup"]]
+AY[["Set PR Auto Merge"]]
 A[["actionlint"]]
-BA[["SonarCloud"]]
-BD[["Test & Scan"]]
-BG("Auto-Create PR")
-BH{{"PUSH
+BB[["SonarCloud"]]
+BE[["Test & Scan"]]
+BH("Auto-Create PR")
+BI{{"PUSH
 Branches: bugfix/*, chore/*, feature/*, hotfix/*
 "}}
-BJ("Manage PR")
-BK{{"PULL REQUEST
+BK("Manage PR")
+BL{{"PULL REQUEST
 Types: auto_merge_disabled, auto_merge_enabled, labeled, opened, ready_for_review, reopened, synchronize, unlabeled
 "}}
-BO("Manage Repo Labels")
-BP{{"PUSH
+BP("Manage Repo Labels")
+BQ{{"PUSH
 Branches: main
 Paths: .github/repo_labels.yml, .github/workflows/manage_repo_labels.yml
 "}}
-BS("Auto-Update PRs")
-BT{{"PULL REQUEST
+BT("Auto-Update PRs")
+BU{{"PULL REQUEST
 Types: labeled
 "}}
-BW("PR Cleanup")
-BX{{"PULL REQUEST
+BX("PR Cleanup")
+BY{{"PULL REQUEST
 Types: closed
 "}}
-BZ("Set PR Auto Merge")
-CA{{"PULL REQUEST
+CA("Set PR Auto Merge")
+CB{{"PULL REQUEST
 Types: opened, ready_for_review
 "}}
-CD("ESLint")
-CH("Validate Home Assistant Config")
-CM("CI: Validation & Deployment")
-CN{{"PUSH
+CE("ESLint")
+CI("Validate Home Assistant Config")
+CN("CI: Validation & Deployment")
+CO{{"PUSH
 Branches: main
 "}}
-CQ("CI: Validation")
-CS{{"PULL REQUEST
+CR("CI: Validation")
+CT{{"PULL REQUEST
 Types: opened, reopened, synchronize
 "}}
 D[["Build"]]
 J[["CI: Deployment"]]
 Q[["CI: Validation"]]
-W[["Close Empty PR"]]
+X[["Close Empty PR"]]
 ```
