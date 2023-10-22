@@ -210,8 +210,7 @@ jobs:
       - get-release-version
     if: |
       always() && !failure() &&
-      inputs.build-type &&
-      needs.get-release-version.outputs.release-tag != 'null'
+      inputs.build-type
     uses: ./.github/workflows/__build.yml
     with:
       build-branch: ${{ inputs.build-branch }}

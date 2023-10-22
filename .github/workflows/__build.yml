@@ -65,6 +65,7 @@ jobs:
         run: poetry build
 
       - name: Upload Artifact
+        if: inputs.release-tag != 'null'
         uses: actions/upload-artifact@v3
         with:
           name: build-artifact-${{ inputs.environment }}
@@ -116,11 +117,13 @@ jobs:
           npm run build
 
       - name: Zip Build Directory
+        if: inputs.release-tag != 'null'
         working-directory: ${{ inputs.node-build-directory }}
         run: |
           zip -r "$ARTIFACT_NAME" .next/
 
       - name: Upload Artifact
+        if: inputs.release-tag != 'null'
         uses: actions/upload-artifact@v3
         with:
           name: build-artifact-${{ inputs.environment }}
@@ -134,7 +137,7 @@ jobs:
       - build-node
     if: |
       always() && !failure() &&
-      inputs.release-tag
+      inputs.release-tag != 'null'
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v3
