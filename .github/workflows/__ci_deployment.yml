@@ -300,7 +300,7 @@ jobs:
           git fetch origin
           git rebase origin/main
 
-          git push origin main --force
+          git push "https://${GH_TOKEN}@github.com/${{ github.repository }}" main --force
 
     # - name: Point Release at `main`
     #   run: |
