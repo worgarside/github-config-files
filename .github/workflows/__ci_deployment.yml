@@ -244,7 +244,6 @@ jobs:
     if: always() && !failure() && needs.draft-release.outputs.semver-bump != 'null'
     environment: production
     env:
-      GH_TOKEN: ${{ secrets.WORGARSIDE_TOKEN }}
       TAG: ${{ needs.draft-release.outputs.release-tag }}
     outputs:
       release-tag: ${{ needs.draft-release.outputs.release-tag }}
@@ -252,8 +251,9 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v4
         with:
+          persist-credentials: false
           ref: main
-          token: ${{ secrets.WORGARSIDE_TOKEN }}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Update `${{ inputs.path-to-__version__-file }}` __version__
         if: inputs.path-to-__version__-file
@@ -282,18 +282,37 @@ jobs:
          # yamllint enable rule:line-length
 
       - name: Commit Changes
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
-          git config --global user.email "worgarside@gmail.com"
-          git config --global user.name "worgarside"
+          git config --global user.email "worgarside.dev@gmail.com"
+          git config --global user.name "worgarside-dev"
 
           git commit -m "${TAG}" --allow-empty
 
       - name: Push Branch
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_TOKEN }}
         run: |
           git fetch origin
           git rebase origin/main
 
           git push origin main --force
+
+    # - name: Point Release at `main`
+    #   run: |
+    #     gh release edit ${{ needs.get-release-tag.outputs.release-tag }} \
+    #      --target main \
+    #      --repo ${{ github.repository }}
+
+      - name: Publish Release Notes
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+        run: |
+          gh release edit "${TAG}" \
+            --draft=false \
+            --repo ${{ github.repository }}
+
 
   run-production-build:
     name: Run Production Build
