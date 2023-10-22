@@ -65,8 +65,15 @@ jobs:
       - name: Get Release Version
         id: get-release-version
         env:
+          BUILD_BRANCH: ${{ inputs.build-branch }}
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
+          if [[ "${BUILD_BRANCH}" != "main" ]]; then
+            echo "release-tag=null" >> "${GITHUB_OUTPUT}"
+            echo "\`release-tag\`: \`null\` <sup>(PR)</sup>" >> "${GITHUB_STEP_SUMMARY}"
+            exit 0
+          fi
+
           latest_release=$(
             gh release view \
               --repo ${{ github.repository }} \
@@ -200,7 +207,7 @@ jobs:
 
           release_tag="$major.$minor.$patch"
 
-          echo "release-tag=$release_tag" >> "$GITHUB_OUTPUT"
+          echo "release-tag=$release_tag" >> "${GITHUB_OUTPUT}"
           echo "\`release-tag\`: \`$release_tag\`" >> "${GITHUB_STEP_SUMMARY}"
 
   run-development-build:
