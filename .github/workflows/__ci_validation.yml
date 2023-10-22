@@ -177,7 +177,7 @@ jobs:
           echo "Latest Minor: \`$minor\`" >> "${GITHUB_STEP_SUMMARY}"
           echo "Latest Patch: \`$patch\`" >> "${GITHUB_STEP_SUMMARY}"
 
-          case "${BUMP}" in
+          case "${semver_bump}" in
             major)
               echo "SemVer label is major" >> "${GITHUB_STEP_SUMMARY}"
               major=$(expr $major + 1)
