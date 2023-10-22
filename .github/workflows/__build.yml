@@ -107,9 +107,7 @@ jobs:
 
       - name: Install Dependencies
         working-directory: ${{ inputs.node-build-directory }}
-        run: |
-          rm -rf .next/
-          npm ci --verbose
+        run: npm ci --verbose
 
       - name: Build
         working-directory: ${{ inputs.node-build-directory }}
