@@ -85,11 +85,14 @@ jobs:
             --repo ${{ github.repository }} \
             --state merged \
             --json baseRefName,headRefName,labels,number,mergedAt,title,url \
-            --limit 100 \
+            --limit 500 \
             --jq '
                 .[] |
                 select(
-                  (.baseRefName == "main") and
+                  (
+                    .baseRefName == "main" or
+                    .baseRefName == "develop"
+                  ) and
                   (.headRefName != "repo-sync/github-config-files/default") and
                   (
                     .labels |
