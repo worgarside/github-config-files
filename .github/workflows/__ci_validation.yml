@@ -37,10 +37,10 @@ jobs:
     name: Lint GitHub Actions Workflows
     uses: ./.github/workflows/__actionlint.yml
 
-  test-and-scan:
-    name: Test and Scan
+  test:
+    name: Test
     if: inputs.build-type == 'python' && inputs.unit-test == 'true'
-    uses: ./.github/workflows/__test_and_scan.yml
+    uses: ./.github/workflows/__test.yml
     with:
       python-version: ${{ inputs.python-version }}
       test-branch: ${{ inputs.build-branch }}
@@ -48,9 +48,8 @@ jobs:
   run-sonarcloud-scan:
     name: Run SonarCloud Scan
     needs:
-      - test-and-scan
-    if: |
-      always() && !failure()
+      - test
+    if: always() && !failure()
     uses: ./.github/workflows/__sonarcloud.yml
     with:
       branch: ${{ inputs.build-branch }}

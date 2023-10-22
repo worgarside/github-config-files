@@ -1,5 +1,5 @@
 ---
-name: '"Test & Scan" Runner'
+name: '"Test" Runner'
 
 on:  # yamllint disable-line rule:truthy
   workflow_call:
@@ -71,7 +71,7 @@ jobs:
         if: matrix.python-version == inputs.python-version
         uses: actions/upload-artifact@v3
         with:
-          name: coverage-report-${{ github.run_id}}
+          name: coverage-report-${{ github.run_id }}
           path: ./coverage.xml
 
       - name: Upload coverage to Codecov

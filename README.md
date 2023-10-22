@@ -430,7 +430,7 @@ AU[["PR Cleanup"]]
 AY[["Set PR Auto Merge"]]
 A[["actionlint"]]
 BB[["SonarCloud"]]
-BE[["Test & Scan"]]
+BE[["Test"]]
 BH("Auto-Create PR")
 BI{{"PUSH
 Branches: bugfix/*, chore/*, feature/*, hotfix/*
