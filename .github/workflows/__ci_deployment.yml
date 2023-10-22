@@ -285,8 +285,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
-          git config --global user.email "worgarside.dev@gmail.com"
-          git config --global user.name "worgarside-dev"
+          git config user.email "worgarside.dev@gmail.com"
+          git config user.name "worgarside-dev"
 
           git commit -m "${TAG}" --allow-empty
 
@@ -294,6 +294,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_TOKEN }}
         run: |
+          git config user.email "worgarside@gmail.com"
+          git config user.name "worgarside"
+
           git fetch origin
           git rebase origin/main
 
