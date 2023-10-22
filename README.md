@@ -390,9 +390,9 @@ CN-->J
 CN-->Q
 J-->AF
 J-->D
-Q-->A
 Q-->BB
 Q-->BE
+Q-->A
 Q-->D
 end
 subgraph CW[" "]
