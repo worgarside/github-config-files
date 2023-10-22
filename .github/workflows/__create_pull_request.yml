@@ -91,8 +91,10 @@ jobs:
           fi
         # yamllint enable rule:line-length
 
+      # Git history needed for PR body auto-fill
       - name: Clone Repo
-        if: steps.check-if-pr-exists.outputs.create-pr == 'true'
+        if: |
+          !inputs.pr-body
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -106,7 +108,7 @@ jobs:
            # yamllint disable-line rule:line-length
           PR_BODY_ARG: ${{ inputs.pr-body && format('--body "{0}"', inputs.pr-body) || '--fill' }}
           PR_DRAFT_ARG: ${{ inputs.pr-draft && '--draft' || '' }}
-          PR_TITLE: ${{ inputs.pr-title}}
+          PR_TITLE: ${{ inputs.pr-title }}
            # yamllint disable-line rule:line-length
           PR_LABELS_ARG: ${{ inputs.pr-labels && format('--label {0}', inputs.pr-labels ) || '' }}
         run: |
