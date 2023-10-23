@@ -42,5 +42,4 @@ jobs:
           max_attempts: 5
           # yamllint disable-line rule:line-length
           command: ./actionlint -color -shellcheck "" -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}%0A```%0A{{replace $err.Snippet "\\n" "%0A"}}%0A```\n{{end}}' ${{ inputs.workflow-files || '' }}
-          on_retry_command: rm actionlint
           retry_on_exit_code: 2
