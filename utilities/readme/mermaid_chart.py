@@ -59,7 +59,7 @@ _mermaid_entity_ids = (
 class MermaidEntity(BaseModel):
     """Base class for mermaid entities."""
 
-    ENTITIES: ClassVar[dict[str, MermaidEntity]] = {}
+    ENTITIES: ClassVar[dict[str, MermaidEntity]] = OrderedDict()
 
     entity_id: str = Field(default_factory=lambda: next(_mermaid_entity_ids))
     model_config: ClassVar[ConfigDict] = ConfigDict(extra="forbid")
@@ -215,7 +215,7 @@ class Concurrency(MermaidEntity):
 class Workflow(MermaidEntity):
     """GitHub Actions Workflow."""
 
-    INSTANCES: ClassVar[dict[Path, Workflow]] = {}
+    INSTANCES: ClassVar[dict[Path, Workflow]] = OrderedDict()
 
     local_path: Path = Field(exclude=True)
 
@@ -385,7 +385,7 @@ def _get_workflow_dependencies() -> list[tuple[Workflow, Workflow]]:
 
     dependency_tuples = set()
 
-    workflows: dict[int, str] = {}
+    workflows: dict[int, str] = OrderedDict()
 
     for workflow in Workflow.INSTANCES.values():
         if actual_entity_id := workflows.get(hash(workflow)):
