@@ -12,6 +12,10 @@ on:
         required: false
         type: string
 
+concurrency:
+  cancel-in-progress: false
+  group: actionlint-${{ github.repository }}
+
 jobs:
   actionlint:
     name: actionlint
