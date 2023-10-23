@@ -55,7 +55,7 @@ on:
 
 jobs:
   draft-release:
-    name: Draft Release
+    name: Draft Release ${{ inputs.release-tag }}
     runs-on: ubuntu-latest
     outputs:
       release-draft-url: ${{ steps.draft-release.outputs.html_url }}
