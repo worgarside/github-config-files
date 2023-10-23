@@ -105,6 +105,7 @@ group:
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
       worgarside/pre-commit-hooks-dependency-sync
+      worgarside/python-template
       worgarside/smart-mini-crt-interface
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
