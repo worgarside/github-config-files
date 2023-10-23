@@ -36,11 +36,15 @@ jobs:
         run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
 
       - name: Check Workflow Files
-        env:
-          WORKFLOW_FILES: ${{ inputs.workflow-files || '' }}
-        run: |
-          ${{ steps.get-actionlint.outputs.executable }} \
-          -color \
-          -shellcheck "" \
-          -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}%0A```%0A{{replace $err.Snippet "\\n" "%0A"}}%0A```\n{{end}}' \
-          $WORKFLOW_FILES
+        uses: nick-fields/retry@v2.9.0
+        with:
+          timeout_minutes: 1
+          max_attempts: 5
+          command: >-
+            ./actionlint
+              -color
+              -shellcheck ""
+              -format '{{range $err := .}}::error file={{$err.Filepath}},line={{$err.Line}},col={{$err.Column}}::{{$err.Message}}%0A```%0A{{replace $err.Snippet "\\n" "%0A"}}%0A```\n{{end}}' \
+              ${{ inputs.workflow-files || '' }}
+          on_retry_command: rm actionlint
+          retry_on_exit_code: 2
