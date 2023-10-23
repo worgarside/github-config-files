@@ -44,6 +44,7 @@ jobs:
     with:
       python-version: ${{ inputs.python-version }}
       test-branch: ${{ inputs.build-branch }}
+    secrets: inherit
 
   run-sonarcloud-scan:
     name: Run SonarCloud Scan
