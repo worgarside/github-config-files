@@ -70,7 +70,8 @@ jobs:
         run: |
           if [[ "${BUILD_BRANCH}" != "refs/heads/main" ]]; then
             echo "release-tag=null" >> "${GITHUB_OUTPUT}"
-            echo "\`release-tag\`: \`null\` <sup>(PR)</sup>" >> "${GITHUB_STEP_SUMMARY}"
+            echo "\`release-tag\`: \`null\` <sup>(As expected, this _is_ CI for a PR)</sup>" \
+              >> "${GITHUB_STEP_SUMMARY}"
             exit 0
           fi
 
