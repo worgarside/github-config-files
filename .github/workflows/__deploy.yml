@@ -56,7 +56,7 @@ jobs:
         # yamllint enable rule:line-length
 
       - name: Publish Release Notes
-        if: inputs.environment == 'production' && inputs.deploy-to
+        if: inputs.environment == 'production' && !inputs.deploy-to
         run: |
           gh release edit ${{ inputs.release-tag }} \
             --draft=false \
