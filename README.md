@@ -388,8 +388,8 @@ CP-->BU
 CP-->CF
 CP-->CJ
 CP-->CO
-CO-->K
 CO-->R
+CO-->K
 K-->AG
 K-->E
 R-->A
