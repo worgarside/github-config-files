@@ -159,6 +159,17 @@ jobs:
           name: build-artifact-${{ inputs.environment }}
           path: dist/
 
+      - name: Check and Create Draft Release
+        run: |
+          if ! gh release view ${{ inputs.release-tag }}; then
+            gh release create ${{ inputs.release-tag }} \
+              --title "${{ inputs.release-tag }}" \
+              --draft \
+              --repo ${{ github.repository }}
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+
       - name: Upload Artifacts
         run: |
           gh release upload ${{ inputs.release-tag }} dist/* \
