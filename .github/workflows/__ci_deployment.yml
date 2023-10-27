@@ -164,6 +164,7 @@ jobs:
           git push "https://${GH_TOKEN}@github.com/${{ github.repository }}" main --force
 
       - name: Publish Release Notes
+        if: !inputs.build-type
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
