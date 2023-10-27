@@ -32,7 +32,7 @@ jobs:
   add-artifacts-to-release-notes:
     name: Add Artifacts to Release Notes
     runs-on: ubuntu-latest
-    if: inputs.release-tag
+    if: inputs.release-tag != 'null'
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v3
