@@ -114,10 +114,11 @@ jobs:
 
       - name: Update `${{ inputs.path-to-__version__-file }}` __version__
         if: inputs.path-to-__version__-file
-          # yamllint disable rule:line-length
+        env:
+          FILE: ${{ inputs.path-to-__version__-file }}
         run: |
-          sed -i "s/^__version__ = .*/__version__ = \"$TAG\"/" ${{ inputs.path-to-__version__-file }}
-          git add ${{ inputs.path-to-__version__-file }}
+          sed -i "s/^__version__ = .*/__version__ = \"$TAG\"/" "${FILE}"
+          git add "${FILE}"
 
       - name: Update `pyproject.toml` Version
         if: inputs.update-pyproject-toml == 'true'
@@ -127,16 +128,19 @@ jobs:
 
       - name: Update `${{ inputs.update-json-file-path }}` Version
         if: inputs.update-json-file-path
+        env:
+          FILE: ${{ inputs.update-json-file-path }}
         run: |
-          sed -i "s/^  \"version\": \".*\",/  \"version\": \"$TAG\",/" ${{ inputs.update-json-file-path }}
-          git add ${{ inputs.update-json-file-path }}
+          sed -i "s/^  \"version\": \".*\",/  \"version\": \"$TAG\",/" "${FILE}"
+          git add "${FILE}"
 
       - name: Update `${{ inputs.update-yaml-file-path }}` Version
         if: inputs.update-yaml-file-path
+        env:
+          FILE: ${{ inputs.update-yaml-file-path }}
         run: |
-          sed -i "s/^version: .*/version: $TAG/" ${{ inputs.update-yaml-file-path }}
-          git add ${{ inputs.update-yaml-file-path }}
-         # yamllint enable rule:line-length
+          sed -i "s/^version: .*/version: $TAG/" "${FILE}"
+          git add "${FILE}"
 
       - name: Commit Changes
         env:
@@ -159,12 +163,6 @@ jobs:
 
           git push "https://${GH_TOKEN}@github.com/${{ github.repository }}" main --force
 
-    # - name: Point Release at `main`
-    #   run: |
-    #     gh release edit ${{ needs.get-release-tag.outputs.release-tag }} \
-    #      --target main \
-    #      --repo ${{ github.repository }}
-
       - name: Publish Release Notes
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
@@ -172,7 +170,6 @@ jobs:
           gh release edit "${TAG}" \
             --draft=false \
             --repo ${{ github.repository }}
-
 
   run-production-build:
     name: Run Production Build

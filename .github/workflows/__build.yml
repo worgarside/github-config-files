@@ -32,8 +32,9 @@ on:
         type: string
 
 jobs:
-  log-inputs:
-    name: Log Inputs
+  build-python:
+    name: Build (Python)
+    if: inputs.build-type == 'python'
     runs-on: ubuntu-latest
     steps:
       - name: Log Inputs
@@ -43,11 +44,6 @@ jobs:
         run: |
           echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
-  build-python:
-    name: Build (Python)
-    if: inputs.build-type == 'python'
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
@@ -77,6 +73,10 @@ jobs:
         with:
           python-version: ${{ inputs.python-version }}
 
+      - name: Bump Version for Dev Build
+        if: inputs.release-tag != 'null' && inputs.environment != 'production'
+        run: poetry version ${{ inputs.release-tag }}
+
       - name: Build
         run: poetry build
 
@@ -97,6 +97,13 @@ jobs:
       GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
     steps:
+      - name: Log Inputs
+        if: runner.debug == '1'
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: |
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:

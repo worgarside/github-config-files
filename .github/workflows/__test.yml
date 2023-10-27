@@ -69,7 +69,7 @@ jobs:
         continue-on-error: true
         run: poetry run pytest --cov=./ --cov-report=xml
 
-      - name: Upload `coverage.xml` as Artifact
+      - name: Upload `coverage.xml` Artifact
         if: matrix.python-version == inputs.python-version
         uses: actions/upload-artifact@v3
         with:
