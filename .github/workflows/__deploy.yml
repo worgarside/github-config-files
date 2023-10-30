@@ -41,12 +41,12 @@ jobs:
           path: dist/
 
       - name: Upload Artifacts
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
           gh release upload ${{ inputs.release-tag }} dist/* \
           --clobber \
           --repo ${{ github.repository }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Summarise Environment
         # yamllint disable rule:line-length
@@ -57,6 +57,8 @@ jobs:
 
       - name: Publish Release Notes
         if: inputs.environment == 'production' && !inputs.deploy-to
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
           gh release edit ${{ inputs.release-tag }} \
             --draft=false \
@@ -88,6 +90,8 @@ jobs:
 
       - name: Publish Release Notes
         if: inputs.environment == 'production'
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
           gh release edit ${{ inputs.release-tag }} \
             --draft=false \
