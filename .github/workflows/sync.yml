@@ -13,7 +13,6 @@ on:
       - .github/repo_labels.yml
       - .github/workflows/sync.yml
       - gha_sync/**
-      - .gitignore
       - .pylintrc
       - .yamllint
 

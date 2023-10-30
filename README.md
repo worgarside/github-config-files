@@ -21,12 +21,11 @@
 | **.github/workflows/pr_cleanup.yml** | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) |
 | **.github/workflows/set_pr_auto_merge.yml** | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) |
 | **.github/workflows/validate_home_assistant_config.yml** | | | | [gha_sync/workflows/repo/home-assistant/validate_home_assistant_config.yml](gha_sync/workflows/repo/home-assistant/validate_home_assistant_config.yml) | | | | | | | | | | |
-| **.gitignore** | [.gitignore](.gitignore) | [.gitignore](.gitignore) | [.gitignore](.gitignore) | [.gitignore](.gitignore) | [.gitignore](.gitignore) | [.gitignore](.gitignore) | [.gitignore](.gitignore) | [.gitignore](.gitignore) | [.gitignore](.gitignore) | [.gitignore](.gitignore) | [.gitignore](.gitignore) | [.gitignore](.gitignore) | [.gitignore](.gitignore) | [.gitignore](.gitignore) |
 | **.pylintrc** | [.pylintrc](.pylintrc) | | [.pylintrc](.pylintrc) | [.pylintrc](.pylintrc) | [.pylintrc](.pylintrc) | [.pylintrc](.pylintrc) | [.pylintrc](.pylintrc) | [.pylintrc](.pylintrc) | [.pylintrc](.pylintrc) | [.pylintrc](.pylintrc) | [.pylintrc](.pylintrc) | [.pylintrc](.pylintrc) | [.pylintrc](.pylintrc) | [.pylintrc](.pylintrc) |
 | **.yamllint** | [.yamllint](.yamllint) | | [.yamllint](.yamllint) | | [.yamllint](.yamllint) | [.yamllint](.yamllint) | [.yamllint](.yamllint) | [.yamllint](.yamllint) | [.yamllint](.yamllint) | [.yamllint](.yamllint) | [.yamllint](.yamllint) | [.yamllint](.yamllint) | [.yamllint](.yamllint) | |
 ### Per-Repository Mappings
 
-### [addon-item-warehouse-api](https://github.com/worgarside/addon-item-warehouse-api) (16 files)
+### [addon-item-warehouse-api](https://github.com/worgarside/addon-item-warehouse-api) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -37,7 +36,6 @@
 | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/addon-item-warehouse-api/.github/dependabot.yml) |
 | [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/addon-item-warehouse-api/.github/labeler.yml) |
 | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/addon-item-warehouse-api/.github/repo_labels.yml) |
-| [.gitignore](.gitignore) | [.gitignore](https://github.com/worgarside/addon-item-warehouse-api/.gitignore) |
 | [.pylintrc](.pylintrc) | [.pylintrc](https://github.com/worgarside/addon-item-warehouse-api/.pylintrc) |
 | [.yamllint](.yamllint) | [.yamllint](https://github.com/worgarside/addon-item-warehouse-api/.yamllint) |
 | [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/addon-item-warehouse-api/.github/release-drafter.yml) |
@@ -51,7 +49,7 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/addon-item-warehouse-api/.github/workflows/ci_validation.yml) |
 </details>
 
-### [addon-item-warehouse-website](https://github.com/worgarside/addon-item-warehouse-website) (15 files)
+### [addon-item-warehouse-website](https://github.com/worgarside/addon-item-warehouse-website) (14 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -62,7 +60,6 @@
 | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/dependabot.yml) |
 | [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/labeler.yml) |
 | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/repo_labels.yml) |
-| [.gitignore](.gitignore) | [.gitignore](https://github.com/worgarside/addon-item-warehouse-website/.gitignore) |
 | [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/release-drafter.yml) |
 | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [.github/workflows/auto_create_pr.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/workflows/auto_create_pr.yml) |
 | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [.github/workflows/manage_pr.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/workflows/manage_pr.yml) |
@@ -75,7 +72,7 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/addon-item-warehouse-website/.github/workflows/ci_validation.yml) |
 </details>
 
-### [addon-yas-209-bridge](https://github.com/worgarside/addon-yas-209-bridge) (16 files)
+### [addon-yas-209-bridge](https://github.com/worgarside/addon-yas-209-bridge) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -86,7 +83,6 @@
 | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/addon-yas-209-bridge/.github/dependabot.yml) |
 | [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/addon-yas-209-bridge/.github/labeler.yml) |
 | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/addon-yas-209-bridge/.github/repo_labels.yml) |
-| [.gitignore](.gitignore) | [.gitignore](https://github.com/worgarside/addon-yas-209-bridge/.gitignore) |
 | [.pylintrc](.pylintrc) | [.pylintrc](https://github.com/worgarside/addon-yas-209-bridge/.pylintrc) |
 | [.yamllint](.yamllint) | [.yamllint](https://github.com/worgarside/addon-yas-209-bridge/.yamllint) |
 | [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/addon-yas-209-bridge/.github/release-drafter.yml) |
@@ -100,7 +96,7 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/addon-yas-209-bridge/.github/workflows/ci_validation.yml) |
 </details>
 
-### [home-assistant](https://github.com/worgarside/home-assistant) (14 files)
+### [home-assistant](https://github.com/worgarside/home-assistant) (13 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -109,7 +105,6 @@
 |--------|-------------|
 | [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](https://github.com/worgarside/home-assistant/.github/CODEOWNERS) |
 | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/home-assistant/.github/dependabot.yml) |
-| [.gitignore](.gitignore) | [.gitignore](https://github.com/worgarside/home-assistant/.gitignore) |
 | [.pylintrc](.pylintrc) | [.pylintrc](https://github.com/worgarside/home-assistant/.pylintrc) |
 | [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/home-assistant/.github/release-drafter.yml) |
 | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [.github/workflows/auto_create_pr.yml](https://github.com/worgarside/home-assistant/.github/workflows/auto_create_pr.yml) |
@@ -123,7 +118,7 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/home-assistant/.github/workflows/ci_validation.yml) |
 </details>
 
-### [home-assistant-appdaemon](https://github.com/worgarside/home-assistant-appdaemon) (16 files)
+### [home-assistant-appdaemon](https://github.com/worgarside/home-assistant-appdaemon) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -134,7 +129,6 @@
 | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/home-assistant-appdaemon/.github/dependabot.yml) |
 | [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/home-assistant-appdaemon/.github/labeler.yml) |
 | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/home-assistant-appdaemon/.github/repo_labels.yml) |
-| [.gitignore](.gitignore) | [.gitignore](https://github.com/worgarside/home-assistant-appdaemon/.gitignore) |
 | [.pylintrc](.pylintrc) | [.pylintrc](https://github.com/worgarside/home-assistant-appdaemon/.pylintrc) |
 | [.yamllint](.yamllint) | [.yamllint](https://github.com/worgarside/home-assistant-appdaemon/.yamllint) |
 | [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/home-assistant-appdaemon/.github/release-drafter.yml) |
@@ -148,7 +142,7 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/home-assistant-appdaemon/.github/workflows/ci_validation.yml) |
 </details>
 
-### [home-assistant-config-validator](https://github.com/worgarside/home-assistant-config-validator) (16 files)
+### [home-assistant-config-validator](https://github.com/worgarside/home-assistant-config-validator) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -159,7 +153,6 @@
 | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/home-assistant-config-validator/.github/dependabot.yml) |
 | [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/home-assistant-config-validator/.github/labeler.yml) |
 | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/home-assistant-config-validator/.github/repo_labels.yml) |
-| [.gitignore](.gitignore) | [.gitignore](https://github.com/worgarside/home-assistant-config-validator/.gitignore) |
 | [.pylintrc](.pylintrc) | [.pylintrc](https://github.com/worgarside/home-assistant-config-validator/.pylintrc) |
 | [.yamllint](.yamllint) | [.yamllint](https://github.com/worgarside/home-assistant-config-validator/.yamllint) |
 | [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/home-assistant-config-validator/.github/release-drafter.yml) |
@@ -173,7 +166,7 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/ci_validation.yml) |
 </details>
 
-### [led-matrix-now-playing](https://github.com/worgarside/led-matrix-now-playing) (16 files)
+### [led-matrix-now-playing](https://github.com/worgarside/led-matrix-now-playing) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -184,7 +177,6 @@
 | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/led-matrix-now-playing/.github/dependabot.yml) |
 | [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/led-matrix-now-playing/.github/labeler.yml) |
 | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/led-matrix-now-playing/.github/repo_labels.yml) |
-| [.gitignore](.gitignore) | [.gitignore](https://github.com/worgarside/led-matrix-now-playing/.gitignore) |
 | [.pylintrc](.pylintrc) | [.pylintrc](https://github.com/worgarside/led-matrix-now-playing/.pylintrc) |
 | [.yamllint](.yamllint) | [.yamllint](https://github.com/worgarside/led-matrix-now-playing/.yamllint) |
 | [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/led-matrix-now-playing/.github/release-drafter.yml) |
@@ -198,7 +190,7 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/led-matrix-now-playing/.github/workflows/ci_validation.yml) |
 </details>
 
-### [plant-monitor](https://github.com/worgarside/plant-monitor) (16 files)
+### [plant-monitor](https://github.com/worgarside/plant-monitor) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -209,7 +201,6 @@
 | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/plant-monitor/.github/dependabot.yml) |
 | [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/plant-monitor/.github/labeler.yml) |
 | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/plant-monitor/.github/repo_labels.yml) |
-| [.gitignore](.gitignore) | [.gitignore](https://github.com/worgarside/plant-monitor/.gitignore) |
 | [.pylintrc](.pylintrc) | [.pylintrc](https://github.com/worgarside/plant-monitor/.pylintrc) |
 | [.yamllint](.yamllint) | [.yamllint](https://github.com/worgarside/plant-monitor/.yamllint) |
 | [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/plant-monitor/.github/release-drafter.yml) |
@@ -223,7 +214,7 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/plant-monitor/.github/workflows/ci_validation.yml) |
 </details>
 
-### [pre-commit-hooks-dependency-sync](https://github.com/worgarside/pre-commit-hooks-dependency-sync) (16 files)
+### [pre-commit-hooks-dependency-sync](https://github.com/worgarside/pre-commit-hooks-dependency-sync) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -234,7 +225,6 @@
 | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/pre-commit-hooks-dependency-sync/.github/dependabot.yml) |
 | [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/pre-commit-hooks-dependency-sync/.github/labeler.yml) |
 | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/pre-commit-hooks-dependency-sync/.github/repo_labels.yml) |
-| [.gitignore](.gitignore) | [.gitignore](https://github.com/worgarside/pre-commit-hooks-dependency-sync/.gitignore) |
 | [.pylintrc](.pylintrc) | [.pylintrc](https://github.com/worgarside/pre-commit-hooks-dependency-sync/.pylintrc) |
 | [.yamllint](.yamllint) | [.yamllint](https://github.com/worgarside/pre-commit-hooks-dependency-sync/.yamllint) |
 | [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/pre-commit-hooks-dependency-sync/.github/release-drafter.yml) |
@@ -248,7 +238,7 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/pre-commit-hooks-dependency-sync/.github/workflows/ci_validation.yml) |
 </details>
 
-### [python-template](https://github.com/worgarside/python-template) (16 files)
+### [python-template](https://github.com/worgarside/python-template) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -259,7 +249,6 @@
 | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/python-template/.github/dependabot.yml) |
 | [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/python-template/.github/labeler.yml) |
 | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/python-template/.github/repo_labels.yml) |
-| [.gitignore](.gitignore) | [.gitignore](https://github.com/worgarside/python-template/.gitignore) |
 | [.pylintrc](.pylintrc) | [.pylintrc](https://github.com/worgarside/python-template/.pylintrc) |
 | [.yamllint](.yamllint) | [.yamllint](https://github.com/worgarside/python-template/.yamllint) |
 | [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/python-template/.github/release-drafter.yml) |
@@ -273,7 +262,7 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/python-template/.github/workflows/ci_validation.yml) |
 </details>
 
-### [smart-mini-crt-interface](https://github.com/worgarside/smart-mini-crt-interface) (16 files)
+### [smart-mini-crt-interface](https://github.com/worgarside/smart-mini-crt-interface) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -284,7 +273,6 @@
 | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/smart-mini-crt-interface/.github/dependabot.yml) |
 | [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/smart-mini-crt-interface/.github/labeler.yml) |
 | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/smart-mini-crt-interface/.github/repo_labels.yml) |
-| [.gitignore](.gitignore) | [.gitignore](https://github.com/worgarside/smart-mini-crt-interface/.gitignore) |
 | [.pylintrc](.pylintrc) | [.pylintrc](https://github.com/worgarside/smart-mini-crt-interface/.pylintrc) |
 | [.yamllint](.yamllint) | [.yamllint](https://github.com/worgarside/smart-mini-crt-interface/.yamllint) |
 | [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/smart-mini-crt-interface/.github/release-drafter.yml) |
@@ -298,7 +286,7 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/smart-mini-crt-interface/.github/workflows/ci_validation.yml) |
 </details>
 
-### [very-slow-movie-player](https://github.com/worgarside/very-slow-movie-player) (16 files)
+### [very-slow-movie-player](https://github.com/worgarside/very-slow-movie-player) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -309,7 +297,6 @@
 | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/very-slow-movie-player/.github/dependabot.yml) |
 | [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/very-slow-movie-player/.github/labeler.yml) |
 | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/very-slow-movie-player/.github/repo_labels.yml) |
-| [.gitignore](.gitignore) | [.gitignore](https://github.com/worgarside/very-slow-movie-player/.gitignore) |
 | [.pylintrc](.pylintrc) | [.pylintrc](https://github.com/worgarside/very-slow-movie-player/.pylintrc) |
 | [.yamllint](.yamllint) | [.yamllint](https://github.com/worgarside/very-slow-movie-player/.yamllint) |
 | [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/very-slow-movie-player/.github/release-drafter.yml) |
@@ -323,7 +310,7 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/very-slow-movie-player/.github/workflows/ci_validation.yml) |
 </details>
 
-### [wg-scripts](https://github.com/worgarside/wg-scripts) (16 files)
+### [wg-scripts](https://github.com/worgarside/wg-scripts) (15 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -334,7 +321,6 @@
 | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/wg-scripts/.github/dependabot.yml) |
 | [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/wg-scripts/.github/labeler.yml) |
 | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/wg-scripts/.github/repo_labels.yml) |
-| [.gitignore](.gitignore) | [.gitignore](https://github.com/worgarside/wg-scripts/.gitignore) |
 | [.pylintrc](.pylintrc) | [.pylintrc](https://github.com/worgarside/wg-scripts/.pylintrc) |
 | [.yamllint](.yamllint) | [.yamllint](https://github.com/worgarside/wg-scripts/.yamllint) |
 | [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/wg-scripts/.github/release-drafter.yml) |
@@ -348,7 +334,7 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/wg-scripts/.github/workflows/ci_validation.yml) |
 </details>
 
-### [wg-utilities](https://github.com/worgarside/wg-utilities) (15 files)
+### [wg-utilities](https://github.com/worgarside/wg-utilities) (14 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -359,7 +345,6 @@
 | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/wg-utilities/.github/dependabot.yml) |
 | [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/wg-utilities/.github/labeler.yml) |
 | [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/wg-utilities/.github/repo_labels.yml) |
-| [.gitignore](.gitignore) | [.gitignore](https://github.com/worgarside/wg-utilities/.gitignore) |
 | [.pylintrc](.pylintrc) | [.pylintrc](https://github.com/worgarside/wg-utilities/.pylintrc) |
 | [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/wg-utilities/.github/release-drafter.yml) |
 | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [.github/workflows/auto_create_pr.yml](https://github.com/worgarside/wg-utilities/.github/workflows/auto_create_pr.yml) |
@@ -393,8 +378,8 @@ CM-->P
 I-->AE
 I-->E
 P-->A
-P-->BD
 P-->BA
+P-->BD
 P-->E
 end
 subgraph CV[" "]

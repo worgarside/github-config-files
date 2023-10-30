@@ -4,7 +4,6 @@
 group:
   # All Repos
   - files:
-      - .gitignore
       - .github/CODEOWNERS
       - .github/dependabot.yml
       - source: gha_sync/workflows/all
