@@ -378,8 +378,8 @@ CM-->P
 I-->AE
 I-->E
 P-->A
-P-->BD
 P-->BA
+P-->BD
 P-->E
 end
 subgraph CV[" "]
