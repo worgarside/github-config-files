@@ -152,6 +152,9 @@ jobs:
           git config user.email "${SUBMODULE_EMAIL}"
           git config user.name "${SUBMODULE_USERNAME}"
 
+          git submodule init
+          git submodule update
+
           ROOT_DIR=$(pwd)
 
           cd ${{ steps.get-target-repo.outputs.submodule-path }}
