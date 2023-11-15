@@ -35,7 +35,7 @@ jobs:
   add-artifacts-to-release-notes:
     name: Add Artifacts to Release Notes
     runs-on: ubuntu-latest
-    if: inputs.release-tag != 'null'
+    if: inputs.release-tag != 'null' && !startsWith(inputs.deploy-to, 'submodule:')
     steps:
       - name: Download Artifact
         uses: actions/download-artifact@v3
@@ -104,12 +104,8 @@ jobs:
     name: Deploy as Submodule
     environment: ${{ inputs.environment }}
     if: |
-      always() && !failure() &&
       inputs.environment == 'production' &&
-      needs.add-artifacts-to-release-notes.result == 'success' &&
       startsWith(inputs.deploy-to, 'submodule:')
-    needs:
-      - add-artifacts-to-release-notes
     runs-on: ubuntu-latest
     steps:
       - name: Get Target Repo
