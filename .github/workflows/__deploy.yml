@@ -164,8 +164,10 @@ jobs:
           cd "${ROOT_DIR}"
 
           git add ${{ steps.get-target-repo.outputs.submodule-path }}
-          git commit -m "Bump \`${{ github.repository }}\` to ${{ inputs.release-tag }}"
-          git push origin HEAD:refs/heads/chore/${{ github.repository }}/${{ inputs.release-tag }}
+          git commit -m "Bump \`${{ github.repository }}\` to ${{ inputs.release-tag }}"\
+
+          git push "https://${GH_TOKEN}@github.com/${{ steps.get-target-repo.outputs.repo }}" \
+            HEAD:refs/heads/chore/${{ github.repository }}/${{ inputs.release-tag }}
 
       - name: Create Pull Request
         env:

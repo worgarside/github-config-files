@@ -48,6 +48,7 @@ jobs:
 
       - name: Parse Label Names
         id: parse-label-names
+        if: success()
         # yamllint disable rule:line-length
         run: |
           name_list=$(echo "${{ inputs.pr-label-names }}" | jq -R 'split(",")' | tr '\n' ' ' )
