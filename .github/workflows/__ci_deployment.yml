@@ -197,7 +197,13 @@ jobs:
     name: Deploy to Production
     if: |
       always() && !failure() &&
-      needs.run-production-build.result == 'success'
+      (
+        (
+          needs.run-production-build.result == 'skipped' &&
+          startsWith(inputs.deploy-to, 'submodule:')
+        ) ||
+        needs.run-production-build.result == 'success'
+      )
     needs:
       - run-production-build
     uses: ./.github/workflows/__deploy.yml
