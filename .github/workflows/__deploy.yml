@@ -147,10 +147,10 @@ jobs:
           SUBMODULE_EMAIL: ${{ vars.SUBMODULE_DEPLOYMENT_EMAIL }}
           SUBMODULE_USERNAME: ${{ vars.SUBMODULE_DEPLOYMENT_USERNAME }}
         run: |
+          cd target-repo
+
           git config user.email "${SUBMODULE_EMAIL}"
           git config user.name "${SUBMODULE_USERNAME}"
-
-          cd target-repo
 
           ROOT_DIR=$(pwd)
 
