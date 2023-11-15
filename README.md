@@ -364,34 +364,33 @@ flowchart LR
 subgraph CV[" "]
 direction LR
 CR-->P
-CT-->CE
-CT-->CI
 CT-->CR
+CT-->CI
+CT-->CE
 BU-->BT
 BT-->AR
-CO-->BT
-CO-->CE
-CO-->CI
 CO-->CN
-CN-->I
+CO-->CI
+CO-->CE
+CO-->BT
 CN-->P
+CN-->I
 I-->E
 I-->AE
-P-->A
-P-->BB
-P-->BE
 P-->E
+P-->BE
+P-->BB
+P-->A
 end
 subgraph CW[" "]
 direction LR
-BI-->BH
-BH-->AA
+CB-->CA
+CA-->AY
 end
 subgraph CX[" "]
 direction LR
-BL-->BK
-BK-->AK
-BK-->W
+BY-->BX
+BX-->AU
 end
 subgraph CY[" "]
 direction LR
@@ -400,13 +399,14 @@ BP-->AO
 end
 subgraph CZ[" "]
 direction LR
-BY-->BX
-BX-->AU
+BL-->BK
+BK-->W
+BK-->AK
 end
 subgraph DA[" "]
 direction LR
-CB-->CA
-CA-->AY
+BI-->BH
+BH-->AA
 end
 AA[["Create Pull Request"]]
 AE[["Deploy"]]
