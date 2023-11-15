@@ -375,12 +375,12 @@ CN-->CH
 CN-->CM
 CM-->I
 CM-->P
-I-->E
 I-->AE
+I-->E
 P-->A
 P-->BA
-P-->E
 P-->BD
+P-->E
 end
 subgraph CV[" "]
 direction LR
