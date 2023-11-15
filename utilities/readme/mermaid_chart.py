@@ -504,11 +504,11 @@ class Relationship:
         if not isinstance(other, Relationship):
             return NotImplemented
 
-        if self.label != other.label:
+        if self.label != other.label and "triggers" in (self.label, other.label):
             return self.label != "triggers"  # 'triggers' comes first, all else equal
 
         if self.end.entity_id != other.end.entity_id:
-            return self.end.entity_id < other.end.entity_id
+            return self.end.entity_id > other.end.entity_id
 
         return self.start.entity_id < other.start.entity_id
 
