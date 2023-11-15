@@ -178,7 +178,7 @@ jobs:
           release_link="# [${{ inputs.release-tag }}](https://github.com/${{ github.repository }}/releases/tag/${{ inputs.release-tag }})"
 
           release_notes=$(
-            gh release view 0.6.0 --repo worgarside/home-assistant-appdaemon --json body --jq '.body'
+            gh release view ${{ inputs.release-tag }} --repo ${{ github.repository }} --json body --jq '.body'
           )
 
           echo -e "${release_link}\n${release_notes}" >> "${PR_BODY_FILE}"
