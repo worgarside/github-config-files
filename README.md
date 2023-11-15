@@ -373,10 +373,10 @@ CO-->BT
 CO-->CE
 CO-->CI
 CO-->CN
-CN-->P
 CN-->I
-I-->AE
+CN-->P
 I-->E
+I-->AE
 P-->A
 P-->BB
 P-->BE
