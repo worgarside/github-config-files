@@ -182,7 +182,10 @@ jobs:
           )
 
           echo -e "${release_link}\n${release_notes}" >> "${PR_BODY_FILE}"
-          echo -e "${release_link}\n${release_notes}" >> "${GITHUB_STEP_SUMMARY}"
+
+          sed -i 's/\(#\([0-9]\+\)\)$/(${{ github.repository }}#\2)/g' "${PR_BODY_FILE}"
+
+          cat "${PR_BODY_FILE}" >> "${GITHUB_STEP_SUMMARY}"
 
           pr_url=$(
             gh pr create \
