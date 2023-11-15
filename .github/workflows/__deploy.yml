@@ -172,11 +172,13 @@ jobs:
       - name: Create Pull Request
         env:
           GH_TOKEN: ${{ secrets.SUBMODULE_DEPLOYMENT_TOKEN || secrets.WORGARSIDE_DEV_TOKEN }}
+        # yamllint disable rule:line-length
         run: |
           gh pr create \
             --repo ${{ steps.get-target-repo.outputs.repo }} \
             --title "Bump \`${{ github.repository }}\` to ${{ inputs.release-tag }}" \
-            --fill \
+            --body "https://github.com/${{ steps.get-target-repo.outputs.repo }}/releases/tag/${{ inputs.release-tag }}" \
             --base "main" \
             --head "refs/heads/chore/${{ github.repository }}/${{ inputs.release-tag }}" \
             --reviewer ${{ github.repository_owner }}
+        # yamllint enable rule:line-length
