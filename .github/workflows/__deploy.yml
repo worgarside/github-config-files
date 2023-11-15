@@ -184,11 +184,15 @@ jobs:
           echo -e "${release_link}\n${release_notes}" >> "${PR_BODY_FILE}"
           echo -e "${release_link}\n${release_notes}" >> "${GITHUB_STEP_SUMMARY}"
 
-          gh pr create \
-            --repo ${{ steps.get-target-repo.outputs.repo }} \
-            --title "Bump \`${{ github.repository }}\` to ${{ inputs.release-tag }}" \
-            --body-file "${PR_BODY_FILE}" \
-            --base "main" \
-            --head "refs/heads/chore/${{ github.repository }}/${{ inputs.release-tag }}" \
-            --reviewer ${{ github.repository_owner }}
+          pr_url=$(
+            gh pr create \
+              --repo ${{ steps.get-target-repo.outputs.repo }} \
+              --title "Bump \`${{ github.repository }}\` to ${{ inputs.release-tag }}" \
+              --body-file "${PR_BODY_FILE}" \
+              --base "main" \
+              --head "refs/heads/chore/${{ github.repository }}/${{ inputs.release-tag }}" \
+              --reviewer ${{ github.repository_owner }}
+          )
+
+          gh pr merge --delete-branch --squash --auto "$pr_url"
         # yamllint enable rule:line-length
