@@ -5,7 +5,10 @@ on:
   workflow_call:
     inputs:
       deploy-to:
-        description: Where to deploy to
+        description: |
+          Where to deploy to. Options:
+            - pypi
+            - submodule:<organisation>/<repository>/path/to/submodule
         required: false
         type: string
       environment:
@@ -96,3 +99,71 @@ jobs:
           gh release edit ${{ inputs.release-tag }} \
             --draft=false \
             --repo ${{ github.repository }}
+
+  deploy-as-submodule:
+    name: Deploy as Submodule
+    environment: ${{ inputs.environment }}
+    if: |
+      always() && !failure() &&
+      inputs.environment == 'production' &&
+      needs.add-artifacts-to-release-notes.result == 'success' &&
+      startsWith(inputs.deploy-to, 'submodule:')
+    needs:
+      - add-artifacts-to-release-notes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Target Repo
+        id: get-target-repo
+        env:
+          DEPLOY_TO: ${{ inputs.deploy-to }}
+        run: |
+          repo=$(echo $DEPLOY_TO | awk -F':' '{print $2}' | awk -F'/' '{print $1 "/" $2}')
+          path=$(echo $DEPLOY_TO | cut -d'/' -f3-)
+
+          echo "repo=${repo}" >> "${GITHUB_OUTPUT}"
+          echo "submodule-path=${path}" >> "${GITHUB_OUTPUT}"
+
+          echo -e "Target repository: \`${repo}\`" >> "${GITHUB_STEP_SUMMARY}"
+          echo -e "Submodule path: \`${path}\`" >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Clone Target Repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          ref: main
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+          repository: ${{ steps.get-target-repo.outputs.repo }}
+          fetch-depth: 0
+          path: target-repo
+
+      # Only do this once the target repo has been cloned successfully
+      - name: Publish Release Notes
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+        run: |
+          gh release edit ${{ inputs.release-tag }} \
+            --draft=false \
+            --repo ${{ github.repository }}
+
+      - name: Update Submodule
+        env:
+          GH_TOKEN: ${{ secrets.SUBMODULE_DEPLOYMENT_TOKEN || secrets.WORGARSIDE_DEV_TOKEN }}
+          SUBMODULE_EMAIL: ${{ vars.SUBMODULE_DEPLOYMENT_EMAIL }}
+          SUBMODULE_USERNAME: ${{ vars.SUBMODULE_DEPLOYMENT_USERNAME }}
+        run: |
+          git config user.email "${SUBMODULE_EMAIL}"
+          git config user.name "${SUBMODULE_USERNAME}"
+
+          cd target-repo
+
+          ROOT_DIR=$(pwd)
+
+          cd ${{ steps.get-target-repo.outputs.submodule-path }}
+          git fetch --tags
+          git checkout tags/${{ inputs.release-tag }}
+
+          cd "${ROOT_DIR}"
+
+          git add ${{ steps.get-target-repo.outputs.submodule-path }}
+          git commit -m "Bump `${{ github.repository }}` to ${{ inputs.release-tag }}"
+          git push origin HEAD:refs/heads/chore/${{ github.repository }}/${{ inputs.release-tag }}
