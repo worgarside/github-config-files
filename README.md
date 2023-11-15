@@ -375,8 +375,8 @@ CO-->CI
 CO-->CN
 CN-->I
 CN-->P
-I-->AE
 I-->E
+I-->AE
 P-->A
 P-->BB
 P-->BE
