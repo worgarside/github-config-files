@@ -172,12 +172,22 @@ jobs:
       - name: Create Pull Request
         env:
           GH_TOKEN: ${{ secrets.SUBMODULE_DEPLOYMENT_TOKEN || secrets.WORGARSIDE_DEV_TOKEN }}
+          PR_BODY_FILE: /tmp/pr_body.txt
         # yamllint disable rule:line-length
         run: |
+          release_link="# [${{ inputs.release-tag }}](https://github.com/${{ github.repository }}/releases/tag/${{ inputs.release-tag }})"
+
+          release_notes=$(
+            gh release view 0.6.0 --repo worgarside/home-assistant-appdaemon --json body --jq '.body'
+          )
+
+          echo -e "${release_link}\n${release_notes}" >> "${PR_BODY_FILE}"
+          echo -e "${release_link}\n${release_notes}" >> "${GITHUB_STEP_SUMMARY}"
+
           gh pr create \
             --repo ${{ steps.get-target-repo.outputs.repo }} \
             --title "Bump \`${{ github.repository }}\` to ${{ inputs.release-tag }}" \
-            --body "https://github.com/${{ github.repository }}/releases/tag/${{ inputs.release-tag }}" \
+            --body-file "${PR_BODY_FILE}" \
             --base "main" \
             --head "refs/heads/chore/${{ github.repository }}/${{ inputs.release-tag }}" \
             --reviewer ${{ github.repository_owner }}
