@@ -13,7 +13,10 @@ on:
         required: false
         type: string
       deploy-to:
-        description: Where to deploy to
+        description: |
+          Where to deploy to. Options:
+            - pypi
+            - submodule:<organisation>/<repository>/path/to/submodule
         required: false
         type: string
       node-build-directory:
@@ -93,7 +96,7 @@ jobs:
     secrets: inherit
 
   publish-release:
-    name: Push ${{ !inputs.build-type && '& Publish ' || '' }}Release
+    name: Push ${{ !inputs.build-type && !inputs.deploy-to && '& Publish ' || '' }}Release
     runs-on: ubuntu-latest
     needs:
       - deploy-to-development
@@ -165,7 +168,7 @@ jobs:
 
       - name: Publish Release Notes
         if: |
-          !inputs.build-type
+          !inputs.build-type && !inputs.deploy-to
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
