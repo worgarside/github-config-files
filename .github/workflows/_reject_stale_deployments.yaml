@@ -1,0 +1,49 @@
+---
+name: Reject Stale Deployments
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 * * * *
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Load cached .local
+        uses: actions/cache@v3
+        with:
+          path: ~/.local
+          key: dotlocal-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}-3.11
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Load Cached Venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-3.11
+
+      - name: Install Dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --all-extras --sync
+
+      - name: Reject Deployments
+        env:
+          WORGARSIDE_TOKEN: ${{ secrets.WORGARSIDE_TOKEN }}
+        run: |
+          source $VENV
+          python utilities/reject_stale_deployments/reject_stale_deployments.py
