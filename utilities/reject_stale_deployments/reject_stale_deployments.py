@@ -100,7 +100,11 @@ def reject_stale_pending_deployments(repo_name: str) -> int:
 def main() -> None:
     """Main function."""
     for repo in CLIENT.get("/user/repos").json():
-        if repo["owner"]["login"] != REPOSITORY_OWNER:
+        if (
+            repo["owner"]["login"] != REPOSITORY_OWNER
+            or repo["archived"]
+            or repo["private"]
+        ):
             continue
 
         rejected_deployments = reject_stale_pending_deployments(repo["full_name"])
