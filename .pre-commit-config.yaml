@@ -117,6 +117,7 @@ repos:
         additional_dependencies:
           - pydantic==2.5.1
           - types-PyYAML
+          - httpx==0.25.1
 
   - repo: local
     hooks:
