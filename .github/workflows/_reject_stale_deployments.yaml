@@ -44,6 +44,7 @@ jobs:
 
       - name: Reject Deployments
         env:
+          LOG_LEVEL: ${{ runner.debug == '1' && 'DEBUG' || 'INFO' }}
           GH_TOKEN: ${{ secrets.WORGARSIDE_TOKEN }}
           REPOSITORY_OWNER: ${{ github.repository_owner }}
         run: |

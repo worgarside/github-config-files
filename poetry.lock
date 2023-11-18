@@ -433,7 +433,27 @@ files = [
     {file = "typing_extensions-4.8.0.tar.gz", hash = "sha256:df8e4339e9cb77357558cbdbceca33c303714cf861d1eef15e1070055ae8b7ef"},
 ]
 
+[[package]]
+name = "wg-utilities"
+version = "5.6.0"
+description = "Loads of useful stuff for the things I do :)"
+optional = false
+python-versions = ">=3.11,<4.0"
+files = [
+    {file = "wg_utilities-5.6.0-py3-none-any.whl", hash = "sha256:3089c0edae8a8a70c08bc93a428fb95b4e8d9abc8e31c5d1af01443aec898169"},
+    {file = "wg_utilities-5.6.0.tar.gz", hash = "sha256:9e236cb1399881d76b3d2c7e060203a340c1d0781552a167149e2da107c915dd"},
+]
+
+[package.extras]
+clients = ["flask (>=2.0.2)", "pydantic (<3.0.0)", "pyjwt (>=2.6,<2.9)", "python-dotenv", "pytz (>=2022.1)", "requests (>=2.26.0)", "tzlocal"]
+devices-dht22 = ["pigpio"]
+devices-epd = ["pillow", "rpi.gpio", "spidev"]
+devices-yamaha-yas-209 = ["async-upnp-client", "pydantic (<3.0.0)", "xmltodict"]
+exceptions = ["python-dotenv", "requests (>=2.26.0)"]
+functions = ["lxml (==4.9.3)", "pytz (>=2022.1)"]
+testing = ["botocore"]
+
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "53332df4e398c1c25e62ce34e2b46fc0bb236af7ea02052890f797f4cd795f0b"
+content-hash = "4dcf6ac12d8a581bf8c27adccfb8599363dcfbb8e55654cbc4385bc3b552ecd4"
