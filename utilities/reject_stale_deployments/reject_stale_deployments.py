@@ -7,7 +7,8 @@ from os import environ
 
 from httpx import Client
 
-GH_TOKEN = environ["WORGARSIDE_TOKEN"]
+GH_TOKEN = environ["GH_TOKEN"]
+REPOSITORY_OWNER = environ["REPOSITORY_OWNER"]
 
 CLIENT = Client(
     base_url="https://api.github.com",
@@ -99,6 +100,9 @@ def reject_stale_pending_deployments(repo_name: str) -> int:
 def main() -> None:
     """Main function."""
     for repo in CLIENT.get("/user/repos").json():
+        if repo["owner"]["login"] != REPOSITORY_OWNER:
+            continue
+
         rejected_deployments = reject_stale_pending_deployments(repo["full_name"])
 
         LOGGER.info(
