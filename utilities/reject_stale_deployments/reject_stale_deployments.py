@@ -19,20 +19,32 @@ LOGGER = getLogger(__name__)
 LOGGER.setLevel(environ["LOG_LEVEL"])
 
 
-def markdown_url(url: str, *, text: str | None = None) -> str:
+def markdown_url(url: str, *, text: str | None = None, backtick: bool = False) -> str:
     """Return a Markdown link."""
     if text is None:
         text = url
+
+    if backtick:
+        return f"[`{text}`]({url})"
 
     return f"[{text}]({url})"
 
 
 @lru_cache(maxsize=1)
-def repo_name_markdown(repo_name: str, *, path: str | None = None) -> str:
+def repo_name_markdown(
+    repo_name: str,
+    *,
+    path: str | None = None,
+    backtick: bool = False,
+) -> str:
     """Return a Markdown link to the repo."""
     path = "/" + path.strip("/") if path else ""
 
-    return markdown_url(f"https://github.com/{repo_name}{path}", text=repo_name)
+    return markdown_url(
+        f"https://github.com/{repo_name}{path}",
+        text=repo_name,
+        backtick=backtick,
+    )
 
 
 @lru_cache(maxsize=1)
@@ -96,11 +108,12 @@ def reject_stale_pending_deployments(repo_name: str) -> int:
 
         if latest_env_deployment_sha is None:
             LOGGER.warning(
-                "No deployments found for %s on `%s`",
+                "No deployments found for %s in environment %s",
                 repo_name_markdown(repo_name),
                 markdown_url(
                     f"https://github.com/{repo_name}/deployments/{environment}",
                     text=environment,
+                    backtick=True,
                 ),
             )
             continue
