@@ -53,7 +53,10 @@ def get_environments(repo_name: str) -> dict[str, str]:
     return {env["name"]: env["id"] for env in res.json()["environments"]}
 
 
-def get_deployment_shas(environment: str, repo_name: str) -> tuple[list[str], str]:
+def get_deployment_shas(
+    environment: str,
+    repo_name: str,
+) -> tuple[list[str], str | None]:
     """Get a list of deployment SHAs for the given environment."""
     deployments = CLIENT.get(
         f"repos/{repo_name}/deployments",
@@ -72,7 +75,7 @@ def get_deployment_shas(environment: str, repo_name: str) -> tuple[list[str], st
 
         env_deployment_shas.append(deployment["sha"])
 
-    return env_deployment_shas, latest_deployment["sha"]
+    return env_deployment_shas, latest_deployment.get("sha")
 
 
 def reject_stale_pending_deployments(repo_name: str) -> int:
@@ -90,6 +93,17 @@ def reject_stale_pending_deployments(repo_name: str) -> int:
             env_deployment_shas[environment],
             latest_env_deployment_sha,
         ) = get_deployment_shas(environment, repo_name)
+
+        if latest_env_deployment_sha is None:
+            LOGGER.warning(
+                "No deployments found for %s on `%s`",
+                repo_name_markdown(repo_name),
+                markdown_url(
+                    f"https://github.com/{repo_name}/deployments/{environment}",
+                    text=environment,
+                ),
+            )
+            continue
 
         LOGGER.debug(
             "Latest deployment SHA for %s on `%s` is `%s`",
