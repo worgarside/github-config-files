@@ -9,7 +9,6 @@ from pathlib import Path
 from httpx import Client
 
 GH_TOKEN = environ["GH_TOKEN"]
-REPOSITORY_OWNER = environ["REPOSITORY_OWNER"]
 
 CLIENT = Client(
     base_url="https://api.github.com",
@@ -134,12 +133,11 @@ def reject_stale_pending_deployments(repo_name: str) -> int:
 
 def main() -> None:
     """Main function."""
-    for repo in CLIENT.get("/user/repos").json():
-        if (
-            repo["owner"]["login"] != REPOSITORY_OWNER
-            or repo["archived"]
-            or repo["private"]
-        ):
+    for repo in CLIENT.get(
+        "/user/repos",
+        params={"affiliation": "owner", "visibility": "public", "per_page": 100},
+    ).json():
+        if repo["archived"]:
             continue
 
         try:

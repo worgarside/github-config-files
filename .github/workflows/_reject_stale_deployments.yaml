@@ -46,7 +46,6 @@ jobs:
         env:
           LOG_LEVEL: ${{ runner.debug == '1' && 'DEBUG' || 'INFO' }}
           GH_TOKEN: ${{ secrets.WORGARSIDE_TOKEN }}
-          REPOSITORY_OWNER: ${{ github.repository_owner }}
         run: |
           source $VENV
           python utilities/reject_stale_deployments/reject_stale_deployments.py
