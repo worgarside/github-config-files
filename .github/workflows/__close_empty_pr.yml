@@ -24,7 +24,7 @@ jobs:
         env:
           INPUTS: ${{ toJson(inputs) }}
         run: |
-          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+          echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "${GITHUB_STEP_SUMMARY}"
 
   close-pr-if-empty:
     name: Close Empty PR
@@ -40,8 +40,22 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
+      - name: Check for 'bot:do-not-close' label
+        id: check-label
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+        run: |
+          label_exists=$(
+            gh pr view ${{ inputs.pr-number }} \
+              --json labels \
+              --jq '.labels | any(.name == "bot:do-not-close")'
+          )
+
+          echo "label-exists=$label_exists" >> "${GITHUB_OUTPUT}"
+
       - name: Get PR Changes
         id: get-pr-changes
+        if: steps.check-label.outputs.label-exists != 'true'
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
@@ -51,12 +65,14 @@ jobs:
               --jq '. | add'
           )
 
-          echo "$total_changes changes found on PR" >> "$GITHUB_STEP_SUMMARY"
+          echo "$total_changes changes found on PR" >> "${GITHUB_STEP_SUMMARY}"
 
-          echo "total-changes=$total_changes" >> "$GITHUB_OUTPUT"
+          echo "total-changes=$total_changes" >> "${GITHUB_OUTPUT}"
 
       - name: Close PR
-        if: steps.get-pr-changes.outputs.total-changes == '0'
+        if: |
+          steps.check-label.outputs.label-exists != 'true' &&
+          steps.get-pr-changes.outputs.total-changes == '0'
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |

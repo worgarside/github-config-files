@@ -76,13 +76,15 @@ jobs:
         if: github.event.head_commit.message != 'Auto-update Pre-Commit hooks'
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         # yamllint disable rule:line-length
         run: |
           arr=$(echo '${{ steps.sync.outputs.pull_request_urls }}' | jq -c -r '.[]')
           for url in $arr; do
               pr_status=$(gh pr view "$url" --json state -q '.state')
               if [[ "$pr_status" == "OPEN" ]]; then
-                  gh pr merge --delete-branch --squash --auto "$url"
+                  gh pr edit "${url}" --title "${COMMIT_MESSAGE}"
+                  gh pr merge "${url}" --delete-branch --squash --auto
               else
                   IFS='/' read -ra ADDR <<< "$url"
                   repo_owner="${ADDR[-4]}"
