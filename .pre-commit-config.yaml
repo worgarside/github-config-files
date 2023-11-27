@@ -117,7 +117,7 @@ repos:
         additional_dependencies:
           - pydantic==2.5.2
           - types-PyYAML
-          - httpx==0.25.1
+          - httpx==0.25.2
           - wg-utilities==5.6.1
 
   - repo: local
