@@ -14,7 +14,7 @@ on:
 
 concurrency:
   cancel-in-progress: false
-  group: actionlint-${{ github.repository }}
+  group: actionlint-${{ github.repository }}-${{ github.ref }}
 
 jobs:
   actionlint:
