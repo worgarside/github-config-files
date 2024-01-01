@@ -38,7 +38,7 @@ jobs:
     if: inputs.release-tag != 'null' && !startsWith(inputs.deploy-to, 'submodule:')
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-artifact-${{ inputs.environment }}
           path: dist/
@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-artifact-${{ inputs.environment }}
           path: dist/
