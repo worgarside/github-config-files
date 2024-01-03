@@ -11,7 +11,7 @@ jobs:
     name: Reject Stale Deployments
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Clone Repo
         uses: actions/checkout@v4
 
       - name: Set up Python 3.11

@@ -361,20 +361,20 @@
 
 ```mermaid
 flowchart LR
-subgraph CV[" "]
+subgraph CW[" "]
 direction LR
-CR-->P
-CT-->CR
-CT-->CI
-CT-->CE
+CS-->P
+CU-->CS
+CU-->CI
+CU-->CE
 BU-->BT
 BT-->AR
-CO-->CN
-CO-->CI
-CO-->CE
-CO-->BT
-CN-->P
-CN-->I
+CP-->CO
+CP-->CI
+CP-->CE
+CP-->BT
+CO-->P
+CO-->I
 I-->E
 I-->AE
 P-->E
@@ -382,28 +382,28 @@ P-->BE
 P-->BB
 P-->A
 end
-subgraph CW[" "]
+subgraph CX[" "]
 direction LR
 CB-->CA
 CA-->AY
 end
-subgraph CX[" "]
+subgraph CY[" "]
 direction LR
 BY-->BX
 BX-->AU
 end
-subgraph CY[" "]
+subgraph CZ[" "]
 direction LR
 BQ-->BP
 BP-->AO
 end
-subgraph CZ[" "]
+subgraph DA[" "]
 direction LR
 BL-->BK
 BK-->W
 BK-->AK
 end
-subgraph DA[" "]
+subgraph DB[" "]
 direction LR
 BI-->BH
 BH-->AA
@@ -445,12 +445,12 @@ Types: opened, ready_for_review
 "}}
 CE("ESLint")
 CI("Validate Home Assistant Config")
-CN("CI: Validation & Deployment")
-CO{{"PUSH
+CO("CI: Validation & Deployment")
+CP{{"PUSH
 Branches: main
 "}}
-CR("CI: Validation")
-CT{{"PULL REQUEST
+CS("CI: Validation")
+CU{{"PULL REQUEST
 Types: opened, reopened, synchronize
 "}}
 E[["Build"]]
