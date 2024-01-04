@@ -420,7 +420,7 @@ BB[["SonarCloud"]]
 BE[["Test"]]
 BH("Auto-Create PR")
 BI{{"PUSH
-Branches: bugfix/*, chore/*, feature/*, hotfix/*
+Branches: bugfix/*, chore/*, feature/*, hotfix/*, refactor/*
 "}}
 BK("Manage PR")
 BL{{"PULL REQUEST
