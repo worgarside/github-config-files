@@ -116,7 +116,16 @@ jobs:
       - name: Validate SemVer Label
         env:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-          REQUIRED_LABELS: bug,dependencies,hotfix,major,minor,non-functional,patch,sync
+          REQUIRED_LABELS: >-
+            bug,
+            dependencies,
+            hotfix,
+            major,
+            minor,
+            non-functional,
+            patch,
+            refactor,
+            sync
         # yamllint disable rule:line-length
         run: |
           labels=$(
