@@ -140,6 +140,7 @@ jobs:
                 .name == "major" or
                 .name == "minor" or
                 .name == "patch" or
+                .name == "refactor" or
                 .name == "bug"
               ) |
               .name
@@ -162,6 +163,7 @@ jobs:
             echo "$new_pr_labels" | grep -q 'bug' ||
             [ "$new_pr_labels" = "dependencies" ] ||
             [ "$new_pr_labels" = "patch" ] ||
+            [ "$new_pr_labels" = "refactor" ] ||
             [ "$new_pr_labels" = "bug" ]
           then
               semver_bump="patch"
