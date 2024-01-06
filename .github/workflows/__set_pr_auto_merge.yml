@@ -22,8 +22,6 @@ on: # yamllint disable-line rule:truthy
         required: true
         type: string
 
-env:
-  GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
 jobs:
   set-auto-merge:
@@ -37,7 +35,23 @@ jobs:
         run: |
           echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Get PR Author
+        id: get-pr-author
+        env:
+          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+        run: |
+          author=$(
+            gh pr view "${{ inputs.pr-html-url }}" \
+              --json author --jq '.author.login'
+          )
+
+          echo "author=${author}" >> "${GITHUB_OUTPUT}"
+          echo "PR Author: `${author}`" >> "${GITHUB_STEP_SUMMARY}"
+
       - name: Set Auto-Merge on PR
+        env:
+          # yamllint disable-line rule:line-length
+          GITHUB_TOKEN: ${{ steps.get-pr-author.outputs.author == 'worgarside-hass' && secrets.WORGARSIDE_HASS_TOKEN || secrets.WORGARSIDE_DEV_TOKEN }}
         if: github.repository != 'worgarside/github-config-files'
         run: |
           gh pr merge "${{ inputs.pr-html-url }}" \
@@ -48,6 +62,7 @@ jobs:
       - name: Set Auto-Merge on PR (GHCF)
         if: github.repository == 'worgarside/github-config-files'
         env:
+          GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           PR_TITLE: ${{ inputs.pr-title }}
         run: |
           gh pr merge "${{ inputs.pr-html-url }}" \
