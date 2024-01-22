@@ -121,7 +121,7 @@ repos:
           - pydantic==2.5.3
           - types-PyYAML
           - httpx==0.26.0
-          - wg-utilities==5.7.1
+          - wg-utilities==5.8.0
 
   - repo: local
     hooks:
