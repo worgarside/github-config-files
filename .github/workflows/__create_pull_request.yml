@@ -8,6 +8,11 @@ on:
         description: The base branch's name (target branch)
         required: true
         type: string
+      fail-loudly:
+        description: Whether to fail loudly if the PR cannot be created
+        required: false
+        type: boolean
+        default: false
       head-ref-name:
         description: The head branch's name (source branch)
         required: true
@@ -91,25 +96,33 @@ jobs:
           fi
         # yamllint enable rule:line-length
 
-      # Git history needed for PR body auto-fill
+      # Git history needed for PR body auto-fill and commit check
       - name: Clone Repo
-        if: |
-          !inputs.pr-body
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ inputs.head-ref-name }}
           token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
+      - name: Check for Commits
+        id: check-commits
+        if: steps.check-if-pr-exists.outputs.create-pr == 'true'
+        continue-on-error: ${{ inputs.fail-loudly != 'true' }}
+        # yamllint disable rule:line-length
+        run: |
+          if ! git log ${{ inputs.base-ref-name }}..${{ inputs.head-ref-name }} --oneline | grep -q '.*'; then
+            echo "No new commits to push. Skipping PR creation."
+            exit 1
+          fi
+        # yamllint enable rule:line-length
+
       - name: Create PR
         if: steps.check-if-pr-exists.outputs.create-pr == 'true'
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-           # yamllint disable-line rule:line-length
           PR_BODY_ARG: ${{ inputs.pr-body && format('--body "{0}"', inputs.pr-body) || '--fill' }}
           PR_DRAFT_ARG: ${{ inputs.pr-draft && '--draft' || '' }}
           PR_TITLE: ${{ inputs.pr-title }}
-           # yamllint disable-line rule:line-length
           PR_LABELS_ARG: ${{ inputs.pr-labels && format('--label {0}', inputs.pr-labels ) || '' }}
         run: |
           gh pr create \
