@@ -110,7 +110,7 @@ jobs:
         continue-on-error: ${{ inputs.fail-loudly != 'true' }}
         # yamllint disable rule:line-length
         run: |
-          if ! git log ${{ inputs.base-ref-name }}..${{ inputs.head-ref-name }} --oneline | grep -q '.*'; then
+          if ! git log origin/${{ inputs.base-ref-name }}..${{ inputs.head-ref-name }} --oneline | grep -q '.*'; then
             echo "No new commits to push. Skipping PR creation."
             exit 1
           fi
