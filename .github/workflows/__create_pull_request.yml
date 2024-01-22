@@ -117,7 +117,7 @@ jobs:
         # yamllint enable rule:line-length
 
       - name: Create PR
-        if: steps.check-if-pr-exists.outputs.create-pr == 'true'
+        if: success() && steps.check-if-pr-exists.outputs.create-pr == 'true'
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           PR_BODY_ARG: ${{ inputs.pr-body && format('--body "{0}"', inputs.pr-body) || '--fill' }}
