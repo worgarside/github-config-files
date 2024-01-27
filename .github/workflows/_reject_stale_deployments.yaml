@@ -20,7 +20,7 @@ jobs:
           python-version: 3.11
 
       - name: Load cached .local
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.local
           key: dotlocal-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}-3.11
@@ -33,7 +33,7 @@ jobs:
 
       - name: Load Cached Venv
         id: cached-poetry-dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: .venv
           key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-3.11
