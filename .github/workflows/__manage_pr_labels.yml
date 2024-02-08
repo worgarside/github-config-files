@@ -118,6 +118,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           REQUIRED_LABELS: >-
             bug,dependencies,hotfix,major,minor,non-functional,patch,refactor,sync
+          PR_URL: https://github.com/${{ github.repository }}/pull/${{ inputs.pr-number }}
         # yamllint disable rule:line-length
         run: |
           labels=$(
@@ -128,7 +129,7 @@ jobs:
           )
 
           if ! echo "$labels" | grep -qE "$(echo $REQUIRED_LABELS | tr ',' '|')"; then
-            echo "No SemVer label found." >> "${GITHUB_STEP_SUMMARY}"
+            echo "No SemVer label found on [${{ github.repository }}#${{ inputs.pr-number }}]($PR_URL)." >> "${GITHUB_STEP_SUMMARY}"
             echo -e "Please add one of the following labels: \`$REQUIRED_LABELS\`" >> "${GITHUB_STEP_SUMMARY}"
             echo -e "Found: \`$labels\`" >> "${GITHUB_STEP_SUMMARY}"
             exit 1
