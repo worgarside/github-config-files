@@ -1,4 +1,5 @@
 """Cancel stale pending GitHub Actions deployments."""
+
 from __future__ import annotations
 
 from functools import lru_cache
