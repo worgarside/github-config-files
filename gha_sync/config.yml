@@ -38,12 +38,10 @@ group:
       worgarside/home-assistant-config-validator
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
-      worgarside/pre-commit-hooks-dependency-sync
       worgarside/python-template
       worgarside/smart-mini-crt-interface
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
-      worgarside/wg-utilities
 
   # No Custom Labels
   # The only exclusion is `home-assistant`, which has its own repo_labels.yml:
