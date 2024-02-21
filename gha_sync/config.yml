@@ -175,7 +175,7 @@ worgarside/wg-utilities:
     template:
       build_branch: ${{ github.ref }}
       build_type: python
-      python_version: '3.11'
+      python_version: '3.12'
       unit_test: 'true'
   - source: gha_sync/workflows/template/ci_deployment.template.yml
     dest: .github/workflows/ci_deployment.yml
@@ -185,7 +185,7 @@ worgarside/wg-utilities:
       pr_merged: ${{ github.event.pull_request.merged }}
       build_type: python
       path_to___version___file: wg_utilities/__init__.py
-      python_version: '3.11'
+      python_version: '3.12'
       release_tag: ${{ needs.ci-validation.outputs.release-tag }}
       unit_test: 'true'
       update_pyproject_toml: 'true'
