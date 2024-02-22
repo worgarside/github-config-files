@@ -35,7 +35,6 @@ group:
       worgarside/addon-yas-209-bridge
       worgarside/home-assistant
       worgarside/home-assistant-appdaemon
-      worgarside/home-assistant-config-validator
       worgarside/led-matrix-now-playing
       worgarside/plant-monitor
       worgarside/python-template
