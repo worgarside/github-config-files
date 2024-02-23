@@ -120,7 +120,7 @@ repos:
         additional_dependencies:
           - pydantic==2.6.1
           - types-PyYAML
-          - httpx==0.26.0
+          - httpx==0.27.0
           - wg-utilities==5.8.1
 
   - repo: local
