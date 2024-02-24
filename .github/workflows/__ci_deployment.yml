@@ -189,6 +189,9 @@ jobs:
       needs.publish-release.result == 'success'
     needs:
       - publish-release
+    permissions:
+      contents: read
+      pages: write
     uses: ./.github/workflows/__documentation.yml
     secrets: inherit
 
