@@ -1,5 +1,5 @@
 ---
-name: '"Documentation" Runner'
+name: '"Build Documentation" Runner'
 
 on:
   workflow_call:
@@ -15,8 +15,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Deploy Documentation
-    environment: github-pages
+    name: Build Documentation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -41,17 +40,7 @@ jobs:
 
       - name: Build Documentation
         run: make build-docs
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}

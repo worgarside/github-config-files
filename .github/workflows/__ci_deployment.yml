@@ -181,8 +181,8 @@ jobs:
             --draft=false \
             --repo ${{ github.repository }}
 
-  deploy-documentation:
-    name: Deploy Documentation
+  build-documentation:
+    name: Build Documentation
     if: |
       always() && !failure() &&
       inputs.deploy-documentation == 'true' &&
@@ -192,8 +192,16 @@ jobs:
     permissions:
       contents: read
       pages: write
+    uses: ./.github/workflows/__build_documentation.yml
+
+  deploy-documentation:
+    name: Deploy Documentation
+    needs:
+      - build-documentation
+    permissions:
+      pages: write
       id-token: write
-    uses: ./.github/workflows/__documentation.yml
+    uses: ./.github/workflows/__deploy_documentation.yml
     secrets: inherit
 
   run-production-build:
