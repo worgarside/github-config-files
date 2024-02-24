@@ -190,6 +190,7 @@ jobs:
     needs:
       - publish-release
     uses: ./.github/workflows/__documentation.yml
+    secrets: inherit
 
   run-production-build:
     name: Run Production Build
