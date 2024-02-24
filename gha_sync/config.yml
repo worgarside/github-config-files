@@ -181,6 +181,7 @@ worgarside/wg-utilities:
     template:
       build_branch: ${{ github.ref }}
       deploy_to: pypi
+      deploy_documentation: 'true'
       pr_merged: ${{ github.event.pull_request.merged }}
       build_type: python
       path_to___version___file: wg_utilities/__init__.py

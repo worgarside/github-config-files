@@ -19,6 +19,11 @@ on:
             - submodule:<organisation>/<repository>/path/to/submodule
         required: false
         type: string
+      deploy-documentation:
+        description: Whether to deploy documentation
+        required: false
+        type: string
+        default: 'false'
       node-build-directory:
         description: The directory to build the Node project in
         required: false
@@ -175,6 +180,17 @@ jobs:
           gh release edit "${TAG}" \
             --draft=false \
             --repo ${{ github.repository }}
+
+  deploy-documentation:
+    name: Deploy Documentation
+    if: |
+      always() && !failure() &&
+      inputs.deploy-documentation == 'true' &&
+      needs.publish-release.result == 'success'
+    needs:
+      - publish-release
+    uses: ./.github/workflows/__documentation.yml
+    secrets: inherit
 
   run-production-build:
     name: Run Production Build
