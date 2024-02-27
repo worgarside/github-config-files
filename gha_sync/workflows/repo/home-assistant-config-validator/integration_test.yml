@@ -28,11 +28,21 @@ jobs:
           path: home-assistant-config-validator
           ref: ${{ github.ref}}
 
+      - name: Get Latest HA Release
+        id: ha-tag
+        # yamllint disable rule:line-length
+        run: |
+          tag=gh release view --repo worgarside/home-assistant --json tagName --jq '.tagName'
+
+          echo "Running integration test against [`worgarside/home-assistant@${tag}`](https://github.com/worgarside/home-assistant/releases/tag/${tag})"
+          echo "tag=${tag}" >> "${GITHUB_OUTPUT}"
+        # yamllint enable rule:line-length
+
       - name: Clone Home Assistant Repo
         uses: actions/checkout@v4
         with:
           path: home-assistant
-          ref: main
+          ref: ${{ steps.ha-tag.outputs.tag }}
           repository: worgarside/home-assistant
 
       - name: Load cached .local
