@@ -27,6 +27,7 @@ jobs:
         with:
           path: home-assistant-config-validator
           ref: ${{ github.ref}}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Get Latest HA Release
         id: ha-tag
