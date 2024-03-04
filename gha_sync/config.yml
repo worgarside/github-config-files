@@ -168,6 +168,11 @@ worgarside/home-assistant:
   - source: gha_sync/workflows/repo/home-assistant/
     dest: .github/workflows/
 
+
+worgarside/home-assistant-config-validator:
+  - source: gha_sync/workflows/repo/home-assistant-config-validator/
+    dest: .github/workflows/
+
 worgarside/wg-utilities:
   - source: gha_sync/workflows/template/ci_validation.template.yml
     dest: .github/workflows/ci_validation.yml

@@ -1,0 +1,90 @@
+---
+name: Integration Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+concurrency:
+  group: integration-test-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  run-integration-test:
+    name: Run Integration Test
+    runs-on: ubuntu-latest
+    env:
+      HA_REPO_PATH: ${{ github.workspace }}/home-assistant
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+        with:
+          path: home-assistant-config-validator
+          ref: ${{ github.ref}}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+
+      - name: Get Latest HA Release
+        id: ha-tag
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+        # yamllint disable rule:line-length
+        run: |
+          tag=$(gh release view --repo worgarside/home-assistant --json tagName --jq '.tagName')
+
+          echo "Running integration test against [`worgarside/home-assistant@${tag}`](https://github.com/worgarside/home-assistant/releases/tag/${tag})"
+          echo "tag=${tag}" >> "${GITHUB_OUTPUT}"
+        # yamllint enable rule:line-length
+
+      - name: Clone Home Assistant Repo
+        uses: actions/checkout@v4
+        with:
+          path: home-assistant
+          ref: ${{ steps.ha-tag.outputs.tag }}
+          repository: worgarside/home-assistant
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+
+      - name: Load cached .local
+        uses: actions/cache@v4
+        with:
+          path: ~/.local
+          key: dotlocal-${{ runner.os }}
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Load Cached Venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Install Dependencies
+        working-directory: home-assistant-config-validator
+        run: poetry install --only main
+
+      - name: Generate README
+        working-directory: home-assistant-config-validator
+        run: poetry run python home_assistant_config_validator/readme_generator.py
+
+      - name: Validate Entities
+        working-directory: home-assistant-config-validator
+        run: poetry run python home_assistant_config_validator/validate_entities.py
+
+      - name: Validate Lovelace
+        working-directory: home-assistant-config-validator
+        run: poetry run python home_assistant_config_validator/validate_lovelace.py
