@@ -17,7 +17,7 @@ repos:
         files: ^$
         always_run: true
         additional_dependencies:
-          - pydantic==2.6.1
+          - pydantic==2.6.3
           - pyyaml==6.0.1
 
   - repo: https://github.com/rhysd/actionlint
@@ -118,10 +118,10 @@ repos:
           - --strict
           - --show-error-codes
         additional_dependencies:
-          - pydantic==2.6.1
+          - pydantic==2.6.3
           - types-PyYAML
           - httpx==0.27.0
-          - wg-utilities==5.8.1
+          - wg-utilities==5.14.1
 
   - repo: local
     hooks:
@@ -137,7 +137,7 @@ repos:
         types:
           - python
         additional_dependencies:
-          - pylint==3.0.3
+          - pylint==3.1.0
           - pylint-strict-informational
 
   - repo: https://github.com/pre-commit/pygrep-hooks
