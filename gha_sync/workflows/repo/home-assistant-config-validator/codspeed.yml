@@ -11,6 +11,7 @@ on:
 
 jobs:
   benchmarks:
+    name: Run Benchmarks
     runs-on: ubuntu-latest
     steps:
       - name: Clone Repo

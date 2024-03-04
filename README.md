@@ -14,6 +14,7 @@
 | **.github/workflows/auto_create_pr.yml** | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) |
 | **.github/workflows/ci_deployment.yml** | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) |
 | **.github/workflows/ci_validation.yml** | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) |
+| **.github/workflows/codspeed.yml** | | | | | | [gha_sync/workflows/repo/home-assistant-config-validator/codspeed.yml](gha_sync/workflows/repo/home-assistant-config-validator/codspeed.yml) | | | | | | | | |
 | **.github/workflows/eslint.yml** | | [gha_sync/workflows/repo/addon-item-warehouse-website/eslint.yml](gha_sync/workflows/repo/addon-item-warehouse-website/eslint.yml) | | | | | | | | | | | | |
 | **.github/workflows/integration_test.yml** | | | | | | [gha_sync/workflows/repo/home-assistant-config-validator/integration_test.yml](gha_sync/workflows/repo/home-assistant-config-validator/integration_test.yml) | | | | | | | | |
 | **.github/workflows/manage_pr.yml** | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) |
@@ -143,7 +144,7 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/home-assistant-appdaemon/.github/workflows/ci_validation.yml) |
 </details>
 
-### [home-assistant-config-validator](https://github.com/worgarside/home-assistant-config-validator) (15 files)
+### [home-assistant-config-validator](https://github.com/worgarside/home-assistant-config-validator) (16 files)
 
 <details>
 <summary>Mapping Table</summary>
@@ -162,6 +163,7 @@
 | [gha_sync/workflows/all/pr_autoupdate.yml](gha_sync/workflows/all/pr_autoupdate.yml) | [.github/workflows/pr_autoupdate.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/pr_autoupdate.yml) |
 | [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [.github/workflows/pr_cleanup.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/pr_cleanup.yml) |
 | [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [.github/workflows/set_pr_auto_merge.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/set_pr_auto_merge.yml) |
+| [gha_sync/workflows/repo/home-assistant-config-validator/codspeed.yml](gha_sync/workflows/repo/home-assistant-config-validator/codspeed.yml) | [.github/workflows/codspeed.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/codspeed.yml) |
 | [gha_sync/workflows/repo/home-assistant-config-validator/integration_test.yml](gha_sync/workflows/repo/home-assistant-config-validator/integration_test.yml) | [.github/workflows/integration_test.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/integration_test.yml) |
 | [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [.github/workflows/ci_deployment.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/ci_deployment.yml) |
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/ci_validation.yml) |
@@ -360,22 +362,24 @@
 
 ```mermaid
 flowchart LR
-subgraph DL[" "]
+subgraph DQ[" "]
 direction LR
-DH-->V
-DJ-->DH
+DM-->V
+DO-->DM
+DO-->DD
+DO-->CS
+DO-->CO
+DA-->CY
+CE-->CD
+CD-->BB
+DJ-->DI
+DJ-->DD
 DJ-->CY
 DJ-->CS
 DJ-->CO
-CE-->CD
-CD-->BB
-DE-->DD
-DE-->CY
-DE-->CS
-DE-->CO
-DE-->CD
-DD-->V
-DD-->M
+DJ-->CD
+DI-->V
+DI-->M
 M-->I
 M-->E
 M-->AQ
@@ -385,28 +389,28 @@ V-->BO
 V-->BL
 V-->A
 end
-subgraph DM[" "]
+subgraph DR[" "]
 direction LR
 CL-->CK
 CK-->BI
 end
-subgraph DN[" "]
+subgraph DS[" "]
 direction LR
 CI-->CH
 CH-->BE
 end
-subgraph DO[" "]
+subgraph DT[" "]
 direction LR
 CA-->BZ
 BZ-->AY
 end
-subgraph DP[" "]
+subgraph DU[" "]
 direction LR
 BV-->BU
 BU-->AU
 BU-->AC
 end
-subgraph DQ[" "]
+subgraph DV[" "]
 direction LR
 BS-->BR
 BR-->AG
@@ -450,13 +454,15 @@ Types: opened, ready_for_review
 "}}
 CO("ESLint")
 CS("Validate Home Assistant Config")
-CY("Integration Test")
-DD("CI: Validation & Deployment")
-DE{{"PUSH
+CY("CodSpeed Benchmarks")
+DA{{"PULL REQUEST"}}
+DD("Integration Test")
+DI("CI: Validation & Deployment")
+DJ{{"PUSH
 Branches: main
 "}}
-DH("CI: Validation")
-DJ{{"PULL REQUEST
+DM("CI: Validation")
+DO{{"PULL REQUEST
 Types: opened, reopened, synchronize
 "}}
 E[["Build"]]

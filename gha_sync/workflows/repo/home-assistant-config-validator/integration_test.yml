@@ -20,7 +20,7 @@ jobs:
     name: Run Integration Test
     runs-on: ubuntu-latest
     env:
-      EXIT_1: 0
+      EXIT_1: '0'
       HA_REPO_PATH: ${{ github.workspace }}/home-assistant
     steps:
       - name: Clone Repo
