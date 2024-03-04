@@ -27,21 +27,6 @@ group:
       worgarside/wg-scripts
       worgarside/wg-utilities
 
-  # This is every repo apart from `addon-item-warehouse-website` (Doesn't use Pylint)
-  - files:
-      - .pylintrc
-    repos: |
-      worgarside/addon-item-warehouse-api
-      worgarside/addon-yas-209-bridge
-      worgarside/home-assistant
-      worgarside/home-assistant-appdaemon
-      worgarside/led-matrix-now-playing
-      worgarside/plant-monitor
-      worgarside/python-template
-      worgarside/smart-mini-crt-interface
-      worgarside/very-slow-movie-player
-      worgarside/wg-scripts
-
   # No Custom Labels
   # The only exclusion is `home-assistant`, which has its own repo_labels.yml:
   # https://github.com/worgarside/home-assistant/blob/main/.github/repo_labels.yml

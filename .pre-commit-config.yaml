@@ -123,23 +123,6 @@ repos:
           - httpx==0.27.0
           - wg-utilities==5.14.1
 
-  - repo: local
-    hooks:
-      - id: pylint
-        name: pylint
-        entry: pylint
-        args:
-          - --disable=fixme
-          - --enable=useless-suppression
-          - --rcfile=.pylintrc
-          - --load-plugins=pylint_strict_informational
-        language: python
-        types:
-          - python
-        additional_dependencies:
-          - pylint==3.1.0
-          - pylint-strict-informational
-
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.10.0
     hooks:

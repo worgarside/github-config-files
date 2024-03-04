@@ -1,5 +1,5 @@
-# pylint: disable=abstract-method
 """Map dependencies between GitHub Actions Workflows and their triggers."""
+
 from __future__ import annotations
 
 import re
@@ -82,7 +82,6 @@ class MermaidEntity(BaseModel):
 class Trigger(MermaidEntity):
     """Trigger for a GitHub Actions Workflow."""
 
-    # pylint: disable=protected-access
     trigger_type: TriggerType = TriggerType._UNDEFINED
 
     branches: list[str] = Field(default_factory=list)

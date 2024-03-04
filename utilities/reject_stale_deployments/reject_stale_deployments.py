@@ -170,7 +170,7 @@ def main() -> None:
 
         try:
             rejected_deployments = reject_stale_pending_deployments(repo["full_name"])
-        except Exception:  # pylint: disable=broad-exception-caught
+        except Exception:
             LOGGER.exception(
                 "Failed to reject stale pending deployments for %s",
                 repo_name_markdown(repo["full_name"]),
