@@ -98,7 +98,6 @@ group:
       worgarside/home-assistant
       worgarside/home-assistant-appdaemon
       worgarside/home-assistant-config-validator
-      worgarside/led-matrix-controller
       worgarside/plant-monitor
       worgarside/pre-commit-hooks-dependency-sync
       worgarside/python-template
@@ -157,6 +156,16 @@ worgarside/home-assistant:
 worgarside/home-assistant-config-validator:
   - source: gha_sync/workflows/repo/home-assistant-config-validator/
     dest: .github/workflows/
+
+worgarside/led-matrix-controller:
+  - source: gha_sync/workflows/template/ci_deployment.template.yml
+    dest: .github/workflows/ci_deployment.yml
+    template:
+      build_branch: ${{ github.ref }}
+      path_to___version___file: led_matrix_controller/__init__.py
+      python_version: '3.11'
+      release_tag: ${{ needs.ci-validation.outputs.release-tag }}
+      update_pyproject_toml: 'true'
 
 worgarside/wg-utilities:
   - source: gha_sync/workflows/template/ci_validation.template.yml
