@@ -4,7 +4,7 @@
 
 ### All Mappings
 
-| Destination | [addon-item-warehouse-api](https://github.com/worgarside/addon-item-warehouse-api) | [addon-item-warehouse-website](https://github.com/worgarside/addon-item-warehouse-website) | [addon-yas-209-bridge](https://github.com/worgarside/addon-yas-209-bridge) | [home-assistant](https://github.com/worgarside/home-assistant) | [home-assistant-appdaemon](https://github.com/worgarside/home-assistant-appdaemon) | [home-assistant-config-validator](https://github.com/worgarside/home-assistant-config-validator) | [led-matrix-now-playing](https://github.com/worgarside/led-matrix-now-playing) | [plant-monitor](https://github.com/worgarside/plant-monitor) | [pre-commit-hooks-dependency-sync](https://github.com/worgarside/pre-commit-hooks-dependency-sync) | [python-template](https://github.com/worgarside/python-template) | [smart-mini-crt-interface](https://github.com/worgarside/smart-mini-crt-interface) | [very-slow-movie-player](https://github.com/worgarside/very-slow-movie-player) | [wg-scripts](https://github.com/worgarside/wg-scripts) | [wg-utilities](https://github.com/worgarside/wg-utilities) |
+| Destination | [addon-item-warehouse-api](https://github.com/worgarside/addon-item-warehouse-api) | [addon-item-warehouse-website](https://github.com/worgarside/addon-item-warehouse-website) | [addon-yas-209-bridge](https://github.com/worgarside/addon-yas-209-bridge) | [home-assistant](https://github.com/worgarside/home-assistant) | [home-assistant-appdaemon](https://github.com/worgarside/home-assistant-appdaemon) | [home-assistant-config-validator](https://github.com/worgarside/home-assistant-config-validator) | [led-matrix-controller](https://github.com/worgarside/led-matrix-controller) | [plant-monitor](https://github.com/worgarside/plant-monitor) | [pre-commit-hooks-dependency-sync](https://github.com/worgarside/pre-commit-hooks-dependency-sync) | [python-template](https://github.com/worgarside/python-template) | [smart-mini-crt-interface](https://github.com/worgarside/smart-mini-crt-interface) | [very-slow-movie-player](https://github.com/worgarside/very-slow-movie-player) | [wg-scripts](https://github.com/worgarside/wg-scripts) | [wg-utilities](https://github.com/worgarside/wg-utilities) |
 |-------------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|--------|
 | **.github/CODEOWNERS** | [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](.github/CODEOWNERS) |
 | **.github/dependabot.yml** | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](.github/dependabot.yml) |
@@ -164,27 +164,27 @@
 | [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/home-assistant-config-validator/.github/workflows/ci_validation.yml) |
 </details>
 
-### [led-matrix-now-playing](https://github.com/worgarside/led-matrix-now-playing) (14 files)
+### [led-matrix-controller](https://github.com/worgarside/led-matrix-controller) (14 files)
 
 <details>
 <summary>Mapping Table</summary>
 
 | Source | Destination |
 |--------|-------------|
-| [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](https://github.com/worgarside/led-matrix-now-playing/.github/CODEOWNERS) |
-| [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/led-matrix-now-playing/.github/dependabot.yml) |
-| [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/led-matrix-now-playing/.github/labeler.yml) |
-| [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/led-matrix-now-playing/.github/repo_labels.yml) |
-| [.yamllint](.yamllint) | [.yamllint](https://github.com/worgarside/led-matrix-now-playing/.yamllint) |
-| [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/led-matrix-now-playing/.github/release-drafter.yml) |
-| [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [.github/workflows/auto_create_pr.yml](https://github.com/worgarside/led-matrix-now-playing/.github/workflows/auto_create_pr.yml) |
-| [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [.github/workflows/manage_pr.yml](https://github.com/worgarside/led-matrix-now-playing/.github/workflows/manage_pr.yml) |
-| [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [.github/workflows/manage_repo_labels.yml](https://github.com/worgarside/led-matrix-now-playing/.github/workflows/manage_repo_labels.yml) |
-| [gha_sync/workflows/all/pr_autoupdate.yml](gha_sync/workflows/all/pr_autoupdate.yml) | [.github/workflows/pr_autoupdate.yml](https://github.com/worgarside/led-matrix-now-playing/.github/workflows/pr_autoupdate.yml) |
-| [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [.github/workflows/pr_cleanup.yml](https://github.com/worgarside/led-matrix-now-playing/.github/workflows/pr_cleanup.yml) |
-| [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [.github/workflows/set_pr_auto_merge.yml](https://github.com/worgarside/led-matrix-now-playing/.github/workflows/set_pr_auto_merge.yml) |
-| [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [.github/workflows/ci_deployment.yml](https://github.com/worgarside/led-matrix-now-playing/.github/workflows/ci_deployment.yml) |
-| [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/led-matrix-now-playing/.github/workflows/ci_validation.yml) |
+| [.github/CODEOWNERS](.github/CODEOWNERS) | [.github/CODEOWNERS](https://github.com/worgarside/led-matrix-controller/.github/CODEOWNERS) |
+| [.github/dependabot.yml](.github/dependabot.yml) | [.github/dependabot.yml](https://github.com/worgarside/led-matrix-controller/.github/dependabot.yml) |
+| [.github/labeler.yml](.github/labeler.yml) | [.github/labeler.yml](https://github.com/worgarside/led-matrix-controller/.github/labeler.yml) |
+| [.github/repo_labels.yml](.github/repo_labels.yml) | [.github/repo_labels.yml](https://github.com/worgarside/led-matrix-controller/.github/repo_labels.yml) |
+| [.yamllint](.yamllint) | [.yamllint](https://github.com/worgarside/led-matrix-controller/.yamllint) |
+| [gha_sync/configs/release-drafter.yml](gha_sync/configs/release-drafter.yml) | [.github/release-drafter.yml](https://github.com/worgarside/led-matrix-controller/.github/release-drafter.yml) |
+| [gha_sync/workflows/all/auto_create_pr.yml](gha_sync/workflows/all/auto_create_pr.yml) | [.github/workflows/auto_create_pr.yml](https://github.com/worgarside/led-matrix-controller/.github/workflows/auto_create_pr.yml) |
+| [gha_sync/workflows/all/manage_pr.yml](gha_sync/workflows/all/manage_pr.yml) | [.github/workflows/manage_pr.yml](https://github.com/worgarside/led-matrix-controller/.github/workflows/manage_pr.yml) |
+| [gha_sync/workflows/all/manage_repo_labels.yml](gha_sync/workflows/all/manage_repo_labels.yml) | [.github/workflows/manage_repo_labels.yml](https://github.com/worgarside/led-matrix-controller/.github/workflows/manage_repo_labels.yml) |
+| [gha_sync/workflows/all/pr_autoupdate.yml](gha_sync/workflows/all/pr_autoupdate.yml) | [.github/workflows/pr_autoupdate.yml](https://github.com/worgarside/led-matrix-controller/.github/workflows/pr_autoupdate.yml) |
+| [gha_sync/workflows/all/pr_cleanup.yml](gha_sync/workflows/all/pr_cleanup.yml) | [.github/workflows/pr_cleanup.yml](https://github.com/worgarside/led-matrix-controller/.github/workflows/pr_cleanup.yml) |
+| [gha_sync/workflows/all/set_pr_auto_merge.yml](gha_sync/workflows/all/set_pr_auto_merge.yml) | [.github/workflows/set_pr_auto_merge.yml](https://github.com/worgarside/led-matrix-controller/.github/workflows/set_pr_auto_merge.yml) |
+| [gha_sync/workflows/template/ci_deployment.template.yml](gha_sync/workflows/template/ci_deployment.template.yml) | [.github/workflows/ci_deployment.yml](https://github.com/worgarside/led-matrix-controller/.github/workflows/ci_deployment.yml) |
+| [gha_sync/workflows/template/ci_validation.template.yml](gha_sync/workflows/template/ci_validation.template.yml) | [.github/workflows/ci_validation.yml](https://github.com/worgarside/led-matrix-controller/.github/workflows/ci_validation.yml) |
 </details>
 
 ### [plant-monitor](https://github.com/worgarside/plant-monitor) (14 files)
