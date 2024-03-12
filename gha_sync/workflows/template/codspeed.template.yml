@@ -9,6 +9,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+env:
+  CACHE_FILE: poetry.lock
+
 jobs:
   benchmarks:
     name: Run Benchmarks
