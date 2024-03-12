@@ -39,7 +39,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .venv
-          key: venv-${{ hashFiles('**/poetry.lock') }}
+          key: '{{ cache_key }}'
 
       - name: Install Dependencies
         run: poetry install --sync
@@ -47,5 +47,5 @@ jobs:
       - name: Run Benchmarks
         uses: CodSpeedHQ/action@v2
         with:
-          token: ${{ secrets.CODSPEED_TOKEN }}
+          token: '{{ token }}'
           run: poetry run pytest tests/ --codspeed
