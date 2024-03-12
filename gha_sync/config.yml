@@ -158,7 +158,7 @@ worgarside/home-assistant-config-validator:
   - source: gha_sync/workflows/template/codspeed.template.yml
     dest: .github/workflows/codspeed.yml
     template:
-      cache_key: venv-${{ hashFiles('**/poetry.lock') }}
+      cache_key: venv-${{ hashFiles("**/poetry.lock") }}
       python_version: '3.12'
       token: ${{ secrets.CODSPEED_TOKEN }}
 
@@ -166,7 +166,7 @@ worgarside/led-matrix-controller:
   - source: gha_sync/workflows/template/codspeed.template.yml
     dest: .github/workflows/codspeed.yml
     template:
-      cache_key: venv-${{ hashFiles('**/poetry.lock') }}
+      cache_key: venv-${{ hashFiles("**/poetry.lock") }}
       python_version: '3.11'
       token: ${{ secrets.CODSPEED_TOKEN }}
   - source: gha_sync/workflows/template/ci_deployment.template.yml
