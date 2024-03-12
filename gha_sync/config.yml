@@ -152,12 +152,15 @@ worgarside/home-assistant:
   - source: gha_sync/workflows/repo/home-assistant/
     dest: .github/workflows/
 
-
 worgarside/home-assistant-config-validator:
   - source: gha_sync/workflows/repo/home-assistant-config-validator/
     dest: .github/workflows/
+  - source: gha_sync/workflows/multirepo/codspeed.yml
+    dest: .github/workflows/codspeed.yml
 
 worgarside/led-matrix-controller:
+  - source: gha_sync/workflows/multirepo/codspeed.yml
+    dest: .github/workflows/codspeed.yml
   - source: gha_sync/workflows/template/ci_deployment.template.yml
     dest: .github/workflows/ci_deployment.yml
     template:
