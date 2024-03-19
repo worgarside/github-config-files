@@ -2,11 +2,15 @@
 name: CodSpeed Benchmarks
 
 on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - ready_for_review
+      - synchronize
   push:
     branches:
       - main
-
-  pull_request:
   workflow_dispatch:
 
 env:
@@ -16,6 +20,7 @@ jobs:
   benchmarks:
     name: Run Benchmarks
     runs-on: ubuntu-latest
+    if: ${{ !github.event.pull_request.draft }}
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4
@@ -51,4 +56,4 @@ jobs:
         uses: CodSpeedHQ/action@v2
         with:
           token: '{{ token }}'
-          run: poetry run pytest tests/ --codspeed
+          run: poetry run pytest --codspeed

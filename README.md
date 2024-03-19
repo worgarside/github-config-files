@@ -354,7 +354,7 @@
 flowchart LR
 subgraph DQ[" "]
 direction LR
-DN-->DL
+DM-->DL
 DH-->V
 DJ-->DH
 DJ-->CY
@@ -454,7 +454,9 @@ DJ{{"PULL REQUEST
 Types: opened, reopened, synchronize
 "}}
 DL("CodSpeed Benchmarks")
-DN{{"PULL REQUEST"}}
+DM{{"PULL REQUEST
+Types: opened, ready_for_review, reopened, synchronize
+"}}
 E[["Build"]]
 I[["Build Documentation"]]
 M[["CI: Deployment"]]
