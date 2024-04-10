@@ -35,9 +35,8 @@ on:
         type: string
       python-version:
         description: The Python version to build with
-        required: false
+        required: true
         type: string
-        default: '3.11'
       release-tag:
         description: The release tag to deploy
         required: true
