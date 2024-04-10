@@ -10,9 +10,8 @@ on:  # yamllint disable-line rule:truthy
         required: true
       python-version:
         description: The Python version to build with
-        required: false
+        required: true
         type: string
-        default: '3.11'
 
 jobs:
   test:
