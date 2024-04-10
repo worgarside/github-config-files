@@ -63,7 +63,7 @@ jobs:
       - name: Install Dependencies
         # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
-          poetry install --sync --all-extras --without dev,docs
+          poetry install --sync --all-extras --with test
 
       - name: Run Tests
         id: unit_tests
