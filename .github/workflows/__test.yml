@@ -70,7 +70,7 @@ jobs:
           poetry install --sync --all-extras --with test
 
       - name: Run Tests
-        id: unit_tests
+        id: unit-tests
         continue-on-error: true
         run: poetry run pytest --cov=./ --cov-report=xml
 
@@ -92,5 +92,5 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Check on UT failures
-        if: steps.unit_tests.outcome != 'success'
+        if: steps.unit-tests.outcome != 'success' && !endsWith(matrix.python-version, '-dev')
         run: exit 1
