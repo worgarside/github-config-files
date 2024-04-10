@@ -56,4 +56,4 @@ jobs:
         uses: CodSpeedHQ/action@v2
         with:
           token: '{{ token }}'
-          run: poetry run pytest --codspeed
+          run: poetry run pytest --codspeed -v

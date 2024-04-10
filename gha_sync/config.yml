@@ -77,7 +77,6 @@ group:
       worgarside/home-assistant
       worgarside/home-assistant-appdaemon
       worgarside/home-assistant-config-validator
-      worgarside/led-matrix-controller
       worgarside/plant-monitor
       worgarside/pre-commit-hooks-dependency-sync
       worgarside/python-template
@@ -171,6 +170,11 @@ worgarside/led-matrix-controller:
       github.event.pull_request.not_draft: '{{ !github.event.pull_request.draft }}'
       python_version: '3.11'
       token: ${{ secrets.CODSPEED_TOKEN }}
+  - source: gha_sync/workflows/template/ci_validation.template.yml
+    dest: .github/workflows/ci_validation.yml
+    template:
+      build_branch: ${{ github.ref }}
+      python_version: '3.11'
   - source: gha_sync/workflows/template/ci_deployment.template.yml
     dest: .github/workflows/ci_deployment.yml
     template:
