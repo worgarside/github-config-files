@@ -19,9 +19,8 @@ on:
         default: .
       python-version:
         description: The Python version to build with
-        required: false
+        required: true
         type: string
-        default: '3.11'
       unit-test:
         description: Whether to run unit tests
         required: false

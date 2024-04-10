@@ -70,7 +70,7 @@ group:
         dest: .github/workflows/ci_validation.yml
         template:
           build_branch: ${{ github.ref }}
-          python_version: '3.11'
+          python_version: '3.12'
     repos: |
       worgarside/addon-item-warehouse-api
       worgarside/addon-yas-209-bridge
@@ -91,7 +91,7 @@ group:
         dest: .github/workflows/ci_deployment.yml
         template:
           build_branch: ${{ github.ref }}
-          python_version: '3.11'
+          python_version: '3.12'
           release_tag: ${{ needs.ci-validation.outputs.release-tag }}
           update_pyproject_toml: 'true'
     repos: |
@@ -111,7 +111,7 @@ worgarside/addon-item-warehouse-api:
     template:
       build_branch: ${{ github.ref }}
       pr_merged: ${{ github.event.pull_request.merged }}
-      python_version: '3.11'
+      python_version: '3.12'
       release_tag: ${{ needs.ci-validation.outputs.release-tag }}
       update_pyproject_toml: 'true'
       update_yaml_file_path: item_warehouse_api/config.yaml
@@ -143,7 +143,7 @@ worgarside/addon-yas-209-bridge:
     template:
       build_branch: ${{ github.ref }}
       pr_merged: ${{ github.event.pull_request.merged }}
-      python_version: '3.11'
+      python_version: '3.12'
       release_tag: ${{ needs.ci-validation.outputs.release-tag }}
       update_pyproject_toml: 'true'
       update_yaml_file_path: yas_209_bridge/config.yaml
