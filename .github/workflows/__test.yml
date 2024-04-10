@@ -60,6 +60,10 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Python 3.13 Dependencies
+        if: matrix.python-version == '3.13-dev'
+        run: sudo apt-get install libxml2-dev libxslt-dev python-dev
+
       - name: Install Dependencies
         # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: |
