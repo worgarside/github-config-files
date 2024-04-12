@@ -21,7 +21,7 @@ jobs:
     name: Run Benchmarks
     runs-on: ubuntu-latest
     if: >-
-      '{{ github.event.pull_request.not_draft }}'
+      '{{ github_event_pull_request_not_draft }}'
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4

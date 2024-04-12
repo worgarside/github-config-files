@@ -158,7 +158,7 @@ worgarside/home-assistant-config-validator:
     dest: .github/workflows/codspeed.yml
     template:
       cache_key: venv-${{ hashFiles(env.CACHE_FILE) }}
-      github.event.pull_request.not_draft: ${{ !github.event.pull_request.draft }}
+      github_event_pull_request_not_draft: ${{ !github.event.pull_request.draft }}
       python_version: '3.12'
       token: ${{ secrets.CODSPEED_TOKEN }}
 
@@ -167,7 +167,7 @@ worgarside/led-matrix-controller:
     dest: .github/workflows/codspeed.yml
     template:
       cache_key: venv-${{ hashFiles(env.CACHE_FILE) }}
-      github.event.pull_request.not_draft: ${{ !github.event.pull_request.draft }}
+      github_event_pull_request_not_draft: ${{ !github.event.pull_request.draft }}
       python_version: '3.11'
       token: ${{ secrets.CODSPEED_TOKEN }}
   - source: gha_sync/workflows/template/ci_validation.template.yml
