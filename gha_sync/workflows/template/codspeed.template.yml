@@ -15,13 +15,14 @@ on:
 
 env:
   CACHE_FILE: poetry.lock
+  DRAFT: '{{ github_event_pull_request_not_draft }}'
 
 jobs:
   benchmarks:
     name: Run Benchmarks
     runs-on: ubuntu-latest
-    if: >-
-      '{{ github_event_pull_request_not_draft }}'
+    if: |
+      github.env.DRAFT == 'false'
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4
