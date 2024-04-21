@@ -455,7 +455,7 @@ Types: opened, reopened, synchronize
 "}}
 DL("CodSpeed Benchmarks")
 DM{{"PULL REQUEST
-Types: opened, synchronize
+Types: opened, ready_for_review, reopened, synchronize
 "}}
 E[["Build"]]
 I[["Build Documentation"]]
