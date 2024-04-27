@@ -67,7 +67,7 @@ jobs:
       - name: Install Dependencies
         id: install-dependencies
         # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        continue-on-error: ${{ !endsWith(matrix.python-version, '-dev')}}
+        continue-on-error: ${{ endsWith(matrix.python-version, '-dev')}}
         run: poetry install --sync --all-extras --with test
 
       - name: Run Tests
