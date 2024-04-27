@@ -65,24 +65,30 @@ jobs:
         run: sudo apt-get install libxml2-dev libxslt-dev
 
       - name: Install Dependencies
+        id: install-dependencies
         # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: |
-          poetry install --sync --all-extras --with test
+        continue-on-error: ${{ !endsWith(matrix.python-version, '-dev')}}
+        run: poetry install --sync --all-extras --with test
 
       - name: Run Tests
         id: unit-tests
+        if: steps.install-dependencies.outcome == 'success'
         continue-on-error: true
         run: poetry run pytest --cov=./ --cov-report=xml
 
       - name: Upload `coverage.xml` Artifact
-        if: matrix.python-version == inputs.python-version
+        if: >-
+          matrix.python-version == inputs.python-version &&
+          steps.install-dependencies.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report-${{ github.run_id }}
           path: ./coverage.xml
 
       - name: Upload coverage to Codecov
-        if: matrix.python-version == inputs.python-version
+        if: >-
+          matrix.python-version == inputs.python-version &&
+          steps.install-dependencies.outcome == 'success'
         uses: codecov/codecov-action@v4
         with:
           flags: unittests
@@ -92,5 +98,8 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Check on UT failures
-        if: steps.unit-tests.outcome != 'success' && !endsWith(matrix.python-version, '-dev')
+        if: >-
+          steps.unit-tests.outcome != 'success' &&
+          !endsWith(matrix.python-version, '-dev') &&
+          steps.install-dependencies.outcome == 'success'
         run: exit 1
