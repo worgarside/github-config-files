@@ -35,11 +35,11 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+          key: venv-build-docs-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install Dependencies
         # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --all-extras --sync
+        run: poetry install --with docs --sync
 
       - name: Build Documentation
         run: make build-docs
