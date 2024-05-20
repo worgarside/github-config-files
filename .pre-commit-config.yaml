@@ -4,7 +4,7 @@ default_language_version:
 
 repos:
   - repo: https://github.com/worgarside/pre-commit-hooks-dependency-sync
-    rev: 1.1.0
+    rev: 1.1.1
     hooks:
       - id: sync-additional-dependencies
 
@@ -21,7 +21,7 @@ repos:
           - pyyaml==6.0.1
 
   - repo: https://github.com/rhysd/actionlint
-    rev: v1.6.27
+    rev: v1.7.0
     hooks:
       - id: actionlint
         args:
@@ -138,6 +138,6 @@ repos:
           - tomli
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.2
+    rev: v0.4.4
     hooks:
       - id: ruff
