@@ -110,6 +110,8 @@ jobs:
         continue-on-error: ${{ inputs.fail-loudly != 'true' }}
         # yamllint disable rule:line-length
         run: |
+          git checkout ${{ inputs.head-ref-name }}
+
           if ! git log origin/${{ inputs.base-ref-name }}..${{ inputs.head-ref-name }} --oneline | grep -q '.*'; then
             echo "No new commits to push. Skipping PR creation."
             exit 1
@@ -121,8 +123,6 @@ jobs:
           !inputs.pr-body
         id: get-commits
         run: |
-          git checkout ${{ inputs.head-ref-name }}
-
           commit_messages=$(
             git log \
               --no-merges \
