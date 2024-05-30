@@ -101,7 +101,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ inputs.head-ref-name }}
+          ref: ${{ inputs.base-ref-name }}
           token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
       - name: Check for Commits
