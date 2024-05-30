@@ -116,13 +116,34 @@ jobs:
           fi
         # yamllint enable rule:line-length
 
+      - name: Get Commits
+        if: |
+          !inputs.pr-body
+        id: get-commits
+        run: |
+          git checkout ${{ inputs.head-ref-name }}
+
+          commit_messages=$(
+            git log \
+              --no-merges \
+              --pretty=format:"- %h | %s" \
+              "${{ inputs.base-ref-name }}..${{ inputs.head-ref-name }}"
+          )
+
+          commit_messages=$(echo -e "$commit_messages\n" | tac)
+
+          echo -e "$commit_messages" >> "$GITHUB_STEP_SUMMARY"
+          echo -e "$commit_messages" > commit_messages.txt
+
       - name: Create PR
         if: >-
           steps.check-commits.outcome == 'success' &&
           steps.check-if-pr-exists.outputs.create-pr == 'true'
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-          PR_BODY_ARG: ${{ inputs.pr-body && format('--body "{0}"', inputs.pr-body) || '--fill' }}
+          PR_BODY_ARG: >-
+            inputs.pr-body && format('--body "{0}"', inputs.pr-body) ||
+            '--body-file commit_messages.txt'
           PR_DRAFT_ARG: ${{ inputs.pr-draft && '--draft' || '' }}
           PR_TITLE: ${{ inputs.pr-title }}
           PR_LABELS_ARG: ${{ inputs.pr-labels && format('--label {0}', inputs.pr-labels ) || '' }}
@@ -153,28 +174,12 @@ jobs:
           ref: ${{ inputs.base-ref-name }}
           token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
-      - name: Get Commits
-        if: |
-          !inputs.pr-body
-        id: get-commits
+      - name: Update PR
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
         run: |
-          # shellcheck disable=SC2193
-          if [[
-                "${{ inputs.head-ref-name }}" == release/* && \
-                "${{ inputs.base-ref-name }}" == "main"
-          ]]; then
-
-            git checkout main
-            latest_tag=$(git describe --tags --abbrev=0)
-            latest_tag_timestamp=$(git log -1 --format=%ct "$latest_tag")
-
-            commit_messages=$(
-              git log \
-                --no-merges \
-                --pretty=format:"- %h | %s" \
-                --since="@${latest_tag_timestamp}"
-            )
-          else
+          if [ -z "${{ inputs.pr-body }}" ] || [ "${{ inputs.pr-body }}" == "--fill" ]
+          then
             git checkout ${{ inputs.head-ref-name }}
 
             commit_messages=$(
@@ -183,19 +188,12 @@ jobs:
                 --pretty=format:"- %h | %s" \
                 "${{ inputs.base-ref-name }}..${{ inputs.head-ref-name }}"
             )
-          fi
 
-          commit_messages=$(echo -e "$commit_messages\n" | tac)
+            commit_messages=$(echo -e "$commit_messages\n" | tac)
 
-          echo -e "$commit_messages" >> "$GITHUB_STEP_SUMMARY"
-          echo -e "$commit_messages" > commit_messages.txt
+            echo -e "$commit_messages" >> "$GITHUB_STEP_SUMMARY"
+            echo -e "$commit_messages" > commit_messages.txt
 
-      - name: Update PR
-        env:
-          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-        run: |
-          if [ -z "${{ inputs.pr-body }}" ] || [ "${{ inputs.pr-body }}" == "--fill" ]
-          then
             gh pr edit \
               ${{ needs.create-pr.outputs.existing-pr-url }} \
               --body-file commit_messages.txt
