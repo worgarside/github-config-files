@@ -96,7 +96,7 @@ jobs:
               echo "existing-pr-url=$pr_url" >> "$GITHUB_OUTPUT"
           fi
 
-          if [[ "${{ inputs.head-ref-name }}" =~ -#([0-9]+)$ ]]; then
+          if [[ "${{ inputs.head-ref-name }}" =~ -?(#[0-9]+)$ ]]; then
             ISSUE_NUMBER="${BASH_REMATCH[1]}"
 
             echo "Issue number found: ${ISSUE_NUMBER}" >> "${GITHUB_STEP_SUMMARY}"
@@ -107,6 +107,8 @@ jobs:
             else
               echo "issue-phrase=Closes ${ISSUE_NUMBER}" >> "${GITHUB_OUTPUT}"
             fi
+          else
+            echo "No issue number found" >> "${GITHUB_STEP_SUMMARY}"
           fi
         # yamllint enable rule:line-length
 
