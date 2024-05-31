@@ -54,6 +54,7 @@ jobs:
     outputs:
       create-pr: ${{ steps.check-if-pr-exists.outputs.create-pr }}
       existing-pr-url: ${{ steps.check-if-pr-exists.outputs.existing-pr-url }}
+      issue-phrase: ${{ steps.check-if-pr-exists.outputs.issue-phrase }}
     steps:
       - name: Log Inputs
         if: runner.debug == '1'
@@ -94,6 +95,19 @@ jobs:
               echo "create-pr=false" >> "$GITHUB_OUTPUT"
               echo "existing-pr-url=$pr_url" >> "$GITHUB_OUTPUT"
           fi
+
+          if [[ "${{ inputs.head-ref-name }}" =~ -#([0-9]+)$ ]]; then
+            ISSUE_NUMBER="${BASH_REMATCH[1]}"
+
+            echo "Issue number found: ${ISSUE_NUMBER}" >> "${GITHUB_STEP_SUMMARY}"
+            echo "issue-number=${ISSUE_NUMBER}" >> "${GITHUB_OUTPUT}"
+
+            if [[ ${{ inputs.head-ref-name }} == bugfix/* ]]; then
+              echo "issue-phrase=Resolves ${ISSUE_NUMBER}" >> "${GITHUB_OUTPUT}"
+            else
+              echo "issue-phrase=Closes ${ISSUE_NUMBER}" >> "${GITHUB_OUTPUT}"
+            fi
+          fi
         # yamllint enable rule:line-length
 
       # Git history needed for PR body auto-fill and commit check
@@ -132,8 +146,10 @@ jobs:
 
           commit_messages=$(echo -e "$commit_messages\n" | tac)
 
-          echo -e "$commit_messages" >> "$GITHUB_STEP_SUMMARY"
-          echo -e "$commit_messages" > commit_messages.txt
+          echo -e "$commit_messages" >> "${GITHUB_STEP_SUMMARY}"
+
+          echo -e "${{ steps.check-if-pr-exists.outputs.issue-phrase }}\n\n" > commit_messages.txt
+          echo -e "$commit_messages" >> commit_messages.txt
 
       - name: Create PR
         if: >-
@@ -193,8 +209,9 @@ jobs:
 
             commit_messages=$(echo -e "$commit_messages\n" | tac)
 
-            echo -e "$commit_messages" >> "$GITHUB_STEP_SUMMARY"
-            echo -e "$commit_messages" > commit_messages.txt
+            echo -e "$commit_messages" >> "${GITHUB_STEP_SUMMARY}"
+            echo -e "${{ needs.create-pr.outputs.issue-phrase }}\n\n" > commit_messages.txt
+            echo -e "$commit_messages" >> commit_messages.txt
 
             gh pr edit \
               ${{ needs.create-pr.outputs.existing-pr-url }} \
