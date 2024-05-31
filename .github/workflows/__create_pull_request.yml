@@ -1,4 +1,5 @@
 ---
+# yamllint disable rule:line-length
 name: '"Create Pull Request" Runner'
 
 on:
@@ -67,7 +68,6 @@ jobs:
         id: check-if-pr-exists
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-        # yamllint disable rule:line-length
         run: |
           existing_pr=$(
             gh pr list \
@@ -110,7 +110,6 @@ jobs:
           else
             echo "No issue number found" >> "${GITHUB_STEP_SUMMARY}"
           fi
-        # yamllint enable rule:line-length
 
       # Git history needed for PR body auto-fill and commit check
       - name: Clone Repo
@@ -125,7 +124,6 @@ jobs:
         id: check-commits
         if: steps.check-if-pr-exists.outputs.create-pr == 'true'
         continue-on-error: ${{ inputs.fail-loudly != 'true' }}
-        # yamllint disable rule:line-length
         run: |
           git checkout ${{ inputs.head-ref-name }}
 
@@ -133,7 +131,6 @@ jobs:
             echo "No new commits to push. Skipping PR creation."
             exit 1
           fi
-        # yamllint enable rule:line-length
 
       - name: Get Commits
         if: steps.check-if-pr-exists.outputs.create-pr == 'true' && !inputs.pr-body
@@ -150,7 +147,7 @@ jobs:
 
           echo -e "$commit_messages" >> "${GITHUB_STEP_SUMMARY}"
 
-          echo -e "${{ steps.check-if-pr-exists.outputs.issue-phrase }}\n\n" > commit_messages.txt
+          echo -e "${{ steps.check-if-pr-exists.outputs.issue-phrase }}\n\n---\n\n" > commit_messages.txt
           echo -e "$commit_messages" >> commit_messages.txt
 
       - name: Create PR
@@ -212,7 +209,7 @@ jobs:
             commit_messages=$(echo -e "$commit_messages\n" | tac)
 
             echo -e "$commit_messages" >> "${GITHUB_STEP_SUMMARY}"
-            echo -e "${{ needs.create-pr.outputs.issue-phrase }}\n\n" > commit_messages.txt
+            echo -e "${{ needs.create-pr.outputs.issue-phrase }}\n\n---\n\n" > commit_messages.txt
             echo -e "$commit_messages" >> commit_messages.txt
 
             gh pr edit \
