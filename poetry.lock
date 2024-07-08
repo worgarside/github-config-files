@@ -453,13 +453,13 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "wg-utilities"
-version = "5.15.3"
+version = "5.15.4"
 description = "Loads of useful stuff for the things I do :)"
 optional = false
 python-versions = "<4.0,>=3.11"
 files = [
-    {file = "wg_utilities-5.15.3-py3-none-any.whl", hash = "sha256:f501484ece5e3da6705cb749bbe89c58e7583352c804da7425588c88c267eb82"},
-    {file = "wg_utilities-5.15.3.tar.gz", hash = "sha256:290c32285a14f0d29e409810a0373ade69f3b1f15b598b5552f86a4e43daa300"},
+    {file = "wg_utilities-5.15.4-py3-none-any.whl", hash = "sha256:c1d415ef3acc9df94452a10513bdd599d45292b5399b7c9c8b607d86806517d5"},
+    {file = "wg_utilities-5.15.4.tar.gz", hash = "sha256:74a0a3e273fa02696e5ad9984d805d4c16f603d19d592c6e75e93fc55a1a4290"},
 ]
 
 [package.dependencies]
@@ -471,11 +471,11 @@ devices-dht22 = ["pigpio"]
 devices-epd = ["pillow", "rpi.gpio", "spidev"]
 devices-yamaha-yas-209 = ["async-upnp-client", "pydantic (<3.0.0)", "xmltodict"]
 exceptions = ["requests (>=2.26.0)"]
-functions = ["lxml (==5.2.1)"]
+functions = ["lxml (==5.2.2)"]
 logging = ["requests (>=2.26.0)"]
 testing = ["botocore"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "326e7520567f40a94eeffd2ab597bc4f54b9f28e921276c84cd0946db9393ebd"
+content-hash = "de52c10384444cf8cfec32afb13ce5ba73429791699a693c28eb559fc19a93be"
