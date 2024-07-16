@@ -4,7 +4,7 @@ default_language_version:
 
 repos:
   - repo: https://github.com/worgarside/pre-commit-hooks-dependency-sync
-    rev: 1.1.1
+    rev: 1.1.2
     hooks:
       - id: sync-additional-dependencies
 
@@ -138,6 +138,6 @@ repos:
           - tomli
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.5.0
+    rev: v0.5.2
     hooks:
       - id: ruff
