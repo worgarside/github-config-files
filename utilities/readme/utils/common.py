@@ -17,14 +17,14 @@ LOGGER.addHandler(StreamHandler(stdout))
 
 REPO_NAME: Final[str] = "worgarside/github-config-files"
 
-REPO_PATH = Path(__file__).parents[2]
+REPO_PATH = Path(__file__).parents[3]
 
 IGNORED_FILES = (".DS_Store", "config.yml")
 
 
 REPO_FILE_MAPPINGS: dict[str, dict[str, str]] = {}
 
-SYNC_CONFIG = Path(__file__).parents[2] / "gha_sync/config.yml"
+SYNC_CONFIG = REPO_PATH / "gha_sync/config.yml"
 
 
 class GroupMappingTypeDef(TypedDict):

@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from common import REPO_FILE_MAPPINGS, get_all_destinations, markdown_url
+import operator
+
+from .common import REPO_FILE_MAPPINGS, get_all_destinations, markdown_url
 
 
 def generate_overview_table() -> str:
@@ -52,7 +54,7 @@ def generate_repo_level_mappings() -> str:
         details_section = "<details>\n<summary>Mapping Table</summary>\n\n"
         details_section += "| Source | Destination |\n"
         details_section += "|--------|-------------|\n"
-        for dest, source in sorted(mappings.items(), key=lambda x: x[1]):
+        for dest, source in sorted(mappings.items(), key=operator.itemgetter(1)):
             file_count += 1
             details_section += "|".join(
                 (
