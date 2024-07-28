@@ -2,24 +2,24 @@
 
 [[package]]
 name = "annotated-types"
-version = "0.6.0"
+version = "0.7.0"
 description = "Reusable constraint types to use with typing.Annotated"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "annotated_types-0.6.0-py3-none-any.whl", hash = "sha256:0641064de18ba7a25dee8f96403ebc39113d0cb953a01429249d5c7564666a43"},
-    {file = "annotated_types-0.6.0.tar.gz", hash = "sha256:563339e807e53ffd9c267e99fc6d9ea23eb8443c08f112651963e24e22f84a5d"},
+    {file = "annotated_types-0.7.0-py3-none-any.whl", hash = "sha256:1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53"},
+    {file = "annotated_types-0.7.0.tar.gz", hash = "sha256:aff07c09a53a08bc8cfccb9c85b05f1aa9a2a6f23728d790723543408344ce89"},
 ]
 
 [[package]]
 name = "anyio"
-version = "4.3.0"
+version = "4.4.0"
 description = "High level compatibility layer for multiple asynchronous event loop implementations"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "anyio-4.3.0-py3-none-any.whl", hash = "sha256:048e05d0f6caeed70d731f3db756d35dcc1f35747c8c403364a8332c630441b8"},
-    {file = "anyio-4.3.0.tar.gz", hash = "sha256:f75253795a87df48568485fd18cdd2a3fa5c4f7c5be8e5e36637733fce06fed6"},
+    {file = "anyio-4.4.0-py3-none-any.whl", hash = "sha256:c1b2d8f46a8a812513012e1107cb0e68c17159a7a594208005a57dc776e1bdc7"},
+    {file = "anyio-4.4.0.tar.gz", hash = "sha256:5aadc6a1bbb7cdb0bede386cac5e2940f5e2ff3aa20277e991cf028e0585ce94"},
 ]
 
 [package.dependencies]
@@ -154,13 +154,13 @@ files = [
 
 [[package]]
 name = "httpcore"
-version = "1.0.4"
+version = "1.0.5"
 description = "A minimal low-level HTTP client."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "httpcore-1.0.4-py3-none-any.whl", hash = "sha256:ac418c1db41bade2ad53ae2f3834a3a0f5ae76b56cf5aa497d2d033384fc7d73"},
-    {file = "httpcore-1.0.4.tar.gz", hash = "sha256:cb2839ccfcba0d2d3c1131d3c3e26dfc327326fbe7a5dc0dbfe9f6c9151bb022"},
+    {file = "httpcore-1.0.5-py3-none-any.whl", hash = "sha256:421f18bac248b25d310f3cacd198d55b8e6125c107797b609ff9b7a6ba7991b5"},
+    {file = "httpcore-1.0.5.tar.gz", hash = "sha256:34a38e2f9291467ee3b44e89dd52615370e152954ba21721378a87b2960f7a61"},
 ]
 
 [package.dependencies]
@@ -171,7 +171,7 @@ h11 = ">=0.13,<0.15"
 asyncio = ["anyio (>=4.0,<5.0)"]
 http2 = ["h2 (>=3,<5)"]
 socks = ["socksio (==1.*)"]
-trio = ["trio (>=0.22.0,<0.25.0)"]
+trio = ["trio (>=0.22.0,<0.26.0)"]
 
 [[package]]
 name = "httpx"
@@ -393,13 +393,13 @@ files = [
 
 [[package]]
 name = "requests"
-version = "2.32.0"
+version = "2.32.3"
 description = "Python HTTP for Humans."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "requests-2.32.0-py3-none-any.whl", hash = "sha256:f2c3881dddb70d056c5bd7600a4fae312b2a300e39be6a118d30b90bd27262b5"},
-    {file = "requests-2.32.0.tar.gz", hash = "sha256:fa5490319474c82ef1d2c9bc459d3652e3ae4ef4c4ebdd18a21145a47ca4b6b8"},
+    {file = "requests-2.32.3-py3-none-any.whl", hash = "sha256:70761cfe03c773ceb22aa2f671b4757976145175cdfca038c02654d061d6dcc6"},
+    {file = "requests-2.32.3.tar.gz", hash = "sha256:55365417734eb18255590a9ff9eb97e9e1da868d4ccd6402399eaf68af20a760"},
 ]
 
 [package.dependencies]
@@ -453,17 +453,17 @@ zstd = ["zstandard (>=0.18.0)"]
 
 [[package]]
 name = "wg-utilities"
-version = "5.15.4"
+version = "5.16.0"
 description = "Loads of useful stuff for the things I do :)"
 optional = false
 python-versions = "<4.0,>=3.11"
 files = [
-    {file = "wg_utilities-5.15.4-py3-none-any.whl", hash = "sha256:c1d415ef3acc9df94452a10513bdd599d45292b5399b7c9c8b607d86806517d5"},
-    {file = "wg_utilities-5.15.4.tar.gz", hash = "sha256:74a0a3e273fa02696e5ad9984d805d4c16f603d19d592c6e75e93fc55a1a4290"},
+    {file = "wg_utilities-5.16.0-py3-none-any.whl", hash = "sha256:18ddb8f65645d2afde27a6612a31ce32e5527ee8954110d723ce0a15d0115439"},
+    {file = "wg_utilities-5.16.0.tar.gz", hash = "sha256:ba58f5499dcd24f08d86e6f8dc072c76926a5e613405c2587518e01596b4160b"},
 ]
 
 [package.dependencies]
-requests = {version = ">=2.26.0", optional = true, markers = "extra == \"clients\" or extra == \"exceptions\" or extra == \"logging\""}
+requests = {version = ">=2.26.0", optional = true, markers = "extra == \"clients\" or extra == \"exceptions\" or extra == \"loggers\" or extra == \"logging\""}
 
 [package.extras]
 clients = ["flask (>=2.0.2)", "pydantic (<3.0.0)", "pyjwt (>=2.6,<2.9)", "requests (>=2.26.0)", "tzlocal"]
@@ -472,7 +472,9 @@ devices-epd = ["pillow", "rpi.gpio", "spidev"]
 devices-yamaha-yas-209 = ["async-upnp-client", "pydantic (<3.0.0)", "xmltodict"]
 exceptions = ["requests (>=2.26.0)"]
 functions = ["lxml (==5.2.2)"]
+loggers = ["requests (>=2.26.0)"]
 logging = ["requests (>=2.26.0)"]
+mqtt = ["paho-mqtt (>=2.1.0,<3.0.0)"]
 testing = ["botocore"]
 
 [metadata]

@@ -48,4 +48,4 @@ jobs:
           GH_TOKEN: ${{ secrets.WORGARSIDE_TOKEN }}
         run: |
           source $VENV
-          python utilities/reject_stale_deployments/reject_stale_deployments.py
+          python utilities/reject_stale_deployments/reject_deployments.py

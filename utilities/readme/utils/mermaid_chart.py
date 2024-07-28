@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import re
 from collections import OrderedDict, defaultdict
-from collections.abc import Generator
 from copy import deepcopy
 from enum import StrEnum, auto
 from functools import total_ordering
@@ -14,9 +13,8 @@ from logging import StreamHandler, getLogger
 from pathlib import Path
 from string import ascii_uppercase
 from sys import stdout
-from typing import Any, ClassVar, Literal
+from typing import TYPE_CHECKING, Any, ClassVar, Literal
 
-from common import REPO_FILE_MAPPINGS, REPO_NAME, REPO_PATH
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -26,6 +24,11 @@ from pydantic import (
     field_validator,
 )
 from yaml import safe_load
+
+from .common import REPO_FILE_MAPPINGS, REPO_NAME, REPO_PATH
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 LOGGER = getLogger(__name__)
 LOGGER.setLevel("INFO")
@@ -82,7 +85,7 @@ class MermaidEntity(BaseModel):
 class Trigger(MermaidEntity):
     """Trigger for a GitHub Actions Workflow."""
 
-    trigger_type: TriggerType = TriggerType._UNDEFINED
+    trigger_type: TriggerType = TriggerType._UNDEFINED  # noqa: SLF001
 
     branches: list[str] = Field(default_factory=list)
     paths: list[str] = Field(default_factory=list)
@@ -114,7 +117,7 @@ class Trigger(MermaidEntity):
             ),
         )
 
-    def __eq__(self, __value: object) -> bool:
+    def __eq__(self, __value: object, /) -> bool:
         """Return whether the given object is equal to this object."""
         if not isinstance(__value, Trigger):
             return NotImplemented
@@ -131,7 +134,7 @@ class Trigger(MermaidEntity):
             exclude={"inputs", "outputs"},
         )
 
-    def __lt__(self, __value: Trigger) -> bool:
+    def __lt__(self, __value: Trigger, /) -> bool:
         """Sort by trigger_type, branches, paths, tags, types."""
         if not isinstance(__value, Trigger):
             return NotImplemented
@@ -236,13 +239,12 @@ class Workflow(MermaidEntity):
         """Add the trigger type to the trigger data."""
         on_typed = {}
 
-        for trigger_type in on:
-            if isinstance(trigger := on[trigger_type], dict):
+        for trigger_type, trigger in on.items():
+            if isinstance(trigger, dict):
                 trigger["trigger_type"] = trigger_type
+                on_typed[trigger_type] = trigger
             else:
-                trigger = {"trigger_type": trigger_type}
-
-            on_typed[trigger_type] = trigger
+                on_typed[trigger_type] = {"trigger_type": trigger_type}
 
         return on_typed
 
@@ -290,7 +292,7 @@ class Workflow(MermaidEntity):
 
         return cls.INSTANCES[rel_path]
 
-    @computed_field  # type: ignore[misc]
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def reusable_workflows(self) -> list[Workflow]:
         """Return the reusable workflows used by this workflow."""
@@ -300,7 +302,7 @@ class Workflow(MermaidEntity):
             if job.uses is not None
         )
 
-    @computed_field  # type: ignore[misc]
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def calling_workflows(self) -> list[Workflow]:
         """Return the workflows that call this workflow."""
@@ -315,7 +317,7 @@ class Workflow(MermaidEntity):
         """Return the real path of the workflow."""
         return NotImplemented
 
-    @computed_field  # type: ignore[misc]
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def rel_path(self) -> Path:
         """Return the path of the workflow relative to the GHCF repo."""
@@ -340,7 +342,7 @@ class Workflow(MermaidEntity):
 class PatriarchWorkflow(Workflow):
     """A GitHub Actions Workflow which is synced to another repo."""
 
-    @computed_field  # type: ignore[misc]
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def real_path(self) -> Path:
         """Return the real path of the workflow."""
@@ -349,7 +351,7 @@ class PatriarchWorkflow(Workflow):
                 if self.rel_path.as_posix() == source:
                     return Path(dest)
 
-        raise RuntimeError(  # noqa: TRY003
+        raise RuntimeError(
             f"Could not find real path for {self.rel_path.as_posix()}",
         )
 
@@ -361,7 +363,7 @@ class PatriarchWorkflow(Workflow):
 class ReusableWorkflow(Workflow):
     """A reusable GitHub Actions Workflow, stored in the GHCF repo."""
 
-    @computed_field  # type: ignore[misc]
+    @computed_field  # type: ignore[prop-decorator]
     @property
     def real_path(self) -> Path:
         """Return the real path of the workflow."""
@@ -430,7 +432,7 @@ def _get_workflow_triggers() -> Generator[tuple[Trigger, Workflow], None, None]:
 class Relationship:
     """Relationship between two entities."""
 
-    def __init__(self, start: MermaidEntity, end: MermaidEntity):
+    def __init__(self, start: MermaidEntity, end: MermaidEntity) -> None:
         """Initialise the relationship."""
         self.start = start
         self.end = end
@@ -473,11 +475,11 @@ class Relationship:
         for entity_id in stack:
             for rel in relationships:
                 if rel.start.entity_id == entity_id:
-                    sorted_relationships.append(rel)
+                    sorted_relationships.append(rel)  # noqa: PERF401
 
         return tuple(sorted_relationships)
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """Return whether the given object is equal to this object."""
         if not isinstance(other, Relationship):
             return False
@@ -503,7 +505,7 @@ class Relationship:
         if not isinstance(other, Relationship):
             return NotImplemented
 
-        if self.label != other.label and "triggers" in (self.label, other.label):
+        if self.label != other.label and "triggers" in {self.label, other.label}:
             return self.label != "triggers"  # 'triggers' comes first, all else equal
 
         if self.end.entity_id != other.end.entity_id:
@@ -580,10 +582,10 @@ def generate_mermaid_chart(*, use_subgraphs: bool = False) -> str:
         displayed_entities.add(callee.entity_id)
 
     for trigger, workflow in _get_workflow_triggers():
-        if trigger.trigger_type in (
+        if trigger.trigger_type in {
             TriggerType.WORKFLOW_CALL,
             TriggerType.WORKFLOW_DISPATCH,
-        ):
+        }:
             continue
 
         relationships.add(Relationship(trigger, workflow))

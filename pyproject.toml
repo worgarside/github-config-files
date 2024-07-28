@@ -13,7 +13,7 @@ python = "^3.11"
 pyyaml = "^6.0.1"
 pydantic = "^2.8.2"
 httpx = "^0.27.0"
-wg-utilities = {extras = ["logging"], version = "^5.15.4"}
+wg-utilities = { extras = ["logging"], version = "^5.15.4" }
 
 [build-system]
 requires = ["poetry-core"]
@@ -23,29 +23,11 @@ build-backend = "poetry.core.masonry.api"
 # Tool Configurations #
 #######################
 
-[tool.black]
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-)/
-'''
-
-[tool.isort]
-add_imports = ["from __future__ import annotations"]
-profile = "black"
-
 [tool.mypy]
 plugins = ["pydantic.mypy"]
+mypy_path = ["utilities/readme", "utilities/reject_stale_deployments"]
 
+follow_imports = "normal"
 disallow_any_generics = true
 disallow_subclassing_any = true
 disallow_untyped_calls = true
@@ -61,7 +43,29 @@ no_implicit_optional = true
 strict_optional = true
 
 strict_equality = true
+explicit_package_bases = true
 show_error_codes = true
+enable_error_code = [
+  "arg-type",           # Checks for argument types in function calls.
+  "assignment",         # Validates types of variable assignments.
+  "return-value",       # Ensures that return values match the declared type.
+  "call-overload",      # Validates correct use of method/function overloads.
+  "operator",           # Checks operator usage against expected types.
+  "index",              # Validates types used in indexing operations.
+  "attr-defined",       # Checks if attributes exist in classes/objects.
+  "no-untyped-call",    # Prevents calls to untyped functions in typed contexts.
+  "unreachable",        # Warns about code that can never be executed.
+  "truthy-bool",        # Ensures that boolean expressions are boolean in type.
+  "union-attr",         # Checks for attribute access in unions safely.
+  "dict-item",          # Checks for proper types used in dictionary items.
+  "unused-awaitable",   # Warns if an awaitable is not awaited.
+  "override",           # Ensures overridden methods match the signature in base class.
+  "list-item",          # Checks type consistency of list items.
+  "return",             # Ensures all code paths in a function return a value if needed.
+  "type-var",           # Ensures type variables are used correctly.
+  "valid-type",         # Validates types used in annotations are recognized.
+  "func-returns-value", # Ensures functions declared with a return type actually return a value.
+]
 
 [tool.pydantic-mypy]
 init_forbid_extra = true
@@ -72,51 +76,58 @@ warn_untyped_fields = true
 [tool.codespell]
 skip = '*.json,*.csv,*.xml,*.lock,README.md'
 
-[tool.pycln]
-path = "*"
-expand_stars = true
-all = true
-no_gitignore = false
-
 [tool.ruff]
-line-length = 100
-select = [
-  "A",   # https://docs.astral.sh/ruff/rules/#flake8-builtins-a
-  "ARG", # https://docs.astral.sh/ruff/rules/#flake8-unused-arguments-arg
-  "B",   # https://docs.astral.sh/ruff/rules/#flake8-bugbear-b
-  "C4",  # https://docs.astral.sh/ruff/rules/#flake8-comprehensions-c4
-  "COM", # https://docs.astral.sh/ruff/rules/#flake8-commas-com
-  "D",   # https://docs.astral.sh/ruff/rules/#pydocstyle-d
-  "E",   # https://docs.astral.sh/ruff/rules/#error-e
-  "ERA", # https://docs.astral.sh/ruff/rules/#eradicate-era
-  "F",   # https://docs.astral.sh/ruff/rules/#pyflakes-f
-  "FA",  # https://docs.astral.sh/ruff/rules/#flake8-future-annotations-fa
-  "FBT", # https://docs.astral.sh/ruff/rules/#flake8-boolean-trap-fbt
-  "G",   # https://docs.astral.sh/ruff/rules/#flake8-logging-format-g
-  "I",   # https://docs.astral.sh/ruff/rules/#isort-i
-  "ICN", # https://docs.astral.sh/ruff/rules/#flake8-import-conventions-icn
-  "N",   # https://docs.astral.sh/ruff/rules/#pep8-naming-n
-  "PGH", # https://docs.astral.sh/ruff/rules/#pygrep-hooks-pgh
-  "PIE", # https://docs.astral.sh/ruff/rules/#flake8-pie-pie
-  "PL",  # https://docs.astral.sh/ruff/rules/#pylint-pl
-  "PT",  # https://docs.astral.sh/ruff/rules/#flake8-pytest-style-pt
-  "PTH", # https://docs.astral.sh/ruff/rules/#flake8-use-pathlib-pth
-  "Q",   # https://docs.astral.sh/ruff/rules/#flake8-quotes-q
-  "RET", # https://docs.astral.sh/ruff/rules/#flake8-return-ret
-  "RSE", # https://docs.astral.sh/ruff/rules/#flake8-raise-rse
-  "RUF", # https://docs.astral.sh/ruff/rules/#ruff-specific-rules-ruf
-  "S",   # https://docs.astral.sh/ruff/rules/#flake8-bandit-s
-  "SIM", # https://docs.astral.sh/ruff/rules/#flake8-simplify-sim
-  "TRY", # https://docs.astral.sh/ruff/rules/#tryceratops-try
-  "UP",  # https://docs.astral.sh/ruff/rules/#pyupgrade-up
-  "W",   # https://docs.astral.sh/ruff/rules/#warning-w
+fix = true
+preview = true
+line-length = 90
+lint.select = ["ALL"]
+lint.ignore = [
+  "ANN401", # https://docs.astral.sh/ruff/rules/any-type/
+  "D107",   # https://docs.astral.sh/ruff/rules/undocumented-public-init/
+  "S314",   # https://docs.astral.sh/ruff/rules/suspicious-xml-element-tree-usage/
+  "TRY003", # https://docs.astral.sh/ruff/rules/raise-vanilla-args/
+  "ISC001", # https://docs.astral.sh/ruff/rules/single-line-implicit-string-concatenation/
+  "TD002",  # https://docs.astral.sh/ruff/rules/missing-todo-author/
+  "TD003",  # https://docs.astral.sh/ruff/rules/missing-todo-link/
+  "EM",     # https://docs.astral.sh/ruff/rules/#flake8-errmsg-em
+  "FIX002", # https://docs.astral.sh/ruff/rules/line-contains-todo/
+  "ANN101", # https://docs.astral.sh/ruff/rules/missing-type-self/
+  "CPY",    # https://docs.astral.sh/ruff/rules/#flake8-copyright-cpy
+  "INP001", # https://docs.astral.sh/ruff/rules/implicit-namespace-package/
+  "DOC501", # https://docs.astral.sh/ruff/rules/docstring-missing-exception/
 ]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["D104"]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pycodestyle]
+max-line-length = 115
+
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
-[tool.ruff.pylint]
-max-args=6
+[tool.ruff.lint.pylint]
+max-args = 10
+allow-dunder-method-names = ["__mermaid__"]
+
+[tool.ruff.lint.isort]
+required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+
+[tool.vulture]
+min_confidence = 70
+paths = ["utilities"]
+sort_by_size = true
+
+[tool.creosote]
+paths = ["utilities"]
+deps-file = "pyproject.toml"
+sections = ["tool.poetry.dependencies"]
+exclude-deps = []

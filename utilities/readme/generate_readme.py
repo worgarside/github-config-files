@@ -5,9 +5,9 @@ from __future__ import annotations
 from logging import StreamHandler, getLogger
 from sys import stdout
 
-from common import REPO_FILE_MAPPINGS, REPO_PATH
-from mermaid_chart import generate_mermaid_chart
-from repo_sync_table import generate_config_mappings
+from utils.common import REPO_FILE_MAPPINGS, REPO_PATH
+from utils.mermaid_chart import generate_mermaid_chart
+from utils.repo_sync_table import generate_config_mappings
 
 LOGGER = getLogger(__name__)
 LOGGER.setLevel("INFO")
@@ -30,7 +30,7 @@ def main() -> None:
             and file.name not in IGNORED_FILES
             and file.relative_to(REPO_PATH).as_posix() not in all_used_sources
         ):
-            raise RuntimeError(  # noqa: TRY003
+            raise RuntimeError(
                 f"Unused file: {file.relative_to(REPO_PATH).as_posix()}",
             )
 
