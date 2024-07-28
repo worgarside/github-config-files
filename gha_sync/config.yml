@@ -100,7 +100,6 @@ group:
       worgarside/plant-monitor
       worgarside/pre-commit-hooks-dependency-sync
       worgarside/python-template
-      worgarside/smart-mini-crt-interface
       worgarside/wg-scripts
 
 worgarside/addon-item-warehouse-api:
@@ -178,6 +177,16 @@ worgarside/led-matrix-controller:
       build_branch: ${{ github.ref }}
       path_to___version___file: led_matrix_controller/__init__.py
       python_version: '3.11'
+      release_tag: ${{ needs.ci-validation.outputs.release-tag }}
+      update_pyproject_toml: 'true'
+
+worgarside/smart-mini-crt-interface:
+  - source: gha_sync/workflows/template/ci_deployment.template.yml
+    dest: .github/workflows/ci_deployment.yml
+    template:
+      build_branch: ${{ github.ref }}
+      path_to___version___file: smart_mini_crt_interface/__init__.py
+      python_version: '3.12'
       release_tag: ${{ needs.ci-validation.outputs.release-tag }}
       update_pyproject_toml: 'true'
 
