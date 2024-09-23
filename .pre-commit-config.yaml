@@ -4,12 +4,12 @@ default_language_version:
 
 repos:
   - repo: https://github.com/worgarside/pre-commit-hooks-dependency-sync
-    rev: 1.1.2
+    rev: 1.2.0
     hooks:
       - id: sync-additional-dependencies
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.5
+    rev: v0.6.7
     hooks:
       - id: ruff
       - id: ruff-format
@@ -27,7 +27,7 @@ repos:
           - pyyaml==6.0.2
 
   - repo: https://github.com/rhysd/actionlint
-    rev: v1.7.1
+    rev: v1.7.2
     hooks:
       - id: actionlint
         args:
