@@ -144,7 +144,7 @@ def reject_stale_pending_deployments(repo_name: str) -> int:
         ]
 
         res = CLIENT.post(
-            f'/repos/{repo_name}/actions/runs/{run["id"]}/pending_deployments',
+            f"/repos/{repo_name}/actions/runs/{run['id']}/pending_deployments",
             json={
                 "environment_ids": environment_ids,
                 "state": "rejected",
