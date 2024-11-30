@@ -89,7 +89,7 @@ jobs:
         if: >-
           matrix.python-version == inputs.python-version &&
           steps.install-dependencies.outcome == 'success'
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           flags: unittests
           fail_ci_if_error: true
