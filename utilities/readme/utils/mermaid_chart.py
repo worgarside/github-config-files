@@ -117,9 +117,9 @@ class Trigger(MermaidEntity):
             ),
         )
 
-    def __eq__(self, __value: object, /) -> bool:
+    def __eq__(self, value: object, /) -> bool:
         """Return whether the given object is equal to this object."""
-        if not isinstance(__value, Trigger):
+        if not isinstance(value, Trigger):
             return NotImplemented
 
         return self.model_dump(
@@ -127,16 +127,16 @@ class Trigger(MermaidEntity):
             exclude_defaults=True,
             exclude_unset=True,
             exclude={"inputs", "outputs"},
-        ) == __value.model_dump(
+        ) == value.model_dump(
             exclude_none=True,
             exclude_defaults=True,
             exclude_unset=True,
             exclude={"inputs", "outputs"},
         )
 
-    def __lt__(self, __value: Trigger, /) -> bool:
+    def __lt__(self, value: Trigger, /) -> bool:
         """Sort by trigger_type, branches, paths, tags, types."""
-        if not isinstance(__value, Trigger):
+        if not isinstance(value, Trigger):
             return NotImplemented
 
         return (
@@ -146,11 +146,11 @@ class Trigger(MermaidEntity):
             self.tags,
             self.types,
         ) < (
-            __value.trigger_type,
-            __value.branches,
-            __value.paths,
-            __value.tags,
-            __value.types,
+            value.trigger_type,
+            value.branches,
+            value.paths,
+            value.tags,
+            value.types,
         )
 
     def __mermaid__(self) -> str:
@@ -552,15 +552,15 @@ def group_relationships(
 
     for _rel_node in sorted(entity_graph.keys()):
         if _rel_node not in visited:
-            _rel_grp: list[str] = []
-            dfs(_rel_node, _rel_grp)
+            rel_grp: list[str] = []
+            dfs(_rel_node, rel_grp)
 
             # Convert component to a tuple of Relationships
             component_rels = sorted(
                 {
                     rel
                     for rel in relationships
-                    if rel.start.entity_id in _rel_grp and rel.end.entity_id in _rel_grp
+                    if rel.start.entity_id in rel_grp and rel.end.entity_id in rel_grp
                 },
             )
             relationship_groups.append(
