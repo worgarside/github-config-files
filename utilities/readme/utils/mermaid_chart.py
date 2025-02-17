@@ -315,7 +315,7 @@ class Workflow(MermaidEntity):
     @property
     def real_path(self) -> Path:
         """Return the real path of the workflow."""
-        return NotImplemented
+        return NotImplemented  # type: ignore[no-any-return]
 
     @computed_field  # type: ignore[prop-decorator]
     @property
@@ -552,15 +552,15 @@ def group_relationships(
 
     for _rel_node in sorted(entity_graph.keys()):
         if _rel_node not in visited:
-            _rel_grp: list[str] = []
-            dfs(_rel_node, _rel_grp)
+            rel_grp: list[str] = []
+            dfs(_rel_node, rel_grp)
 
             # Convert component to a tuple of Relationships
             component_rels = sorted(
                 {
                     rel
                     for rel in relationships
-                    if rel.start.entity_id in _rel_grp and rel.end.entity_id in _rel_grp
+                    if rel.start.entity_id in rel_grp and rel.end.entity_id in rel_grp
                 },
             )
             relationship_groups.append(
