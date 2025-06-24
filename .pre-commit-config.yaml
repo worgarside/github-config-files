@@ -93,7 +93,7 @@ repos:
           - pydantic==2.9.2
           - types-PyYAML
           - httpx==0.28.1
-          - wg-utilities==5.17.3
+          - wg-utilities==5.17.4
 
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.10.0
