@@ -251,7 +251,7 @@ class Workflow(MermaidEntity):
     @classmethod
     def by_reference(cls, /, reference: str) -> Workflow:
         """Return the workflow with the given reference."""
-        reference = reference.split("@")[0]
+        reference = reference.split("@", maxsplit=1)[0]
 
         if reference.startswith(REPO_NAME + "/"):
             return cls.import_file(REPO_PATH / reference.removeprefix(REPO_NAME + "/"))
