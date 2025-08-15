@@ -114,7 +114,7 @@ jobs:
       # Git history needed for PR body auto-fill and commit check
       - name: Clone Repo
         if: steps.check-if-pr-exists.outputs.create-pr == 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ inputs.base-ref-name }}
@@ -185,7 +185,7 @@ jobs:
       needs.create-pr.outputs.existing-pr-url != 'null'
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ inputs.base-ref-name }}

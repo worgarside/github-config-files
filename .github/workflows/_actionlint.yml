@@ -24,7 +24,7 @@ jobs:
       sync-workflow-files: ${{ steps.get-sync-workflow-files.outputs.sync-workflows }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Get Sync Workflow Files
         id: get-sync-workflow-files
