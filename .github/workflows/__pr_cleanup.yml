@@ -39,7 +39,7 @@ jobs:
           echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Clone Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         # This is to stop false positives when the branch has already been deleted
         continue-on-error: true
         with:
