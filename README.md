@@ -352,24 +352,24 @@
 
 ```mermaid
 flowchart LR
-subgraph DQ[" "]
+subgraph DR[" "]
 direction LR
-DM-->DL
-DH-->V
-DJ-->DH
-DJ-->CY
-DJ-->CS
-DJ-->CO
-CE-->CD
-CD-->BB
-DE-->DL
-DE-->DD
-DE-->CY
-DE-->CS
-DE-->CO
-DE-->CD
-DD-->V
-DD-->M
+DN-->DM
+DI-->V
+DK-->DI
+DK-->CZ
+DK-->CT
+DK-->CP
+CF-->CE
+CE-->BB
+DF-->DM
+DF-->DE
+DF-->CZ
+DF-->CT
+DF-->CP
+DF-->CE
+DE-->V
+DE-->M
 M-->I
 M-->E
 M-->AQ
@@ -379,28 +379,28 @@ V-->BO
 V-->BL
 V-->A
 end
-subgraph DR[" "]
-direction LR
-CL-->CK
-CK-->BI
-end
 subgraph DS[" "]
 direction LR
-CI-->CH
-CH-->BE
+CM-->CL
+CL-->BI
 end
 subgraph DT[" "]
 direction LR
-CA-->BZ
-BZ-->AY
+CJ-->CI
+CI-->BE
 end
 subgraph DU[" "]
 direction LR
-BV-->BU
-BU-->AU
-BU-->AC
+CB-->CA
+CA-->AY
 end
 subgraph DV[" "]
+direction LR
+BW-->BV
+BV-->AU
+BV-->AC
+end
+subgraph DW[" "]
 direction LR
 BS-->BR
 BR-->AG
@@ -421,40 +421,40 @@ BR("Auto-Create PR")
 BS{{"PUSH
 Branches: bugfix/*, chore/*, feature/*, hotfix/*, refactor/*
 "}}
-BU("Manage PR")
-BV{{"PULL REQUEST
+BV("Manage PR")
+BW{{"PULL REQUEST
 Types: auto_merge_disabled, auto_merge_enabled, labeled, opened, ready_for_review, reopened, synchronize, unlabeled
 "}}
-BZ("Manage Repo Labels")
-CA{{"PUSH
+CA("Manage Repo Labels")
+CB{{"PUSH
 Branches: main
 Paths: .github/repo_labels.yml, .github/workflows/manage_repo_labels.yml
 "}}
-CD("Auto-Update PRs")
-CE{{"PULL REQUEST
+CE("Auto-Update PRs")
+CF{{"PULL REQUEST
 Types: labeled
 "}}
-CH("PR Cleanup")
-CI{{"PULL REQUEST
+CI("PR Cleanup")
+CJ{{"PULL REQUEST
 Types: closed
 "}}
-CK("Set PR Auto Merge")
-CL{{"PULL REQUEST
+CL("Set PR Auto Merge")
+CM{{"PULL REQUEST
 Types: opened, ready_for_review
 "}}
-CO("ESLint")
-CS("Validate Home Assistant Config")
-CY("Integration Test")
-DD("CI: Validation & Deployment")
-DE{{"PUSH
+CP("ESLint")
+CT("Validate Home Assistant Config")
+CZ("Integration Test")
+DE("CI: Validation & Deployment")
+DF{{"PUSH
 Branches: main
 "}}
-DH("CI: Validation")
-DJ{{"PULL REQUEST
+DI("CI: Validation")
+DK{{"PULL REQUEST
 Types: opened, reopened, synchronize
 "}}
-DL("CodSpeed Benchmarks")
-DM{{"PULL REQUEST
+DM("CodSpeed Benchmarks")
+DN{{"PULL REQUEST
 Types: opened, ready_for_review, reopened, synchronize
 "}}
 E[["Build"]]
