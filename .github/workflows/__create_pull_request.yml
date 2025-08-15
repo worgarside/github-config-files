@@ -165,9 +165,12 @@ jobs:
           PR_TITLE: ${{ inputs.pr-title }}
           PR_LABELS_ARG: ${{ inputs.pr-labels && format('--label {0}', inputs.pr-labels ) || '' }}
         run: |
+          # Extract first line of commit message for PR title
+          PR_TITLE_FIRST_LINE=$(echo "$PR_TITLE" | head -n1)
+
           gh pr create \
             --repo ${{ github.repository }} \
-            --title "$PR_TITLE" \
+            --title "$PR_TITLE_FIRST_LINE" \
             $PR_BODY_ARG \
             --base "${{ inputs.base-ref-name }}" \
             --head "${{ inputs.head-ref-name }}" \
