@@ -110,7 +110,7 @@ jobs:
           ref: ${{ inputs.build-branch }}
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           cache: npm
           cache-dependency-path: ${{ inputs.node-build-directory }}/package-lock.json
