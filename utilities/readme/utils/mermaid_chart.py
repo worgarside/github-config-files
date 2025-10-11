@@ -277,7 +277,7 @@ class Workflow(MermaidEntity):
         if not force_parse and rel_path in cls.INSTANCES:
             return cls.INSTANCES[rel_path]
 
-        with f.open("r") as file:
+        with f.open("r", encoding="utf-8") as file:
             data = safe_load(file)
 
         # `on: ...` is parsed as a boolean key
