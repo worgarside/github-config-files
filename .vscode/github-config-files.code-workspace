@@ -16,6 +16,10 @@
 				"file:///Users/worgarside/Projects/worgarside/github-config-files/gha_sync/workflows/all_repos/manage_pr_labels.yml",
 				"file:///Users/worgarside/Projects/worgarside/github-config-files/gha_sync/workflows/all_repos/pr_cleanup.yml"
 			]
-		}
+		},
+		"cSpell.words": [
+			"appdaemon",
+			"CODSPEED"
+		]
 	}
 }
