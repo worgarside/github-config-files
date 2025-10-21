@@ -131,6 +131,7 @@ jobs:
           repository: ${{ steps.get-target-repo.outputs.repo }}
           fetch-depth: 0
           path: target-repo
+          submodules: true
 
       # Only do this once the target repo has been cloned successfully
       - name: Publish Release Notes
@@ -144,36 +145,66 @@ jobs:
       - name: Update Submodule
         env:
           GH_TOKEN: ${{ secrets.SUBMODULE_DEPLOYMENT_TOKEN || secrets.WORGARSIDE_DEV_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SUBMODULE_DEPLOYMENT_TOKEN || secrets.WORGARSIDE_DEV_TOKEN }}
           SUBMODULE_EMAIL: ${{ vars.SUBMODULE_DEPLOYMENT_EMAIL }}
           SUBMODULE_USERNAME: ${{ vars.SUBMODULE_DEPLOYMENT_USERNAME }}
+        # yamllint disable rule:line-length
         run: |
           cd target-repo
 
           git config user.email "${SUBMODULE_EMAIL}"
           git config user.name "${SUBMODULE_USERNAME}"
+          git config --global url."https://${GITHUB_TOKEN}@github.com/".insteadOf "https://github.com/"
 
           git submodule init
-          git submodule update
+          git submodule update --init --recursive
 
           ROOT_DIR=$(pwd)
+          echo -e "Root Directory: \`${ROOT_DIR}\`" >> "${GITHUB_STEP_SUMMARY}"
 
-          cd ${{ steps.get-target-repo.outputs.submodule-path }}
+          if [ -d ${{ steps.get-target-repo.outputs.submodule-path }} ]; then
+            cd ${{ steps.get-target-repo.outputs.submodule-path }}
+            echo "Skipping submodule installation for ${{ steps.get-target-repo.outputs.submodule-path }}" >> "${GITHUB_STEP_SUMMARY}"
+          else
+            SUBMODULE_NAME=$(basename ${{ steps.get-target-repo.outputs.submodule-path }})
+
+            mkdir -p ${{ steps.get-target-repo.outputs.submodule-path }}
+
+            cd ${{ steps.get-target-repo.outputs.submodule-path }}/..
+
+            rm -rf ${SUBMODULE_NAME}
+
+            echo -e "Installing submodule \`${SUBMODULE_NAME}\` at \`$(pwd)\`" >> "${GITHUB_STEP_SUMMARY}"
+
+            git submodule add --force https://github.com/${{ github.repository }} ${SUBMODULE_NAME}
+
+            cd ${SUBMODULE_NAME}
+
+            echo -e "Installation complete: \`\`\`\n$(ls -lha)\n\`\`\`" >> "${GITHUB_STEP_SUMMARY}"
+          fi
+
           git fetch --tags
           git checkout tags/${{ inputs.release-tag }}
 
           cd "${ROOT_DIR}"
 
+          echo "PWD: $(pwd)" >> "${GITHUB_STEP_SUMMARY}"
+          echo "Deploy Path: ${{ steps.get-target-repo.outputs.submodule-path }}" >> "${GITHUB_STEP_SUMMARY}"
+
           git add ${{ steps.get-target-repo.outputs.submodule-path }}
-          git commit -m "Bump \`${{ github.repository }}\` to ${{ inputs.release-tag }}"\
+          git commit -m "Bump \`${{ github.repository }}\` to ${{ inputs.release-tag }}" --no-verify
+
+          echo "Commit Complete, pushing" >> "${GITHUB_STEP_SUMMARY}"
 
           git push "https://${GH_TOKEN}@github.com/${{ steps.get-target-repo.outputs.repo }}" \
             HEAD:refs/heads/chore/${{ github.repository }}/${{ inputs.release-tag }}
+
+          echo "Push Complete" >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Create Pull Request
         env:
           GH_TOKEN: ${{ secrets.SUBMODULE_DEPLOYMENT_TOKEN || secrets.WORGARSIDE_DEV_TOKEN }}
           PR_BODY_FILE: /tmp/pr_body.txt
-        # yamllint disable rule:line-length
         run: |
           release_link="# [${{ inputs.release-tag }}](https://github.com/${{ github.repository }}/releases/tag/${{ inputs.release-tag }})"
 
