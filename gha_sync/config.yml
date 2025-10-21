@@ -15,6 +15,7 @@ group:
       worgarside/addon-item-warehouse-api
       worgarside/addon-item-warehouse-website
       worgarside/addon-yas-209-bridge
+      worgarside/esphome
       worgarside/home-assistant
       worgarside/home-assistant-appdaemon
       worgarside/home-assistant-config-validator
@@ -37,6 +38,7 @@ group:
       worgarside/addon-item-warehouse-api
       worgarside/addon-item-warehouse-website
       worgarside/addon-yas-209-bridge
+      worgarside/esphome
       worgarside/home-assistant-appdaemon
       worgarside/home-assistant-config-validator
       worgarside/led-matrix-controller
@@ -54,6 +56,7 @@ group:
     repos: |
       worgarside/addon-item-warehouse-api
       worgarside/addon-yas-209-bridge
+      worgarside/esphome
       worgarside/home-assistant-appdaemon
       worgarside/home-assistant-config-validator
       worgarside/led-matrix-controller
@@ -144,6 +147,16 @@ worgarside/addon-yas-209-bridge:
       release_tag: ${{ needs.ci-validation.outputs.release-tag }}
       update_pyproject_toml: 'true'
       update_yaml_file_path: yas_209_bridge/config.yaml
+
+worgarside/esphome:
+  - source: gha_sync/workflows/template/ci_deployment.template.yml
+    dest: .github/workflows/ci_deployment.yml
+    template:
+      build_branch: ${{ github.ref }}
+      deploy-to: submodule:worgarside/home-assistant/esphome
+      pr_merged: ${{ github.event.pull_request.merged }}
+      release_tag: ${{ needs.ci-validation.outputs.release-tag }}
+      update_pyproject_toml: 'false'
 
 worgarside/home-assistant:
   - source: gha_sync/workflows/repo/home-assistant/
