@@ -81,7 +81,7 @@ jobs:
 
       - name: Upload Artifact
         if: inputs.release-tag != 'null'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: build-artifact-${{ inputs.environment }}
           path: dist/
@@ -144,7 +144,7 @@ jobs:
 
       - name: Upload Artifact
         if: inputs.release-tag != 'null'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: build-artifact-${{ inputs.environment }}
           path: ${{ inputs.node-build-directory }}/${{ env.ARTIFACT_NAME }}
