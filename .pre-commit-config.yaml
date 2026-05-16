@@ -23,7 +23,7 @@ repos:
         files: ^$
         always_run: true
         additional_dependencies:
-          - pydantic==2.9.2
+          - pydantic==2.11.7
           - pyyaml==6.0.2
 
   - repo: https://github.com/rhysd/actionlint
@@ -90,7 +90,7 @@ repos:
           - --strict
           - --show-error-codes
         additional_dependencies:
-          - pydantic==2.9.2
+          - pydantic==2.11.7
           - types-PyYAML
           - httpx==0.28.1
           - wg-utilities==5.17.4
