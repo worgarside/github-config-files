@@ -24,7 +24,7 @@ repos:
         always_run: true
         additional_dependencies:
           - pydantic==2.9.2
-          - pyyaml==6.0.2
+          - pyyaml==6.0.3
 
   - repo: https://github.com/rhysd/actionlint
     rev: v1.7.7
