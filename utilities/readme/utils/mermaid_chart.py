@@ -85,7 +85,7 @@ class MermaidEntity(BaseModel):
 class Trigger(MermaidEntity):
     """Trigger for a GitHub Actions Workflow."""
 
-    trigger_type: TriggerType = TriggerType._UNDEFINED  # noqa: SLF001
+    trigger_type: TriggerType = TriggerType._UNDEFINED  # ruff: ignore[private-member-access]
 
     branches: list[str] = Field(default_factory=list)
     paths: list[str] = Field(default_factory=list)
@@ -475,7 +475,7 @@ class Relationship:
         for entity_id in stack:
             for rel in relationships:
                 if rel.start.entity_id == entity_id:
-                    sorted_relationships.append(rel)  # noqa: PERF401
+                    sorted_relationships.append(rel)  # ruff: ignore[manual-list-comprehension]
 
         return tuple(sorted_relationships)
 
