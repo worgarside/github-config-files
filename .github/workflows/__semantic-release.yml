@@ -10,8 +10,11 @@ on:
         type: string
       force-deployment:
         description: >-
-          Adds the `--force` flag to the `semantic-release` command. Must be
-          one of "prerelease", "patch", "minor", or "major".
+          Forces a release at a specific level ("patch", "minor", "major"),
+          bypassing normal commit-based detection. Pass an empty string (the
+          caller's own "auto" choice) for normal behaviour - workflow_call
+          inputs can't be typed as a dropdown, so the choice UI lives in each
+          calling workflow's own workflow_dispatch input.
         required: false
         type: string
     outputs:

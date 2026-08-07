@@ -191,7 +191,7 @@ jobs:
     permissions:
       contents: read
       pages: write
-    uses: ./.github/workflows/__build_documentation.yml
+    uses: ./.github/workflows/__build-documentation.yml
 
   deploy-documentation:
     name: Deploy Documentation
@@ -200,7 +200,7 @@ jobs:
     permissions:
       pages: write
       id-token: write
-    uses: ./.github/workflows/__deploy_documentation.yml
+    uses: ./.github/workflows/__deploy-documentation.yml
     secrets: inherit
 
   run-production-build:

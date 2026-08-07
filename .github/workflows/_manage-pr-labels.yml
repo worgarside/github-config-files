@@ -21,7 +21,7 @@ concurrency:
 jobs:
   manage-pr-labels:
     name: Manage PR Labels
-    uses: ./.github/workflows/__manage_pr_labels.yml
+    uses: ./.github/workflows/__manage-pr-labels.yml
     with:
       head-ref: ${{ github.head_ref }}
       pr-author: ${{ github.event.pull_request.user.login }}
