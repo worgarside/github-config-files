@@ -81,7 +81,7 @@ jobs:
         # yamllint enable rule:line-length
 
       - name: Auto-Label
-        uses: srvaroa/labeler@v1.13.0
+        uses: srvaroa/labeler@bf262763a8a8e191f5847873aecc0f29df84f957 # v1.14.0
         env:
           GITHUB_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
 
