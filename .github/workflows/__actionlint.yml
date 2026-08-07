@@ -29,14 +29,14 @@ jobs:
           echo -e "\`\`\`json\n$INPUTS\n\`\`\`" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Clone Repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Download actionlint
         id: get-actionlint
         run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
 
       - name: Check Workflow Files
-        uses: nick-fields/retry@v3.0.2
+        uses: nick-fields/retry@ad984534de44a9489a53aefd81eb77f87c70dc60 # v4.0.0
         with:
           timeout_minutes: 1
           max_attempts: 5
