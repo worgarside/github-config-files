@@ -38,7 +38,7 @@ jobs:
     if: inputs.release-tag != 'null' && !startsWith(inputs.deploy-to, 'submodule:')
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: build-artifact-${{ inputs.environment }}
           path: dist/
@@ -79,13 +79,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: build-artifact-${{ inputs.environment }}
           path: dist/
 
       - name: Deploy to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
         continue-on-error: ${{ inputs.environment == 'development' }}
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
@@ -123,7 +123,7 @@ jobs:
           echo -e "Submodule path: \`${path}\`" >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Clone Target Repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           ref: main

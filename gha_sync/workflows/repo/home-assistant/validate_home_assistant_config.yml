@@ -23,7 +23,7 @@ jobs:
       version: ${{ steps.current-version.outputs.current-version }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Get Current Version from .HA_VERSION
         id: current-version
@@ -46,7 +46,7 @@ jobs:
           - ${{ needs.get-current-version.outputs.version }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: 'Clone Custom Component: `var`'
         run: |
