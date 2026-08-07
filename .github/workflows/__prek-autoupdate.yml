@@ -43,7 +43,7 @@ jobs:
 
       - name: Install prek
         run: |
-          uv tool install prek
+          uv tool install --no-build "prek==0.4.12"
           uv tool bin-dir >> "$GITHUB_PATH"
 
       - name: prek auto-update
@@ -76,6 +76,7 @@ jobs:
         if: steps.switch-branch.outcome == 'failure' && steps.commit.outputs.pr == 'true'
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+          MERGE_TOKEN: ${{ secrets.WORGARSIDE_TOKEN }}
           PR_TITLE: 'ci: 🤖 `prek autoupdate`'
         run: |
           PR=$(
@@ -88,7 +89,7 @@ jobs:
               --label tools
           )
 
-          GH_TOKEN=${{ secrets.WORGARSIDE_TOKEN }} gh pr merge \
+          GH_TOKEN="${MERGE_TOKEN}" gh pr merge \
             "${PR}" \
             --repo ${{ github.repository }} \
             --squash \

@@ -38,20 +38,20 @@ jobs:
       - name: Install uv dependencies
         env:
           UV_CACHE_DIR: ${{ github.workspace }}/.uv-cache
-        run: uv sync --locked --all-groups
+        run: uv sync --locked --all-groups --no-build
 
       - name: Test
         id: test
         continue-on-error: true
         env:
           SOURCE_DIR: ${{ inputs.source-dir }}
-        run: uv run pytest --cov="${SOURCE_DIR}" --cov-report=xml
+        run: uv run --no-sync pytest --cov="${SOURCE_DIR}" --cov-report=xml
 
       - name: Check Coverage
         continue-on-error: true
         id: coverage-check
         run: |
-          uv run diff-cover \
+          uv run --no-sync diff-cover \
             coverage.xml \
             --config-file pyproject.toml \
             --compare-branch=origin/${{ github.base_ref || 'main' }} \

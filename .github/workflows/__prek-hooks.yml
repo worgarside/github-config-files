@@ -8,7 +8,7 @@ on:
         description: The version of prek to use
         required: false
         type: string
-        default: 0.3.11
+        default: 0.4.12
       python-version:
         description: >-
           The Python version to set up before running hooks. Omit for repos
@@ -41,7 +41,7 @@ jobs:
         if: inputs.python-version
         env:
           UV_CACHE_DIR: ${{ github.workspace }}/.uv-cache
-        run: uv sync --locked --all-groups
+        run: uv sync --locked --all-groups --no-build
 
       - name: Run prek
         id: run-prek
