@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v0.2.1 (2026-08-08)
+
+### Bug Fixes
+
+- Enhance package lock process
+  ([`5d2f36c`](https://github.com/worgarside/github-config-files/commit/5d2f36cdf82326f73152a8673882555abfefd5ec))
+
+
 ## v0.2.0 (2026-08-08)
 
 ### Features
