@@ -44,7 +44,7 @@ jobs:
       - name: Install prek
         run: |
           uv tool install --no-build "prek==0.4.12"
-          uv tool bin-dir >> "$GITHUB_PATH"
+          uv tool dir --bin >> "$GITHUB_PATH"
 
       - name: prek auto-update
         id: update

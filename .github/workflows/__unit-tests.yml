@@ -33,11 +33,10 @@ jobs:
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
           enable-cache: true
+          cache-local-path: ${{ github.workspace }}/.uv-cache
           python-version: ${{ inputs.python-version }}
 
       - name: Install uv dependencies
-        env:
-          UV_CACHE_DIR: ${{ github.workspace }}/.uv-cache
         run: uv sync --locked --all-groups --no-build
 
       - name: Test
@@ -50,11 +49,13 @@ jobs:
       - name: Check Coverage
         continue-on-error: true
         id: coverage-check
+        env:
+          BASE_REF: ${{ github.base_ref || 'main' }}
         run: |
           uv run --no-sync diff-cover \
             coverage.xml \
             --config-file pyproject.toml \
-            --compare-branch=origin/${{ github.base_ref || 'main' }} \
+            --compare-branch="origin/${BASE_REF}" \
             --markdown-report .coverage-report.md
 
       - name: Upload Coverage Report

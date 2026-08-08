@@ -35,12 +35,11 @@ jobs:
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
           enable-cache: true
+          cache-local-path: ${{ github.workspace }}/.uv-cache
           python-version: ${{ inputs.python-version }}
 
       - name: Install uv dependencies
         if: inputs.python-version
-        env:
-          UV_CACHE_DIR: ${{ github.workspace }}/.uv-cache
         run: uv sync --locked --all-groups --no-build
 
       - name: Run prek
