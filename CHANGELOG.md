@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v0.3.2 (2026-08-08)
+
+### Continuous Integration
+
+- Improve error handling in sync workflow
+  ([`b8560c6`](https://github.com/worgarside/github-config-files/commit/b8560c63010cc973bc2220cbb1f0929b7e834bac))
+
+
 ## v0.3.1 (2026-08-08)
 
 ### Continuous Integration
