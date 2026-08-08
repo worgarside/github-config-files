@@ -1,0 +1,80 @@
+---
+name: '"Prek Hooks" Runner'
+
+on:
+  workflow_call:
+    inputs:
+      prek-version:
+        description: The version of prek to use
+        required: false
+        type: string
+        default: 0.4.12
+      python-version:
+        description: >-
+          The Python version to set up before running hooks. Omit for repos
+          with no Python project - hooks still run, just without a
+          uv-managed virtualenv/dependencies available on PATH.
+        required: false
+        type: string
+
+jobs:
+  prek:
+    name: Prek Hooks
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+
+      - name: Install uv
+        if: inputs.python-version
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: true
+          cache-local-path: ${{ github.workspace }}/.uv-cache
+          python-version: ${{ inputs.python-version }}
+
+      - name: Install uv dependencies
+        if: inputs.python-version
+        run: uv sync --locked --all-groups --no-build
+
+      - name: Run prek
+        id: run-prek
+        uses: j178/prek-action@4e14d07f9231acabce116ccfca13b13dd9755ece # v3.0.0
+        continue-on-error: true
+        with:
+          prek-version: ${{ inputs.prek-version }}
+          extra-args: --all-files
+          cache: true
+
+      - name: Commit Modified Files
+        if: steps.run-prek.outcome == 'failure'
+        env:
+          REF: ${{ github.event.pull_request.head.ref }}
+        # yamllint disable rule:line-length
+        run: |
+          if [[ -z "$(git status -s)" ]]; then
+            echo "No changes to commit, something else must have gone wrong. Check previous step for more information."
+            exit 1
+          fi
+
+          git config --global user.name "worgarside-dev"
+          git config --global user.email "worgarside.dev@gmail.com"
+
+          git add .
+
+          git commit -m "style: Fixes from prek hooks" --no-verify
+
+          git push origin "${REF}"
+
+          UNCOMMITTED_FILES=$(git status -s | awk '{print $2}')
+
+          if [[ -n "$UNCOMMITTED_FILES" ]]; then
+            echo -e "\`\`\`\n${UNCOMMITTED_FILES}\n\`\`\`" >> "${GITHUB_STEP_SUMMARY}"
+            exit 1
+          fi
+        # yamllint enable rule:line-length
