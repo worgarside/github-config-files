@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v0.3.0 (2026-08-08)
+
+### Chores
+
+- Remove PR cleanup workflow
+  ([`0681f35`](https://github.com/worgarside/github-config-files/commit/0681f3512b28eef7ddcd565736fef67cbdf1f9af))
+
+
 ## v0.2.1 (2026-08-08)
 
 ### Bug Fixes
