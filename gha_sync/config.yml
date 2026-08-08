@@ -3,14 +3,23 @@
 
 group:
   # All Repos
+  # PR-hygiene workflows are synced as individual files, NOT as a
+  # deleteOrphaned directory sync - repos that have moved to the PSR-based
+  # pattern (semantic-release.yml, prek-hooks.yml, prek-autoupdate.yml,
+  # unit-tests.yml, etc.) keep bespoke, non-synced files in this same
+  # .github/workflows/ directory, and a directory-level deleteOrphaned sync
+  # would delete them as "orphaned" on every run.
   - files:
       - .github/CODEOWNERS
       - .github/dependabot.yml
-      - source: gha_sync/workflows/all
-        dest: .github/workflows/
-        deleteOrphaned: true
-      - source: gha_sync/configs/release-drafter.yml
-        dest: .github/release-drafter.yml
+      - source: gha_sync/workflows/all/auto-create-pr.yml
+        dest: .github/workflows/auto-create-pr.yml
+      - source: gha_sync/workflows/all/manage-pr.yml
+        dest: .github/workflows/manage-pr.yml
+      - source: gha_sync/workflows/all/manage-repo-labels.yml
+        dest: .github/workflows/manage-repo-labels.yml
+      - source: gha_sync/workflows/all/set-pr-auto-merge.yml
+        dest: .github/workflows/set-pr-auto-merge.yml
     repos: |
       worgarside/addon-item-warehouse-api
       worgarside/addon-item-warehouse-website
@@ -27,6 +36,21 @@ group:
       worgarside/very-slow-movie-player
       worgarside/wg-scripts
       worgarside/wg-utilities
+
+  # Release Drafter - only the repos still on the legacy label-based release
+  # mechanism (__ci_validation.yml / __ci_deployment.yml) need this. Repos
+  # migrated to python-semantic-release generate their own GitHub releases
+  # directly and must NOT receive this file.
+  - files:
+      - source: gha_sync/configs/release-drafter.yml
+        dest: .github/release-drafter.yml
+    repos: |
+      worgarside/addon-item-warehouse-api
+      worgarside/addon-item-warehouse-website
+      worgarside/addon-yas-209-bridge
+      worgarside/python-template
+      worgarside/smart-mini-crt-interface
+      worgarside/very-slow-movie-player
 
   # No Custom Labels
   # The only exclusion is `home-assistant`, which has its own repo_labels.yml:
@@ -68,6 +92,9 @@ group:
       worgarside/wg-scripts
 
   # Standard CI Validation with version bump in pyproject.toml
+  # Only for repos still on the legacy label-based release mechanism - repos
+  # migrated to python-semantic-release have their own bespoke
+  # unit-tests.yml/semantic-release.yml and must NOT receive this.
   - files:
       - source: gha_sync/workflows/template/ci_validation.template.yml
         dest: .github/workflows/ci_validation.yml
@@ -77,17 +104,12 @@ group:
     repos: |
       worgarside/addon-item-warehouse-api
       worgarside/addon-yas-209-bridge
-      worgarside/home-assistant
-      worgarside/home-assistant-appdaemon
-      worgarside/home-assistant-config-validator
-      worgarside/plant-monitor
-      worgarside/pre-commit-hooks-dependency-sync
       worgarside/python-template
       worgarside/smart-mini-crt-interface
       worgarside/very-slow-movie-player
-      worgarside/wg-scripts
 
   # Standard CI Deployment with version bump in pyproject.toml
+  # Same caveat as Standard CI Validation above.
   - files:
       - source: gha_sync/workflows/template/ci_deployment.template.yml
         dest: .github/workflows/ci_deployment.yml
@@ -97,13 +119,7 @@ group:
           release_tag: ${{ needs.ci-validation.outputs.release-tag }}
           update_pyproject_toml: 'true'
     repos: |
-      worgarside/home-assistant
-      worgarside/home-assistant-appdaemon
-      worgarside/home-assistant-config-validator
-      worgarside/plant-monitor
-      worgarside/pre-commit-hooks-dependency-sync
       worgarside/python-template
-      worgarside/wg-scripts
 
 worgarside/addon-item-warehouse-api:
   - source: gha_sync/workflows/template/ci_deployment.template.yml
@@ -148,16 +164,6 @@ worgarside/addon-yas-209-bridge:
       update_pyproject_toml: 'true'
       update_yaml_file_path: yas_209_bridge/config.yaml
 
-worgarside/esphome:
-  - source: gha_sync/workflows/template/ci_deployment.template.yml
-    dest: .github/workflows/ci_deployment.yml
-    template:
-      build_branch: ${{ github.ref }}
-      deploy_to: submodule:worgarside/home-assistant/esphome
-      pr_merged: ${{ github.event.pull_request.merged }}
-      release_tag: ${{ needs.ci-validation.outputs.release-tag }}
-      update_pyproject_toml: 'false'
-
 worgarside/home-assistant:
   - source: gha_sync/workflows/repo/home-assistant/
     dest: .github/workflows/
@@ -179,19 +185,6 @@ worgarside/led-matrix-controller:
       cache_key: venv-${{ hashFiles(env.CACHE_FILE) }}
       python_version: '3.11'
       token: ${{ secrets.CODSPEED_TOKEN }}
-  - source: gha_sync/workflows/template/ci_validation.template.yml
-    dest: .github/workflows/ci_validation.yml
-    template:
-      build_branch: ${{ github.ref }}
-      python_version: '3.11'
-  - source: gha_sync/workflows/template/ci_deployment.template.yml
-    dest: .github/workflows/ci_deployment.yml
-    template:
-      build_branch: ${{ github.ref }}
-      path_to___version___file: led_matrix_controller/__init__.py
-      python_version: '3.11'
-      release_tag: ${{ needs.ci-validation.outputs.release-tag }}
-      update_pyproject_toml: 'true'
 
 worgarside/smart-mini-crt-interface:
   - source: gha_sync/workflows/template/ci_deployment.template.yml
@@ -211,26 +204,4 @@ worgarside/very-slow-movie-player:
       path_to___version___file: very_slow_movie_player/__init__.py
       python_version: '3.12'
       release_tag: ${{ needs.ci-validation.outputs.release-tag }}
-      update_pyproject_toml: 'true'
-
-worgarside/wg-utilities:
-  - source: gha_sync/workflows/template/ci_validation.template.yml
-    dest: .github/workflows/ci_validation.yml
-    template:
-      build_branch: ${{ github.ref }}
-      build_type: python
-      python_version: '3.12'
-      unit_test: 'true'
-  - source: gha_sync/workflows/template/ci_deployment.template.yml
-    dest: .github/workflows/ci_deployment.yml
-    template:
-      build_branch: ${{ github.ref }}
-      deploy_to: pypi
-      deploy_documentation: 'true'
-      pr_merged: ${{ github.event.pull_request.merged }}
-      build_type: python
-      path_to___version___file: wg_utilities/__init__.py
-      python_version: '3.12'
-      release_tag: ${{ needs.ci-validation.outputs.release-tag }}
-      unit_test: 'true'
       update_pyproject_toml: 'true'

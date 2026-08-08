@@ -18,10 +18,6 @@ on:
         description: The head branch's name (source branch)
         required: true
         type: string
-      pr-title:
-        description: The PR title
-        required: true
-        type: string
       pr-body:
         description: The PR body
         required: false
@@ -132,6 +128,18 @@ jobs:
             exit 1
           fi
 
+      - name: Get PR Title
+        id: get-pr-title
+        if: steps.check-commits.outcome == 'success'
+        run: |
+          read -r first_commit_sha < <(
+            git rev-list \
+              --reverse \
+              "${{ inputs.base-ref-name }}..${{ inputs.head-ref-name }}"
+          )
+          pr_title=$(git log -1 --format=%s "$first_commit_sha")
+          echo "pr-title=$pr_title" >> "$GITHUB_OUTPUT"
+
       - name: Get Commits
         if: steps.check-if-pr-exists.outputs.create-pr == 'true' && !inputs.pr-body
         id: get-commits
@@ -162,15 +170,12 @@ jobs:
               '--body-file commit_messages.txt'
             }}
           PR_DRAFT_ARG: ${{ inputs.pr-draft && '--draft' || '' }}
-          PR_TITLE: ${{ inputs.pr-title }}
+          PR_TITLE: ${{ steps.get-pr-title.outputs.pr-title }}
           PR_LABELS_ARG: ${{ inputs.pr-labels && format('--label {0}', inputs.pr-labels ) || '' }}
         run: |
-          # Extract first line of commit message for PR title
-          PR_TITLE_FIRST_LINE=$(echo "$PR_TITLE" | head -n1)
-
           gh pr create \
             --repo ${{ github.repository }} \
-            --title "$PR_TITLE_FIRST_LINE" \
+            --title "$PR_TITLE" \
             $PR_BODY_ARG \
             --base "${{ inputs.base-ref-name }}" \
             --head "${{ inputs.head-ref-name }}" \
