@@ -25,7 +25,7 @@ jobs:
         id: sync
         uses: raven-actions/repo-files-sync@55d376a5a2dc7afab91a134956afbb5ddb22bd42 # v0.1.0-rc.16
         with:
-          GH_PAT: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           CONFIG_PATH: gha_sync/config.yml
           COMMIT_EACH_FILE: false
           DELETE_ORPHANED: true
@@ -39,7 +39,7 @@ jobs:
       - name: Record Updated PRs
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-          URL_LIST: ${{ join(fromJson(steps.sync.outputs.pull_request_urls)) }}
+          URL_LIST: ${{ join(fromJson(steps.sync.outputs.pull_request_urls || '[]')) }}
         run: |
           url_list_formatted=$(echo "$URL_LIST" | sed 's/,/\n- /g')
           output="# Repo Sync PRs
@@ -66,9 +66,10 @@ jobs:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           # yamllint disable-line rule:line-length
           COMMIT_MESSAGE: 'chore(sync): pin github-config-files workflows to ${{ github.event.release.tag_name || github.ref_name }}'
+          PULL_REQUEST_URLS: ${{ steps.sync.outputs.pull_request_urls || '[]' }}
         # yamllint disable rule:line-length
         run: |
-          arr=$(echo '${{ steps.sync.outputs.pull_request_urls }}' | jq -c -r '.[]')
+          arr=$(echo "$PULL_REQUEST_URLS" | jq -c -r '.[]')
           for url in $arr; do
               pr_status=$(gh pr view "$url" --json state -q '.state')
               if [[ "$pr_status" == "OPEN" ]]; then
