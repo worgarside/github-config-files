@@ -45,17 +45,6 @@ jobs:
       test-branch: ${{ inputs.build-branch }}
     secrets: inherit
 
-  run-sonarcloud-scan:
-    name: Run SonarCloud Scan
-    needs:
-      - test
-    if: always() && !failure()
-    uses: ./.github/workflows/__sonarcloud.yml
-    with:
-      branch: ${{ inputs.build-branch }}
-      coverage-artifact: coverage-report-${{ github.run_id}}
-    secrets: inherit
-
   get-release-version:
     name: Get Release Version
     runs-on: ubuntu-latest
