@@ -1,0 +1,32 @@
+---
+name: Semantic Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      force-deployment:
+        description: Force a release at a specific level, bypassing normal detection
+        required: false
+        type: choice
+        default: auto
+        options:
+          - auto
+          - patch
+          - minor
+          - major
+
+jobs:
+  release:
+    name: Release
+    if: >-
+      github.event_name != 'push' ||
+      !startsWith(github.event.head_commit.message, 'chore(release):')
+    uses: ./.github/workflows/__semantic-release.yml
+    with:
+      python-version: '3.11'
+      # yamllint disable-line rule:line-length
+      force-deployment: ${{ inputs.force-deployment != 'auto' && inputs.force-deployment || '' }}
+    secrets: inherit
