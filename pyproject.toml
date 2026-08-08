@@ -136,7 +136,12 @@ exclude-deps = []
 [tool.semantic_release]
 tag_format = "{version}"
 version_toml = ["pyproject.toml:project.version"]
-build_command = "python utilities/release/update_action_pins.py"
+build_command = """
+python -m pip install uv
+python utilities/release/update_action_pins.py
+uv lock --upgrade-package "$PACKAGE_NAME"
+git add gha_sync uv.lock
+"""
 commit_message = "chore(release): {version}"
 major_on_zero = false
 allow_zero_version = true
