@@ -133,3 +133,29 @@ paths = ["utilities"]
 deps-file = "pyproject.toml"
 sections = ["tool.poetry.dependencies"]
 exclude-deps = []
+
+[tool.semantic_release]
+tag_format = "{version}"
+version_toml = ["pyproject.toml:tool.poetry.version"]
+commit_message = "chore(release): {version}"
+major_on_zero = false
+allow_zero_version = true
+
+[tool.semantic_release.commit_parser_options]
+allowed_tags = [
+  "build",
+  "chore",
+  "ci",
+  "deps",
+  "docs",
+  "hotfix",
+  "feat",
+  "fix",
+  "perf",
+  "style",
+  "refactor",
+  "test",
+]
+minor_tags = ["feat"]
+patch_tags = ["deps", "fix", "hotfix", "perf", "build"]
+parse_squash_commits = false

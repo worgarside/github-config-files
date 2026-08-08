@@ -3,6 +3,14 @@
 #:schema https://www.schemastore.org/prek.json
 
 default_language_version = { python = "python3.11" }
+default_install_hook_types = ["commit-msg", "pre-commit"]
+
+[[repos]]
+repo = "https://github.com/compilerla/conventional-pre-commit"
+rev = "v4.4.0"
+hooks = [
+  { id = "conventional-pre-commit", stages = ["commit-msg"] }
+]
 
 # TODO: worgarside/pre-commit-hooks-dependency-sync only understands
 # .pre-commit-config.yaml today, not prek.toml - it will fail here until
