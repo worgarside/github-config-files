@@ -48,8 +48,10 @@ class TriggerType(StrEnum):
 
     _UNDEFINED = "<UNDEFINED>"
 
+    MERGE_GROUP = auto()
     PULL_REQUEST = auto()
     PUSH = auto()
+    SCHEDULE = auto()
     WORKFLOW_CALL = auto()
     WORKFLOW_DISPATCH = auto()
 

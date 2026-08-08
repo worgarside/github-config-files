@@ -1,0 +1,26 @@
+---
+name: Prek Hooks
+
+on:
+  merge_group:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+
+concurrency:
+  group: '{{ concurrency_group }}'
+  cancel-in-progress: true
+
+jobs:
+  prek:
+    name: Prek Hooks
+    uses: worgarside/github-config-files/.github/workflows/__prek-hooks.yml@main
+    with:
+      python-version: '{{ python_version }}'
+    secrets: inherit
