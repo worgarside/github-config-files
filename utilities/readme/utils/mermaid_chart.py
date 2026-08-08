@@ -88,13 +88,24 @@ class Trigger(MermaidEntity):
     trigger_type: TriggerType = TriggerType._UNDEFINED  # noqa: SLF001
 
     branches: list[str] = Field(default_factory=list)
+    branches_ignore: list[str] = Field(default_factory=list, alias="branches-ignore")
     paths: list[str] = Field(default_factory=list)
+    paths_ignore: list[str] = Field(default_factory=list, alias="paths-ignore")
     tags: list[str] = Field(default_factory=list)
+    tags_ignore: list[str] = Field(default_factory=list, alias="tags-ignore")
     types: list[str] = Field(default_factory=list)
     inputs: dict[str, Any] = Field(default_factory=dict)
     outputs: dict[str, Any] = Field(default_factory=dict)
 
-    @field_validator("branches", "paths", "tags", "types")
+    @field_validator(
+        "branches",
+        "branches_ignore",
+        "paths",
+        "paths_ignore",
+        "tags",
+        "tags_ignore",
+        "types",
+    )
     @classmethod
     def sort_lists(cls, values: list[str]) -> list[str]:
         """Sort the given value lists.
@@ -142,14 +153,20 @@ class Trigger(MermaidEntity):
         return (
             self.trigger_type,
             self.branches,
+            self.branches_ignore,
             self.paths,
+            self.paths_ignore,
             self.tags,
+            self.tags_ignore,
             self.types,
         ) < (
             __value.trigger_type,
             __value.branches,
+            __value.branches_ignore,
             __value.paths,
+            __value.paths_ignore,
             __value.tags,
+            __value.tags_ignore,
             __value.types,
         )
 
@@ -157,7 +174,17 @@ class Trigger(MermaidEntity):
         """Return a mermaid representation of the entity."""
         mermaid_str = self.entity_id + '{{"' + self.trigger_type.name.replace("_", " ")
 
-        if not any((self.branches, self.paths, self.tags, self.types)):
+        if not any(
+            (
+                self.branches,
+                self.branches_ignore,
+                self.paths,
+                self.paths_ignore,
+                self.tags,
+                self.tags_ignore,
+                self.types,
+            ),
+        ):
             return mermaid_str + '"}}'
 
         mermaid_str += "\n"
@@ -165,11 +192,20 @@ class Trigger(MermaidEntity):
         if self.branches:
             mermaid_str += "Branches: " + ", ".join(self.branches) + "\n"
 
+        if self.branches_ignore:
+            mermaid_str += "Branches Ignore: " + ", ".join(self.branches_ignore) + "\n"
+
         if self.paths:
             mermaid_str += "Paths: " + ", ".join(self.paths) + "\n"
 
+        if self.paths_ignore:
+            mermaid_str += "Paths Ignore: " + ", ".join(self.paths_ignore) + "\n"
+
         if self.tags:
             mermaid_str += "Tags: " + ", ".join(self.tags) + "\n"
+
+        if self.tags_ignore:
+            mermaid_str += "Tags Ignore: " + ", ".join(self.tags_ignore) + "\n"
 
         if self.types:
             mermaid_str += "Types: " + ", ".join(self.types) + "\n"
