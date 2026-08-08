@@ -14,38 +14,18 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Set up Python 3.11
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
-          python-version: 3.11
-
-      - name: Load cached .local
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: ~/.local
-          key: dotlocal-${{ runner.os }}-3.11
-
-      - name: Install Poetry
-        uses: snok/install-poetry@a783c322200f0519c7926aa6faa857c4e23e9263 # v1.4.2
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-
-      - name: Load Cached Venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}-3.11
+          enable-cache: true
+          cache-local-path: ${{ github.workspace }}/.uv-cache
+          python-version: '3.11'
 
       - name: Install Dependencies
-        # if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --all-extras --sync
+        run: uv sync --locked --all-groups --no-build
 
       - name: Reject Deployments
         env:
           LOG_LEVEL: ${{ runner.debug == '1' && 'DEBUG' || 'INFO' }}
           GH_TOKEN: ${{ secrets.WORGARSIDE_TOKEN }}
-        run: |
-          source $VENV
-          python utilities/reject_stale_deployments/reject_deployments.py
+        run: uv run --no-sync python utilities/reject_stale_deployments/reject_deployments.py
