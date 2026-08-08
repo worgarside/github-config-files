@@ -1,0 +1,148 @@
+---
+name: '"Unit Tests" Runner'
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        description: The Python version to test with
+        required: true
+        type: string
+      source-dir:
+        description: The source directory to measure coverage for
+        required: false
+        type: string
+        default: src
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          enable-cache: true
+          cache-local-path: ${{ github.workspace }}/.uv-cache
+          python-version: ${{ inputs.python-version }}
+
+      - name: Install uv dependencies
+        run: uv sync --locked --all-groups --no-build
+
+      - name: Test
+        id: test
+        continue-on-error: true
+        env:
+          SOURCE_DIR: ${{ inputs.source-dir }}
+        run: uv run --no-sync pytest --cov="${SOURCE_DIR}" --cov-report=xml
+
+      - name: Check Coverage
+        continue-on-error: true
+        id: coverage-check
+        env:
+          BASE_REF: ${{ github.base_ref || 'main' }}
+        run: |
+          uv run --no-sync diff-cover \
+            coverage.xml \
+            --config-file pyproject.toml \
+            --compare-branch="origin/${BASE_REF}" \
+            --markdown-report .coverage-report.md
+
+      - name: Upload Coverage Report
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+        # yamllint disable rule:line-length
+        run: |
+          [[ -f .coverage-report.md ]] || exit 0
+          cat .coverage-report.md >> "${GITHUB_STEP_SUMMARY}"
+
+          marker="<!-- gcf:coverage-report -->"
+          comment_file=".coverage-comment.md"
+
+          upsert_coverage_comment() {
+            local output
+            local status
+            local comment_id
+            local lookup_output
+
+            set +e
+            lookup_output=$(
+              gh api \
+                "/repos/${GITHUB_REPOSITORY}/issues/${{ github.event.pull_request.number }}/comments" \
+                --paginate \
+                --jq ".[] | select(.body | contains(\"${marker}\")) | .id" \
+                2>&1
+            )
+            status=$?
+            set -e
+
+            if [ "${status}" -ne 0 ]; then
+              echo -e "Coverage comment lookup failed: \`${lookup_output}\`" >> "${GITHUB_STEP_SUMMARY}"
+              exit "${status}"
+            fi
+
+            comment_id=$(printf "%s\n" "${lookup_output}" | tail -n 1)
+
+            jq -n --rawfile body "${comment_file}" '{body: $body}' > coverage-comment.json
+
+            set +e
+            if [[ -n "${comment_id}" ]]; then
+              output=$(
+                gh api \
+                  --method PATCH \
+                  "/repos/${GITHUB_REPOSITORY}/issues/comments/${comment_id}" \
+                  --input coverage-comment.json \
+                  2>&1
+              )
+            else
+              output=$(
+                gh api \
+                  --method POST \
+                  "/repos/${GITHUB_REPOSITORY}/issues/${{ github.event.pull_request.number }}/comments" \
+                  --input coverage-comment.json \
+                  2>&1
+              )
+            fi
+            status=$?
+            set -e
+
+            echo -e "Coverage comment API output: \`${output}\`" >> "${GITHUB_STEP_SUMMARY}"
+            echo -e "Coverage comment API status: \`${status}\`" >> "${GITHUB_STEP_SUMMARY}"
+
+            if [ "${status}" -ne 0 ]; then
+              echo -e "Coverage comment API failed: \`${output}\`" >> "${GITHUB_STEP_SUMMARY}"
+              exit "${status}"
+            fi
+          }
+
+          if ! grep -zqE "No lines with coverage information in this diff" .coverage-report.md; then
+
+            echo "There is coverage to report." >> "${GITHUB_STEP_SUMMARY}"
+            echo "Commenting on PR." >> "${GITHUB_STEP_SUMMARY}"
+
+            printf "%s\n\n" "${marker}" > "${comment_file}"
+            cat .coverage-report.md >> "${comment_file}"
+            upsert_coverage_comment
+
+          else
+            echo "No coverage to report." >> "${GITHUB_STEP_SUMMARY}"
+
+            printf "%s\n\nNo coverage to report! 🙅‍♂️\n" "${marker}" > "${comment_file}"
+            upsert_coverage_comment
+          fi
+        # yamllint enable rule:line-length
+
+      - name: Fail for Test Failures or Low Coverage
+        if: steps.test.outcome == 'failure' || steps.coverage-check.outcome == 'failure'
+        run: exit 1
