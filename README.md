@@ -374,107 +374,107 @@
 
 ```mermaid
 flowchart LR
-subgraph DZ[" "]
+subgraph DY[" "]
 direction LR
-DV-->DU
-DQ-->V
-DS-->DQ
-DS-->DH
-DS-->DB
-DS-->CX
-CN-->CM
-CM-->BA
-DN-->DU
-DN-->DM
-DN-->DH
-DN-->DB
-DN-->CX
-DN-->CM
-DM-->V
-DM-->M
+DU-->DT
+DP-->V
+DR-->DP
+DR-->DG
+DR-->DA
+DR-->CW
+CM-->CL
+CL-->AZ
+DM-->DT
+DM-->DL
+DM-->DG
+DM-->DA
+DM-->CW
+DM-->CL
+DL-->V
+DL-->M
 M-->I
 M-->E
 M-->AN
 M-->AJ
 V-->I
-V-->BT
+V-->BS
 V-->A
+end
+subgraph DZ[" "]
+direction LR
+CT-->CS
+CS-->BP
 end
 subgraph EA[" "]
 direction LR
-CU-->CT
-CT-->BQ
+CQ-->CP
+CP-->BC
 end
 subgraph EB[" "]
 direction LR
-CR-->CQ
-CQ-->BD
+CI-->CH
+CH-->AW
 end
 subgraph EC[" "]
 direction LR
-CJ-->CI
-CI-->AX
+CD-->CC
+CC-->AT
+CC-->AB
 end
 subgraph ED[" "]
 direction LR
-CE-->CD
-CD-->AT
-CD-->AB
-end
-subgraph EE[" "]
-direction LR
-CA-->BZ
-BZ-->AF
+BZ-->BY
+BY-->AF
 end
 AB[["Close Empty PR"]]
 AF[["Create Pull Request"]]
 AJ[["Deploy Documentation"]]
 AN[["Deploy"]]
 AT[["Manage PR Labels"]]
-AX[["Manage Repo Labels"]]
+AW[["Manage Repo Labels"]]
+AZ[["Auto-Update PRs"]]
 A[["actionlint"]]
-BA[["Auto-Update PRs"]]
-BD[["PR Cleanup"]]
-BQ[["Set PR Auto Merge"]]
-BT[["Test"]]
-BZ("Auto-Create PR")
-CA{{"PUSH
-Branches: bugfix/*, chore/*, feature/*, hotfix/*, refactor/*
+BC[["PR Cleanup"]]
+BP[["Set PR Auto Merge"]]
+BS[["Test"]]
+BY("Auto-Create PR")
+BZ{{"PUSH
+Branches Ignore: dependabot/**, main
 "}}
-CD("Manage PR")
-CE{{"PULL REQUEST
+CC("Manage PR")
+CD{{"PULL REQUEST
 Types: auto_merge_disabled, auto_merge_enabled, labeled, opened, ready_for_review, reopened, synchronize, unlabeled
 "}}
-CI("Manage Repo Labels")
-CJ{{"PUSH
+CH("Manage Repo Labels")
+CI{{"PUSH
 Branches: main
 Paths: .github/repo_labels.yml, .github/workflows/manage-repo-labels.yml
 "}}
-CM("Auto-Update PRs")
-CN{{"PULL REQUEST
+CL("Auto-Update PRs")
+CM{{"PULL REQUEST
 Types: labeled
 "}}
-CQ("PR Cleanup")
-CR{{"PULL REQUEST
+CP("PR Cleanup")
+CQ{{"PULL REQUEST
 Types: closed
 "}}
-CT("Set PR Auto Merge")
-CU{{"PULL REQUEST
+CS("Set PR Auto Merge")
+CT{{"PULL REQUEST
 Types: opened, ready_for_review
 "}}
-CX("ESLint")
-DB("Validate Home Assistant Config")
-DH("Integration Test")
-DM("CI: Validation & Deployment")
-DN{{"PUSH
+CW("ESLint")
+DA("Validate Home Assistant Config")
+DG("Integration Test")
+DL("CI: Validation & Deployment")
+DM{{"PUSH
 Branches: main
 "}}
-DQ("CI: Validation")
-DS{{"PULL REQUEST
+DP("CI: Validation")
+DR{{"PULL REQUEST
 Types: opened, reopened, synchronize
 "}}
-DU("CodSpeed Benchmarks")
-DV{{"PULL REQUEST
+DT("CodSpeed Benchmarks")
+DU{{"PULL REQUEST
 Types: opened, ready_for_review, reopened, synchronize
 "}}
 E[["Build Documentation"]]
