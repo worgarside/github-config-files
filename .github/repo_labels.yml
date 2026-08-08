@@ -9,10 +9,6 @@
     color: 8B4513
     description: Regular code maintenance
 
-  - name: bot:delete-on-merge
-    description: Delete this branch after merging (bot command)
-    color: 8B0000
-
   - name: bot:do-not-close
     description: Do not close this PR, even if it's empty (bot command)
     color: 2C6AAB
