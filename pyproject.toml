@@ -1,23 +1,22 @@
 
 
-[tool.poetry]
+[project]
 name = "github-config-files"
 version = "0.1.0"
 description = ""
-authors = ["Will Garside <worgarside@gmail.com>"]
-license = "MIT"
 readme = "README.md"
+license = "MIT"
+authors = [{ name = "Will Garside", email = "worgarside@gmail.com" }]
+requires-python = ">=3.11"
+dependencies = [
+  "pyyaml>=6.0.2",
+  "pydantic>=2.9.2",
+  "httpx>=0.28.1",
+  "wg-utilities[logging]>=5.17.4",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-pyyaml = "^6.0.2"
-pydantic = "^2.9.2"
-httpx = "^0.28.1"
-wg-utilities = { extras = ["logging"], version = "^5.17.4" }
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.uv]
+package = false
 
 #######################
 # Tool Configurations #
@@ -131,12 +130,12 @@ sort_by_size = true
 [tool.creosote]
 paths = ["utilities"]
 deps-file = "pyproject.toml"
-sections = ["tool.poetry.dependencies"]
+sections = ["project.dependencies"]
 exclude-deps = []
 
 [tool.semantic_release]
 tag_format = "{version}"
-version_toml = ["pyproject.toml:tool.poetry.version"]
+version_toml = ["pyproject.toml:project.version"]
 commit_message = "chore(release): {version}"
 major_on_zero = false
 allow_zero_version = true
