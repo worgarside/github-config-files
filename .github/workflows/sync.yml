@@ -3,17 +3,9 @@ name: Sync Repos
 
 # yamllint disable-line rule:truthy
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - .github/CODEOWNERS
-      - .github/dependabot.yml
-      - .github/labeler.yml
-      - .github/repo_labels.yml
-      - .github/workflows/sync.yml
-      - gha_sync/**
-      - .yamllint
+  release:
+    types:
+      - published
 
   workflow_dispatch:
 
@@ -30,7 +22,6 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Run GitHub File Sync
-        if: "github.event.head_commit.message != 'ci: prek autoupdate'"
         id: sync
         uses: BetaHuhn/repo-file-sync-action@8b92be3375cf1d1b0cd579af488a9255572e4619 # v1.21.1
         with:
@@ -56,7 +47,7 @@ jobs:
 
           echo -e "${output}" >> $GITHUB_STEP_SUMMARY
 
-          if [[ "${{ github.actor }}" == "workflow_dispatch" ]]; then
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             gh pr comment \
               "$(
                 gh pr list \
@@ -70,10 +61,10 @@ jobs:
           fi
 
       - name: Enable Auto-Merge on PRs
-        if: "github.event.head_commit.message != 'ci: prek autoupdate'"
         env:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
-          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+          # yamllint disable-line rule:line-length
+          COMMIT_MESSAGE: 'chore(sync): pin github-config-files workflows to ${{ github.event.release.tag_name || github.ref_name }}'
         # yamllint disable rule:line-length
         run: |
           arr=$(echo '${{ steps.sync.outputs.pull_request_urls }}' | jq -c -r '.[]')

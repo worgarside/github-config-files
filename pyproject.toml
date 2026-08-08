@@ -136,6 +136,7 @@ exclude-deps = []
 [tool.semantic_release]
 tag_format = "{version}"
 version_toml = ["pyproject.toml:project.version"]
+build_command = "python utilities/release/update_action_pins.py"
 commit_message = "chore(release): {version}"
 major_on_zero = false
 allow_zero_version = true

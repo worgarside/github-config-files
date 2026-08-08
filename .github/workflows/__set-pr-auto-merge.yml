@@ -46,7 +46,7 @@ jobs:
           )
 
           echo "author=${author}" >> "${GITHUB_OUTPUT}"
-          echo "PR Author: `${author}`" >> "${GITHUB_STEP_SUMMARY}"
+          echo "PR Author: \`${author}\`" >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Set Auto-Merge on PR
         env:
