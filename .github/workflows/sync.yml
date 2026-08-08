@@ -28,7 +28,13 @@ jobs:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           CONFIG_PATH: gha_sync/config.yml
           COMMIT_EACH_FILE: false
-          DELETE_ORPHANED: true
+          # Default to false: several destination repos keep bespoke,
+          # non-synced files (semantic-release.yml, prek-hooks.yml, etc.) in
+          # the same directories this config syncs into. A global
+          # DELETE_ORPHANED: true silently deletes those as "orphaned".
+          # Entries that genuinely want cascade-delete-on-source-removal
+          # opt in explicitly per-entry via `deleteOrphaned: true`.
+          DELETE_ORPHANED: false
           SKIP_PR: false
           COMMIT_PREFIX: ''
           ORIGINAL_MESSAGE: true
