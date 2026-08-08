@@ -52,7 +52,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.ref }}
-          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
