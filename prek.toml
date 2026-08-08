@@ -1,0 +1,164 @@
+# Configuration file for `prek`, a git hook framework written in Rust.
+# See https://prek.j178.dev for more information.
+#:schema https://www.schemastore.org/prek.json
+
+default_language_version = { python = "python3.11" }
+default_install_hook_types = ["commit-msg", "pre-commit"]
+
+[[repos]]
+repo = "https://github.com/compilerla/conventional-pre-commit"
+rev = "v4.4.0"
+hooks = [
+  { id = "conventional-pre-commit", stages = ["commit-msg"] }
+]
+
+# TODO: worgarside/pre-commit-hooks-dependency-sync only understands
+# .pre-commit-config.yaml today, not prek.toml - it will fail here until
+# that's fixed upstream. Disabled for now, not removed, as a reminder.
+# [[repos]]
+# repo = "https://github.com/worgarside/pre-commit-hooks-dependency-sync"
+# rev = "1.3.1"
+# hooks = [
+#   { id = "sync-additional-dependencies" }
+# ]
+
+[[repos]]
+repo = "https://github.com/astral-sh/ruff-pre-commit"
+rev = "v0.13.3"
+hooks = [
+  { id = "ruff" },
+  { id = "ruff-format" }
+]
+
+[[repos]]
+repo = "local"
+hooks = [
+  {
+    id = "generate-readme",
+    name = "Generate README",
+    entry = "python utilities/readme/generate_readme.py",
+    language = "python",
+    files = "^$",
+    always_run = true,
+    additional_dependencies = [
+      "pydantic==2.9.2",
+      "pyyaml==6.0.2"
+    ]
+  }
+]
+
+[[repos]]
+repo = "https://github.com/rhysd/actionlint"
+rev = "v1.7.7"
+hooks = [
+  {
+    id = "actionlint",
+    args = [
+      "-ignore",
+      "SC2129",
+      "-shellcheck",
+      ""
+    ]
+  }
+]
+
+[[repos]]
+repo = "https://github.com/pre-commit/pre-commit-hooks"
+rev = "v6.0.0"
+hooks = [
+  {
+    id = "check-added-large-files",
+    args = ["--maxkb=1000"]
+  },
+  { id = "check-case-conflict" },
+  { id = "check-merge-conflict" },
+  { id = "debug-statements" },
+  { id = "end-of-file-fixer" },
+  { id = "mixed-line-ending" },
+  {
+    id = "name-tests-test",
+    args = ["--pytest-test-first"]
+  },
+  {
+    id = "pretty-format-json",
+    args = [
+      "--no-sort-keys",
+      "--autofix",
+      "--indent",
+      "2"
+    ]
+  },
+  { id = "requirements-txt-fixer" },
+  { id = "trailing-whitespace" }
+]
+
+[[repos]]
+repo = "https://github.com/jumanjihouse/pre-commit-hook-yamlfmt"
+rev = "0.2.3"
+hooks = [
+  {
+    id = "yamlfmt",
+    args = [
+      "--mapping",
+      "2",
+      "--sequence",
+      "4",
+      "--offset",
+      "2",
+      "--width",
+      "4096"
+    ]
+  }
+]
+
+[[repos]]
+repo = "https://github.com/adrienverge/yamllint.git"
+rev = "v1.37.1"
+hooks = [
+  {
+    id = "yamllint",
+    args = [
+      "--format",
+      "parsable",
+      "--strict"
+    ]
+  }
+]
+
+[[repos]]
+repo = "https://github.com/pre-commit/mirrors-mypy"
+rev = "v1.18.2"
+hooks = [
+  {
+    id = "mypy",
+    args = [
+      "--strict",
+      "--show-error-codes"
+    ],
+    additional_dependencies = [
+      "pydantic==2.9.2",
+      "types-PyYAML",
+      "httpx==0.28.1",
+      "wg-utilities==5.17.4"
+    ]
+  }
+]
+
+[[repos]]
+repo = "https://github.com/pre-commit/pygrep-hooks"
+rev = "v1.10.0"
+hooks = [
+  { id = "python-check-blanket-noqa" },
+  { id = "python-check-blanket-type-ignore" },
+  { id = "python-check-mock-methods" }
+]
+
+[[repos]]
+repo = "https://github.com/codespell-project/codespell"
+rev = "v2.4.1"
+hooks = [
+  {
+    id = "codespell",
+    additional_dependencies = ["tomli"]
+  }
+]

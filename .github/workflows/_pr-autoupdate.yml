@@ -13,5 +13,5 @@ jobs:
   autoupdate:
     name: PR Auto-Update
     if: github.event_name == 'push' || github.event.label.name == 'bot:keep-updated'
-    uses: ./.github/workflows/__pr_autoupdate.yml
+    uses: ./.github/workflows/__pr-autoupdate.yml
     secrets: inherit

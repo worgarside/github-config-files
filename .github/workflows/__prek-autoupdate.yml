@@ -1,0 +1,96 @@
+---
+name: '"Prek Auto-Update" Runner'
+
+on:
+  workflow_call:
+    inputs:
+      cooldown-days:
+        description: >-
+          The minimum age (in days) a new hook version must be before prek
+          will adopt it
+        required: false
+        type: string
+        default: '3'
+
+jobs:
+  prek-autoupdate:
+    name: Update Prek Hooks
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      BRANCH: chore/prek-autoupdate
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+
+      - name: Switch to ${{ env.BRANCH }}
+        id: switch-branch
+        run: git checkout ${{ env.BRANCH }}
+        continue-on-error: true
+
+      - name: Create ${{ env.BRANCH }}
+        if: steps.switch-branch.outcome == 'failure'
+        run: git checkout -b ${{ env.BRANCH }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+
+      - name: Install prek
+        run: |
+          uv tool install --no-build "prek==0.4.12"
+          uv tool dir --bin >> "$GITHUB_PATH"
+
+      - name: prek auto-update
+        id: update
+        env:
+          COOLDOWN_DAYS: ${{ inputs.cooldown-days }}
+        run: prek auto-update --cooldown-days "${COOLDOWN_DAYS}" > /tmp/output 2>&1
+
+      - name: Commit Changes
+        id: commit
+        run: |
+          if [[ -z "$(git status -s)" ]]; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git config --global user.name "worgarside-dev"
+          git config --global user.email "worgarside.dev@gmail.com"
+
+          git add .
+
+          git commit -m "ci: prek autoupdate" --no-verify
+
+          git push origin ${{ env.BRANCH }}
+
+          echo "pr=true" >> "${GITHUB_OUTPUT}"
+
+      - name: Create Pull Request
+        # yamllint disable-line rule:line-length
+        if: steps.switch-branch.outcome == 'failure' && steps.commit.outputs.pr == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
+          MERGE_TOKEN: ${{ secrets.WORGARSIDE_TOKEN }}
+          PR_TITLE: 'ci: 🤖 `prek autoupdate`'
+        run: |
+          PR=$(
+            gh pr create \
+              --repo ${{ github.repository }} \
+              --title "${PR_TITLE}" \
+              -F /tmp/output \
+              --base ${{ github.event.repository.default_branch }} \
+              --head ${{ env.BRANCH }} \
+              --label tools
+          )
+
+          GH_TOKEN="${MERGE_TOKEN}" gh pr merge \
+            "${PR}" \
+            --repo ${{ github.repository }} \
+            --squash \
+            --auto
