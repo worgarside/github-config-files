@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v0.3.1 (2026-08-08)
+
+### Continuous Integration
+
+- Update sync action to new version
+  ([`dbc808b`](https://github.com/worgarside/github-config-files/commit/dbc808bb16dac98dd2086628c524a7874b6cb240))
+
+
 ## v0.3.0 (2026-08-08)
 
 ### Chores
