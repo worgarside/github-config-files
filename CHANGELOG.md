@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v0.4.0 (2026-08-09)
+
+### Features
+
+- Add frigate-config to workflow sync
+  ([`8dcb88f`](https://github.com/worgarside/github-config-files/commit/8dcb88fb75d263073d3a3a996ba8d5fda4b11d4a))
+
+
 ## v0.3.3 (2026-08-08)
 
 ### Bug Fixes
