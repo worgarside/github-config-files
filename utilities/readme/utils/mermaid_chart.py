@@ -87,7 +87,7 @@ class MermaidEntity(BaseModel):
 class Trigger(MermaidEntity):
     """Trigger for a GitHub Actions Workflow."""
 
-    trigger_type: TriggerType = TriggerType._UNDEFINED  # noqa: SLF001
+    trigger_type: TriggerType = TriggerType._UNDEFINED  # ruff: ignore[private-member-access]
 
     branches: list[str] = Field(default_factory=list)
     branches_ignore: list[str] = Field(default_factory=list, alias="branches-ignore")
@@ -333,7 +333,7 @@ class Workflow(MermaidEntity):
     @computed_field  # type: ignore[prop-decorator]
     @property
     def reusable_workflows(self) -> list[Workflow]:
-        """Return the reusable workflows used by this workflow."""
+        """The reusable workflows used by this workflow."""
         return sorted(
             ReusableWorkflow.by_reference(job.uses)
             for job in self.jobs.values()
@@ -343,7 +343,7 @@ class Workflow(MermaidEntity):
     @computed_field  # type: ignore[prop-decorator]
     @property
     def calling_workflows(self) -> list[Workflow]:
-        """Return the workflows that call this workflow."""
+        """The workflows that call this workflow."""
         return sorted(
             workflow
             for workflow in Workflow.INSTANCES.values()
@@ -352,13 +352,13 @@ class Workflow(MermaidEntity):
 
     @property
     def real_path(self) -> Path:
-        """Return the real path of the workflow."""
+        """The real path of the workflow."""
         return NotImplemented  # type: ignore[no-any-return]
 
     @computed_field  # type: ignore[prop-decorator]
     @property
     def rel_path(self) -> Path:
-        """Return the path of the workflow relative to the GHCF repo."""
+        """The path of the workflow relative to the GHCF repo."""
         return self.local_path.relative_to(REPO_PATH)
 
     def __eq__(self, o: object) -> bool:
@@ -383,7 +383,7 @@ class PatriarchWorkflow(Workflow):
     @computed_field  # type: ignore[prop-decorator]
     @property
     def real_path(self) -> Path:
-        """Return the real path of the workflow."""
+        """The real path of the workflow."""
         for repo_mappings in REPO_FILE_MAPPINGS.values():
             for dest, source in repo_mappings.items():
                 if self.rel_path.as_posix() == source:
@@ -404,7 +404,7 @@ class ReusableWorkflow(Workflow):
     @computed_field  # type: ignore[prop-decorator]
     @property
     def real_path(self) -> Path:
-        """Return the real path of the workflow."""
+        """The real path of the workflow."""
         return self.rel_path
 
     def __mermaid__(self) -> str:
@@ -513,7 +513,7 @@ class Relationship:
         for entity_id in stack:
             for rel in relationships:
                 if rel.start.entity_id == entity_id:
-                    sorted_relationships.append(rel)  # noqa: PERF401
+                    sorted_relationships.append(rel)  # ruff: ignore[manual-list-comprehension]
 
         return tuple(sorted_relationships)
 
@@ -588,10 +588,10 @@ def group_relationships(
                 dfs(neighbor, component)
         component.append(node)
 
-    for _rel_node in sorted(entity_graph.keys()):
-        if _rel_node not in visited:
+    for rel_node in sorted(entity_graph.keys()):
+        if rel_node not in visited:
             rel_grp: list[str] = []
-            dfs(_rel_node, rel_grp)
+            dfs(rel_node, rel_grp)
 
             # Convert component to a tuple of Relationships
             component_rels = sorted(
