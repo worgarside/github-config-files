@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v0.5.3 (2026-08-10)
+
+### Code Style
+
+- Unify quote usage in templates
+  ([`0a8bd64`](https://github.com/worgarside/github-config-files/commit/0a8bd640266c92da2719d59e7405ff13a09df032))
+
+
 ## v0.5.2 (2026-08-10)
 
 ### Bug Fixes
