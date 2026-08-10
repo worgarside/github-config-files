@@ -33,5 +33,5 @@ jobs:
     uses: worgarside/github-config-files/.github/workflows/__semantic-release.yml@0.5.2
     with:
       python-version: '{{ python_version }}'
-      force-deployment: '{{ force_deployment_expr }}'
+      force-deployment: "{{ force_deployment_expr }}"
     secrets: inherit

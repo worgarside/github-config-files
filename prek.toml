@@ -105,6 +105,7 @@ hooks = [
       "4",
       "--offset",
       "2",
+      "--preserve-quotes",
       "--width",
       "4096"
     ]
