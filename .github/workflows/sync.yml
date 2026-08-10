@@ -27,6 +27,7 @@ jobs:
         with:
           GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}
           CONFIG_PATH: gha_sync/config.yml
+          TEMPLATE_AUTOESCAPE: false
           COMMIT_EACH_FILE: false
           # Default to false: several destination repos keep bespoke,
           # non-synced files (semantic-release.yml, prek-hooks.yml, etc.) in
