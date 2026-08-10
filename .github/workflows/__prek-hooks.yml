@@ -40,7 +40,7 @@ jobs:
 
       - name: Install uv dependencies
         if: inputs.python-version
-        run: uv sync --locked --all-groups --no-build
+        run: uv sync --locked --all-groups
 
       - name: Run prek
         id: run-prek
