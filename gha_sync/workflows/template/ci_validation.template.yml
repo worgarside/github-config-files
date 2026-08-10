@@ -12,7 +12,7 @@ on:
 jobs:
   ci-validation:
     name: 'CI: Validation'
-    uses: worgarside/github-config-files/.github/workflows/__ci-validation.yml@0.5.1
+    uses: worgarside/github-config-files/.github/workflows/__ci-validation.yml@0.5.2
     with:
       build-branch: '{{ build_branch }}'
       build-type: '{{ build_type }}'

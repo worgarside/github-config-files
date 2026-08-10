@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v0.5.2 (2026-08-10)
+
+### Bug Fixes
+
+- Remove --no-build in uv sync command
+  ([`3684e66`](https://github.com/worgarside/github-config-files/commit/3684e661c2a7b3d1a484c5e8a9bed5a3fbe61e68))
+
+
 ## v0.5.1 (2026-08-10)
 
 ### Bug Fixes
