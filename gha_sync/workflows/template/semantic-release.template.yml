@@ -13,14 +13,12 @@ on:
     inputs:
       force-deployment:
         description: >-
-          Version component to force, prerelease to increment the prerelease
-          revision, or auto to use semantic commit parsing.
+          Version component to force, or auto to use semantic commit parsing.
         required: false
         type: choice
         default: auto
         options:
           - auto
-          - prerelease
           - patch
           - minor
           - major
