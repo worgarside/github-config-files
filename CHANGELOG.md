@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v0.5.1 (2026-08-10)
+
+### Bug Fixes
+
+- Adjust template rendering
+  ([`8728132`](https://github.com/worgarside/github-config-files/commit/87281323b55fd46a018352fd554152ef19d435c5))
+
+
 ## v0.5.0 (2026-08-10)
 
 ### Continuous Integration
