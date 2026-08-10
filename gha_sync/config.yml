@@ -321,15 +321,18 @@ worgarside/pre-commit-hooks-dependency-sync:
       force_deployment_expr: ${{ inputs.force-deployment != 'auto' && inputs.force-deployment || '' }}
 
 worgarside/wg-scripts:
-  # semantic-release.yml stays bespoke/unmanaged here: its release job pushes
-  # via an SSH deploy key (branch-ruleset bypass) with the key setup running
-  # inline inside the release job itself, which a shared reusable workflow
-  # has no seam to inject into.
   - source: gha_sync/workflows/template/prek-hooks.template.yml
     dest: .github/workflows/prek-hooks.yml
     template:
       concurrency_group: prek-hooks-${{ github.ref }}
       python_version: '3.14'
+  - source: gha_sync/workflows/template/semantic-release.template.yml
+    dest: .github/workflows/semantic-release.yml
+    template:
+      python_version: '3.14'
+      source_glob: src/**
+      version_file_glob: src/wg_scripts/__init__.py
+      force_deployment_expr: ${{ inputs.force-deployment != 'auto' && inputs.force-deployment || '' }}
 
 worgarside/wg-utilities:
   # semantic-release.yml stays bespoke/unmanaged here: it has PyPI-publish and

@@ -27,6 +27,13 @@ on:
       version:
         description: The version of the release
         value: ${{ jobs.release.outputs.version }}
+    secrets:
+      DEPLOY_KEY:
+        description: SSH deploy key used to push release commits and tags
+        required: true
+      WORGARSIDE_DEV_TOKEN:
+        description: GitHub token used by Python Semantic Release
+        required: true
 
 jobs:
   release:
@@ -52,7 +59,26 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.ref }}
-          ssh-key: ${{ secrets.DEPLOY_KEY }}
+          # Python Semantic Release runs in Docker, so checkout's temporary
+          # SSH key is not visible when it pushes the release.
+          persist-credentials: false
+
+      - name: Configure release deploy key
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        # yamllint disable rule:line-length
+        run: |
+          # The key must live inside the workspace because the PSR action only
+          # mounts this directory. Relative paths work both on the runner and
+          # in the action container at /github/workspace.
+          install -m 700 -d .git/ssh
+          printf '%s\n' "$DEPLOY_KEY" > .git/ssh/deploy_key
+          chmod 600 .git/ssh/deploy_key
+          ssh-keyscan -t ed25519,rsa github.com > .git/ssh/known_hosts
+          git remote set-url origin "git@github.com:${GITHUB_REPOSITORY}.git"
+          git config --local core.sshCommand "ssh -i .git/ssh/deploy_key -o UserKnownHostsFile=.git/ssh/known_hosts -o IdentitiesOnly=yes"
+          git ls-remote --heads origin "${GITHUB_REF_NAME}"
+        # yamllint enable rule:line-length
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0

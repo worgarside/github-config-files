@@ -98,6 +98,7 @@ class Trigger(MermaidEntity):
     types: list[str] = Field(default_factory=list)
     inputs: dict[str, Any] = Field(default_factory=dict)
     outputs: dict[str, Any] = Field(default_factory=dict)
+    secrets: dict[str, Any] = Field(default_factory=dict)
 
     @field_validator(
         "branches",
