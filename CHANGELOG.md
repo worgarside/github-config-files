@@ -2,6 +2,19 @@
 
 <!-- version list -->
 
+## v0.5.0 (2026-08-10)
+
+### Continuous Integration
+
+- 🤖 `prek autoupdate` ([#336](https://github.com/worgarside/github-config-files/pull/336),
+  [`b7eaa46`](https://github.com/worgarside/github-config-files/commit/b7eaa46e63edcf71e51d0720e2d79b968ad43022))
+
+### Features
+
+- Improve release workflow with deploy keys
+  ([`2ea5ecd`](https://github.com/worgarside/github-config-files/commit/2ea5ecd4dcf5c79d6adada44c9ffc632041bca5d))
+
+
 ## v0.4.0 (2026-08-09)
 
 ### Features
