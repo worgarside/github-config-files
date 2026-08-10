@@ -27,6 +27,13 @@ on:
       version:
         description: The version of the release
         value: ${{ jobs.release.outputs.version }}
+    secrets:
+      DEPLOY_KEY:
+        description: SSH deploy key used to push release commits and tags
+        required: true
+      WORGARSIDE_DEV_TOKEN:
+        description: GitHub token used by Python Semantic Release
+        required: true
 
 jobs:
   release:

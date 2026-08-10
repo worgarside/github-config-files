@@ -12,7 +12,8 @@ on:
   workflow_dispatch:
     inputs:
       force-deployment:
-        description: Force a release at a specific level, bypassing normal detection
+        description: >-
+          Version component to force, or auto to use semantic commit parsing.
         required: false
         type: choice
         default: auto
@@ -21,6 +22,10 @@ on:
           - patch
           - minor
           - major
+
+concurrency:
+  group: semantic-release
+  cancel-in-progress: false
 
 jobs:
   release:

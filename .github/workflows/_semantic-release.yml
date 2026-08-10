@@ -27,6 +27,5 @@ jobs:
     uses: ./.github/workflows/__semantic-release.yml
     with:
       python-version: '3.11'
-      # yamllint disable-line rule:line-length
       force-deployment: ${{ inputs.force-deployment != 'auto' && inputs.force-deployment || '' }}
     secrets: inherit
