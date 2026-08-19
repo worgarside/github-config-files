@@ -229,7 +229,7 @@ class Job(MermaidEntity):
     """Job for a GitHub Actions Workflow."""
 
     name: str
-    runs_on: str | None = Field(None, alias="runs-on")
+    runs_on: str | list[str] | None = Field(None, alias="runs-on")
     steps: list[dict[str, Any]] | None = None
     uses: str | None = None
     outputs: dict[str, Any] | None = None

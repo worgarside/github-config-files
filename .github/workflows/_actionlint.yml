@@ -19,7 +19,13 @@ jobs:
 
   get-gha-sync-workflows:
     name: Get GHA Sync Workflows
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     outputs:
       sync-workflow-files: ${{ steps.get-sync-workflow-files.outputs.sync-workflows }}
     steps:

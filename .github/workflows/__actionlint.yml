@@ -19,7 +19,13 @@ concurrency:
 jobs:
   actionlint:
     name: actionlint
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     steps:
       - name: Log Inputs
         if: runner.debug == '1'

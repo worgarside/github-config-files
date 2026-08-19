@@ -17,7 +17,13 @@ on:
 jobs:
   log-inputs:
     name: Log Inputs
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     steps:
       - name: Log Inputs
         if: runner.debug == '1'
@@ -28,7 +34,13 @@ jobs:
 
   close-pr-if-empty:
     name: Close Empty PR
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     permissions:
       contents: read
       pull-requests: write
