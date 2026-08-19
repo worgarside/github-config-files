@@ -23,6 +23,9 @@ on:
           - minor
           - major
 
+permissions:
+  contents: write
+
 concurrency:
   group: semantic-release
   cancel-in-progress: false
