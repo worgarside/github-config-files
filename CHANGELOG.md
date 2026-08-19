@@ -2,6 +2,20 @@
 
 <!-- version list -->
 
+## v0.5.4 (2026-08-19)
+
+### Continuous Integration
+
+- Grant write permissions for semantic release
+  ([`610b3c5`](https://github.com/worgarside/github-config-files/commit/610b3c5b627858ac5aa2f60254060182d4fa1c71))
+
+- Prek autoupdate ([#341](https://github.com/worgarside/github-config-files/pull/341),
+  [`869e9d8`](https://github.com/worgarside/github-config-files/commit/869e9d8e3127694e81a07a910a3eca70bafb1aba))
+
+- 🤖 `prek autoupdate` ([#342](https://github.com/worgarside/github-config-files/pull/342),
+  [`f150eb1`](https://github.com/worgarside/github-config-files/commit/f150eb19b6484bc9e816f03332bce99d9943a377))
+
+
 ## v0.5.3 (2026-08-10)
 
 ### Code Style

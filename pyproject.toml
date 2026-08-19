@@ -2,7 +2,7 @@
 
 [project]
 name = "github-config-files"
-version = "0.5.3"
+version = "0.5.4"
 description = ""
 readme = "README.md"
 license = "MIT"
