@@ -204,6 +204,11 @@ worgarside/frigate-config:
     dest: .github/workflows/auto-create-pr.yml
     deleteOrphaned: true
 
+worgarside/infrastructure:
+  - source: gha_sync/workflows/all/auto-create-pr.yml
+    dest: .github/workflows/auto-create-pr.yml
+    deleteOrphaned: true
+
 worgarside/home-assistant:
   # semantic-release.yml stays bespoke/unmanaged here: unlike every other repo
   # it intentionally has no `paths:` filter (changes anywhere in the HA config
