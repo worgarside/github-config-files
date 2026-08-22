@@ -47,7 +47,13 @@ on:
 jobs:
   create-pr:
     name: Create PR
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     outputs:
       create-pr: ${{ steps.check-if-pr-exists.outputs.create-pr }}
       existing-pr-url: ${{ steps.check-if-pr-exists.outputs.existing-pr-url }}
@@ -185,7 +191,13 @@ jobs:
 
   update-pr:
     name: Update PR
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     needs: create-pr
     if: |
       inputs.update-pr-body-if-exists &&
