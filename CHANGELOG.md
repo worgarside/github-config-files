@@ -2,6 +2,14 @@
 
 <!-- version list -->
 
+## v0.6.0 (2026-08-22)
+
+### Continuous Integration
+
+- Move PR Creator to self-hosted runners
+  ([`674a1b7`](https://github.com/worgarside/github-config-files/commit/674a1b73bdfb10217c688fc40e4a1199115e2d85))
+
+
 ## v0.5.4 (2026-08-19)
 
 ### Continuous Integration
