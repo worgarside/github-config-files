@@ -18,7 +18,13 @@ concurrency:
 jobs:
   run-integration-test:
     name: Run Integration Test
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     env:
       EXIT_1: '0'
       HA_REPO_PATH: ${{ github.workspace }}/home-assistant

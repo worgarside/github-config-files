@@ -63,7 +63,13 @@ on:
 jobs:
   draft-release:
     name: Draft Release ${{ inputs.release-tag }}
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     outputs:
       release-draft-url: ${{ steps.draft-release.outputs.html_url }}
     steps:
@@ -101,7 +107,13 @@ jobs:
 
   publish-release:
     name: Push ${{ !inputs.build-type && !inputs.deploy-to && '& Publish ' || '' }}Release
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     needs:
       - deploy-to-development
       - draft-release

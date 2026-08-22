@@ -47,7 +47,13 @@ jobs:
 
   get-release-version:
     name: Get Release Version
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     outputs:
       release-tag: ${{ steps.get-release-version.outputs.release-tag }}
     steps:

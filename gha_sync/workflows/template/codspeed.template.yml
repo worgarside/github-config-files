@@ -19,7 +19,13 @@ env:
 jobs:
   benchmarks:
     name: Run Benchmarks
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     if: >-
       !github.event.pull_request.draft
     steps:

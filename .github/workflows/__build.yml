@@ -34,7 +34,13 @@ jobs:
   build-python:
     name: Build (Python)
     if: inputs.build-type == 'python'
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     steps:
       - name: Log Inputs
         if: runner.debug == '1'
@@ -90,7 +96,13 @@ jobs:
     name: Build (Node)
     if: inputs.build-type == 'node'
     environment: ${{ inputs.environment }}
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     env:
       ARTIFACT_NAME: ${{ inputs.release-tag }}-${{ inputs.environment }}.zip
       GH_TOKEN: ${{ secrets.WORGARSIDE_DEV_TOKEN }}

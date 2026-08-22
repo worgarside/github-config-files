@@ -25,7 +25,13 @@ env:
 jobs:
   set-labels:
     name: Set Labels
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
     permissions:
       pull-requests: write
     env:

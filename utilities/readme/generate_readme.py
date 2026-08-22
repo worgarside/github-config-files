@@ -34,7 +34,15 @@ def main() -> None:
                 f"Unused file: {file.relative_to(REPO_PATH).as_posix()}",
             )
 
-    readme = "# GitHub Config Files\n\n"
+    readme = """# GitHub Config Files
+
+## Workflow Runners
+
+Linux jobs use the CC self-hosted runner labels `self-hosted`, `linux`, `x64`,
+`cc`, `iac`, and `opentofu`. All managed repositories restrict pull requests
+to contributors.
+
+"""
 
     readme += generate_config_mappings()
 

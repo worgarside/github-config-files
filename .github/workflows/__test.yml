@@ -16,15 +16,17 @@ on:  # yamllint disable-line rule:truthy
 jobs:
   test:
     name: Unit Tests
-    runs-on: ${{ matrix.os }}
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - cc
+      - iac
+      - opentofu
 
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
-          # I'm developing on macOS, so this should be covered
-          # - macos-latest
         python-version:
           - '3.11'
           - '3.12'
